@@ -1,2 +1,5 @@
 requests
+beautifulsoup4
+deep-translator
+flask
 tweepy
