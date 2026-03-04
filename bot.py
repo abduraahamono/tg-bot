@@ -1,94 +1,93 @@
 import time
 import requests
 from bs4 import BeautifulSoup
-from deep_translator import GoogleTranslator
+import google.generativeai as genai
 import tweepy
 from keep_alive import keep_alive
 
 keep_alive()
 
-# --- TWITTER ŞİFRELERİ ---
-API_KEY = "BURAYA_YAZ"
-API_SECRET = "BURAYA_YAZ"
-ACCESS_TOKEN = "BURAYA_YAZ"
-ACCESS_SECRET = "BURAYA_YAZ"
+# --- AYARLAR (Şifrelerini Gir) ---
+GEMINI_API_KEY = "AIzaSyAZGrHDF1Jb1TYyi8p_ufTwIqqQVDuvNSM"
+TW_API_KEY = "..."
+TW_API_SECRET = "..."
+TW_ACCESS_TOKEN = "..."
+TW_ACCESS_SECRET = "..."
 
+# Yapay Zeka Kurulumu
+genai.configure(api_key=GEMINI_API_KEY)
+model = genai.GenerativeModel('gemini-1.5-flash')
+
+# Twitter Kurulumu
 try:
-    twitter = tweepy.Client(consumer_key=API_KEY, consumer_secret=API_SECRET, access_token=ACCESS_TOKEN, access_token_secret=ACCESS_SECRET)
-    print("✅ Twitter Bağlantısı Başarılı!", flush=True)
-except Exception as e: 
-    print(f"❌ Twitter Bağlantı Hatası: {e}", flush=True)
+    twitter = tweepy.Client(consumer_key=TW_API_KEY, consumer_secret=TW_API_SECRET, access_token=TW_ACCESS_TOKEN, access_token_secret=TW_ACCESS_SECRET)
+    print("✅ Twitter Bağlantısı Tamam.")
+except: pass
 
 TELEGRAM_BOT_TOKEN = "8452859083:AAHOAYEwbYYVq9Yg1z1GonHqKnaJ4qi6-Cg"
 TELEGRAM_KANAL_ADI = "@dostxabar"
 KAYNAK_URL = "https://t.me/s/bpthaber"
 
-# 🛠️ ÖZEL SÖZLÜK (Hatalı Google çevirilerini buraya ekleyip düzelttirebilirsin)
-DUZELTMELER = {
-    "So'nggi daqiqa": "Tezkor Xabar",
-    "ovoz chiqarib o‘ylayapman": "o'zim uchun xulosa qilyapman",
-    "mantiqan to'g'ri": "aqlga muvofiq"
-}
+def ai_islem(metin):
+    """Hem filtreleme hem de kaliteli çeviri yapar"""
+    prompt = f"""
+    Aşağıdaki haberi analiz et:
+    1. Bu haber Türkiye'nin yerel bir magazin haberi mi yoksa sadece Türkiye'yi ilgilendiren küçük bir olay mı? (Evet/Hayır)
+    2. Eğer haber küresel veya önemliyse, bunu doğal ve akıcı bir Özbekçe'ye çevir. (Kelime kelime değil, anlamlı çevir).
+
+    Metin: {metin}
+
+    Cevabı şu formatta ver:
+    Filtre: [Evet/Hayır]
+    Ceviri: [Özbekçe Metin]
+    """
+    try:
+        response = model.generate_content(prompt)
+        res_text = response.text
+        filtre = "Evet" in res_text.split("Ceviri:")[0]
+        cevirisi = res_text.split("Ceviri:")[1].strip() if "Ceviri:" in res_text else ""
+        return filtre, cevirisi
+    except:
+        return False, ""
 
 def telegrama_gonder(mesaj):
-    try:
-        url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
-        # disable_web_page_preview: Linkin altındaki çirkin site önizlemesini kapatır
-        r = requests.post(url, data={"chat_id": TELEGRAM_KANAL_ADI, "text": mesaj, "parse_mode": "Markdown", "disable_web_page_preview": True})
-        print(f"📱 Telegram Yanıtı: {r.status_code}", flush=True)
-    except Exception as e: print(f"❌ TG Hata: {e}", flush=True)
+    url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
+    requests.post(url, data={"chat_id": TELEGRAM_KANAL_ADI, "text": mesaj, "parse_mode": "Markdown", "disable_web_page_preview": True})
 
 def tweet_at(mesaj):
     try:
-        temiz = mesaj.replace("**", "").replace("_", "").replace("[📢 Rasmiy Kanalimiz - Dost Xabar](https://t.me/dostxabar)", "")
-        if len(temiz) > 270: temiz = temiz[:267] + "..."
-        twitter.create_tweet(text=temiz)
-        print("🐦 Twitter Başarılı", flush=True)
-    except Exception as e: print(f"❌ Twitter Hata: {e}", flush=True)
+        clean = mesaj.replace("**", "").split("[📢")[0].strip()
+        twitter.create_tweet(text=clean[:275])
+    except: pass
 
-def cevir(metin):
-    try:
-        if len(metin) < 5: return metin
-        ozbekce = GoogleTranslator(source='tr', target='uz').translate(metin)
-        
-        # Filtre/Sözlük Düzeltmesi
-        for tr_hata, uz_dogru in DUZELTMELER.items():
-            ozbekce = ozbekce.replace(tr_hata, uz_dogru)
-        return ozbekce
-    except: return metin
-
-print("🚀 BPT Haber Botu Aktif...", flush=True)
+print("🚀 Akıllı Bot Nöbette...")
 son_haber = ""
-ilk_calisma = True
 
 while True:
     try:
-        headers = {'User-Agent': 'Mozilla/5.0'}
-        r = requests.get(KAYNAK_URL, headers=headers)
+        r = requests.get(KAYNAK_URL, headers={'User-Agent': 'Mozilla/5.0'})
         soup = BeautifulSoup(r.text, 'html.parser')
         mesajlar = soup.find_all('div', class_='tgme_widget_message_text')
         
         if mesajlar:
-            orijinal_metin = mesajlar[-1].get_text(separator="\n")
+            ham_metin = mesajlar[-1].get_text(separator="\n")
             
-            if ilk_calisma or orijinal_metin != son_haber:
-                print("🔔 Yeni haber işleniyor...", flush=True)
+            if ham_metin != son_haber:
+                print("🧠 AI Analiz ediyor...")
+                yerel_mi, ozbekce = ai_islem(ham_metin)
                 
-                # Çeviri işlemi
-                ozbekce_metin = cevir(orijinal_metin)
-                
-                # "Son Dakika" Kontrolü ve Başlık Atama
-                if "SON DAKİKA" in orijinal_metin.upper():
-                    ozbekce_metin = ozbekce_metin.replace("SON DAKİKA:", "").replace("SON DAKİKA.", "").strip()
-                    tg_msg = f"🚨 **TEZKOR XABAR**\n\n{ozbekce_metin}\n\n[📢 Rasmiy Kanalimiz - Dost Xabar](https://t.me/dostxabar)"
+                if not yerel_mi and ozbekce:
+                    # Başlık Belirleme
+                    baslik = "🚨 **TEZKOR XABAR**" if "SON DAKİKA" in ham_metin.upper() else "📢 **XABAR**"
+                    
+                    final_msg = f"{baslik}\n\n{ozbekce}\n\n[📢 Rasmiy Kanalimiz - Dost Xabar](https://t.me/dostxabar)"
+                    
+                    telegrama_gonder(final_msg)
+                    tweet_at(final_msg)
+                    print("✅ Paylaşıldı.")
                 else:
-                    tg_msg = f"{ozbekce_metin}\n\n[📢 Rasmiy Kanalimiz - Dost Xabar](https://t.me/dostxabar)"
-
-                telegrama_gonder(tg_msg)
-                tweet_at(tg_msg)
+                    print("⏩ Haber yerel/gereksiz bulunduğu için atlandı.")
                 
-                son_haber = orijinal_metin
-                ilk_calisma = False
-                
-    except Exception as e: print(f"❌ Döngü Hatası: {e}", flush=True)
+                son_haber = ham_metin
+    except Exception as e: print(f"Hata: {e}")
     time.sleep(180)
