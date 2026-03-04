@@ -50,8 +50,9 @@ def cevir(metin):
     except: return metin
 
 # --- BOT DÖNGÜSÜ ---
-print("🚀 BPT Haber Okuyucu Bot Başladı...")
+print("🚀 BPT Haber Okuyucu Bot Başladı (TEST MODU)...")
 son_haber = ""
+ilk_calisma = True
 
 while True:
     try:
@@ -60,28 +61,48 @@ while True:
         r = requests.get(KAYNAK_URL, headers=headers)
         soup = BeautifulSoup(r.text, 'html.parser')
         
-        # Son mesajı bul
+        # Tüm mesajları bul
         mesajlar = soup.find_all('div', class_='tgme_widget_message_text')
+        
         if mesajlar:
-            yeni_haber = mesajlar[-1].get_text(separator="\n")
-            
-            # Eğer haber yeniyse işlem yap
-            if yeni_haber != son_haber:
-                ozbekce_haber = cevir(yeni_haber)
+            if ilk_calisma:
+                # 🛠️ İLK AÇILIŞ: SON 5 HABERİ ZORLA AT
+                print("🛠️ Test: Son 5 haber çekilip atılıyor...")
+                son_bes = mesajlar[-5:] # Son 5 mesajı al
                 
-                # Mesaj Şablonları
-                tg_mesaj = f"🚨 **SON DAKİKA**\n\n{ozbekce_haber}\n\n👉 Kanalimiz: @dosthabar"
-                tw_mesaj = f"🚨 {ozbekce_haber}\n\n#Xabar #BPT"
+                for mesaj in son_bes:
+                    metin = mesaj.get_text(separator="\n")
+                    ozbekce = cevir(metin)
+                    
+                    tg_msg = f"🚨 **SON DAKİKA**\n\n{ozbekce}\n\n👉 Kanalimiz: @dostxabar"
+                    tw_msg = f"🚨 {ozbekce}\n\n#Xabar #BPT"
+                    
+                    telegrama_gonder(tg_msg)
+                    tweet_at(tw_msg)
+                    print("✅ Test haberi paylaşıldı!")
+                    time.sleep(10) # Twitter bizi banlamasın diye 10 saniye bekle
                 
-                # Gönder
-                telegrama_gonder(tg_mesaj)
-                tweet_at(tw_mesaj)
-                print("✅ Yeni haber paylaşıldı!")
+                # Test bitti, son haberi kaydet ve normale dön
+                son_haber = son_bes[-1].get_text(separator="\n")
+                ilk_calisma = False
+                print("🎯 Test bitti! Artık sadece yeni haberler beklenecek...")
                 
-                son_haber = yeni_haber
+            else:
+                # 🛡️ NORMAL NÖBET MODU (Sadece Yeniler)
+                yeni_haber = mesajlar[-1].get_text(separator="\n")
+                if yeni_haber != son_haber:
+                    ozbekce = cevir(yeni_haber)
+                    
+                    tg_msg = f"🚨 **SON DAKİKA**\n\n{ozbekce}\n\n👉 Kanalimiz: @dostxabar"
+                    tw_msg = f"🚨 {ozbekce}\n\n#Xabar #BPT"
+                    
+                    telegrama_gonder(tg_msg)
+                    tweet_at(tw_msg)
+                    print("✅ Yeni haber paylaşıldı!")
+                    son_haber = yeni_haber
                 
     except Exception as e:
         print(f"Xato: {e}")
         
     print("⏳ 3 Dakika bekleniyor...")
-    time.sleep(180) # 3 dakikada bir kontrol eder
+    time.sleep(180)
