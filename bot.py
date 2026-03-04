@@ -1,173 +1,87 @@
-# -*- coding: utf-8 -*-
-import requests, time, random, signal
+import time
+import requests
+from bs4 import BeautifulSoup
+from deep_translator import GoogleTranslator
+import tweepy
+from keep_alive import keep_alive
 
-TOKEN = '8452859083:AAHOAYEwbYYVq9Yg1z1GonHqKnaJ4qi6-Cg'
-KANAL = '@arkadasuz'
+# --- SUNUCUYU UYANIK TUT ---
+keep_alive()
 
-metinler = [
-    """🎓 Turkiyada o'qish orzuyingmi? Endi bu orzu rostdan ham amalga oshadi!
+# --- TWITTER (X) ŞİFRELERİN ---
+API_KEY = "BURAYA_YAZ"
+API_SECRET = "BURAYA_YAZ"
+ACCESS_TOKEN = "BURAYA_YAZ"
+ACCESS_SECRET = "BURAYA_YAZ"
 
-"Arkadaş" bilan sizga mos universitet tanlashdan tortib, ro'yxatdan o'tish, vizani olish, sim-karta, bank hisobi va yashash uchun hujjatlarni rasmiylashtiirishgacha — hammasida yoningizdamiz.
+try:
+    twitter = tweepy.Client(
+        consumer_key=API_KEY, consumer_secret=API_SECRET,
+        access_token=ACCESS_TOKEN, access_token_secret=ACCESS_SECRET
+    )
+    print("✅ Twitter Bağlantısı Başarılı!")
+except: pass
 
-✅ Universitetga ariza
-✅ Elchixonadan denklik olish
-✅ Hujjatlar rasmiy tarjimasi 📄
-✅ Universitetga qabul xati 🎓
-✅ Airoportda kutib olish 🤝✈️
-✅ 1 kunlik Istanbul sayohati 🏛️🚶
-✅ Sog'liqni saqlash sug'urtasi 🏥
-✅ Yashash uchun ruxsatnoma (kimlik) 🆔
-✅ SIM karta + bank hisobi raqami 📱💳
-✅ 1 yillik TÖMER 🗣️🇹🇷
-✅ 4 yillik to'liq grant kelishuvi 💡📚
+# --- TELEGRAM KANAL AYARLARIN ---
+TELEGRAM_BOT_TOKEN = "8452859083:AAHOAYEwbYYVq9Yg1z1GonHqKnaJ4qi6-Cg"
+TELEGRAM_KANAL_ADI = "@dosthabar"
 
-99% muvaffaqiyat darajasi
-Pulni qaytarish kafolati
+# --- KAYNAK KANAL ---
+KAYNAK_URL = "https://t.me/s/bpthaber"
 
-🌍 Qabul davom etmoqda — joylar cheklangan!
-📩 Hoziroq bizga yozing va Turkiyada yangi hayotingizni boshlang!
+def telegrama_gonder(mesaj):
+    try:
+        url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
+        requests.post(url, data={"chat_id": TELEGRAM_KANAL_ADI, "text": mesaj, "parse_mode": "Markdown"})
+    except: pass
 
-👉 @arkadasuzz""",
+def tweet_at(mesaj):
+    try:
+        temiz_mesaj = mesaj.replace("**", "").replace("_", "")
+        if len(temiz_mesaj) > 270:
+            temiz_mesaj = temiz_mesaj[:267] + "..."
+        twitter.create_tweet(text=temiz_mesaj)
+    except: pass
 
-    """📢 ARKADAŞ Consulting — rasmiy ta'lim konsalting agentligi
+def cevir(metin):
+    try:
+        if len(metin) < 5: return metin
+        return GoogleTranslator(source='tr', target='uz').translate(metin)
+    except: return metin
 
-Biz Turkiyadagi barcha davlat va xususiy universitetlarning joylashtiirish jarayonlari, kontrakt miqdorlari, o'tish ballari va barcha muhim ma'lumotlarini WhatsApp va Telegram platformasida e'lon qilmoqdamiz.
-
-📌 Xizmatlarimiz (kanal tavsifida ham ko'rsatilgan):
-
-✅ Turkiyada o'qishni istaganlar uchun universitetga joylashtiirish va maslahat xizmatlari
-
-✅ Turkiyadagi davlat va xususiy universitetlariga kirish bo'yicha maslahatlar
-
-✅ Universitetlarga 100%, 75%, 50% va 25% grant asosida joylashtirish
-
-✅ Yashash guvohnomasi (ID) bo'yicha maslahat xizmatlari
-
-✅ Universitetga yaqin, hamyonbop narxlardagi talabalar yotoqxonalarini tanlash
-
-📌 Bular kabi yana ko'plab xizmatlarimiz mavjud.
-
-Bizning maqsadimiz — ushbu muhim mavsumda sizga yordam berishdir. Agar sizga yordam bera olsak, bu biz uchun katta baxtdir!
-
-🔹 Aloqa raqamimiz 👇
-@arkadasuzz""",
-
-    """Salom do'stlar! 👋
-
-Turkiyada o'qish — orzuyingiz emasmikan?
-Hamma gap nimadan boshlashda. Imtihon bormi? Grant topiladimi? Viza-uy-telefon-tilchi-til?!
-
-Xavotir olma 😊
-ARKADAŞ bilan aynan shuning uchun bor.
-
-Biz seni imtihonsiz qabul qiladigan universitetlarga yo'naltiramiz.
-💯 gacha Grant
-🏠 Hujjat, ID, yotoqxona — bor!
-�� Sog'liq sug'urtasi va yashash ruxsatnomasi — hammasi!
-
-Har yili minglab o'zbek yoshlari Turkiyada o'qishni tanlaydi. Negaki?
-
-🎓 Sifatli ta'lim
-🌍 Xalqaro tajriba  
-💼 Karyera imkoniyatlari
-🏙️ Zamonaviy hayot
-
-Siz ham ulardan biri bo'lishni xohlaysizmi?
-
-Boshlash juda oson:
-1️⃣ Bizga yozing
-2️⃣ Universitet tanlang
-3️⃣ Hujjat topshiring
-4️⃣ Turkiyada o'qing!
-
-📩 @arkadasuzz""",
-
-    """⚠️ DIQQAT! Son cheklangan!
-
-Turkiyaning eng yaxshi universitetlariga qabul faqat bir necha hafta qoldi!
-
-🕐 Vaqt o'tmoqda
-📉 Joylar tugamoqda  
-🎯 Grant imkoniyatlari kamaymoqda
-
-Hozir harakat qilmasangiz — kech bo'lishi mumkin!
-
-📊 STATISTIKA:
-- Har yil 50,000+ xorijiy talaba Turkiyaga keladi
-- Grant olish imkoniyati 75% gacha
-- Diplomlar 150+ davlatda tan olinadi
-- O'rtacha ish topish davri: 3 oy
-
-🎓 ENG MASHHUR YO'NALISHLAR:
-- Tibbiyot va farmatsevtika
-- Muhandislik va texnologiya
-- Biznes va iqtisod
-- Arxitektura va dizayn
-- IT va dasturlash
-
-✅ Bugun ariza topshiring
-✅ Ertaga javob oling
-✅ Keyingi oy Turkiyada bo'ling!
-
-📞 Zudlik bilan: @arkadasuzz
-⏰ 24/7 yordam xizmati""",
-
-    """🌟 Muvaffaqiyat yo'lingiz Turkiyadan boshlanadi!
-
-Har yili minglab o'zbek yoshlari Turkiyada o'qishni tanlaydi.
-Negaki?
-
-🎓 SIFATLI TA'LIM:
-- Evropa standartidagi dasturlar
-- Zamonaviy laboratoriyalar
-- Xalqaro o'qituvchilar
-- Ingliz tilida dasturlar
-
-🌍 XALQARO TAJRIBA:
-- Erasmus+ almashinuv dasturi
-- Xalqaro konferensiyalar
-- Global kompaniyalarda amaliyot
-- Ko'p madaniyatli muhit
-
-💼 KARYERA IMKONIYATLARI:
-- Turkiyada ish topish oson
-- Xalqaro kompaniyalar
-- Yuqori ish haqi (2000-5000$)
-- Doimiy yashash imkoniyati
-
-🏙️ ZAMONAVIY HAYOT:
-- Istanbul, Ankara, Izmir
-- Rivojlangan infratuzilma
-- Xavfsiz muhit
-- Qulay narxlar
-
-💰 MOLIYAVIY IMKONIYATLAR:
-- 100% gacha grant
-- Stipendiya dasturlari
-- Part-time ish (20 soat/hafta)
-- Hamyonbop turar joy
-
-Siz ham ulardan biri bo'lishni xohlaysizmi?
-
-📩 Biz bilan bog'laning: @arkadasuzz""",
-]
-
-def signal_handler(sig, frame):
-    print('Signal qabul qilindi, bot davom etadi...', flush=True)
-    
-signal.signal(signal.SIGTERM, signal_handler)
-signal.signal(signal.SIGINT, signal_handler)
-
-print('Bot ishga tushdi! Uzun matinlar bilan', flush=True)
+# --- BOT DÖNGÜSÜ ---
+print("🚀 BPT Haber Okuyucu Bot Başladı...")
+son_haber = ""
 
 while True:
     try:
-        matn = random.choice(metinler)
-        r = requests.post(f'https://api.telegram.org/bot{TOKEN}/sendMessage', json={'chat_id': KANAL, 'text': matn}, timeout=30)
-        print(f'Yuborildi: {matn[:60]}...', flush=True)
+        # BPT'nin web sayfasını gizlice oku
+        headers = {'User-Agent': 'Mozilla/5.0'}
+        r = requests.get(KAYNAK_URL, headers=headers)
+        soup = BeautifulSoup(r.text, 'html.parser')
+        
+        # Son mesajı bul
+        mesajlar = soup.find_all('div', class_='tgme_widget_message_text')
+        if mesajlar:
+            yeni_haber = mesajlar[-1].get_text(separator="\n")
+            
+            # Eğer haber yeniyse işlem yap
+            if yeni_haber != son_haber:
+                ozbekce_haber = cevir(yeni_haber)
+                
+                # Mesaj Şablonları
+                tg_mesaj = f"🚨 **SON DAKİKA**\n\n{ozbekce_haber}\n\n👉 Kanalimiz: @dosthabar"
+                tw_mesaj = f"🚨 {ozbekce_haber}\n\n#Xabar #BPT"
+                
+                # Gönder
+                telegrama_gonder(tg_mesaj)
+                tweet_at(tw_mesaj)
+                print("✅ Yeni haber paylaşıldı!")
+                
+                son_haber = yeni_haber
+                
     except Exception as e:
-        print(f'Xato: {e}', flush=True)
-        time.sleep(5)
-        continue
-    
-    time.sleep(21600)
+        print(f"Xato: {e}")
+        
+    print("⏳ 3 Dakika bekleniyor...")
+    time.sleep(180) # 3 dakikada bir kontrol eder
