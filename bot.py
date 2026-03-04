@@ -1,5 +1,4 @@
 import time
-import sys
 import requests
 from bs4 import BeautifulSoup
 from deep_translator import GoogleTranslator
@@ -15,10 +14,7 @@ ACCESS_TOKEN = "BURAYA_YAZ"
 ACCESS_SECRET = "BURAYA_YAZ"
 
 try:
-    twitter = tweepy.Client(
-        consumer_key=API_KEY, consumer_secret=API_SECRET,
-        access_token=ACCESS_TOKEN, access_token_secret=ACCESS_SECRET
-    )
+    twitter = tweepy.Client(consumer_key=API_KEY, consumer_secret=API_SECRET, access_token=ACCESS_TOKEN, access_token_secret=ACCESS_SECRET)
     print("✅ Twitter Bağlantısı Başarılı!", flush=True)
 except Exception as e: 
     print(f"❌ Twitter Bağlantı Hatası: {e}", flush=True)
@@ -27,67 +23,72 @@ TELEGRAM_BOT_TOKEN = "8452859083:AAHOAYEwbYYVq9Yg1z1GonHqKnaJ4qi6-Cg"
 TELEGRAM_KANAL_ADI = "@dostxabar"
 KAYNAK_URL = "https://t.me/s/bpthaber"
 
+# 🛠️ ÖZEL SÖZLÜK (Hatalı Google çevirilerini buraya ekleyip düzelttirebilirsin)
+DUZELTMELER = {
+    "So'nggi daqiqa": "Tezkor Xabar",
+    "ovoz chiqarib o‘ylayapman": "o'zim uchun xulosa qilyapman",
+    "mantiqan to'g'ri": "aqlga muvofiq"
+}
+
 def telegrama_gonder(mesaj):
     try:
         url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
-        r = requests.post(url, data={"chat_id": TELEGRAM_KANAL_ADI, "text": mesaj, "parse_mode": "Markdown"})
-        print(f"📱 Telegram Yanıtı: {r.status_code} -> {r.text}", flush=True)
-    except Exception as e: 
-        print(f"❌ Telegram Çökme Hatası: {e}", flush=True)
+        # disable_web_page_preview: Linkin altındaki çirkin site önizlemesini kapatır
+        r = requests.post(url, data={"chat_id": TELEGRAM_KANAL_ADI, "text": mesaj, "parse_mode": "Markdown", "disable_web_page_preview": True})
+        print(f"📱 Telegram Yanıtı: {r.status_code}", flush=True)
+    except Exception as e: print(f"❌ TG Hata: {e}", flush=True)
 
 def tweet_at(mesaj):
     try:
-        temiz_mesaj = mesaj.replace("**", "").replace("_", "")
-        if len(temiz_mesaj) > 270: temiz_mesaj = temiz_mesaj[:267] + "..."
-        yanit = twitter.create_tweet(text=temiz_mesaj)
-        print(f"🐦 Twitter Yanıtı: Başarılı", flush=True)
-    except Exception as e: 
-        print(f"❌ Twitter Gönderme Hatası: {e}", flush=True)
+        temiz = mesaj.replace("**", "").replace("_", "").replace("[📢 Rasmiy Kanalimiz - Dost Xabar](https://t.me/dostxabar)", "")
+        if len(temiz) > 270: temiz = temiz[:267] + "..."
+        twitter.create_tweet(text=temiz)
+        print("🐦 Twitter Başarılı", flush=True)
+    except Exception as e: print(f"❌ Twitter Hata: {e}", flush=True)
 
 def cevir(metin):
     try:
         if len(metin) < 5: return metin
-        return GoogleTranslator(source='tr', target='uz').translate(metin)
+        ozbekce = GoogleTranslator(source='tr', target='uz').translate(metin)
+        
+        # Filtre/Sözlük Düzeltmesi
+        for tr_hata, uz_dogru in DUZELTMELER.items():
+            ozbekce = ozbekce.replace(tr_hata, uz_dogru)
+        return ozbekce
     except: return metin
 
-print("🚀 BPT Haber Botu (HATA TESPİT MODU) Başladı...", flush=True)
+print("🚀 BPT Haber Botu Aktif...", flush=True)
 son_haber = ""
 ilk_calisma = True
 
 while True:
     try:
-        headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'}
+        headers = {'User-Agent': 'Mozilla/5.0'}
         r = requests.get(KAYNAK_URL, headers=headers)
         soup = BeautifulSoup(r.text, 'html.parser')
         mesajlar = soup.find_all('div', class_='tgme_widget_message_text')
         
-        if not mesajlar:
-            print("⚠️ BPT sayfasından mesaj çekilemedi! (Telegram engeli olabilir)", flush=True)
-        else:
-            if ilk_calisma:
-                print("🛠️ Test: Son 1 haber çekiliyor...", flush=True)
-                metin = mesajlar[-1].get_text(separator="\n")
-                ozbekce = cevir(metin)
-                tg_msg = f"🚨 **SON DAKİKA**\n\n{ozbekce}\n\n👉 Kanalimiz: @dostxabar"
-                tw_msg = f"🚨 {ozbekce}\n\n#Xabar #BPT"
+        if mesajlar:
+            orijinal_metin = mesajlar[-1].get_text(separator="\n")
+            
+            if ilk_calisma or orijinal_metin != son_haber:
+                print("🔔 Yeni haber işleniyor...", flush=True)
                 
-                print("⏳ Mesajlar gönderiliyor...", flush=True)
+                # Çeviri işlemi
+                ozbekce_metin = cevir(orijinal_metin)
+                
+                # "Son Dakika" Kontrolü ve Başlık Atama
+                if "SON DAKİKA" in orijinal_metin.upper():
+                    ozbekce_metin = ozbekce_metin.replace("SON DAKİKA:", "").replace("SON DAKİKA.", "").strip()
+                    tg_msg = f"🚨 **TEZKOR XABAR**\n\n{ozbekce_metin}\n\n[📢 Rasmiy Kanalimiz - Dost Xabar](https://t.me/dostxabar)"
+                else:
+                    tg_msg = f"{ozbekce_metin}\n\n[📢 Rasmiy Kanalimiz - Dost Xabar](https://t.me/dostxabar)"
+
                 telegrama_gonder(tg_msg)
-                tweet_at(tw_msg)
+                tweet_at(tg_msg)
                 
-                son_haber = metin
+                son_haber = orijinal_metin
                 ilk_calisma = False
-            else:
-                yeni_haber = mesajlar[-1].get_text(separator="\n")
-                if yeni_haber != son_haber:
-                    print("🔔 Yeni haber bulundu, gönderiliyor!", flush=True)
-                    ozbekce = cevir(yeni_haber)
-                    telegrama_gonder(f"🚨 **SON DAKİKA**\n\n{ozbekce}\n\n👉 Kanalimiz: @dostxabar")
-                    tweet_at(f"🚨 {ozbekce}\n\n#Xabar #BPT")
-                    son_haber = yeni_haber
                 
-    except Exception as e:
-        print(f"❌ Genel Döngü Hatası: {e}", flush=True)
-        
-    print("⏳ 3 Dakika beklemede...", flush=True)
+    except Exception as e: print(f"❌ Döngü Hatası: {e}", flush=True)
     time.sleep(180)
