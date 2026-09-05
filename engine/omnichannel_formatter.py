@@ -23,22 +23,24 @@ def format_multichannel_pack(post_data: Dict[str, Any]) -> Dict[str, str]:
     is_card = post_data.get("media_type") == "image"
     raw_text = post_data.get("caption") if is_card else post_data.get("content", "")
     
+    # Strip HTML tags for platforms that do not support them
+    clean_text = re.sub(r"<[^>]+>", "", raw_text).strip()
+    
     # 1. INSTAGRAM FORMAT
-    # Instagram uchun emojilar, aniq satrlar va hashtaglar
-    insta_caption = raw_text.strip()
+    insta_caption = clean_text
     if "@arkadas.uz" not in insta_caption:
-        insta_caption += "\n\n📲 Instagram: @arkadas.uz\n👉 Telegram: @arkadasuzz"
+        insta_caption += "\n\n📲 Instagram: @arkadasuz\n👉 Telegram: @arkadasuzz"
     if "#TurkiyadaTalim" not in insta_caption:
         insta_caption += f"\n\n.\n.\n{INSTA_HASHTAGS}"
 
     # 2. TWITTER / X FORMAT (Max 275 chars)
-    lines = [l.strip() for l in raw_text.splitlines() if l.strip()]
+    lines = [l.strip() for l in clean_text.splitlines() if l.strip()]
     first_line = lines[0] if lines else "Turkiyada 100% grant asosida o'qish imkoniyati! 🇹🇷"
     second_line = lines[1] if len(lines) > 1 else "Arkadaş Consulting bilan imtihonsiz qabul."
     
     tw_base = f"{first_line}\n\n{second_line}\n\n📲 Murojaat: @arkadasuzz\n#TurkiyadaTalim #Grant"
     if len(tw_base) > 275:
-        tw_base = tw_base[:250] + "...\n📲 @arkadasuzz\n#TurkiyadaTalim"
+        tw_base = tw_base[:240] + "...\n📲 @arkadasuzz\n#TurkiyadaTalim"
 
     # 3. TIKTOK / REELS FORMAT
     tt_hook = lines[0] if lines else "Turkiyada o'qishni xohlaysizmi? 🇹🇷"
@@ -46,18 +48,19 @@ def format_multichannel_pack(post_data: Dict[str, Any]) -> Dict[str, str]:
         f"🔥 {tt_hook}\n\n"
         f"✅ Imtihonsiz to'g'ridan-to'g'ri qabul\n"
         f"✅ 100% gacha grantlar va yotoqxona ko'magi\n"
-        f"📲 Batafsil ma'lumot olish uchun Telegramdan @arkadasuzz ga yozing!\n\n"
+        f"📲 Batafsil ma'lumot: Telegram @arkadasuzz\n\n"
         f"#turkiya #talaba #uzbekistan #arkadas #grant #tashkent"
     )
     tt_music = "🎵 Tavsiya etilgan fon musiqasi: Blok3 — 'Ne Yapıyorsun' yoki Inspiring Travel Beat"
 
     # 4. FACEBOOK & YOUTUBE COMMUNITY FORMAT
     fb_caption = (
-        f"{raw_text.strip()}\n\n"
+        f"{clean_text}\n\n"
         f"📍 Rasmiy konsalting agentligi: ARKADAŞ Consulting 🇹🇷\n"
-        f"📸 Instagram: @arkadas.uz\n"
-        f"🎥 YouTube: @arkadaşuz\n"
-        f"📩 Telegram: @arkadasuzz"
+        f"📸 Instagram: @arkadasuz\n"
+        f"🎥 YouTube: @arkadasuz\n"
+        f"📩 Telegram: @arkadasuzz\n"
+        f"🌐 Web: arkadas.uz"
     )
 
     return {
