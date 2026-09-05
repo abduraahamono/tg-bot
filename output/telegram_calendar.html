@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<title>Arkadaş Consulting — 1 Haftalik Telegram Takvimi</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #090d10;
+    --surface: #11171d;
+    --surface-hover: #182028;
+    --border: #222d38;
+    --primary: #2aabee;
+    --accent: #00d26a;
+    --amber: #ffb400;
+    --purple: #9d72ff;
+    --text-main: #f0f4f8;
+    --text-muted: #8b9baa;
+    --text-dim: #546575;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text-main);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    padding: 28px 36px 80px;
+    min-height: 100vh;
+  }
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 24px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  .brand-tag {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: var(--primary);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .title {
+    font-size: 26px;
+    font-weight: 800;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .stats-bar {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .stat-pill {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-size: 12px;
+  }
+  .stat-pill b { color: var(--text-main); font-family: 'JetBrains Mono', monospace; }
+  
+  .calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+  }
+  .day-col {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px 16px;
+    transition: all 0.2s ease;
+  }
+  .day-col:hover {
+    border-color: rgba(42, 171, 238, 0.4);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  }
+  .day-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 14px;
+  }
+  .day-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+  }
+  .day-date {
+    font-size: 12px;
+    color: var(--text-muted);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .slot-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+  }
+  .slot-card:last-child { margin-bottom: 0; }
+  .slot-card:hover {
+    background: var(--surface-hover);
+    border-color: var(--primary);
+    transform: translateY(-2px);
+  }
+  .slot-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  .time-badge {
+    font-size: 11px;
+    font-weight: 700;
+    font-family: 'JetBrains Mono', monospace;
+    padding: 3px 8px;
+    border-radius: 6px;
+    background: rgba(42, 171, 238, 0.12);
+    color: var(--primary);
+    border: 1px solid rgba(42, 171, 238, 0.3);
+  }
+  .cat-badge {
+    font-size: 10.5px;
+    font-weight: 600;
+    padding: 2px 7px;
+    border-radius: 6px;
+    background: rgba(255,255,255,0.06);
+    color: var(--text-muted);
+  }
+  .slot-topic {
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--text-main);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .click-hint {
+    font-size: 10.5px;
+    color: var(--text-dim);
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  /* MODAL */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(6px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+  }
+  .modal-overlay.active { display: flex; }
+  .modal {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    width: 100%;
+    max-width: 640px;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 16px 40px rgba(0,0,0,0.6);
+  }
+  .modal-head {
+    padding: 18px 22px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .modal-body {
+    padding: 22px;
+    overflow-y: auto;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text-main);
+    white-space: pre-wrap;
+    background: var(--bg);
+    margin: 16px 20px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    font-family: inherit;
+  }
+  .modal-body b { color: #fff; font-weight: 700; }
+  .modal-foot {
+    padding: 16px 22px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+  }
+  .btn {
+    padding: 9px 18px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: all 0.15s;
+  }
+  .btn-primary {
+    background: var(--primary);
+    color: #fff;
+  }
+  .btn-primary:hover { background: #1a9ee0; }
+  .btn-ghost {
+    background: rgba(255,255,255,0.06);
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+  }
+  .btn-ghost:hover { background: rgba(255,255,255,0.1); color: #fff; }
+  .close-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 22px;
+    cursor: pointer;
+    line-height: 1;
+  }
+  .close-btn:hover { color: #fff; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <div class="brand-tag">🏛️ Arkadaş Consulting — Telegram Marketing</div>
+    <h1 class="title">🗓️ 1 Haftalik Rejali Postlar Takvimi</h1>
+  </div>
+  <div class="stats-bar">
+    <div class="stat-pill">Davr: <b>2026-09-05 — 2026-09-11</b></div>
+    <div class="stat-pill">Jami: <b>14 ta post</b></div>
+    <div class="stat-pill">Kanal: <b>@arkadasuz</b></div>
+    <div class="stat-pill">Holat: <b style="color: var(--accent);">🟢 Faol Reja</b></div>
+  </div>
+</div>
+
+<div class="calendar-grid" id="grid"></div>
+
+<!-- DETAIL MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-head">
+      <div>
+        <div style="font-size: 11px; color: var(--primary); font-weight: 700; margin-bottom: 4px;" id="modalSlot"></div>
+        <div style="font-size: 16px; font-weight: 700; color: #fff;" id="modalTitle"></div>
+      </div>
+      <button class="close-btn" onclick="closeModalDirect()">&times;</button>
+    </div>
+    <div class="modal-body" id="modalContent"></div>
+    <div class="modal-foot">
+      <div style="font-size: 12px; color: var(--text-muted);" id="modalCharCount"></div>
+      <div style="display:flex; gap:8px;">
+        <button class="btn btn-ghost" onclick="copyModalContent()">📋 Nusxa Olish</button>
+        <button class="btn btn-primary" onclick="closeModalDirect()">Yopish</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const postsData = [{"id": "tg_20260905_lun", "day_index": 1, "day_name": "Shanba", "date_str": "2026-09-05", "slot": "lunch", "slot_label": "☀️ Tushlik Posti (13:00)", "cat_tag": "💡 Huquqiy Qo'llanma", "scheduled_time": "2026-09-05T13:00:00", "topic": "TÖMER turk tili kursi: Til bilmasdan kelib, 2-3 oyda erkin so'zlashish sirlari", "content": "📚 <b>TÖMER turk tili kursi: Til bilmasdan kelib, 2-3 oyda erkin so'zlashish sirlari</b>\n\nChet elda ta'lim olish haqida o'ylayotgan har bir o'zbekistonlik abituriyent uchun eng muhim savol — hujjatlarni qonuniy va to'g'ri rasmiylashtirishdir.\n\n📌 <b>Asosiy talablar va imtiyozlar:</b>\n• Maktab attestati yoki kollej/litsey diplomi bilan to'g'ridan-to'g'ri topshirish mumkin.\n• YÖS yoki murakkab xalqaro imtihonlarsiz ham nufuzli oliygohlarga qabul mavjud.\n• Olingan diplom Yevropa Ittifoqida va O'zbekistonda to'liq nostrifikatsiya (denklik) qilinadi.\n\nArkadaş Consulting mutaxassislari arizangizni birinchi bosqichdan boshlab xatosiz topshirishga yordam beradi.\n\n👉 <b>Batafsil ma'lumot va konsultatsiya:</b> @arkadasuzz\n#ArkadasUz #TurkiyaTalim #QabulQoidalari", "status": "pending"}, {"id": "tg_20260905_eve", "day_index": 1, "day_name": "Shanba", "date_str": "2026-09-05", "slot": "evening", "slot_label": "🌆 Kechki Asosiy Post (19:30)", "cat_tag": "🏛️ Rasmiy Kafolat", "scheduled_time": "2026-09-05T19:30:00", "topic": "Aeroportda kutib olishdan to yotoqxonagacha: Bizning jamoa har doim talaba yonida", "content": "🛡️ <b>Aeroportda kutib olishdan to yotoqxonagacha: Bizning jamoa har doim talaba yonida</b>\n\nFarzandini xorijga o'qishga yuborayotgan har bir ota-onaning ko'nglida xavotir bo'lishi tabiiy: <i>'Farzandim begona yurtda qanday joylashadi? Qiyinchilikka uchrasa kim yordam beradi?'</i>\n\n✅ <b>Arkadaş Consulting bilan bu xavotirlarga o'rin yo'q:</b>\n• Biz faqat rasmiy davlat litsenziyasi va qonuniy shartnoma asosida xizmat ko'rsatamiz.\n• Talabamizni aeroportda shaxsan kutib olamiz va oldindan tayyorlangan shinam yotoqxonaga joylashtiramiz.\n• Yashash guvohnomasi (İkamet) va talabalik sug'urtasini to'liq o'z zimmamizga olamiz.\n• Shaxsiy koordinator talabamizga 1-kurs davomida har qadamda yo'l-yo'riq ko'rsatadi.\n\nSizning xotirjamligingiz va farzandingizning xavfsizligi biz uchun doimo birinchi o'rinda!\n\n👉 <b>Ota-onalar uchun bepul konsultatsiya:</b> @arkadasuzz\n#ArkadasUz #Ishonch #OtaOnalarXotirjamligi", "status": "pending"}, {"id": "tg_20260906_lun", "day_index": 2, "day_name": "Yakshanba", "date_str": "2026-09-06", "slot": "lunch", "slot_label": "☀️ Tushlik Posti (13:00)", "cat_tag": "📊 Byudjet Tahlili", "scheduled_time": "2026-09-06T13:00:00", "topic": "Talabalik transport kartasi (İstanbulkart): Metro, avtobus va paromlarda 80% chegirma imtiyozi", "content": "💰 <b>Talabalik transport kartasi (İstanbulkart): Metro, avtobus va paromlarda 80% chegirma imtiyozi</b>\n\nTurkiyada talabalik hayoti qulayligi bilan birga hamyonbopligi bilan ham ajralib turadi. Keling, talabaning oylik xarajatlarini birgalikda real hisoblab chiqamiz:\n\n• 🏠 <b>Yotoqxona:</b> Davlat (KYK) yotoqxonalari oyiga juda arzon bo'lib, nonushta va kechki ovqat bepul taqdim etiladi.\n• 🚌 <b>Transport:</b> Maxsus talabalik kartasi (İstanbulkart va boshqalar) bilan harakatlanish oddiy narxdan 70-80% arzonroq.\n• 🍽️ <b>Oziq-ovqat:</b> Universitet oshxonalarida talabalar uchun arzon va to'yimli issiq tushliklar mavjud.\n• 🏥 <b>Tibbiyot:</b> Davlat tibbiy sug'urtasi barcha shifoxonalarda bepul xizmat ko'rsatadi.\n\nO'rtacha byudjet bilan ham Turkiyada to'laqonli va zamonaviy talabalik davrini o'tkazish mumkin!\n\n👉 <b>O'zingizga mos shahar va xarajatlar smetasi uchun:</b> @arkadasuzz\n#TalabaHayoti #Tejamkorlik #ArkadasUz", "status": "pending"}, {"id": "tg_20260906_eve", "day_index": 2, "day_name": "Yakshanba", "date_str": "2026-09-06", "slot": "evening", "slot_label": "🌆 Kechki Asosiy Post (19:30)", "cat_tag": "🎓 Hafta Oliygohi", "scheduled_time": "2026-09-06T19:30:00", "topic": "Hafta oliygohi: Anqara Hacettepe Universiteti — tibbiyot va muhandislikda xalqaro e'tirof", "content": "🏛️ <b>Hafta oliygohi: Anqara Hacettepe Universiteti — tibbiyot va muhandislikda xalqaro e'tirof</b>\n\nUshbu haftada O'zbekiston yoshlari orasida eng yuqori qiziqishga ega bo'lgan nufuzli davlat oliygohi haqida batafsil ma'lumot beramiz.\n\n✨ <b>Universitetning ustun jihatlari:</b>\n• Jahon ta'lim reytinglarida mustahkam o'rin egallagan nufuzli professor-o'qituvchilar tarkibi.\n• Yevropa Ittifoqining Erasmus+ dasturi orqali Yevropaning eng yaxshi oliygohlarida grant asosida 1 semestr bepul o'qish imkoniyati.\n• Keng ko'lamli ilmiy kutubxonalar, texnoparklar va amaliyot bazalari.\n• Xalqaro talabalar uchun qulay yotoqxonalar va sport majmualari.\n\nUshbu oliygohga qabul shartlari va kvotalar bo'yicha Arkadaş Consulting orqali to'liq ma'lumot oling.\n\n👉 <b>Fakultetlar va kontrakt narxlarini bilish:</b> @arkadasuzz\n#TurkiyaOliygohlari #DavlatUniversiteti #ArkadasUz", "status": "pending"}, {"id": "tg_20260907_lun", "day_index": 3, "day_name": "Dushanba", "date_str": "2026-09-07", "slot": "lunch", "slot_label": "☀️ Tushlik Posti (13:00)", "cat_tag": "📖 Hayotiy Hikoya", "scheduled_time": "2026-09-07T13:00:00", "topic": "Ota-ona nigohida: 'Farzandimni xorijga yuborishdan qo'rqqandim, bugun esa uning muvaffaqiyatidan faxrlanaman'", "content": "🌟 <b>Ota-ona nigohida: 'Farzandimni xorijga yuborishdan qo'rqqandim, bugun esa uning muvaffaqiyatidan faxrlanaman'</b>\n\nHar yili yuzlab o'zbekistonlik yoshlar o'z orzulari sari qat'iy qadam tashlab, Turkiyaning nufuzli oliygohlarida talaba bo'lmoqda. Ular bosib o'tgan yo'l barchamiz uchun ilhom manbaidir.\n\n📌 <b>Talabalarimiz nimalarni ta'kidlaydi?</b>\n• <i>'Til masalasida qo'rquv bo'lgan edi, ammo turk tili bizning ona tilimizga shu qadar yaqinki, 2-3 oyda bemalol tushunib ketdim.'</i>\n• <i>'Oliygohlardagi zamonaviy laboratoriyalar va xalqaro talabalar muhiti fikrlashimni butunlay o'zgartirdi.'</i>\n• <i>'Eng asosiysi — Arkadaş Consulting jamoasi Turkiyaga yetib kelgan kunimdan boshlab barcha tashkiliy masalalarda yonimda turdi.'</i>\n\nKatta natijalar har doim kichik bir qat'iy qarordan boshlanadi!\n\n👉 <b>Siz ham o'z orzuingiz sari qadam bosing:</b> @arkadasuzz\n#TalabalarTajribasi #ArkadasUz #Muvaffaqiyat", "status": "pending"}, {"id": "tg_20260907_eve", "day_index": 3, "day_name": "Dushanba", "date_str": "2026-09-07", "slot": "evening", "slot_label": "🌆 Kechki Asosiy Post (19:30)", "cat_tag": "🏛️ Rasmiy Kafolat", "scheduled_time": "2026-09-07T19:30:00", "topic": "Turkiyada talabalar xavfsizligi: Qizlar va yigitlar uchun qulay va osoyishta shahar muhiti", "content": "🛡️ <b>Turkiyada talabalar xavfsizligi: Qizlar va yigitlar uchun qulay va osoyishta shahar muhiti</b>\n\nFarzandini xorijga o'qishga yuborayotgan har bir ota-onaning ko'nglida xavotir bo'lishi tabiiy: <i>'Farzandim begona yurtda qanday joylashadi? Qiyinchilikka uchrasa kim yordam beradi?'</i>\n\n✅ <b>Arkadaş Consulting bilan bu xavotirlarga o'rin yo'q:</b>\n• Biz faqat rasmiy davlat litsenziyasi va qonuniy shartnoma asosida xizmat ko'rsatamiz.\n• Talabamizni aeroportda shaxsan kutib olamiz va oldindan tayyorlangan shinam yotoqxonaga joylashtiramiz.\n• Yashash guvohnomasi (İkamet) va talabalik sug'urtasini to'liq o'z zimmamizga olamiz.\n• Shaxsiy koordinator talabamizga 1-kurs davomida har qadamda yo'l-yo'riq ko'rsatadi.\n\nSizning xotirjamligingiz va farzandingizning xavfsizligi biz uchun doimo birinchi o'rinda!\n\n👉 <b>Ota-onalar uchun bepul konsultatsiya:</b> @arkadasuzz\n#ArkadasUz #Ishonch #OtaOnalarXotirjamligi", "status": "pending"}, {"id": "tg_20260908_lun", "day_index": 4, "day_name": "Seshanba", "date_str": "2026-09-08", "slot": "lunch", "slot_label": "☀️ Tushlik Posti (13:00)", "cat_tag": "💡 Huquqiy Qo'llanma", "scheduled_time": "2026-09-08T13:00:00", "topic": "Bologna ta'lim tizimi: Turkiya diplomining jahonning 150+ davlatida tan olinishi", "content": "📚 <b>Bologna ta'lim tizimi: Turkiya diplomining jahonning 150+ davlatida tan olinishi</b>\n\nChet elda ta'lim olish haqida o'ylayotgan har bir o'zbekistonlik abituriyent uchun eng muhim savol — hujjatlarni qonuniy va to'g'ri rasmiylashtirishdir.\n\n📌 <b>Asosiy talablar va imtiyozlar:</b>\n• Maktab attestati yoki kollej/litsey diplomi bilan to'g'ridan-to'g'ri topshirish mumkin.\n• YÖS yoki murakkab xalqaro imtihonlarsiz ham nufuzli oliygohlarga qabul mavjud.\n• Olingan diplom Yevropa Ittifoqida va O'zbekistonda to'liq nostrifikatsiya (denklik) qilinadi.\n\nArkadaş Consulting mutaxassislari arizangizni birinchi bosqichdan boshlab xatosiz topshirishga yordam beradi.\n\n👉 <b>Batafsil ma'lumot va konsultatsiya:</b> @arkadasuzz\n#ArkadasUz #TurkiyaTalim #QabulQoidalari", "status": "pending"}, {"id": "tg_20260908_eve", "day_index": 4, "day_name": "Seshanba", "date_str": "2026-09-08", "slot": "evening", "slot_label": "🌆 Kechki Asosiy Post (19:30)", "cat_tag": "❓ Ochiq Munozara", "scheduled_time": "2026-09-08T19:30:00", "topic": "Kelajak kasblari: Siz qaysi soha mutaxassisi bo'lmoqchisiz — IT, Xalqaro biznes yoki Tibbiyot?", "content": "🗣️ <b>Kelajak kasblari: Siz qaysi soha mutaxassisi bo'lmoqchisiz — IT, Xalqaro biznes yoki Tibbiyot?</b>\n\nHurmatli abituriyentlar va aziz ota-onalar! Biz uchun har biringizning fikringiz va qiziqishlaringiz nihoyatda qadrli.\n\nBugun oliy ta'lim yo'nalishini tanlash har bir yoshning kelajakdagi hayot yo'lini belgilab beradi. Chet elda o'qish, zamonaviy kasb egalari bo'lish yoki xalqaro diplom olishda sizni eng ko'p o'ylantirayotgan masala nima?\n\n👇 <b>O'z fikringizni izohlarda yozib qoldiring!</b>\nEng qiziqarli savollarga mutaxassislarimiz keyingi postlarimizda to'liq javob berib o'tishadi.\n\n👉 <b>Shaxsiy savollar uchun:</b> @arkadasuzz\n#Munozara #Abituriyent2025 #ArkadasUz", "status": "pending"}, {"id": "tg_20260909_lun", "day_index": 5, "day_name": "Chorshanba", "date_str": "2026-09-09", "slot": "lunch", "slot_label": "☀️ Tushlik Posti (13:00)", "cat_tag": "📊 Byudjet Tahlili", "scheduled_time": "2026-09-09T13:00:00", "topic": "Turkiyada tejamkor talabalik hayoti: Arzon do'konlar (BİM, A101) va talabalar oshxonalari", "content": "💰 <b>Turkiyada tejamkor talabalik hayoti: Arzon do'konlar (BİM, A101) va talabalar oshxonalari</b>\n\nTurkiyada talabalik hayoti qulayligi bilan birga hamyonbopligi bilan ham ajralib turadi. Keling, talabaning oylik xarajatlarini birgalikda real hisoblab chiqamiz:\n\n• 🏠 <b>Yotoqxona:</b> Davlat (KYK) yotoqxonalari oyiga juda arzon bo'lib, nonushta va kechki ovqat bepul taqdim etiladi.\n• 🚌 <b>Transport:</b> Maxsus talabalik kartasi (İstanbulkart va boshqalar) bilan harakatlanish oddiy narxdan 70-80% arzonroq.\n• 🍽️ <b>Oziq-ovqat:</b> Universitet oshxonalarida talabalar uchun arzon va to'yimli issiq tushliklar mavjud.\n• 🏥 <b>Tibbiyot:</b> Davlat tibbiy sug'urtasi barcha shifoxonalarda bepul xizmat ko'rsatadi.\n\nO'rtacha byudjet bilan ham Turkiyada to'laqonli va zamonaviy talabalik davrini o'tkazish mumkin!\n\n👉 <b>O'zingizga mos shahar va xarajatlar smetasi uchun:</b> @arkadasuzz\n#TalabaHayoti #Tejamkorlik #ArkadasUz", "status": "pending"}, {"id": "tg_20260909_eve", "day_index": 5, "day_name": "Chorshanba", "date_str": "2026-09-09", "slot": "evening", "slot_label": "🌆 Kechki Asosiy Post (19:30)", "cat_tag": "🎓 Hafta Oliygohi", "scheduled_time": "2026-09-09T19:30:00", "topic": "Hafta oliygohi: Marmara Universiteti — ikki qit'ani birlashtirgan nufuzli ta'lim maskani", "content": "🏛️ <b>Hafta oliygohi: Marmara Universiteti — ikki qit'ani birlashtirgan nufuzli ta'lim maskani</b>\n\nUshbu haftada O'zbekiston yoshlari orasida eng yuqori qiziqishga ega bo'lgan nufuzli davlat oliygohi haqida batafsil ma'lumot beramiz.\n\n✨ <b>Universitetning ustun jihatlari:</b>\n• Jahon ta'lim reytinglarida mustahkam o'rin egallagan nufuzli professor-o'qituvchilar tarkibi.\n• Yevropa Ittifoqining Erasmus+ dasturi orqali Yevropaning eng yaxshi oliygohlarida grant asosida 1 semestr bepul o'qish imkoniyati.\n• Keng ko'lamli ilmiy kutubxonalar, texnoparklar va amaliyot bazalari.\n• Xalqaro talabalar uchun qulay yotoqxonalar va sport majmualari.\n\nUshbu oliygohga qabul shartlari va kvotalar bo'yicha Arkadaş Consulting orqali to'liq ma'lumot oling.\n\n👉 <b>Fakultetlar va kontrakt narxlarini bilish:</b> @arkadasuzz\n#TurkiyaOliygohlari #DavlatUniversiteti #ArkadasUz", "status": "pending"}, {"id": "tg_20260910_lun", "day_index": 6, "day_name": "Payshanba", "date_str": "2026-09-10", "slot": "lunch", "slot_label": "☀️ Tushlik Posti (13:00)", "cat_tag": "📖 Hayotiy Hikoya", "scheduled_time": "2026-09-10T13:00:00", "topic": "Vodiy yoshlarining Turkiya oliygohlaridagi faol hayoti va do'stona talabalar jamoasi", "content": "🌟 <b>Vodiy yoshlarining Turkiya oliygohlaridagi faol hayoti va do'stona talabalar jamoasi</b>\n\nHar yili yuzlab o'zbekistonlik yoshlar o'z orzulari sari qat'iy qadam tashlab, Turkiyaning nufuzli oliygohlarida talaba bo'lmoqda. Ular bosib o'tgan yo'l barchamiz uchun ilhom manbaidir.\n\n📌 <b>Talabalarimiz nimalarni ta'kidlaydi?</b>\n• <i>'Til masalasida qo'rquv bo'lgan edi, ammo turk tili bizning ona tilimizga shu qadar yaqinki, 2-3 oyda bemalol tushunib ketdim.'</i>\n• <i>'Oliygohlardagi zamonaviy laboratoriyalar va xalqaro talabalar muhiti fikrlashimni butunlay o'zgartirdi.'</i>\n• <i>'Eng asosiysi — Arkadaş Consulting jamoasi Turkiyaga yetib kelgan kunimdan boshlab barcha tashkiliy masalalarda yonimda turdi.'</i>\n\nKatta natijalar har doim kichik bir qat'iy qarordan boshlanadi!\n\n👉 <b>Siz ham o'z orzuingiz sari qadam bosing:</b> @arkadasuzz\n#TalabalarTajribasi #ArkadasUz #Muvaffaqiyat", "status": "pending"}, {"id": "tg_20260910_eve", "day_index": 6, "day_name": "Payshanba", "date_str": "2026-09-10", "slot": "evening", "slot_label": "🌆 Kechki Asosiy Post (19:30)", "cat_tag": "💡 Huquqiy Qo'llanma", "scheduled_time": "2026-09-10T19:30:00", "topic": "Magistratura va doktorantura: Turkiyada xalqaro grantlar va ilmiy tadqiqot imkoniyatlari", "content": "📚 <b>Magistratura va doktorantura: Turkiyada xalqaro grantlar va ilmiy tadqiqot imkoniyatlari</b>\n\nChet elda ta'lim olish haqida o'ylayotgan har bir o'zbekistonlik abituriyent uchun eng muhim savol — hujjatlarni qonuniy va to'g'ri rasmiylashtirishdir.\n\n📌 <b>Asosiy talablar va imtiyozlar:</b>\n• Maktab attestati yoki kollej/litsey diplomi bilan to'g'ridan-to'g'ri topshirish mumkin.\n• YÖS yoki murakkab xalqaro imtihonlarsiz ham nufuzli oliygohlarga qabul mavjud.\n• Olingan diplom Yevropa Ittifoqida va O'zbekistonda to'liq nostrifikatsiya (denklik) qilinadi.\n\nArkadaş Consulting mutaxassislari arizangizni birinchi bosqichdan boshlab xatosiz topshirishga yordam beradi.\n\n👉 <b>Batafsil ma'lumot va konsultatsiya:</b> @arkadasuzz\n#ArkadasUz #TurkiyaTalim #QabulQoidalari", "status": "pending"}, {"id": "tg_20260911_lun", "day_index": 7, "day_name": "Juma", "date_str": "2026-09-11", "slot": "lunch", "slot_label": "☀️ Tushlik Posti (13:00)", "cat_tag": "❓ Ochiq Munozara", "scheduled_time": "2026-09-11T13:00:00", "topic": "Ota-onalar bilan suhbat: Farzand tanloviga erkinlik berish kerakmi yoki yo'nalishni ota-ona tanlashi to'g'rimi?", "content": "🗣️ <b>Ota-onalar bilan suhbat: Farzand tanloviga erkinlik berish kerakmi yoki yo'nalishni ota-ona tanlashi to'g'rimi?</b>\n\nHurmatli abituriyentlar va aziz ota-onalar! Biz uchun har biringizning fikringiz va qiziqishlaringiz nihoyatda qadrli.\n\nBugun oliy ta'lim yo'nalishini tanlash har bir yoshning kelajakdagi hayot yo'lini belgilab beradi. Chet elda o'qish, zamonaviy kasb egalari bo'lish yoki xalqaro diplom olishda sizni eng ko'p o'ylantirayotgan masala nima?\n\n👇 <b>O'z fikringizni izohlarda yozib qoldiring!</b>\nEng qiziqarli savollarga mutaxassislarimiz keyingi postlarimizda to'liq javob berib o'tishadi.\n\n👉 <b>Shaxsiy savollar uchun:</b> @arkadasuzz\n#Munozara #Abituriyent2025 #ArkadasUz", "status": "pending"}, {"id": "tg_20260911_eve", "day_index": 7, "day_name": "Juma", "date_str": "2026-09-11", "slot": "evening", "slot_label": "🌆 Kechki Asosiy Post (19:30)", "cat_tag": "🎯 Qabulga Chaqiruv", "scheduled_time": "2026-09-11T19:30:00", "topic": "Kechikmang! Turkiya davlat va xususiy oliygohlariga qabullar qizg'in davom etmoqda", "content": "📢 <b>Kechikmang! Turkiya davlat va xususiy oliygohlariga qabullar qizg'in davom etmoqda</b>\n\nVaqtni boy bermang! Turkiyaning nufuzli davlat va xususiy universitetlariga 2025-yilgi qabul jarayoni qizg'in davom etmoqda.\n\n🎯 <b>Nega hozirdan ariza topshirish kerak?</b>\n• Eng talabgir yo'nalishlarda kvotalar soni cheklangan bo'ladi.\n• Hujjatlarni erta topshirgan talabalar viza va yotoqxona masalalarini xotirjam hal qilishadi.\n• Arkadaş Consulting barcha hujjatlaringizni 100% rasmiy va qonuniy rasmiylashtirib beradi.\n\n✅ <b>Biz bilan boshlash oson:</b> Maktab attestatingiz yoki kollej diplomingizni yuboring va qaysi universitetlarga qabul qilinishingiz mumkinligini bilib oling!\n\n👉 <b>Bepul qabul tahlili uchun hoziroq yozing:</b> @arkadasuzz\n#ArkadasUz #Qabul2025 #OrzularSari", "status": "pending"}];
+
+function renderGrid() {
+  const grid = document.getElementById("grid");
+  grid.innerHTML = "";
+  
+  const daysMap = {};
+  postsData.forEach((p, idx) => {
+    p._idx = idx;
+    if (!daysMap[p.day_name]) {
+      daysMap[p.day_name] = { date: p.date_str, posts: [] };
+    }
+    daysMap[p.day_name].posts.push(p);
+  });
+
+  for (const [dayName, dayObj] of Object.entries(daysMap)) {
+    const col = document.createElement("div");
+    col.className = "day-col";
+    
+    let slotsHtml = "";
+    dayObj.posts.forEach(p => {
+      const timeStr = p.scheduled_time.split("T")[1].substring(0, 5);
+      slotsHtml += `
+        <div class="slot-card" onclick="openModal(${p._idx})">
+          <div class="slot-meta">
+            <span class="time-badge">⏰ ${timeStr}</span>
+            <span class="cat-badge">${p.cat_tag || ""}</span>
+          </div>
+          <div class="slot-topic">${p.topic}</div>
+          <div class="click-hint">👉 Ko'rish uchun bosing</div>
+        </div>
+      `;
+    });
+
+    col.innerHTML = `
+      <div class="day-header">
+        <span class="day-name">${dayName}</span>
+        <span class="day-date">${dayObj.date}</span>
+      </div>
+      ${slotsHtml}
+    `;
+    grid.appendChild(col);
+  }
+}
+
+function openModal(idx) {
+  const p = postsData[idx];
+  if (!p) return;
+  const timeStr = p.scheduled_time.split("T")[1].substring(0, 5);
+  document.getElementById("modalSlot").innerText = `${p.day_name} — ${timeStr} (${p.cat_tag})`;
+  document.getElementById("modalTitle").innerText = p.topic;
+  document.getElementById("modalContent").innerHTML = p.content;
+  document.getElementById("modalCharCount").innerText = `Uzunlik: ${p.content.length} belgi`;
+  document.getElementById("modalOverlay").classList.add("active");
+}
+
+function closeModal(e) {
+  if (e.target.id === "modalOverlay") {
+    document.getElementById("modalOverlay").classList.remove("active");
+  }
+}
+
+function closeModalDirect() {
+  document.getElementById("modalOverlay").classList.remove("active");
+}
+
+function copyModalContent() {
+  const text = document.getElementById("modalContent").innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    alert("Post matni nusxalandi!");
+  });
+}
+
+renderGrid();
+</script>
+
+</body>
+</html>

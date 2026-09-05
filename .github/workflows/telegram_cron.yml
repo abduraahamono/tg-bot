@@ -1,0 +1,37 @@
+name: Telegram Scheduled Auto-Post
+
+on:
+  schedule:
+    # 08:00 UTC = 13:00 Tashkent (Lunch Post)
+    - cron: '0 8 * * *'
+    # 14:30 UTC = 19:30 Tashkent (Evening Main Post)
+    - cron: '30 14 * * *'
+  workflow_dispatch:
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Dispatch Due Post
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
+        run: |
+          python dispatch_due_post.py
+
+      - name: Commit updated schedule state
+        run: |
+          git config --global user.name "Telegram Auto-Poster"
+          git config --global user.email "bot@arkadas.uz"
+          git add brain_data/scheduled_telegram_posts.json
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-posted scheduled post [skip ci]" && git push)

@@ -1,0 +1,11 @@
+.env
+.DS_Store
+__pycache__/
+*.pyc
+social_credentials.json
+ChatExport_Turkiyada*
+output/*.png
+assets/
+data/
+login_browser.py
+login_telegram_web.py
