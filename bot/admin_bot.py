@@ -75,7 +75,20 @@ class AdminApprovalBot:
         self._start_scheduler_daemon()
 
     def _start_scheduler_daemon(self):
-        def _loop():
+        def _tg_loop():
+            while True:
+                try:
+                    admin_id = self.config.get("admin_chat_id")
+                    self.tg_scheduler.check_and_publish_due(
+                        tg_client=self.client,
+                        channel_id=self.config.get("channel_id", "@arkadasuz"),
+                        notify_cb=lambda msg: self.client.send_message(admin_id, msg) if admin_id else None
+                    )
+                except Exception as e:
+                    print(f"[Telegram Scheduler Exception] {e}")
+                time.sleep(30)
+
+        def _tw_loop():
             while True:
                 try:
                     admin_id = self.config.get("admin_chat_id")
@@ -83,16 +96,12 @@ class AdminApprovalBot:
                         browser_pub=self.browser_pub,
                         notify_cb=lambda msg: self.client.send_message(admin_id, msg) if admin_id else None
                     )
-                    self.tg_scheduler.check_and_publish_due(
-                        tg_client=self.client,
-                        channel_id=self.config.get("channel_id", "@arkadasuz"),
-                        notify_cb=lambda msg: self.client.send_message(admin_id, msg) if admin_id else None
-                    )
                 except Exception as e:
-                    print(f"[Scheduler Loop Exception] {e}")
+                    print(f"[Twitter Scheduler Exception] {e}")
                 time.sleep(30)
 
-        threading.Thread(target=_loop, daemon=True).start()
+        threading.Thread(target=_tg_loop, daemon=True, name="TgSchedulerThread").start()
+        threading.Thread(target=_tw_loop, daemon=True, name="TwSchedulerThread").start()
 
     def _load_pending_posts(self) -> dict:
         if POSTS_CACHE_FILE.exists():
