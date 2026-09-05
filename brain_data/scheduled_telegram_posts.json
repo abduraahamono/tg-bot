@@ -1,7 +1,7 @@
 {
   "active": true,
-  "created_at": "2026-09-05T03:37:58.784894",
-  "week_id": "tg_w_upgraded_factual",
+  "created_at": "2026-09-05T06:20:00",
+  "week_id": "tg_week_master_v3",
   "start_date": "2026-09-05",
   "end_date": "2026-09-11",
   "posts": [
@@ -12,20 +12,13 @@
       "date_str": "2026-09-05",
       "slot": "lunch",
       "slot_label": "☀️ Tushlik Posti (13:00)",
-      "cat_tag": "💡 Til & Qabul Haqiqati",
+      "cat_tag": "🇹🇷 Til & Qabul",
       "scheduled_time": "2026-09-05T13:00:00",
-      "topic": "TÖMER turk tili tayyorlov kursi: Qabul shartlari va 1 yillik til o'rganish haqiqati",
-      "content": "📚 <b>TÖMER turk tili kursi: Til bilmasdan Turkiyada o'qish mumkinmi?</b>\n\nKo'plab abituriyentlar: <i>'Turk tilini bilmayman, qanday o'qiyman?'</i> deb xavotir olishadi. Aslida bu jarayon juda aniq va tizimli yo'lga qo'yilgan.\n\n📌 <b>Asosiy qoidalar va tartib:</b>\n• Universitetga qabul uchun tilni oldindan bilish shart emas. Siz shartli qabul (şartlı kabul) asosida ro'yxatdan o'tasiz.\n• 1-o'quv yili universitet huzuridagi rasmiy <b>TÖMER</b> markazida til o'rganishga bag'ishlanadi (A1 dan C1 darajagacha).\n• Turk tili o'zbek tiliga yaqin bo'lgani sababli, talabalar 3-4 oy ichida erkin so'zlashuv darajasiga yetishadi.\n• C1 sertifikatini olgach, to'g'ridan-to'g'ri 1-kurs asosiy mutaxassislik darslariga start beriladi.\n\n👉 <b>TÖMER shartlari va qabul bo'yicha maslahat:</b> @arkadasuzz\n#TurkiyadaTalim #TOMER #ArkadasUz",
-      "status": "pending",
-      "photo_path": "output/posts/post_tg_20260905_lun.png",
-      "story_path": "output/stories/story_tg_20260905_lun.png",
-      "multichannel_pack": {
-        "instagram": "📚 TÖMER turk tili kursi: Til bilmasdan Turkiyada o'qish mumkinmi?\n\nKo'plab abituriyentlar: 'Turk tilini bilmayman, qanday o'qiyman?' deb xavotir olishadi. Aslida bu jarayon juda aniq va tizimli yo'lga qo'yilgan.\n\n📌 Asosiy qoidalar va tartib:\n• Universitetga qabul uchun tilni oldindan bilish shart emas. Siz shartli qabul (şartlı kabul) asosida ro'yxatdan o'tasiz.\n• 1-o'quv yili universitet huzuridagi rasmiy TÖMER markazida til o'rganishga bag'ishlanadi (A1 dan C1 darajagacha).\n• Turk tili o'zbek tiliga yaqin bo'lgani sababli, talabalar 3-4 oy ichida erkin so'zlashuv darajasiga yetishadi.\n• C1 sertifikatini olgach, to'g'ridan-to'g'ri 1-kurs asosiy mutaxassislik darslariga start beriladi.\n\n👉 TÖMER shartlari va qabul bo'yicha maslahat: @arkadasuzz\n#TurkiyadaTalim #TOMER #ArkadasUz\n\n📲 Instagram: @arkadasuz\n👉 Telegram: @arkadasuzz",
-        "twitter": "📚 TÖMER turk tili kursi: Til bilmasdan Turkiyada o'qish mumkinmi?\n\nKo'plab abituriyentlar: 'Turk tilini bilmayman, qanday o'qiyman?' deb xavotir olishadi. Aslida bu jarayon juda aniq va tizimli yo'lga qo'yilgan.\n\n📲 Murojaat: @arkadasuzz\n#TurkiyadaTalim #Grant",
-        "tiktok": "🔥 📚 TÖMER turk tili kursi: Til bilmasdan Turkiyada o'qish mumkinmi?\n\n✅ Imtihonsiz to'g'ridan-to'g'ri qabul\n✅ 100% gacha grantlar va yotoqxona ko'magi\n📲 Batafsil ma'lumot: Telegram @arkadasuzz\n\n#turkiya #talaba #uzbekistan #arkadas #grant #tashkent",
-        "tiktok_music": "🎵 Tavsiya etilgan fon musiqasi: Blok3 — 'Ne Yapıyorsun' yoki Inspiring Travel Beat",
-        "facebook": "📚 TÖMER turk tili kursi: Til bilmasdan Turkiyada o'qish mumkinmi?\n\nKo'plab abituriyentlar: 'Turk tilini bilmayman, qanday o'qiyman?' deb xavotir olishadi. Aslida bu jarayon juda aniq va tizimli yo'lga qo'yilgan.\n\n📌 Asosiy qoidalar va tartib:\n• Universitetga qabul uchun tilni oldindan bilish shart emas. Siz shartli qabul (şartlı kabul) asosida ro'yxatdan o'tasiz.\n• 1-o'quv yili universitet huzuridagi rasmiy TÖMER markazida til o'rganishga bag'ishlanadi (A1 dan C1 darajagacha).\n• Turk tili o'zbek tiliga yaqin bo'lgani sababli, talabalar 3-4 oy ichida erkin so'zlashuv darajasiga yetishadi.\n• C1 sertifikatini olgach, to'g'ridan-to'g'ri 1-kurs asosiy mutaxassislik darslariga start beriladi.\n\n👉 TÖMER shartlari va qabul bo'yicha maslahat: @arkadasuzz\n#TurkiyadaTalim #TOMER #ArkadasUz\n\n📍 Rasmiy konsalting agentligi: ARKADAŞ Consulting 🇹🇷\n📸 Instagram: @arkadasuz\n🎥 YouTube: @arkadasuz\n📩 Telegram: @arkadasuzz\n🌐 Web: arkadas.uz"
-      }
+      "topic": "TÖMER turk tili tayyorlov kursi: Qabul sirlari va kafolat",
+      "template_name": "Şablon 1: Modern Split",
+      "photo_path": "output/templates_showcase/sablon_1_modern_split.jpg",
+      "story_path": "output/platform_showcase/test_story_clean.jpg",
+      "content": "📚 <b>Turk tilini bilmasdan Turkiyada o'qish mumkinmi?</b>\n\nKo'plab abituriyentlar va ota-onalar: <i>\"Turk tilini bilmaymiz, o'qish qanday bo'ladi?\"</i> deb xavotir olishadi. Aslida bu jarayon juda aniq va tizimli yo'lga qo'yilgan:\n\n📌 <b>Asosiy qoidalar:</b>\n• Universitetga qabul uchun tilni oldindan bilish <b>shart emas</b>. Shartli qabul (şartlı kabul) asosida ro'yxatdan o'tasiz.\n• 1-o'quv yili universitet huzuridagi rasmiy <b>TÖMER</b> markazida til o'rganishga bag'ishlanadi (A1 dan C1 darajagacha).\n• C1 sertifikatini olgach, to'g'ridan-to'g'ri tanlagan yo'nalishingizda darslarni boshlaysiz.\n• Rasmiy talaba maqomi: Yotoqxona va arzon transport kartasi beriladi.\n\n🏛️ <b>Diplom O'zbekistonda 100% nostrifikatsiya qilinadi!</b>\n\n⚡️ <b>Imtihonsiz rasmiy qabul uchun hoziroq yozing:</b>\n👉 @arkadasuzz\n🌐 arkadas.uz | 📞 +998 93 599 98 65\n\n#TurkiyadaTalim #TOMER #ArkadasUz"
     },
     {
       "id": "tg_20260905_eve",
@@ -34,20 +27,13 @@
       "date_str": "2026-09-05",
       "slot": "evening",
       "slot_label": "🌆 Kechki Asosiy Post (19:30)",
-      "cat_tag": "🛡️ Amaliy Hamrohlik",
+      "cat_tag": "🔥 Asosiy Reklam",
       "scheduled_time": "2026-09-05T19:30:00",
-      "topic": "Aeroportdan yotoqxonagacha: Turkiyaga ilk qadamda nimalar qilinadi?",
-      "content": "🛡️ <b>Aeroportdan yotoqxonagacha: Turkiyaga ilk qadamda nimalar qilinadi?</b>\n\nFarzandini boshqa davlatga jo'natayotgan ota-ona uchun eng katta masala — uning begona shaharda qanday joylashishidir.\n\n✅ <b>Arkadaş Consulting amalda nimalarni ta'minlaydi?</b>\n• <b>Aeroportda kutib olish:</b> Talabani shaxsan kutib olamiz va oldindan band qilingan yotoqxonaga xavfsiz yetkazamiz.\n• <b>Mahalliy aloqa:</b> Ota-ona bilan uzluksiz bog'lanish uchun mos tarifdagi turk SIM-kartasini rasmiylashtiramiz.\n• <b>Bank hisobi:</b> Xalqaro to'lovlar va mablag' qabul qilish uchun Ziraat Bankası yoki Vakıfbank dan talabalik hisobi ochamiz.\n• <b>İkamet arizasi:</b> Qonuniy talabalik yashash guvohnomasi (İkamet) uchun hujjatlar to'liq tayyorlanib, topshiriladi.\n\n👉 <b>Ota-onalar uchun bepul ma'lumot:</b> @arkadasuzz\n#OtaOnalarUchun #XavfsizTalabalik #ArkadasUz",
-      "status": "pending",
-      "photo_path": "output/posts/post_tg_20260905_eve.png",
-      "story_path": "output/stories/story_tg_20260905_eve.png",
-      "multichannel_pack": {
-        "instagram": "🛡️ Aeroportdan yotoqxonagacha: Turkiyaga ilk qadamda nimalar qilinadi?\n\nFarzandini boshqa davlatga jo'natayotgan ota-ona uchun eng katta masala — uning begona shaharda qanday joylashishidir.\n\n✅ Arkadaş Consulting amalda nimalarni ta'minlaydi?\n• Aeroportda kutib olish: Talabani shaxsan kutib olamiz va oldindan band qilingan yotoqxonaga xavfsiz yetkazamiz.\n• Mahalliy aloqa: Ota-ona bilan uzluksiz bog'lanish uchun mos tarifdagi turk SIM-kartasini rasmiylashtiramiz.\n• Bank hisobi: Xalqaro to'lovlar va mablag' qabul qilish uchun Ziraat Bankası yoki Vakıfbank dan talabalik hisobi ochamiz.\n• İkamet arizasi: Qonuniy talabalik yashash guvohnomasi (İkamet) uchun hujjatlar to'liq tayyorlanib, topshiriladi.\n\n👉 Ota-onalar uchun bepul ma'lumot: @arkadasuzz\n#OtaOnalarUchun #XavfsizTalabalik #ArkadasUz\n\n📲 Instagram: @arkadasuz\n👉 Telegram: @arkadasuzz\n\n.\n.\n#TurkiyadaTalim #ArkadasConsulting #Talaba2026 #Grantlar #Istanbul #Ankara #OzbekistonTalabalari #Universitet #Talabalik #ImtihonsizQabul #Viza #Turkiya",
-        "twitter": "🛡️ Aeroportdan yotoqxonagacha: Turkiyaga ilk qadamda nimalar qilinadi?\n\nFarzandini boshqa davlatga jo'natayotgan ota-ona uchun eng katta masala — uning begona shaharda qanday joylashishidir.\n\n📲 Murojaat: @arkadasuzz\n#TurkiyadaTalim #Grant",
-        "tiktok": "🔥 🛡️ Aeroportdan yotoqxonagacha: Turkiyaga ilk qadamda nimalar qilinadi?\n\n✅ Imtihonsiz to'g'ridan-to'g'ri qabul\n✅ 100% gacha grantlar va yotoqxona ko'magi\n📲 Batafsil ma'lumot: Telegram @arkadasuzz\n\n#turkiya #talaba #uzbekistan #arkadas #grant #tashkent",
-        "tiktok_music": "🎵 Tavsiya etilgan fon musiqasi: Blok3 — 'Ne Yapıyorsun' yoki Inspiring Travel Beat",
-        "facebook": "🛡️ Aeroportdan yotoqxonagacha: Turkiyaga ilk qadamda nimalar qilinadi?\n\nFarzandini boshqa davlatga jo'natayotgan ota-ona uchun eng katta masala — uning begona shaharda qanday joylashishidir.\n\n✅ Arkadaş Consulting amalda nimalarni ta'minlaydi?\n• Aeroportda kutib olish: Talabani shaxsan kutib olamiz va oldindan band qilingan yotoqxonaga xavfsiz yetkazamiz.\n• Mahalliy aloqa: Ota-ona bilan uzluksiz bog'lanish uchun mos tarifdagi turk SIM-kartasini rasmiylashtiramiz.\n• Bank hisobi: Xalqaro to'lovlar va mablag' qabul qilish uchun Ziraat Bankası yoki Vakıfbank dan talabalik hisobi ochamiz.\n• İkamet arizasi: Qonuniy talabalik yashash guvohnomasi (İkamet) uchun hujjatlar to'liq tayyorlanib, topshiriladi.\n\n👉 Ota-onalar uchun bepul ma'lumot: @arkadasuzz\n#OtaOnalarUchun #XavfsizTalabalik #ArkadasUz\n\n📍 Rasmiy konsalting agentligi: ARKADAŞ Consulting 🇹🇷\n📸 Instagram: @arkadasuz\n🎥 YouTube: @arkadasuz\n📩 Telegram: @arkadasuzz\n🌐 Web: arkadas.uz"
-      }
+      "topic": "Turkiyada o'qishni xohlaysizmi? Imtihonsiz qabul aksiyasi",
+      "template_name": "Orijinal Reklam Formatı (Galata)",
+      "photo_path": "output/platform_showcase/arkadas_reklam_perfect.jpg",
+      "story_path": "output/platform_showcase/test_story_clean.jpg",
+      "content": "🇹🇷 <b>TURKIYADA O'QISHNI XOHLAYSIZMI?</b>\n\nImtihonsiz va grant asosida nufuzli davlat universitetlarida ta'lim olish imkoniyatini qidiryapsizmi?\n\n<b>ARKADAŞ Consulting orqali sizga taqdim etiladigan kafolatlar:</b>\n✅ <b>To'liq va qisman grantlar</b> (25% dan 100% gacha chegirmalar)\n✅ <b>Barcha yo'nalishlar mavjud:</b> Tibbiyot, IT, Muhandislik, Iqtisodiyot, Xalqaro munosabatlar\n✅ <b>Viza va hujjatlar:</b> 100% elchixona va yashash guvohnomasi (İkamet ID) ko'magi\n✅ <b>Xavfsiz talabalar hayoti:</b> Davlat yotoqxonalari va doimiy kuratorlik yordami\n\n━━━━━━━━━━━━━━━━━━━━━━\n🎯 <b>SEN FAQAT QAROR QABUL QIL — qolgan barcha jarayonni ARKADAŞ hal qiladi!</b>\n━━━━━━━━━━━━━━━━━━━━━━\n\n⚠️ <i>Diqqat: Davlat OTMlarida xorijiy talabalar uchun ajratilgan kvotalar soni chegaralangan!</i>\n\n📩 <b>Bepul individual konsultatsiya olish:</b>\n👉 @arkadasuzz\n🌐 arkadas.uz | 📞 +998 93 599 98 65\n\n#Turkiya #Talabalik #ImtihonsizQabul #ArkadasUz"
     },
     {
       "id": "tg_20260906_lun",
@@ -56,20 +42,13 @@
       "date_str": "2026-09-06",
       "slot": "lunch",
       "slot_label": "☀️ Tushlik Posti (13:00)",
-      "cat_tag": "📊 Real Xarajatlar Tahlili",
+      "cat_tag": "💰 Narx & Byudjet",
       "scheduled_time": "2026-09-06T13:00:00",
-      "topic": "Turkiyada talaba oylik xarajatlari smetasi: Yotoqxona, ovqatlanish va transport",
-      "content": "💰 <b>Turkiyada talaba oylik xarajatlari qancha? (Real smeta)</b>\n\nTurkiyada yashash xarajatlari MDH va Yevropa davlatlariga nisbatan sezilarli darajada hamyonbop:\n\n📌 <b>Oylik asosiy xarajatlar moddalari:</b>\n• 🏠 <b>Yotoqxona:</b> Davlat (KYK) yotoqxonalari oyiga 40-70$ (nonushta va kechki ovqat bepul), xususiy yotoqxonalar esa 150-250$ atrofida.\n• 🚌 <b>Shahar transporti:</b> Talaba kartasi (İstanbulkart) bilan har bir yurish 80% arzon (oyiga taxminan 8-12$).\n• 🍽️ <b>Ovqatlanish:</b> Universitet oshxonalarida 4 xil issiq taomli to'liq tushlik 1-1.5$ atrofida bo'ladi.\n• 🏥 <b>Tibbiy sug'urta (GSS):</b> Davlat shifoxonalarida bepul tibbiy xizmat olish imkonini beradi.\n\nO'rtacha 200-300$ oylik byudjet bilan talaba Turkiyada xotirjam yashashi mumkin.\n\n👉 <b>Shahar bo'yicha aniq smeta olish:</b> @arkadasuzz\n#XarajatlarSmetasi #TalabaHayoti #ArkadasUz",
-      "status": "pending",
-      "photo_path": "output/posts/post_tg_20260906_lun.png",
-      "story_path": "output/stories/story_tg_20260906_lun.png",
-      "multichannel_pack": {
-        "instagram": "💰 Turkiyada talaba oylik xarajatlari qancha? (Real smeta)\n\nTurkiyada yashash xarajatlari MDH va Yevropa davlatlariga nisbatan sezilarli darajada hamyonbop:\n\n📌 Oylik asosiy xarajatlar moddalari:\n• 🏠 Yotoqxona: Davlat (KYK) yotoqxonalari oyiga 40-70$ (nonushta va kechki ovqat bepul), xususiy yotoqxonalar esa 150-250$ atrofida.\n• 🚌 Shahar transporti: Talaba kartasi (İstanbulkart) bilan har bir yurish 80% arzon (oyiga taxminan 8-12$).\n• 🍽️ Ovqatlanish: Universitet oshxonalarida 4 xil issiq taomli to'liq tushlik 1-1.5$ atrofida bo'ladi.\n• 🏥 Tibbiy sug'urta (GSS): Davlat shifoxonalarida bepul tibbiy xizmat olish imkonini beradi.\n\nO'rtacha 200-300$ oylik byudjet bilan talaba Turkiyada xotirjam yashashi mumkin.\n\n👉 Shahar bo'yicha aniq smeta olish: @arkadasuzz\n#XarajatlarSmetasi #TalabaHayoti #ArkadasUz\n\n📲 Instagram: @arkadasuz\n👉 Telegram: @arkadasuzz\n\n.\n.\n#TurkiyadaTalim #ArkadasConsulting #Talaba2026 #Grantlar #Istanbul #Ankara #OzbekistonTalabalari #Universitet #Talabalik #ImtihonsizQabul #Viza #Turkiya",
-        "twitter": "💰 Turkiyada talaba oylik xarajatlari qancha? (Real smeta)\n\nTurkiyada yashash xarajatlari MDH va Yevropa davlatlariga nisbatan sezilarli darajada hamyonbop:\n\n📲 Murojaat: @arkadasuzz\n#TurkiyadaTalim #Grant",
-        "tiktok": "🔥 💰 Turkiyada talaba oylik xarajatlari qancha? (Real smeta)\n\n✅ Imtihonsiz to'g'ridan-to'g'ri qabul\n✅ 100% gacha grantlar va yotoqxona ko'magi\n📲 Batafsil ma'lumot: Telegram @arkadasuzz\n\n#turkiya #talaba #uzbekistan #arkadas #grant #tashkent",
-        "tiktok_music": "🎵 Tavsiya etilgan fon musiqasi: Blok3 — 'Ne Yapıyorsun' yoki Inspiring Travel Beat",
-        "facebook": "💰 Turkiyada talaba oylik xarajatlari qancha? (Real smeta)\n\nTurkiyada yashash xarajatlari MDH va Yevropa davlatlariga nisbatan sezilarli darajada hamyonbop:\n\n📌 Oylik asosiy xarajatlar moddalari:\n• 🏠 Yotoqxona: Davlat (KYK) yotoqxonalari oyiga 40-70$ (nonushta va kechki ovqat bepul), xususiy yotoqxonalar esa 150-250$ atrofida.\n• 🚌 Shahar transporti: Talaba kartasi (İstanbulkart) bilan har bir yurish 80% arzon (oyiga taxminan 8-12$).\n• 🍽️ Ovqatlanish: Universitet oshxonalarida 4 xil issiq taomli to'liq tushlik 1-1.5$ atrofida bo'ladi.\n• 🏥 Tibbiy sug'urta (GSS): Davlat shifoxonalarida bepul tibbiy xizmat olish imkonini beradi.\n\nO'rtacha 200-300$ oylik byudjet bilan talaba Turkiyada xotirjam yashashi mumkin.\n\n👉 Shahar bo'yicha aniq smeta olish: @arkadasuzz\n#XarajatlarSmetasi #TalabaHayoti #ArkadasUz\n\n📍 Rasmiy konsalting agentligi: ARKADAŞ Consulting 🇹🇷\n📸 Instagram: @arkadasuz\n🎥 YouTube: @arkadasuz\n📩 Telegram: @arkadasuzz\n🌐 Web: arkadas.uz"
-      }
+      "topic": "Turkiyada talaba oylik xarajatlari smetasi",
+      "template_name": "Şablon 5: Bento Grid (Apple Modüler)",
+      "photo_path": "output/templates_showcase/sablon_5_bento_grid.jpg",
+      "story_path": "output/platform_showcase/test_story_clean.jpg",
+      "content": "📊 <b>Turkiyada talaba bo'lish qanchaga tushadi? Haqiqiy raqamlar:</b>\n\nOta-onalar va talabalar uchun 2026-yilgi real xarajatlar tahlili:\n\n1️⃣ <b>Yillik Kontrakt To'lovi:</b>\nDavlat universitetlarida kontraktlar yiliga atigi <b>$300 dan $800 gacha</b>. O'zbekistondagi to'lovlarga qaraganda 2-3 baravar arzon!\n\n2️⃣ <b>Yotoqxona va Turar-joy:</b>\nDavlat (KYK) va xususiy shinam yotoqxonalar: oyiga <b>$50 - $120</b> (3 mahal issiq ovqat ichida bo'lgan variantlar mavjud).\n\n3️⃣ <b>Oylik Cho'ntak Xarajati:</b>\nO'rtacha oziq-ovqat, arzonlashtirilgan talaba transport kartasi va shaxsiy xarajatlar: oyiga <b>$100 - $150</b> yetarli.\n\n💡 <b>Xulosa:</b> Turkiyada yashash va o'qish O'zbekiston viloyatlaridan Toshkentga kelib o'qish xarajatlari bilan deyarli teng, lekin diplom — <b>Xalqaro Yevropa standarti!</b>\n\n👉 Byudjetingizga mos universitet tanlash uchun yozing: @arkadasuzz\n📞 +998 93 599 98 65 | arkadas.uz"
     },
     {
       "id": "tg_20260906_eve",
@@ -78,20 +57,13 @@
       "date_str": "2026-09-06",
       "slot": "evening",
       "slot_label": "🌆 Kechki Asosiy Post (19:30)",
-      "cat_tag": "⚖️ Huquqiy Kafolat",
+      "cat_tag": "📌 Rasmiy Xizmatlar",
       "scheduled_time": "2026-09-06T19:30:00",
-      "topic": "O'zbekistonda diplom tan olinishi: Denklik (Nostrifikatsiya) qonuniy mezonlari",
-      "content": "⚖️ <b>Turkiya diplomi O'zbekistonda o'tadimi? (Denklik haqiqati)</b>\n\nKeling, O'zbekiston Bilimni baholash agentligi (Ta'lim inspeksiyasi) qonunchiligi asosida ochiq ko'rib chiqamiz:\n\n📌 <b>Nostrifikatsiyadan o'tishning 3 asosiy talabi:</b>\n1. <b>Universitet maqomi:</b> Oliygoh Turkiya Oliy Ta'lim Kengashi (YÖK) tomonidan akkreditatsiyadan o'tgan bo'lishi shart. Biz tavsiya etadigan barcha universitetlar YÖK tan olgan rasmiy oliygohlardir.\n2. <b>Ta'lim shakli:</b> O'qish kunduzgi (yuzma-yuz) shaklda o'tilishi lozim. Masofaviy diplomlar nostrifikatsiya qilinmaydi.\n3. <b>Apostil:</b> O'qish yakunida diplom va ilova rasman apostil qilinadi.\n\nArkadaş Consulting faqat O'zbekistonda 100% nostrifikatsiyadan o'tuvchi qonuniy dasturlarga yo'naltiradi!\n\n👉 <b>Universitetlar ro'yxatini tekshirish:</b> @arkadasuzz\n#Nostrifikatsiya #Denklik #QonuniyTalim #ArkadasUz",
-      "status": "pending",
-      "photo_path": "output/posts/post_tg_20260906_eve.png",
-      "story_path": "output/stories/story_tg_20260906_eve.png",
-      "multichannel_pack": {
-        "instagram": "⚖️ Turkiya diplomi O'zbekistonda o'tadimi? (Denklik haqiqati)\n\nKeling, O'zbekiston Bilimni baholash agentligi (Ta'lim inspeksiyasi) qonunchiligi asosida ochiq ko'rib chiqamiz:\n\n📌 Nostrifikatsiyadan o'tishning 3 asosiy talabi:\n1. Universitet maqomi: Oliygoh Turkiya Oliy Ta'lim Kengashi (YÖK) tomonidan akkreditatsiyadan o'tgan bo'lishi shart. Biz tavsiya etadigan barcha universitetlar YÖK tan olgan rasmiy oliygohlardir.\n2. Ta'lim shakli: O'qish kunduzgi (yuzma-yuz) shaklda o'tilishi lozim. Masofaviy diplomlar nostrifikatsiya qilinmaydi.\n3. Apostil: O'qish yakunida diplom va ilova rasman apostil qilinadi.\n\nArkadaş Consulting faqat O'zbekistonda 100% nostrifikatsiyadan o'tuvchi qonuniy dasturlarga yo'naltiradi!\n\n👉 Universitetlar ro'yxatini tekshirish: @arkadasuzz\n#Nostrifikatsiya #Denklik #QonuniyTalim #ArkadasUz\n\n📲 Instagram: @arkadasuz\n👉 Telegram: @arkadasuzz\n\n.\n.\n#TurkiyadaTalim #ArkadasConsulting #Talaba2026 #Grantlar #Istanbul #Ankara #OzbekistonTalabalari #Universitet #Talabalik #ImtihonsizQabul #Viza #Turkiya",
-        "twitter": "⚖️ Turkiya diplomi O'zbekistonda o'tadimi? (Denklik haqiqati)\n\nKeling, O'zbekiston Bilimni baholash agentligi (Ta'lim inspeksiyasi) qonunchiligi asosida ochiq ko'rib chiqamiz:\n\n📲 Murojaat: @arkadasuzz\n#TurkiyadaTalim #Grant",
-        "tiktok": "🔥 ⚖️ Turkiya diplomi O'zbekistonda o'tadimi? (Denklik haqiqati)\n\n✅ Imtihonsiz to'g'ridan-to'g'ri qabul\n✅ 100% gacha grantlar va yotoqxona ko'magi\n📲 Batafsil ma'lumot: Telegram @arkadasuzz\n\n#turkiya #talaba #uzbekistan #arkadas #grant #tashkent",
-        "tiktok_music": "🎵 Tavsiya etilgan fon musiqasi: Blok3 — 'Ne Yapıyorsun' yoki Inspiring Travel Beat",
-        "facebook": "⚖️ Turkiya diplomi O'zbekistonda o'tadimi? (Denklik haqiqati)\n\nKeling, O'zbekiston Bilimni baholash agentligi (Ta'lim inspeksiyasi) qonunchiligi asosida ochiq ko'rib chiqamiz:\n\n📌 Nostrifikatsiyadan o'tishning 3 asosiy talabi:\n1. Universitet maqomi: Oliygoh Turkiya Oliy Ta'lim Kengashi (YÖK) tomonidan akkreditatsiyadan o'tgan bo'lishi shart. Biz tavsiya etadigan barcha universitetlar YÖK tan olgan rasmiy oliygohlardir.\n2. Ta'lim shakli: O'qish kunduzgi (yuzma-yuz) shaklda o'tilishi lozim. Masofaviy diplomlar nostrifikatsiya qilinmaydi.\n3. Apostil: O'qish yakunida diplom va ilova rasman apostil qilinadi.\n\nArkadaş Consulting faqat O'zbekistonda 100% nostrifikatsiyadan o'tuvchi qonuniy dasturlarga yo'naltiradi!\n\n👉 Universitetlar ro'yxatini tekshirish: @arkadasuzz\n#Nostrifikatsiya #Denklik #QonuniyTalim #ArkadasUz\n\n📍 Rasmiy konsalting agentligi: ARKADAŞ Consulting 🇹🇷\n📸 Instagram: @arkadasuz\n🎥 YouTube: @arkadasuz\n📩 Telegram: @arkadasuzz\n🌐 Web: arkadas.uz"
-      }
+      "topic": "Arkadaş Consulting 5 Asosiy Xizmatlar To'plami",
+      "template_name": "Resmi Hizmetler Şablonu",
+      "photo_path": "output/platform_showcase/arkadas_xizmatlar_reklam.jpg",
+      "story_path": "output/platform_showcase/test_story_clean.jpg",
+      "content": "📢 <b>ARKADAŞ CONSULTING — RASMIY XIZMATLAR RO'YXATI</b>\n\nBiz shunchaki hujjat topshirmaymiz — biz talabaning Turkiyaga yetib borib, xonaga joylashgunicha bo'lgan butun yo'lini kafolatlaymiz:\n\n🔹 <b>1. Imtihonsiz rasmiy qabul:</b> Faqat attestat yoki diplom bilan davlat OTMlariga to'g'ridan-to'g'ri joylashtirish.\n🔹 <b>2. Grant dasturlari:</b> Iqtidorli abituriyentlarga 25% dan 100% gacha yillik kontrakt chegirmalari.\n🔹 <b>3. Rasmiy TÖMER til kursi:</b> Universitet qoshida 1 yillik kafolatlangan til o'rganish dasturi.\n🔹 <b>4. Yashash guvohnomasi (İkamet ID):</b> Talaba vizasi, tibbiy sug'urta va rasmiy qonuniy ro'yxatdan o'tish.\n🔹 <b>5. Yotoqxona & Kutib olish:</b> Aeroportda kutib olish, transport va xavfsiz yotoqxonaga joylashish.\n\n🤝 <b>Nega aynan ARKADAŞ?</b>\nChunki bizda har bir talaba bilan <b>rasmiy shartnoma</b> tuziladi va jarayon 100% shaffof olib boriladi.\n\n📞 Bog'lanish: +998 93 599 98 65\n✈️ Telegram: @arkadasuzz\n🌐 Sayt: arkadas.uz"
     },
     {
       "id": "tg_20260907_lun",
@@ -100,20 +72,13 @@
       "date_str": "2026-09-07",
       "slot": "lunch",
       "slot_label": "☀️ Tushlik Posti (13:00)",
-      "cat_tag": "🏛️ Qabul Strategiyasi",
+      "cat_tag": "❓ Sinematik Q&A",
       "scheduled_time": "2026-09-07T13:00:00",
-      "topic": "Davlat va xususiy universitetlar: TR-YÖS imtihoni yoki attestat orqali qabul",
-      "content": "🏛️ <b>Davlatmi yoki xususiy universitet? Qaysi biri sizga mos keladi?</b>\n\nTurkiyada oliy ta'lim tizimi ikki asosiy toifaga bo'linadi. Farqlarini to'g'ri bilish byudjetingizni tejaydi:\n\n🔹 <b>Davlat Universitetlari:</b>\n• Yillik kontrakt o'ta arzon: 300$ dan 1,200$ gacha.\n• Qabul: Asosan <b>TR-YÖS</b> imtihoni yoki yuqori baholi maktab attestati kvotasi asosida.\n• Katta talabalar shaharchalari (kampus) va kuchli akademik an'analar.\n\n🔹 <b>Xususiy (Vaqf) Universitetlari:</b>\n• Kontraktlar: 1,500$ dan 4,000$ gacha (Arkadaş orqali 50% maxsus chegirma mavjud).\n• Qabul: Imtihonsiz, faqat attestat yoki diplom baholari bilan to'g'ridan-to'g'ri.\n• Zamonaviy laboratoriyalar va xalqaro amaliyot imkoniyati keng.\n\n👉 <b>Baholaringizga mos oliygohni tanlash:</b> @arkadasuzz\n#UniversitetTanlovi #DavlatUniversiteti #ArkadasUz",
-      "status": "pending",
-      "photo_path": "output/posts/post_tg_20260907_lun.png",
-      "story_path": "output/stories/story_tg_20260907_lun.png",
-      "multichannel_pack": {
-        "instagram": "🏛️ Davlatmi yoki xususiy universitet? Qaysi biri sizga mos keladi?\n\nTurkiyada oliy ta'lim tizimi ikki asosiy toifaga bo'linadi. Farqlarini to'g'ri bilish byudjetingizni tejaydi:\n\n🔹 Davlat Universitetlari:\n• Yillik kontrakt o'ta arzon: 300$ dan 1,200$ gacha.\n• Qabul: Asosan TR-YÖS imtihoni yoki yuqori baholi maktab attestati kvotasi asosida.\n• Katta talabalar shaharchalari (kampus) va kuchli akademik an'analar.\n\n🔹 Xususiy (Vaqf) Universitetlari:\n• Kontraktlar: 1,500$ dan 4,000$ gacha (Arkadaş orqali 50% maxsus chegirma mavjud).\n• Qabul: Imtihonsiz, faqat attestat yoki diplom baholari bilan to'g'ridan-to'g'ri.\n• Zamonaviy laboratoriyalar va xalqaro amaliyot imkoniyati keng.\n\n👉 Baholaringizga mos oliygohni tanlash: @arkadasuzz\n#UniversitetTanlovi #DavlatUniversiteti #ArkadasUz\n\n📲 Instagram: @arkadasuz\n👉 Telegram: @arkadasuzz\n\n.\n.\n#TurkiyadaTalim #ArkadasConsulting #Talaba2026 #Grantlar #Istanbul #Ankara #OzbekistonTalabalari #Universitet #Talabalik #ImtihonsizQabul #Viza #Turkiya",
-        "twitter": "🏛️ Davlatmi yoki xususiy universitet? Qaysi biri sizga mos keladi?\n\nTurkiyada oliy ta'lim tizimi ikki asosiy toifaga bo'linadi. Farqlarini to'g'ri bilish byudjetingizni tejaydi:\n\n📲 Murojaat: @arkadasuzz\n#TurkiyadaTalim #Grant",
-        "tiktok": "🔥 🏛️ Davlatmi yoki xususiy universitet? Qaysi biri sizga mos keladi?\n\n✅ Imtihonsiz to'g'ridan-to'g'ri qabul\n✅ 100% gacha grantlar va yotoqxona ko'magi\n📲 Batafsil ma'lumot: Telegram @arkadasuzz\n\n#turkiya #talaba #uzbekistan #arkadas #grant #tashkent",
-        "tiktok_music": "🎵 Tavsiya etilgan fon musiqasi: Blok3 — 'Ne Yapıyorsun' yoki Inspiring Travel Beat",
-        "facebook": "🏛️ Davlatmi yoki xususiy universitet? Qaysi biri sizga mos keladi?\n\nTurkiyada oliy ta'lim tizimi ikki asosiy toifaga bo'linadi. Farqlarini to'g'ri bilish byudjetingizni tejaydi:\n\n🔹 Davlat Universitetlari:\n• Yillik kontrakt o'ta arzon: 300$ dan 1,200$ gacha.\n• Qabul: Asosan TR-YÖS imtihoni yoki yuqori baholi maktab attestati kvotasi asosida.\n• Katta talabalar shaharchalari (kampus) va kuchli akademik an'analar.\n\n🔹 Xususiy (Vaqf) Universitetlari:\n• Kontraktlar: 1,500$ dan 4,000$ gacha (Arkadaş orqali 50% maxsus chegirma mavjud).\n• Qabul: Imtihonsiz, faqat attestat yoki diplom baholari bilan to'g'ridan-to'g'ri.\n• Zamonaviy laboratoriyalar va xalqaro amaliyot imkoniyati keng.\n\n👉 Baholaringizga mos oliygohni tanlash: @arkadasuzz\n#UniversitetTanlovi #DavlatUniversiteti #ArkadasUz\n\n📍 Rasmiy konsalting agentligi: ARKADAŞ Consulting 🇹🇷\n📸 Instagram: @arkadasuz\n🎥 YouTube: @arkadasuz\n📩 Telegram: @arkadasuzz\n🌐 Web: arkadas.uz"
-      }
+      "topic": "Turkiyada o'qish qiyinmi? Q&A format",
+      "template_name": "Sinematik Q&A Kütüphane",
+      "photo_path": "output/platform_showcase/test_qa_clean.jpg",
+      "story_path": "output/platform_showcase/test_story_clean.jpg",
+      "content": "🏛️ <b>“Turkiyada o'qish qiyinmi? Darslar qanday tilda olib boriladi?”</b>\n\nEng ko'p beriladigan savollarga aniq javoblar:\n\n❓ <b>Darslar qaysi tilda o'tiladi?</b>\nDavlat universitetlarida darslar turk yoki 100% ingliz tilida olib boriladi. Turk tili o'zbek tiliga juda yaqin bo'lgani uchun talabalarimiz 3-4 oy ichida bemalol tushunib, gapirib ketishadi.\n\n❓ <b>O'qishdan tashqari ishlash mumkinmi?</b>\nHa, Turkiya qonunchiligi bo'yicha talabalar darsdan bo'sh vaqtlarida haftasiga qonuniy ishlash yoki onlayn faoliyat yuritish huquqiga ega.\n\n❓ <b>Sessiyalardan yiqilsa nima bo'ladi?</b>\nTurkiyada kredit-modul (ECTS) tizimi. Yiqilgan fanni keyingi semestrda qayta topshirish mumkin, talaba o'qishdan haydalmaydi.\n\nSavollaringiz bormi? Mutaxassisimiz bilan to'g'ridan-to'g'ri suhbatlashing:\n👉 @arkadasuzz"
     },
     {
       "id": "tg_20260907_eve",
@@ -122,20 +87,13 @@
       "date_str": "2026-09-07",
       "slot": "evening",
       "slot_label": "🌆 Kechki Asosiy Post (19:30)",
-      "cat_tag": "🤝 Shaffof Shartnoma",
+      "cat_tag": "🎫 Rasmiy Chipta",
       "scheduled_time": "2026-09-07T19:30:00",
-      "topic": "Nega yuridik shartnoma muhim? Firibgarlardan himoyalaning",
-      "content": "🤝 <b>Nega yuridik shartnoma muhim? O'zingizni firibgarlardan himoya qiling!</b>\n\nSo'nggi vaqtlarda 'Turkiyaga 1 kunda imtihonsiz kiritib qo'yaman' deb soxta va'dalar beruvchi vositachilar ko'paydi.\n\n📌 <b>Arkadaş Consulting bilan qanday kafolatlarga egasiz?</b>\n1. <b>Davlat litsenziyasi:</b> Faoliyatimiz qonuniy ro'yxatdan o'tgan.\n2. <b>Ikki tomonlama shartnoma:</b> Har bir talaba bilan yuridik kuchga ega rasmiy shartnoma imzolanadi va barcha majburiyatlar ochiq belgilanadi.\n3. <b>Xatosiz topshirish:</b> Hujjatlar xalqaro talablar asosida tayyorlanadi.\n4. <b>To'liq hamrohlik:</b> Viza jarayonidan tortib Turkiyada darslar boshlanguncha mutaxassislar nazoratida bo'lasiz.\n\nFarzandingiz kelajagini shaffof va ishonchli mutaxassislarga topshiring!\n\n👉 <b>Shartnoma shartlari bilan tanishish:</b> @arkadasuzz\n#Ishonch #YuridikKafolat #ArkadasUz",
-      "status": "pending",
-      "photo_path": "output/posts/post_tg_20260907_eve.png",
-      "story_path": "output/stories/story_tg_20260907_eve.png",
-      "multichannel_pack": {
-        "instagram": "🤝 Nega yuridik shartnoma muhim? O'zingizni firibgarlardan himoya qiling!\n\nSo'nggi vaqtlarda 'Turkiyaga 1 kunda imtihonsiz kiritib qo'yaman' deb soxta va'dalar beruvchi vositachilar ko'paydi.\n\n📌 Arkadaş Consulting bilan qanday kafolatlarga egasiz?\n1. Davlat litsenziyasi: Faoliyatimiz qonuniy ro'yxatdan o'tgan.\n2. Ikki tomonlama shartnoma: Har bir talaba bilan yuridik kuchga ega rasmiy shartnoma imzolanadi va barcha majburiyatlar ochiq belgilanadi.\n3. Xatosiz topshirish: Hujjatlar xalqaro talablar asosida tayyorlanadi.\n4. To'liq hamrohlik: Viza jarayonidan tortib Turkiyada darslar boshlanguncha mutaxassislar nazoratida bo'lasiz.\n\nFarzandingiz kelajagini shaffof va ishonchli mutaxassislarga topshiring!\n\n👉 Shartnoma shartlari bilan tanishish: @arkadasuzz\n#Ishonch #YuridikKafolat #ArkadasUz\n\n📲 Instagram: @arkadasuz\n👉 Telegram: @arkadasuzz\n\n.\n.\n#TurkiyadaTalim #ArkadasConsulting #Talaba2026 #Grantlar #Istanbul #Ankara #OzbekistonTalabalari #Universitet #Talabalik #ImtihonsizQabul #Viza #Turkiya",
-        "twitter": "🤝 Nega yuridik shartnoma muhim? O'zingizni firibgarlardan himoya qiling!\n\nSo'nggi vaqtlarda 'Turkiyaga 1 kunda imtihonsiz kiritib qo'yaman' deb soxta va'dalar beruvchi vositachilar ko'paydi.\n\n📲 Murojaat: @arkadasuzz\n#TurkiyadaTalim #Grant",
-        "tiktok": "🔥 🤝 Nega yuridik shartnoma muhim? O'zingizni firibgarlardan himoya qiling!\n\n✅ Imtihonsiz to'g'ridan-to'g'ri qabul\n✅ 100% gacha grantlar va yotoqxona ko'magi\n📲 Batafsil ma'lumot: Telegram @arkadasuzz\n\n#turkiya #talaba #uzbekistan #arkadas #grant #tashkent",
-        "tiktok_music": "🎵 Tavsiya etilgan fon musiqasi: Blok3 — 'Ne Yapıyorsun' yoki Inspiring Travel Beat",
-        "facebook": "🤝 Nega yuridik shartnoma muhim? O'zingizni firibgarlardan himoya qiling!\n\nSo'nggi vaqtlarda 'Turkiyaga 1 kunda imtihonsiz kiritib qo'yaman' deb soxta va'dalar beruvchi vositachilar ko'paydi.\n\n📌 Arkadaş Consulting bilan qanday kafolatlarga egasiz?\n1. Davlat litsenziyasi: Faoliyatimiz qonuniy ro'yxatdan o'tgan.\n2. Ikki tomonlama shartnoma: Har bir talaba bilan yuridik kuchga ega rasmiy shartnoma imzolanadi va barcha majburiyatlar ochiq belgilanadi.\n3. Xatosiz topshirish: Hujjatlar xalqaro talablar asosida tayyorlanadi.\n4. To'liq hamrohlik: Viza jarayonidan tortib Turkiyada darslar boshlanguncha mutaxassislar nazoratida bo'lasiz.\n\nFarzandingiz kelajagini shaffof va ishonchli mutaxassislarga topshiring!\n\n👉 Shartnoma shartlari bilan tanishish: @arkadasuzz\n#Ishonch #YuridikKafolat #ArkadasUz\n\n📍 Rasmiy konsalting agentligi: ARKADAŞ Consulting 🇹🇷\n📸 Instagram: @arkadasuz\n🎥 YouTube: @arkadasuz\n📩 Telegram: @arkadasuzz\n🌐 Web: arkadas.uz"
-      }
+      "topic": "Toshkent ➔ Istanbul Qabul Chiptasi: Rasmiy Yo'llanma",
+      "template_name": "Şablon 6: Boarding Pass (Kabul Bileti)",
+      "photo_path": "output/templates_showcase/sablon_6_boarding_pass.jpg",
+      "story_path": "output/platform_showcase/test_story_clean.jpg",
+      "content": "🎫 <b>RASMIY QABUL CHIPTASI: TOSHKENT ➔ ISTANBUL</b>\n\n2026-yilgi talabalik mavsumi uchun ro'yxatdan o'tish qizg'in pallada!\n\nUshbu chipta sizga nimalarni beradi?\n✈️ <b>Imtihonsiz to'g'ridan-to'g'ri parvoz:</b> YÖS yoki DTM testlarisiz kafolatli qabul\n✈️ <b>Xalqaro Yevropa Diplomi (Mavi Diploma):</b> Butun dunyoda tan olinadi\n✈️ <b>To'liq ko'mak paketi:</b> Viza, TÖMER, yotoqxona va stipendiya\n\n📌 <b>Chiptangizni rasmiylashtirish uchun:</b>\n1. Pasport nusxasi\n2. Attestat yoki kollej/litsey diplomi (baholari bilan)\n3. 3x4 rasm\n\nBarchasini bizga yuboring, qolganini ARKADAŞ jamoasi hal qiladi!\n\n👉 Chiptangizni band qiling: @arkadasuzz\n📞 +998 93 599 98 65 | arkadas.uz"
     },
     {
       "id": "tg_20260908_lun",
@@ -144,20 +102,13 @@
       "date_str": "2026-09-08",
       "slot": "lunch",
       "slot_label": "☀️ Tushlik Posti (13:00)",
-      "cat_tag": "🎯 Mutaxassislik Tahlili",
+      "cat_tag": "🧠 Zeka & Viral",
       "scheduled_time": "2026-09-08T13:00:00",
-      "topic": "Eng talabgir sohalar: IT, Dasturlash, Muhandislik va Xalqaro Logistika",
-      "content": "💻 <b>Turkiyada eng talabgir sohalar: Diplom bilan qanday ish topsa bo'ladi?</b>\n\nUniversitet tanlashda eng muhim narsa — 4 yildan keyin mehnat bozorida qaysi kasblarga talab yuqori bo'lishini hisobga olishdir.\n\n🚀 <b>O'zbek yoshlari uchun eng istiqbolli yo'nalishlar:</b>\n• <b>IT va Dasturiy ta'minot:</b> Texnoparklar orqali talabalik davridayoq xalqaro loyihalarda amaliyot o'tash imkoniyati.\n• <b>Mexatronika va Mashinasozlik:</b> Turkiya sanoat va avtomobilsozlikda Yevropaning yetakchi markazlaridan biridir.\n• <b>Xalqaro savdo va Logistika:</b> Yevropa va Osiyo o'rtasidagi yirik transport xabi. Bu soha mutaxassislariga O'zbekistonda ham talab juda yuqori.\n\n👉 <b>Qaysi sohalarda grantlar borligini bilish:</b> @arkadasuzz\n#KelajakKasblari #ITMutaxassis #TurkiyadaUqish #ArkadasUz",
-      "status": "pending",
-      "photo_path": "output/posts/post_tg_20260908_lun.png",
-      "story_path": "output/stories/story_tg_20260908_lun.png",
-      "multichannel_pack": {
-        "instagram": "💻 Turkiyada eng talabgir sohalar: Diplom bilan qanday ish topsa bo'ladi?\n\nUniversitet tanlashda eng muhim narsa — 4 yildan keyin mehnat bozorida qaysi kasblarga talab yuqori bo'lishini hisobga olishdir.\n\n🚀 O'zbek yoshlari uchun eng istiqbolli yo'nalishlar:\n• IT va Dasturiy ta'minot: Texnoparklar orqali talabalik davridayoq xalqaro loyihalarda amaliyot o'tash imkoniyati.\n• Mexatronika va Mashinasozlik: Turkiya sanoat va avtomobilsozlikda Yevropaning yetakchi markazlaridan biridir.\n• Xalqaro savdo va Logistika: Yevropa va Osiyo o'rtasidagi yirik transport xabi. Bu soha mutaxassislariga O'zbekistonda ham talab juda yuqori.\n\n👉 Qaysi sohalarda grantlar borligini bilish: @arkadasuzz\n#KelajakKasblari #ITMutaxassis #TurkiyadaUqish #ArkadasUz\n\n📲 Instagram: @arkadasuz\n👉 Telegram: @arkadasuzz\n\n.\n.\n#TurkiyadaTalim #ArkadasConsulting #Talaba2026 #Grantlar #Istanbul #Ankara #OzbekistonTalabalari #Universitet #Talabalik #ImtihonsizQabul #Viza #Turkiya",
-        "twitter": "💻 Turkiyada eng talabgir sohalar: Diplom bilan qanday ish topsa bo'ladi?\n\nUniversitet tanlashda eng muhim narsa — 4 yildan keyin mehnat bozorida qaysi kasblarga talab yuqori bo'lishini hisobga olishdir.\n\n📲 Murojaat: @arkadasuzz\n#TurkiyadaTalim #Grant",
-        "tiktok": "🔥 💻 Turkiyada eng talabgir sohalar: Diplom bilan qanday ish topsa bo'ladi?\n\n✅ Imtihonsiz to'g'ridan-to'g'ri qabul\n✅ 100% gacha grantlar va yotoqxona ko'magi\n📲 Batafsil ma'lumot: Telegram @arkadasuzz\n\n#turkiya #talaba #uzbekistan #arkadas #grant #tashkent",
-        "tiktok_music": "🎵 Tavsiya etilgan fon musiqasi: Blok3 — 'Ne Yapıyorsun' yoki Inspiring Travel Beat",
-        "facebook": "💻 Turkiyada eng talabgir sohalar: Diplom bilan qanday ish topsa bo'ladi?\n\nUniversitet tanlashda eng muhim narsa — 4 yildan keyin mehnat bozorida qaysi kasblarga talab yuqori bo'lishini hisobga olishdir.\n\n🚀 O'zbek yoshlari uchun eng istiqbolli yo'nalishlar:\n• IT va Dasturiy ta'minot: Texnoparklar orqali talabalik davridayoq xalqaro loyihalarda amaliyot o'tash imkoniyati.\n• Mexatronika va Mashinasozlik: Turkiya sanoat va avtomobilsozlikda Yevropaning yetakchi markazlaridan biridir.\n• Xalqaro savdo va Logistika: Yevropa va Osiyo o'rtasidagi yirik transport xabi. Bu soha mutaxassislariga O'zbekistonda ham talab juda yuqori.\n\n👉 Qaysi sohalarda grantlar borligini bilish: @arkadasuzz\n#KelajakKasblari #ITMutaxassis #TurkiyadaUqish #ArkadasUz\n\n📍 Rasmiy konsalting agentligi: ARKADAŞ Consulting 🇹🇷\n📸 Instagram: @arkadasuz\n🎥 YouTube: @arkadasuz\n📩 Telegram: @arkadasuzz\n🌐 Web: arkadas.uz"
-      }
+      "topic": "Zeka Testi: Menda shahar bor — bino yo'q...",
+      "template_name": "Zeka Bilmecesi (1:1 Minimalist)",
+      "photo_path": "output/platform_showcase/test_riddle_clean.jpg",
+      "story_path": "output/platform_showcase/test_story_clean.jpg",
+      "content": "🧠 <b>KUN TOPISHMOg'I: ZUKKOLIK TESTI!</b>\n\nSuratdagi qog'ozga diqqat bilan qarang:\n\n<i>“Menda shahar bor — bino yo'q,\nDengiz bor — suv yo'q,\nDunyo bor — lekin odam yo'q.\n\nMen nimaman?”</i>\n\n💬 <b>Javobingizni izohlarda yozib qoldiring!</b>\nBirinchi to'g'ri topgan 3 kishiga ARKADAŞ jamoasidan maxsus sovg'a va bepul hujjat topshirish vaucheri beriladi! 👇\n\n👉 To'g'ri javob bugun soat 19:30 dagi postimizda e'lon qilinadi!"
     },
     {
       "id": "tg_20260908_eve",
@@ -166,20 +117,13 @@
       "date_str": "2026-09-08",
       "slot": "evening",
       "slot_label": "🌆 Kechki Asosiy Post (19:30)",
-      "cat_tag": "🌍 Yevropa Imkoniyati",
+      "cat_tag": "📖 Lüks Katalog",
       "scheduled_time": "2026-09-08T19:30:00",
-      "topic": "Erasmus+ dasturi: Turkiyada o'qiyotib, 1 semestr Yevropada grant bilan bepul o'qish",
-      "content": "🌍 <b>Turkiyada o'qib, Yevropada 1 semestr grant yutish siri (Erasmus+)</b>\n\nBilasizmi, Turkiya universitetlari Yevropa Ittifoqining <b>Erasmus+</b> talabalar almashinuv dasturining to'laqonli a'zosi hisoblanadi?\n\n📌 <b>Bu sizga nima beradi?</b>\n• 2 yoki 3-kursda a'lo baholarga o'qiyotgan talabalar Germaniya, Polsha, Italiya kabi davlatlarga 1 semestrga bepul o'qishga yuboriladi.\n• Yevropa Ittifoqi talabaning yashash xarajatlari uchun har oy <b>400€ dan 600€ gacha</b> bepul stipendiya to'laydi.\n• Yevropada o'qilgan fanlar Turkiya diplomingizga to'g'ridan-to'g'ri hisoblanadi.\n\nTurkiyada talaba bo'lish — butun Yevropa ta'lim eshiklarini ochish demakdir!\n\n👉 <b>Erasmus+ ga ega oliygohlar bo'yicha maslahat:</b> @arkadasuzz\n#Erasmus #YevropadaTalim #ArkadasUz",
-      "status": "pending",
-      "photo_path": "output/posts/post_tg_20260908_eve.png",
-      "story_path": "output/stories/story_tg_20260908_eve.png",
-      "multichannel_pack": {
-        "instagram": "🌍 Turkiyada o'qib, Yevropada 1 semestr grant yutish siri (Erasmus+)\n\nBilasizmi, Turkiya universitetlari Yevropa Ittifoqining Erasmus+ talabalar almashinuv dasturining to'laqonli a'zosi hisoblanadi?\n\n📌 Bu sizga nima beradi?\n• 2 yoki 3-kursda a'lo baholarga o'qiyotgan talabalar Germaniya, Polsha, Italiya kabi davlatlarga 1 semestrga bepul o'qishga yuboriladi.\n• Yevropa Ittifoqi talabaning yashash xarajatlari uchun har oy 400€ dan 600€ gacha bepul stipendiya to'laydi.\n• Yevropada o'qilgan fanlar Turkiya diplomingizga to'g'ridan-to'g'ri hisoblanadi.\n\nTurkiyada talaba bo'lish — butun Yevropa ta'lim eshiklarini ochish demakdir!\n\n👉 Erasmus+ ga ega oliygohlar bo'yicha maslahat: @arkadasuzz\n#Erasmus #YevropadaTalim #ArkadasUz\n\n📲 Instagram: @arkadasuz\n👉 Telegram: @arkadasuzz\n\n.\n.\n#TurkiyadaTalim #ArkadasConsulting #Talaba2026 #Grantlar #Istanbul #Ankara #OzbekistonTalabalari #Universitet #Talabalik #ImtihonsizQabul #Viza #Turkiya",
-        "twitter": "🌍 Turkiyada o'qib, Yevropada 1 semestr grant yutish siri (Erasmus+)\n\nBilasizmi, Turkiya universitetlari Yevropa Ittifoqining Erasmus+ talabalar almashinuv dasturining to'laqonli a'zosi hisoblanadi?\n\n📲 Murojaat: @arkadasuzz\n#TurkiyadaTalim #Grant",
-        "tiktok": "🔥 🌍 Turkiyada o'qib, Yevropada 1 semestr grant yutish siri (Erasmus+)\n\n✅ Imtihonsiz to'g'ridan-to'g'ri qabul\n✅ 100% gacha grantlar va yotoqxona ko'magi\n📲 Batafsil ma'lumot: Telegram @arkadasuzz\n\n#turkiya #talaba #uzbekistan #arkadas #grant #tashkent",
-        "tiktok_music": "🎵 Tavsiya etilgan fon musiqasi: Blok3 — 'Ne Yapıyorsun' yoki Inspiring Travel Beat",
-        "facebook": "🌍 Turkiyada o'qib, Yevropada 1 semestr grant yutish siri (Erasmus+)\n\nBilasizmi, Turkiya universitetlari Yevropa Ittifoqining Erasmus+ talabalar almashinuv dasturining to'laqonli a'zosi hisoblanadi?\n\n📌 Bu sizga nima beradi?\n• 2 yoki 3-kursda a'lo baholarga o'qiyotgan talabalar Germaniya, Polsha, Italiya kabi davlatlarga 1 semestrga bepul o'qishga yuboriladi.\n• Yevropa Ittifoqi talabaning yashash xarajatlari uchun har oy 400€ dan 600€ gacha bepul stipendiya to'laydi.\n• Yevropada o'qilgan fanlar Turkiya diplomingizga to'g'ridan-to'g'ri hisoblanadi.\n\nTurkiyada talaba bo'lish — butun Yevropa ta'lim eshiklarini ochish demakdir!\n\n👉 Erasmus+ ga ega oliygohlar bo'yicha maslahat: @arkadasuzz\n#Erasmus #YevropadaTalim #ArkadasUz\n\n📍 Rasmiy konsalting agentligi: ARKADAŞ Consulting 🇹🇷\n📸 Instagram: @arkadasuz\n🎥 YouTube: @arkadasuz\n📩 Telegram: @arkadasuzz\n🌐 Web: arkadas.uz"
-      }
+      "topic": "Topishmoq javobi & Ota-onalar uchun rasmiy qo'llanma",
+      "template_name": "Şablon 3: White Minimalist (Lüks Katalog)",
+      "photo_path": "output/templates_showcase/sablon_3_white_minimal.jpg",
+      "story_path": "output/platform_showcase/test_story_clean.jpg",
+      "content": "🎉 <b>KUNDUZGI TOPISHMOg'IMIZNING JAVOBI:</b>\n\nTo'g'ri javob: <b>DUNYO XARITASI (XARITA)!</b> 🗺️\nDarhaqiqat, xaritada hamma narsa bor, faqat siz yetishmayapsiz!\n\nEndi esa shu xaritada Turkiyani tanlash va talabalik sari ilk qadamni tashlash vaqti keldi.\n\n🏛️ <b>OTA-ONALAR UCHUN RASMIY KAFOLATLARIMIZ:</b>\n1️⃣ <b>Xavfsizlik:</b> Talaba Turkiyaga borgan kundan boshlab doimiy vasiylik va xavfsiz yotoqxona bilan ta'minlanadi.\n2️⃣ <b>Hamyonboplik:</b> Yillik kontrakt to'lovlari rasmiy ravishda to'g'ridan-to'g'ri universitet hisobiga to'lanadi.\n3️⃣ <b>Kelajak:</b> Turkiya universiteti diplomi butun Yevropa va O'zbekistonda 100% tan olinadi.\n\nFarzandingiz kelajagini bugundan quring:\n📞 +998 93 599 98 65\n👉 Maslahat olish: @arkadasuzz\n🌐 arkadas.uz"
     },
     {
       "id": "tg_20260909_lun",
@@ -188,20 +132,13 @@
       "date_str": "2026-09-09",
       "slot": "lunch",
       "slot_label": "☀️ Tushlik Posti (13:00)",
-      "cat_tag": "🏠 Turar-Joy Qo'llanmasi",
+      "cat_tag": "✨ Prestij Dergi",
       "scheduled_time": "2026-09-09T13:00:00",
-      "topic": "Yotoqxonalar tahlili: Davlat (KYK), xususiy yotoqxona va talaba ijarasi",
-      "content": "🏠 <b>Turkiyada qayerda yashash qulay? Yotoqxonalar haqida xolis ma'lumot</b>\n\nTurar-joy tanlash — o'qish samaradorligi va xavfsizligingizning muhim kafolatidir:\n\n1. <b>Davlat (KYK) yotoqxonalari:</b>\n• Oyiga 30-50$ atrofida. Nonushta va kechki issiq ovqat bepul beriladi. Xavfsizlik 24/7 ta'minlangan.\n• <i>Haqiqat:</i> Chet elliklar uchun kvota cheklangan, arizani erta topshirish shart.\n\n2. <b>Xususiy talabalar yotoqxonalari:</b>\n• Narxi: oyiga 150$ dan 250$ gacha. Kir yuvish, Wi-Fi va darsxona bilan jihozlangan shinam xonalar.\n\n3. <b>Do'stlar bilan ijara xonadon:</b>\n• 2-3 nafar do'stlar 2 xonali uy ijaraga olishsa, kishi boshiga 100-150$ to'g'ri keladi.\n\n👉 <b>Xavfsiz yotoqxona band qilish bo'yicha yordam:</b> @arkadasuzz\n#Yotoqxona #KYK #TalabalarTurarJoyi #ArkadasUz",
-      "status": "pending",
-      "photo_path": "output/posts/post_tg_20260909_lun.png",
-      "story_path": "output/stories/story_tg_20260909_lun.png",
-      "multichannel_pack": {
-        "instagram": "🏠 Turkiyada qayerda yashash qulay? Yotoqxonalar haqida xolis ma'lumot\n\nTurar-joy tanlash — o'qish samaradorligi va xavfsizligingizning muhim kafolatidir:\n\n1. Davlat (KYK) yotoqxonalari:\n• Oyiga 30-50$ atrofida. Nonushta va kechki issiq ovqat bepul beriladi. Xavfsizlik 24/7 ta'minlangan.\n• Haqiqat: Chet elliklar uchun kvota cheklangan, arizani erta topshirish shart.\n\n2. Xususiy talabalar yotoqxonalari:\n• Narxi: oyiga 150$ dan 250$ gacha. Kir yuvish, Wi-Fi va darsxona bilan jihozlangan shinam xonalar.\n\n3. Do'stlar bilan ijara xonadon:\n• 2-3 nafar do'stlar 2 xonali uy ijaraga olishsa, kishi boshiga 100-150$ to'g'ri keladi.\n\n👉 Xavfsiz yotoqxona band qilish bo'yicha yordam: @arkadasuzz\n#Yotoqxona #KYK #TalabalarTurarJoyi #ArkadasUz\n\n📲 Instagram: @arkadasuz\n👉 Telegram: @arkadasuzz\n\n.\n.\n#TurkiyadaTalim #ArkadasConsulting #Talaba2026 #Grantlar #Istanbul #Ankara #OzbekistonTalabalari #Universitet #Talabalik #ImtihonsizQabul #Viza #Turkiya",
-        "twitter": "🏠 Turkiyada qayerda yashash qulay? Yotoqxonalar haqida xolis ma'lumot\n\nTurar-joy tanlash — o'qish samaradorligi va xavfsizligingizning muhim kafolatidir:\n\n📲 Murojaat: @arkadasuzz\n#TurkiyadaTalim #Grant",
-        "tiktok": "🔥 🏠 Turkiyada qayerda yashash qulay? Yotoqxonalar haqida xolis ma'lumot\n\n✅ Imtihonsiz to'g'ridan-to'g'ri qabul\n✅ 100% gacha grantlar va yotoqxona ko'magi\n📲 Batafsil ma'lumot: Telegram @arkadasuzz\n\n#turkiya #talaba #uzbekistan #arkadas #grant #tashkent",
-        "tiktok_music": "🎵 Tavsiya etilgan fon musiqasi: Blok3 — 'Ne Yapıyorsun' yoki Inspiring Travel Beat",
-        "facebook": "🏠 Turkiyada qayerda yashash qulay? Yotoqxonalar haqida xolis ma'lumot\n\nTurar-joy tanlash — o'qish samaradorligi va xavfsizligingizning muhim kafolatidir:\n\n1. Davlat (KYK) yotoqxonalari:\n• Oyiga 30-50$ atrofida. Nonushta va kechki issiq ovqat bepul beriladi. Xavfsizlik 24/7 ta'minlangan.\n• Haqiqat: Chet elliklar uchun kvota cheklangan, arizani erta topshirish shart.\n\n2. Xususiy talabalar yotoqxonalari:\n• Narxi: oyiga 150$ dan 250$ gacha. Kir yuvish, Wi-Fi va darsxona bilan jihozlangan shinam xonalar.\n\n3. Do'stlar bilan ijara xonadon:\n• 2-3 nafar do'stlar 2 xonali uy ijaraga olishsa, kishi boshiga 100-150$ to'g'ri keladi.\n\n👉 Xavfsiz yotoqxona band qilish bo'yicha yordam: @arkadasuzz\n#Yotoqxona #KYK #TalabalarTurarJoyi #ArkadasUz\n\n📍 Rasmiy konsalting agentligi: ARKADAŞ Consulting 🇹🇷\n📸 Instagram: @arkadasuz\n🎥 YouTube: @arkadasuz\n📩 Telegram: @arkadasuzz\n🌐 Web: arkadas.uz"
-      }
+      "topic": "Diplom. Kelajak. Imkoniyat. Forbes uslubida ta'lim",
+      "template_name": "Şablon 7: Magazine Cover (Time/Forbes Look)",
+      "photo_path": "output/templates_showcase/sablon_7_magazine_cover.jpg",
+      "story_path": "output/platform_showcase/test_story_clean.jpg",
+      "content": "🎓 <b>DIPLOM. KELAJAK. IMKONIYAT.</b>\n\nNega har yili 50,000 dan ortiq xalqaro talaba aynan Turkiyani tanlaydi?\n\n• <b>Yevropa Ta'lim Hududi (Bologna jarayoni):</b> Turkiya diplomlari ECTS tizimi asosida Yevropa Ittifoqida to'g'ridan-to'g'ri o'tadi.\n• <b>Zamonaviy laboratoriyalar:</b> Dunyo reytingidagi Top-500 universitetlar (Istanbul, ODTÜ, Boğaziçi).\n• <b>Erasmus+ dasturi:</b> O'qish davomida 1 semestr Germaniya, Fransiya yoki Italiyada bepul o'qish imkoniyati.\n\nKelajagingizga sarmoya kiriting. Katta orzular bitta to'g'ri qarordan boshlanadi.\n\n👉 Ariza topshirish: @arkadasuzz\n🌐 arkadas.uz | +998 93 599 98 65"
     },
     {
       "id": "tg_20260909_eve",
@@ -210,20 +147,13 @@
       "date_str": "2026-09-09",
       "slot": "evening",
       "slot_label": "🌆 Kechki Asosiy Post (19:30)",
-      "cat_tag": "📋 Birinchi 30 Kun",
+      "cat_tag": "💎 Buzlu Cam",
       "scheduled_time": "2026-09-09T19:30:00",
-      "topic": "Turkiyaga yetib borgach birinchi 30 kunda qilinadigan 4 ta muhim vazifa",
-      "content": "📋 <b>Turkiyaga yetib borgach birinchi 30 kunda nimalar qilinadi?</b>\n\nYangi muhitga tez va qonuniy moslashish uchun ushbu 4 ta bosqichni o'z vaqtida bajarish shart:\n\n1️⃣ <b>Universitetda yakuniy ro'yxatdan o'tish (Kesin Kayıt):</b> Asl hujjatlar topshirilib, talabalik guvohnomasi (Öğrenci Belgesi) olinadi.\n2️⃣ <b>İkamet arizasi:</b> Göç İdaresi portalida qonuniy talabalik yashash ruxsatnomasiga ariza to'ldiriladi.\n3️⃣ <b>GSS Tibbiy sug'urtasi:</b> Davlat talaba sug'urtasiga a'zo bo'linadi va bepul shifoxona xizmati faollashadi.\n4️⃣ <b>Talaba transport kartasi:</b> Universitet ma'lumotnomasi bilan chegirmali shahar kartasi olinadi.\n\nArkadaş Consulting talabalari bu jarayonlarning hech birida yolg'iz qolmaydi — koordinatorimiz barchasini birga bajaradi.\n\n👉 <b>Batafsil konsultatsiya:</b> @arkadasuzz\n#TalabaHayoti #Maslahatlar #ArkadasUz",
-      "status": "pending",
-      "photo_path": "output/posts/post_tg_20260909_eve.png",
-      "story_path": "output/stories/story_tg_20260909_eve.png",
-      "multichannel_pack": {
-        "instagram": "📋 Turkiyaga yetib borgach birinchi 30 kunda nimalar qilinadi?\n\nYangi muhitga tez va qonuniy moslashish uchun ushbu 4 ta bosqichni o'z vaqtida bajarish shart:\n\n1️⃣ Universitetda yakuniy ro'yxatdan o'tish (Kesin Kayıt): Asl hujjatlar topshirilib, talabalik guvohnomasi (Öğrenci Belgesi) olinadi.\n2️⃣ İkamet arizasi: Göç İdaresi portalida qonuniy talabalik yashash ruxsatnomasiga ariza to'ldiriladi.\n3️⃣ GSS Tibbiy sug'urtasi: Davlat talaba sug'urtasiga a'zo bo'linadi va bepul shifoxona xizmati faollashadi.\n4️⃣ Talaba transport kartasi: Universitet ma'lumotnomasi bilan chegirmali shahar kartasi olinadi.\n\nArkadaş Consulting talabalari bu jarayonlarning hech birida yolg'iz qolmaydi — koordinatorimiz barchasini birga bajaradi.\n\n👉 Batafsil konsultatsiya: @arkadasuzz\n#TalabaHayoti #Maslahatlar #ArkadasUz\n\n📲 Instagram: @arkadasuz\n👉 Telegram: @arkadasuzz\n\n.\n.\n#TurkiyadaTalim #ArkadasConsulting #Talaba2026 #Grantlar #Istanbul #Ankara #OzbekistonTalabalari #Universitet #Talabalik #ImtihonsizQabul #Viza #Turkiya",
-        "twitter": "📋 Turkiyaga yetib borgach birinchi 30 kunda nimalar qilinadi?\n\nYangi muhitga tez va qonuniy moslashish uchun ushbu 4 ta bosqichni o'z vaqtida bajarish shart:\n\n📲 Murojaat: @arkadasuzz\n#TurkiyadaTalim #Grant",
-        "tiktok": "🔥 📋 Turkiyaga yetib borgach birinchi 30 kunda nimalar qilinadi?\n\n✅ Imtihonsiz to'g'ridan-to'g'ri qabul\n✅ 100% gacha grantlar va yotoqxona ko'magi\n📲 Batafsil ma'lumot: Telegram @arkadasuzz\n\n#turkiya #talaba #uzbekistan #arkadas #grant #tashkent",
-        "tiktok_music": "🎵 Tavsiya etilgan fon musiqasi: Blok3 — 'Ne Yapıyorsun' yoki Inspiring Travel Beat",
-        "facebook": "📋 Turkiyaga yetib borgach birinchi 30 kunda nimalar qilinadi?\n\nYangi muhitga tez va qonuniy moslashish uchun ushbu 4 ta bosqichni o'z vaqtida bajarish shart:\n\n1️⃣ Universitetda yakuniy ro'yxatdan o'tish (Kesin Kayıt): Asl hujjatlar topshirilib, talabalik guvohnomasi (Öğrenci Belgesi) olinadi.\n2️⃣ İkamet arizasi: Göç İdaresi portalida qonuniy talabalik yashash ruxsatnomasiga ariza to'ldiriladi.\n3️⃣ GSS Tibbiy sug'urtasi: Davlat talaba sug'urtasiga a'zo bo'linadi va bepul shifoxona xizmati faollashadi.\n4️⃣ Talaba transport kartasi: Universitet ma'lumotnomasi bilan chegirmali shahar kartasi olinadi.\n\nArkadaş Consulting talabalari bu jarayonlarning hech birida yolg'iz qolmaydi — koordinatorimiz barchasini birga bajaradi.\n\n👉 Batafsil konsultatsiya: @arkadasuzz\n#TalabaHayoti #Maslahatlar #ArkadasUz\n\n📍 Rasmiy konsalting agentligi: ARKADAŞ Consulting 🇹🇷\n📸 Instagram: @arkadasuz\n🎥 YouTube: @arkadasuz\n📩 Telegram: @arkadasuzz\n🌐 Web: arkadas.uz"
-      }
+      "topic": "Kafolatlangan xizmatlar bloklari: Viza, TÖMER, Turar-joy",
+      "template_name": "Şablon 2: Frosted Glass Cards",
+      "photo_path": "output/templates_showcase/sablon_2_frosted_cards.jpg",
+      "story_path": "output/platform_showcase/test_story_clean.jpg",
+      "content": "🏛️ <b>TURKIYADA TA'LIM: BARCHA XIZMATLAR BIR JOYDA!</b>\n\nO'qishga kirish jarayonidagi barcha qiyinchiliklarni ARKADAŞ o'z zimmasiga oladi:\n\n🔹 <b>Universitet tanlash:</b> Qiziqishingiz va byudjetingizga mos 50+ davlat OTMlari.\n🔹 <b>Apostil va Tarjima:</b> Hujjatlarni rasmiy turk tiliga notarial tasdiqlash.\n🔹 <b>Viza va Sug'urta:</b> Rad javobisiz talabalik vizasini olish.\n🔹 <b>Kutib olish:</b> Aeroportdan to'g'ridan-to'g'ri yotoqxonaga yetkazish.\n\nBularning barchasi <b>bitta shartnoma</b> asosida amalga oshiriladi!\n\n📞 Qo'ng'iroq qiling: +998 93 599 98 65\n✈️ Telegram: @arkadasuzz"
     },
     {
       "id": "tg_20260910_lun",
@@ -232,20 +162,13 @@
       "date_str": "2026-09-10",
       "slot": "lunch",
       "slot_label": "☀️ Tushlik Posti (13:00)",
-      "cat_tag": "🌟 Talaba Tajribasi",
+      "cat_tag": "🌅 Sinematik Ilhom",
       "scheduled_time": "2026-09-10T13:00:00",
-      "topic": "Til bilmasdan borib, 1-kursni a'lo baholarga tugatgan talabamiz tajribasi",
-      "content": "🌟 <b>'Boshida juda qo'rqqan edim, hozir esa guruh sardoriman' — Talabamiz hikoyasi</b>\n\nSamarqandlik talabamiz Javohir o'tgan yili maktabni bitirib, Turkiya davlat universitetining Logistika yo'nalishiga qabul qilindi.\n\n📌 <b>Javohirning tajribasi:</b>\n• <i>'Turk tilini umuman bilmas edim. Qabul xatini olganimda quvonganim bilan, Turkiyada qanday o'qiyman deb juda xavotirda edim.'</i>\n• <i>'TÖMER kursida 1-oydayoq kundalik so'zlarni tushuna boshladim. O'qituvchilar chet ellik talabalarga juda sabr bilan, samimiy munosabatda bo'lishar ekan.'</i>\n• <i>'Arkadaş Consulting meni aeroportda kutib olib, yotoqxonaga joylashtirib berganida ota-onamning ko'ngli butunlay xotirjam bo'ldi.'</i>\n\nQat'iyat va to'g'ri yo'l-yo'riq bo'lsa, har qanday maqsadga erishish mumkin!\n\n👉 <b>Siz ham o'z yo'lingizni boshlang:</b> @arkadasuzz\n#MuvaffaqiyatTarixi #Talabalarimiz #ArkadasUz",
-      "status": "pending",
-      "photo_path": "output/posts/post_tg_20260910_lun.png",
-      "story_path": "output/stories/story_tg_20260910_lun.png",
-      "multichannel_pack": {
-        "instagram": "🌟 'Boshida juda qo'rqqan edim, hozir esa guruh sardoriman' — Talabamiz hikoyasi\n\nSamarqandlik talabamiz Javohir o'tgan yili maktabni bitirib, Turkiya davlat universitetining Logistika yo'nalishiga qabul qilindi.\n\n📌 Javohirning tajribasi:\n• 'Turk tilini umuman bilmas edim. Qabul xatini olganimda quvonganim bilan, Turkiyada qanday o'qiyman deb juda xavotirda edim.'\n• 'TÖMER kursida 1-oydayoq kundalik so'zlarni tushuna boshladim. O'qituvchilar chet ellik talabalarga juda sabr bilan, samimiy munosabatda bo'lishar ekan.'\n• 'Arkadaş Consulting meni aeroportda kutib olib, yotoqxonaga joylashtirib berganida ota-onamning ko'ngli butunlay xotirjam bo'ldi.'\n\nQat'iyat va to'g'ri yo'l-yo'riq bo'lsa, har qanday maqsadga erishish mumkin!\n\n👉 Siz ham o'z yo'lingizni boshlang: @arkadasuzz\n#MuvaffaqiyatTarixi #Talabalarimiz #ArkadasUz\n\n📲 Instagram: @arkadasuz\n👉 Telegram: @arkadasuzz\n\n.\n.\n#TurkiyadaTalim #ArkadasConsulting #Talaba2026 #Grantlar #Istanbul #Ankara #OzbekistonTalabalari #Universitet #Talabalik #ImtihonsizQabul #Viza #Turkiya",
-        "twitter": "🌟 'Boshida juda qo'rqqan edim, hozir esa guruh sardoriman' — Talabamiz hikoyasi\n\nSamarqandlik talabamiz Javohir o'tgan yili maktabni bitirib, Turkiya davlat universitetining Logistika yo'nalishiga qabul qilindi.\n\n📲 Murojaat: @arkadasuzz\n#TurkiyadaTalim #Grant",
-        "tiktok": "🔥 🌟 'Boshida juda qo'rqqan edim, hozir esa guruh sardoriman' — Talabamiz hikoyasi\n\n✅ Imtihonsiz to'g'ridan-to'g'ri qabul\n✅ 100% gacha grantlar va yotoqxona ko'magi\n📲 Batafsil ma'lumot: Telegram @arkadasuzz\n\n#turkiya #talaba #uzbekistan #arkadas #grant #tashkent",
-        "tiktok_music": "🎵 Tavsiya etilgan fon musiqasi: Blok3 — 'Ne Yapıyorsun' yoki Inspiring Travel Beat",
-        "facebook": "🌟 'Boshida juda qo'rqqan edim, hozir esa guruh sardoriman' — Talabamiz hikoyasi\n\nSamarqandlik talabamiz Javohir o'tgan yili maktabni bitirib, Turkiya davlat universitetining Logistika yo'nalishiga qabul qilindi.\n\n📌 Javohirning tajribasi:\n• 'Turk tilini umuman bilmas edim. Qabul xatini olganimda quvonganim bilan, Turkiyada qanday o'qiyman deb juda xavotirda edim.'\n• 'TÖMER kursida 1-oydayoq kundalik so'zlarni tushuna boshladim. O'qituvchilar chet ellik talabalarga juda sabr bilan, samimiy munosabatda bo'lishar ekan.'\n• 'Arkadaş Consulting meni aeroportda kutib olib, yotoqxonaga joylashtirib berganida ota-onamning ko'ngli butunlay xotirjam bo'ldi.'\n\nQat'iyat va to'g'ri yo'l-yo'riq bo'lsa, har qanday maqsadga erishish mumkin!\n\n👉 Siz ham o'z yo'lingizni boshlang: @arkadasuzz\n#MuvaffaqiyatTarixi #Talabalarimiz #ArkadasUz\n\n📍 Rasmiy konsalting agentligi: ARKADAŞ Consulting 🇹🇷\n📸 Instagram: @arkadasuz\n🎥 YouTube: @arkadasuz\n📩 Telegram: @arkadasuzz\n🌐 Web: arkadas.uz"
-      }
+      "topic": "Bosfor bo'yida talabalik nafasi: Twitter & Telegram hikoya",
+      "template_name": "Twitter / Yatay Manzara (16:9)",
+      "photo_path": "output/platform_showcase/test_twitter_clean.jpg",
+      "story_path": "output/platform_showcase/test_story_clean.jpg",
+      "content": "☕️ <b>Ertalabki choyni Istanbulda, Bosfor bo'yida ichish — endi orzu emas, reja bo'lsin!</b>\n\nTalabalik faqat kitob o'qishdan iborat emas. Bu yangi madaniyat, yangi do'stlar va mustaqil hayotga qadam qo'yishdir.\n\nTurkiya sizga jahon darajasidagi ta'lim bilan birga unutilmas yoshlik yillarini tuhfa etadi.\n\nSiz ham shu muhitning bir qismiga aylanmoqchimisiz?\n👉 Boshlanishi oddiy: @arkadasuzz ga yozing."
     },
     {
       "id": "tg_20260910_eve",
@@ -254,20 +177,13 @@
       "date_str": "2026-09-10",
       "slot": "evening",
       "slot_label": "🌆 Kechki Asosiy Post (19:30)",
-      "cat_tag": "🏥 Tibbiy Himoya",
+      "cat_tag": "🌙 Dark Vogue",
       "scheduled_time": "2026-09-10T19:30:00",
-      "topic": "Turkiyada talabalar sog'lig'i: GSS davlat tibbiy sug'urtasi qanday ishlaydi?",
-      "content": "🏥 <b>Turkiyada kasal bo'lib qolsa nima bo'ladi? Tibbiy sug'urta haqiqati</b>\n\nOta-onalarni eng ko'p o'ylantiradigan masalalardan biri — farzandining begona yurtda sog'lig'i va tibbiy yordam olish imkoniyatidir.\n\n📌 <b>Turkiyada talabalik tibbiy tizimi:</b>\n• Har bir qonuniy xalqaro talaba <b>Genel Sağlık Sigortası (GSS)</b> davlat umumiy sog'liq sug'urtasiga ega bo'lish huquqiga ega.\n• Ushbu sug'urta bilan talaba barcha davlat shifoxonalarida, poliklinikalarda va universitet klinikasida <b>bepul ko'rik va davolanish</b> oladi.\n• Shifokor yozib bergan dori-darmonlarga 80-90% gacha chegirma beriladi.\n• Tez tibbiy yordam (112) hamma uchun bepul.\n\nFarzandingiz Turkiyada doimo qonuniy va tibbiy himoya ostida bo'ladi!\n\n👉 <b>Batafsil ma'lumot olish:</b> @arkadasuzz\n#TibbiySugurta #GSS #XavfsizTalabalik #ArkadasUz",
-      "status": "pending",
-      "photo_path": "output/posts/post_tg_20260910_eve.png",
-      "story_path": "output/stories/story_tg_20260910_eve.png",
-      "multichannel_pack": {
-        "instagram": "🏥 Turkiyada kasal bo'lib qolsa nima bo'ladi? Tibbiy sug'urta haqiqati\n\nOta-onalarni eng ko'p o'ylantiradigan masalalardan biri — farzandining begona yurtda sog'lig'i va tibbiy yordam olish imkoniyatidir.\n\n📌 Turkiyada talabalik tibbiy tizimi:\n• Har bir qonuniy xalqaro talaba Genel Sağlık Sigortası (GSS) davlat umumiy sog'liq sug'urtasiga ega bo'lish huquqiga ega.\n• Ushbu sug'urta bilan talaba barcha davlat shifoxonalarida, poliklinikalarda va universitet klinikasida bepul ko'rik va davolanish oladi.\n• Shifokor yozib bergan dori-darmonlarga 80-90% gacha chegirma beriladi.\n• Tez tibbiy yordam (112) hamma uchun bepul.\n\nFarzandingiz Turkiyada doimo qonuniy va tibbiy himoya ostida bo'ladi!\n\n👉 Batafsil ma'lumot olish: @arkadasuzz\n#TibbiySugurta #GSS #XavfsizTalabalik #ArkadasUz\n\n📲 Instagram: @arkadasuz\n👉 Telegram: @arkadasuzz\n\n.\n.\n#TurkiyadaTalim #ArkadasConsulting #Talaba2026 #Grantlar #Istanbul #Ankara #OzbekistonTalabalari #Universitet #Talabalik #ImtihonsizQabul #Viza #Turkiya",
-        "twitter": "🏥 Turkiyada kasal bo'lib qolsa nima bo'ladi? Tibbiy sug'urta haqiqati\n\nOta-onalarni eng ko'p o'ylantiradigan masalalardan biri — farzandining begona yurtda sog'lig'i va tibbiy yordam olish imkoniyatidir.\n\n📲 Murojaat: @arkadasuzz\n#TurkiyadaTalim #Grant",
-        "tiktok": "🔥 🏥 Turkiyada kasal bo'lib qolsa nima bo'ladi? Tibbiy sug'urta haqiqati\n\n✅ Imtihonsiz to'g'ridan-to'g'ri qabul\n✅ 100% gacha grantlar va yotoqxona ko'magi\n📲 Batafsil ma'lumot: Telegram @arkadasuzz\n\n#turkiya #talaba #uzbekistan #arkadas #grant #tashkent",
-        "tiktok_music": "🎵 Tavsiya etilgan fon musiqasi: Blok3 — 'Ne Yapıyorsun' yoki Inspiring Travel Beat",
-        "facebook": "🏥 Turkiyada kasal bo'lib qolsa nima bo'ladi? Tibbiy sug'urta haqiqati\n\nOta-onalarni eng ko'p o'ylantiradigan masalalardan biri — farzandining begona yurtda sog'lig'i va tibbiy yordam olish imkoniyatidir.\n\n📌 Turkiyada talabalik tibbiy tizimi:\n• Har bir qonuniy xalqaro talaba Genel Sağlık Sigortası (GSS) davlat umumiy sog'liq sug'urtasiga ega bo'lish huquqiga ega.\n• Ushbu sug'urta bilan talaba barcha davlat shifoxonalarida, poliklinikalarda va universitet klinikasida bepul ko'rik va davolanish oladi.\n• Shifokor yozib bergan dori-darmonlarga 80-90% gacha chegirma beriladi.\n• Tez tibbiy yordam (112) hamma uchun bepul.\n\nFarzandingiz Turkiyada doimo qonuniy va tibbiy himoya ostida bo'ladi!\n\n👉 Batafsil ma'lumot olish: @arkadasuzz\n#TibbiySugurta #GSS #XavfsizTalabalik #ArkadasUz\n\n📍 Rasmiy konsalting agentligi: ARKADAŞ Consulting 🇹🇷\n📸 Instagram: @arkadasuz\n🎥 YouTube: @arkadasuz\n📩 Telegram: @arkadasuzz\n🌐 Web: arkadas.uz"
-      }
+      "topic": "Kelajagingizni tasodifga qoldirmang: Qat'iy qaror qiling",
+      "template_name": "Şablon 4: Dark Editorial Vogue",
+      "photo_path": "output/templates_showcase/sablon_4_dark_cinematic.jpg",
+      "story_path": "output/platform_showcase/test_story_clean.jpg",
+      "content": "🌙 <b>KELAJAGINGIZNI TASODIFGA QOLDIRMANG!</b>\n\nVaqt juda tez o'tmoqda. Ko'pchilik abituriyentlar imtihon natijasini kutib, vaqtni boy beradi va kvotalar yopilib qoladi.\n\nXavfga o'rin yo'q: bugun hujjatlaringizni topshiring va Turkiyada kafolatlangan talabalik o'rniga ega bo'ling!\n\n✔️ 100% Imtihonsiz qabul\n✔️ Yillik to'lov $300 dan\n✔️ Rasmiy shartnoma bilan to'liq kafolat\n\nSEN FAQAT QAROR QABUL QIL — qolganini ARKADAŞ hal qiladi!\n\n📩 Bugunoq yozing: @arkadasuzz\n🌐 arkadas.uz | +998 93 599 98 65"
     },
     {
       "id": "tg_20260911_lun",
@@ -276,20 +192,13 @@
       "date_str": "2026-09-11",
       "slot": "lunch",
       "slot_label": "☀️ Tushlik Posti (13:00)",
-      "cat_tag": "💳 To'lovlar Tartibi",
+      "cat_tag": "🎓 Qabul Quvonchi",
       "scheduled_time": "2026-09-11T13:00:00",
-      "topic": "Kontrakt to'lovlari qachon va qanday amalga oshiriladi? Bo'lib to'lash tartibi",
-      "content": "💳 <b>Universitet kontraktlari qanday to'lanadi? 1 yillik birdan to'lanadimi?</b>\n\nAbituriyentlarimizdan tez-tez so'raladigan muhim moliyaviy savolga aniq javob beramiz:\n\n📌 <b>To'lov tizimining asosiy qoidalari:</b>\n• Turkiyada deyarli barcha davlat va xususiy universitetlarda kontrakt to'lovi <b>semestrma-semestr (yiliga 2 ga bo'lib)</b> to'lanadi.\n• 1-semestr to'lovi kuzgi ro'yxatdan o'tishda (sentyabr-oktyabr), 2-semestr to'lovi fevral-mart oylarida amalga oshiriladi.\n• To'lov to'g'ridan-to'g'ri universitetning rasmiy davlat bank hisob raqamiga (IBAN) talabaning o'z nomidan o'tkaziladi. Hech kimning qo'liga berilmaydi.\n• Xususiy oliygohlarda esa 4-8 oylik bo'lib to'lash imkoniyatlari mavjud.\n\nShaffoflik va to'g'ri moliya — talabalik xotirjamligining asosi!\n\n👉 <b>Fakultetingiz bo'yicha kontrakt narxini bilish:</b> @arkadasuzz\n#KontraktNarxlari #Moliya #ArkadasUz",
-      "status": "pending",
-      "photo_path": "output/posts/post_tg_20260911_lun.png",
-      "story_path": "output/stories/story_tg_20260911_lun.png",
-      "multichannel_pack": {
-        "instagram": "💳 Universitet kontraktlari qanday to'lanadi? 1 yillik birdan to'lanadimi?\n\nAbituriyentlarimizdan tez-tez so'raladigan muhim moliyaviy savolga aniq javob beramiz:\n\n📌 To'lov tizimining asosiy qoidalari:\n• Turkiyada deyarli barcha davlat va xususiy universitetlarda kontrakt to'lovi semestrma-semestr (yiliga 2 ga bo'lib) to'lanadi.\n• 1-semestr to'lovi kuzgi ro'yxatdan o'tishda (sentyabr-oktyabr), 2-semestr to'lovi fevral-mart oylarida amalga oshiriladi.\n• To'lov to'g'ridan-to'g'ri universitetning rasmiy davlat bank hisob raqamiga (IBAN) talabaning o'z nomidan o'tkaziladi. Hech kimning qo'liga berilmaydi.\n• Xususiy oliygohlarda esa 4-8 oylik bo'lib to'lash imkoniyatlari mavjud.\n\nShaffoflik va to'g'ri moliya — talabalik xotirjamligining asosi!\n\n👉 Fakultetingiz bo'yicha kontrakt narxini bilish: @arkadasuzz\n#KontraktNarxlari #Moliya #ArkadasUz\n\n📲 Instagram: @arkadasuz\n👉 Telegram: @arkadasuzz\n\n.\n.\n#TurkiyadaTalim #ArkadasConsulting #Talaba2026 #Grantlar #Istanbul #Ankara #OzbekistonTalabalari #Universitet #Talabalik #ImtihonsizQabul #Viza #Turkiya",
-        "twitter": "💳 Universitet kontraktlari qanday to'lanadi? 1 yillik birdan to'lanadimi?\n\nAbituriyentlarimizdan tez-tez so'raladigan muhim moliyaviy savolga aniq javob beramiz:\n\n📲 Murojaat: @arkadasuzz\n#TurkiyadaTalim #Grant",
-        "tiktok": "🔥 💳 Universitet kontraktlari qanday to'lanadi? 1 yillik birdan to'lanadimi?\n\n✅ Imtihonsiz to'g'ridan-to'g'ri qabul\n✅ 100% gacha grantlar va yotoqxona ko'magi\n📲 Batafsil ma'lumot: Telegram @arkadasuzz\n\n#turkiya #talaba #uzbekistan #arkadas #grant #tashkent",
-        "tiktok_music": "🎵 Tavsiya etilgan fon musiqasi: Blok3 — 'Ne Yapıyorsun' yoki Inspiring Travel Beat",
-        "facebook": "💳 Universitet kontraktlari qanday to'lanadi? 1 yillik birdan to'lanadimi?\n\nAbituriyentlarimizdan tez-tez so'raladigan muhim moliyaviy savolga aniq javob beramiz:\n\n📌 To'lov tizimining asosiy qoidalari:\n• Turkiyada deyarli barcha davlat va xususiy universitetlarda kontrakt to'lovi semestrma-semestr (yiliga 2 ga bo'lib) to'lanadi.\n• 1-semestr to'lovi kuzgi ro'yxatdan o'tishda (sentyabr-oktyabr), 2-semestr to'lovi fevral-mart oylarida amalga oshiriladi.\n• To'lov to'g'ridan-to'g'ri universitetning rasmiy davlat bank hisob raqamiga (IBAN) talabaning o'z nomidan o'tkaziladi. Hech kimning qo'liga berilmaydi.\n• Xususiy oliygohlarda esa 4-8 oylik bo'lib to'lash imkoniyatlari mavjud.\n\nShaffoflik va to'g'ri moliya — talabalik xotirjamligining asosi!\n\n👉 Fakultetingiz bo'yicha kontrakt narxini bilish: @arkadasuzz\n#KontraktNarxlari #Moliya #ArkadasUz\n\n📍 Rasmiy konsalting agentligi: ARKADAŞ Consulting 🇹🇷\n📸 Instagram: @arkadasuz\n🎥 YouTube: @arkadasuz\n📩 Telegram: @arkadasuzz\n🌐 Web: arkadas.uz"
-      }
+      "topic": "Muvaffaqiyat hikoyalari: O'zbek talabalari Turkiyada",
+      "template_name": "Cool Ad Acceptance Campaign",
+      "photo_path": "output/platform_showcase/cool_ad_campaign_post.jpg",
+      "story_path": "output/platform_showcase/test_story_clean.jpg",
+      "content": "🎓 <b>Orzu qilgan talabalik sari ilk qadam!</b>\n\nO'tgan yili biz orqali Turkiyaga borgan 120+ o'zbek yoshlari bugun Istanbul, Anqara va Izmirda baxtli talaba!\n\nUlar ham siz kabi ikkilangan, til bilishdan xavotir olgan edilar. Ammo bugun ular xalqaro diplom sari ishonch bilan qadam tashlamoqda.\n\nNavbat sizniki! Imkoniyatni qo'ldan boy bermang.\n\n👉 Bepul maslahat: @arkadasuzz\n📞 +998 93 599 98 65"
     },
     {
       "id": "tg_20260911_eve",
@@ -298,20 +207,13 @@
       "date_str": "2026-09-11",
       "slot": "evening",
       "slot_label": "🌆 Kechki Asosiy Post (19:30)",
-      "cat_tag": "❓ Haftalik Savol-Javob",
+      "cat_tag": "⚡️ Hafta Yakuni Reklam",
       "scheduled_time": "2026-09-11T19:30:00",
-      "topic": "Haftalik ochiq savol-javob: Abituriyentlar eng ko'p beradigan 4 savolga javob",
-      "content": "❓ <b>Hafta savol-javobi: Abituriyentlar eng ko'p so'ragan 4 savolga javob</b>\n\nHafta davomida kelib tushgan yuzlab savollardan eng muhimlarini jamladik:\n\n1️⃣ <b>Attestat bahosi qanchalik muhim?</b>\n— O'rtacha 4 yoki 5 baholi attestat bilan Turkiyadagi nufuzli davlat va xususiy universitetlarga ariza topshirish mumkin.\n2️⃣ <b>Yoshi 25 dan oshganlar topshira oladimi?</b>\n— Ha, bakalavr yoki magistratura uchun yosh cheklovi yo'q, hamma topshirishi mumkin.\n3️⃣ <b>Darslar qaysi tilda o'tiladi?</b>\n— Tanlovingizga qarab: 100% turk tili yoki 100% ingliz tili bo'lgan dasturlar mavjud.\n4️⃣ <b>Hujjat topshirishni qachon boshlash kerak?</b>\n— Joylar va arzon kvotalar tez to'lishi sababli hozirdan boshlash maqsadga muvofiq.\n\n👉 <b>Shaxsiy savolingizni berish uchun:</b> @arkadasuzz\n#SavolJavob #Abituriyent2025 #ArkadasUz",
-      "status": "pending",
-      "photo_path": "output/posts/post_tg_20260911_eve.png",
-      "story_path": "output/stories/story_tg_20260911_eve.png",
-      "multichannel_pack": {
-        "instagram": "❓ Hafta savol-javobi: Abituriyentlar eng ko'p so'ragan 4 savolga javob\n\nHafta davomida kelib tushgan yuzlab savollardan eng muhimlarini jamladik:\n\n1️⃣ Attestat bahosi qanchalik muhim?\n— O'rtacha 4 yoki 5 baholi attestat bilan Turkiyadagi nufuzli davlat va xususiy universitetlarga ariza topshirish mumkin.\n2️⃣ Yoshi 25 dan oshganlar topshira oladimi?\n— Ha, bakalavr yoki magistratura uchun yosh cheklovi yo'q, hamma topshirishi mumkin.\n3️⃣ Darslar qaysi tilda o'tiladi?\n— Tanlovingizga qarab: 100% turk tili yoki 100% ingliz tili bo'lgan dasturlar mavjud.\n4️⃣ Hujjat topshirishni qachon boshlash kerak?\n— Joylar va arzon kvotalar tez to'lishi sababli hozirdan boshlash maqsadga muvofiq.\n\n👉 Shaxsiy savolingizni berish uchun: @arkadasuzz\n#SavolJavob #Abituriyent2025 #ArkadasUz\n\n📲 Instagram: @arkadasuz\n👉 Telegram: @arkadasuzz\n\n.\n.\n#TurkiyadaTalim #ArkadasConsulting #Talaba2026 #Grantlar #Istanbul #Ankara #OzbekistonTalabalari #Universitet #Talabalik #ImtihonsizQabul #Viza #Turkiya",
-        "twitter": "❓ Hafta savol-javobi: Abituriyentlar eng ko'p so'ragan 4 savolga javob\n\nHafta davomida kelib tushgan yuzlab savollardan eng muhimlarini jamladik:\n\n📲 Murojaat: @arkadasuzz\n#TurkiyadaTalim #Grant",
-        "tiktok": "🔥 ❓ Hafta savol-javobi: Abituriyentlar eng ko'p so'ragan 4 savolga javob\n\n✅ Imtihonsiz to'g'ridan-to'g'ri qabul\n✅ 100% gacha grantlar va yotoqxona ko'magi\n📲 Batafsil ma'lumot: Telegram @arkadasuzz\n\n#turkiya #talaba #uzbekistan #arkadas #grant #tashkent",
-        "tiktok_music": "🎵 Tavsiya etilgan fon musiqasi: Blok3 — 'Ne Yapıyorsun' yoki Inspiring Travel Beat",
-        "facebook": "❓ Hafta savol-javobi: Abituriyentlar eng ko'p so'ragan 4 savolga javob\n\nHafta davomida kelib tushgan yuzlab savollardan eng muhimlarini jamladik:\n\n1️⃣ Attestat bahosi qanchalik muhim?\n— O'rtacha 4 yoki 5 baholi attestat bilan Turkiyadagi nufuzli davlat va xususiy universitetlarga ariza topshirish mumkin.\n2️⃣ Yoshi 25 dan oshganlar topshira oladimi?\n— Ha, bakalavr yoki magistratura uchun yosh cheklovi yo'q, hamma topshirishi mumkin.\n3️⃣ Darslar qaysi tilda o'tiladi?\n— Tanlovingizga qarab: 100% turk tili yoki 100% ingliz tili bo'lgan dasturlar mavjud.\n4️⃣ Hujjat topshirishni qachon boshlash kerak?\n— Joylar va arzon kvotalar tez to'lishi sababli hozirdan boshlash maqsadga muvofiq.\n\n👉 Shaxsiy savolingizni berish uchun: @arkadasuzz\n#SavolJavob #Abituriyent2025 #ArkadasUz\n\n📍 Rasmiy konsalting agentligi: ARKADAŞ Consulting 🇹🇷\n📸 Instagram: @arkadasuz\n🎥 YouTube: @arkadasuz\n📩 Telegram: @arkadasuzz\n🌐 Web: arkadas.uz"
-      }
+      "topic": "Haftalik yakuniy chaqiruv: Qabul kvotalari tugamoqda",
+      "template_name": "Orijinal Reklam Formatı (Galata)",
+      "photo_path": "output/platform_showcase/arkadas_reklam_perfect.jpg",
+      "story_path": "output/platform_showcase/test_story_clean.jpg",
+      "content": "⚡️ <b>HAFTALIK QABUL YAKUNI: KVOTALAR CHEGARALANGAN!</b>\n\nTurkiya davlat universitetlariga imtihonsiz kirish uchun arizalarni qabul qilish davom etmoqda.\n\nJoylar cheklanganligi sababli ro'yxatdan o'tish navbat asosida amalga oshiriladi.\n\n📌 <b>Hoziroq bizga yozing va o'z o'rningizni band qiling:</b>\n👉 @arkadasuzz\n📞 +998 93 599 98 65\n🌐 arkadas.uz\n\nARKADAŞ Consulting — Turkiyadagi ishonchli do'stingiz!"
     }
   ]
 }

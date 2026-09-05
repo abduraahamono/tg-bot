@@ -111,9 +111,23 @@ class TelegramScheduler:
                 if not content:
                     continue
 
+                photo_path = post.get("photo_path", "")
+                if photo_path and not os.path.isabs(photo_path):
+                    photo_path = str(BASE_DIR / photo_path)
+
                 print(f"[TelegramScheduler] Publishing due post {post.get('id')} to {channel_id}...")
                 try:
-                    res = tg_client.send_message(channel_id, content)
+                    if photo_path and os.path.exists(photo_path):
+                        # If content fits in photo caption (max 1024 chars)
+                        if len(content) <= 1024:
+                            res = tg_client.send_photo(channel_id, photo_path, caption=content)
+                        else:
+                            # Send photo first then full text to avoid Telegram 1024 char caption truncation
+                            res = tg_client.send_photo(channel_id, photo_path)
+                            tg_client.send_message(channel_id, content)
+                    else:
+                        res = tg_client.send_message(channel_id, content)
+
                     if res.get("ok"):
                         post["status"] = "posted"
                         post["posted_at"] = now.isoformat()
@@ -125,12 +139,12 @@ class TelegramScheduler:
                                 f"📌 <b>Mavzu:</b> {post.get('topic')}\n"
                                 f"⏰ <b>Vaqt:</b> {time_str}\n"
                                 f"📍 <b>Kanal:</b> {channel_id}\n\n"
-                                f"✅ Post muvaffaqiyatli e'lon qilindi!"
+                                f"✅ Post va rasm muvaffaqiyatli e'lon qilindi!"
                             )
                     else:
                         print(f"[TelegramScheduler] Failed to publish post: {res}")
                 except Exception as e:
-                    print(f"[TelegramScheduler] Error sending message: {e}")
+                    print(f"[TelegramScheduler] Error sending message/photo: {e}")
 
         if updated:
             self._save()

@@ -111,8 +111,9 @@ class TwitterScheduler:
             if now >= sched_dt:
                 is_thread = tw.get("is_thread", False)
                 content = tw.get("content", "")
-                thread_items = tw.get("thread_items", [])
-                image_path = tw.get("image_path")
+                image_path = tw.get("image_path") or tw.get("photo_path")
+                if image_path and not os.path.isabs(image_path):
+                    image_path = str(BASE_DIR / image_path)
 
                 print(f"[TwitterScheduler] Publishing due tweet {tw.get('id')} ({tw.get('slot')})...")
 

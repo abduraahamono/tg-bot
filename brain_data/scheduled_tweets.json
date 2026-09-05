@@ -1,7 +1,7 @@
 {
   "active": true,
-  "created_at": "2026-09-05T03:37:58.788096",
-  "week_id": "tw_w_upgraded_factual",
+  "created_at": "2026-09-05T06:20:00",
+  "week_id": "tw_week_master_v3",
   "start_date": "2026-09-05",
   "end_date": "2026-09-11",
   "tweets": [
@@ -12,22 +12,24 @@
       "date_str": "2026-09-05",
       "slot": "morning",
       "slot_label": "🌅 Ertalabki Post",
-      "cat_tag": "🇹🇷 Fakt",
+      "cat_tag": "🇹🇷 Twitter",
       "scheduled_time": "2026-09-05T10:00:00",
       "content": "Turkiyada o'qish bo'yicha 90% abituriyent bilmaydigan haqiqat:\n\nUniversitetga qabul qilinish uchun turk tilini oldindan bilish shart emas.\n\n1-yil rasmiy TÖMER til kursida o'qib, C1 olgach asosiy darslarga boshlaysiz.\n\n📌 Saqlab qo'ying! @arkadasuzz #TurkiyadaTalim",
-      "status": "scheduled_on_twitter"
+      "photo_path": "output/platform_showcase/test_twitter_clean.jpg",
+      "status": "pending"
     },
     {
-      "id": "tw_20260905_noo",
+      "id": "tw_20260905_lun",
       "day_index": 1,
       "day_name": "Shanba",
       "date_str": "2026-09-05",
-      "slot": "noon",
+      "slot": "lunch",
       "slot_label": "☀️ Tushlik Posti",
-      "cat_tag": "🏛️ Kafolat",
+      "cat_tag": "🇹🇷 Twitter",
       "scheduled_time": "2026-09-05T14:00:00",
-      "content": "Arkadaş Consulting bilan Turkiyada talaba bo'lish nimani anglatadi?\n\n✅ 100% rasmiy yuridik shartnoma\n✅ Aeroportda kutib olish va yotoqxona\n✅ İkamet (yashash ruxsati) hujjatlari\n✅ Ziraat Bank kartasi va SIM-karta\n\nBatafsil: @arkadasuzz #ArkadasUz",
-      "status": "scheduled_on_twitter"
+      "content": "Turkiya davlat OTMlarida yillik kontrakt narxlari:\n\n💰 Davlat universitetlari: $300 - $800 / yiliga.\nO'zbekistondagi to'lovlardan ancha arzon, ammo diplomi Yevropada 100% tan olinadi.\n\nBatafsil ma'lumot: arkadas.uz | @arkadasuzz",
+      "photo_path": "output/templates_showcase/sablon_1_modern_split.jpg",
+      "status": "pending"
     },
     {
       "id": "tw_20260905_eve",
@@ -36,10 +38,11 @@
       "date_str": "2026-09-05",
       "slot": "evening",
       "slot_label": "🌆 Kechki Post",
-      "cat_tag": "❓ Munozara",
+      "cat_tag": "🇹🇷 Twitter",
       "scheduled_time": "2026-09-05T20:00:00",
-      "content": "Abituriyentlar, tanlov imkoni bo'lsa qaysi shaharda o'qishni afzal ko'rardingiz?\n\n1️⃣ Istanbul — 2 qit'a birlashgan megapolis\n2️⃣ Anqara — sokin va nufuzli talabalar poytaxti\n3️⃣ Izmir — go'zal Egey sohillari\n\nFikringizni yozib qoldiring! 👇 @arkadasuzz",
-      "status": "scheduled_on_twitter"
+      "content": "SEN FAQAT QAROR QABUL QIL — qolgan barcha rasmiyatchilikni ARKADAŞ hal qiladi.\n\n🏛️ Imtihonsiz davlat OTMlariga rasmiy qabul\n📄 100% Viza va yotoqxona ko'magi\n\nHoziroq yozing: @arkadasuzz ✈️",
+      "photo_path": "output/platform_showcase/arkadas_reklam_perfect.jpg",
+      "status": "pending"
     },
     {
       "id": "tw_20260906_mor",
@@ -48,22 +51,24 @@
       "date_str": "2026-09-06",
       "slot": "morning",
       "slot_label": "🌅 Ertalabki Post",
-      "cat_tag": "📊 Xarajat",
+      "cat_tag": "🇹🇷 Twitter",
       "scheduled_time": "2026-09-06T10:00:00",
-      "content": "Turkiyada talaba oylik byudjeti qancha? (Real raqamlar):\n\n• KYK Yotoqxona: 40-60$ (ovqat ichida)\n• Shahar transporti: 10-12$ (İstanbulkart)\n• Oshxona tushligi: 1-1.5$\n\nOyiga 200-250$ bilan talaba bemalol yashay oladi.\n\n📌 Saqlab qo'ying! @arkadasuzz #TurkiyadaTalim",
-      "status": "scheduled_on_twitter"
+      "content": "Diplom O'zbekistonda o'tadimi?\n\nHa! YÖK (Turkiya Oliy Ta'lim Kengashi) tomonidan akkreditatsiyalangan barcha davlat OTMlari diplomi O'zbekistonda 100% to'g'ridan-to'g'ri nostrifikatsiya qilinadi. @arkadasuzz",
+      "photo_path": "output/platform_showcase/test_twitter_clean.jpg",
+      "status": "pending"
     },
     {
-      "id": "tw_20260906_noo",
+      "id": "tw_20260906_lun",
       "day_index": 2,
       "day_name": "Yakshanba",
       "date_str": "2026-09-06",
-      "slot": "noon",
+      "slot": "lunch",
       "slot_label": "☀️ Tushlik Posti",
-      "cat_tag": "⚖️ Denklik",
+      "cat_tag": "🇹🇷 Twitter",
       "scheduled_time": "2026-09-06T14:00:00",
-      "content": "Turkiya diplomi O'zbekistonda tan olinadimi?\n\nHA! Faqat quyidagi shartlar bilan:\n1. Universitet YÖK akkreditatsiyasiga ega bo'lishi\n2. Kunduzgi shaklda o'qilgan bo'lishi\n\nBiz faqat 100% nostrifikatsiyadan o'tadigan oliygohlarga joylaymiz.\n\nMaslahat: @arkadasuzz",
-      "status": "scheduled_on_twitter"
+      "content": "Turkiyada talabaning oylik yashash xarajati:\n• Yotoqxona (KYK): $50 - $120\n• Transport: $10 (talaba kartasi)\n• Oziq-ovqat: $100\n\nJami $200-$250 bilan bemalol yashash mumkin! @arkadasuzz",
+      "photo_path": "output/templates_showcase/sablon_1_modern_split.jpg",
+      "status": "pending"
     },
     {
       "id": "tw_20260906_eve",
@@ -72,10 +77,11 @@
       "date_str": "2026-09-06",
       "slot": "evening",
       "slot_label": "🌆 Kechki Post",
-      "cat_tag": "❓ Savol",
+      "cat_tag": "🇹🇷 Twitter",
       "scheduled_time": "2026-09-06T20:00:00",
-      "content": "Chet elda o'qish haqida o'ylaganingizda sizni eng ko'p qaysi savol ikkilantiradi?\n\n• Til bilmaslikmi?\n• Hujjatlar va viza jarayonimi?\n• Begona yurtda yolg'iz qolib ketish qo'rquvimi?\n\nIzohda yozing, barchasiga yechim bor! 👇 @arkadasuzz",
-      "status": "scheduled_on_twitter"
+      "content": "Orzularingizni kechiktirmang. Turkiyaning nufuzli davlat OTMlariga 2026-kuzgi qabul davom etmoqda!\n\n👉 Bepul maslahat olish: @arkadasuzz | arkadas.uz",
+      "photo_path": "output/platform_showcase/arkadas_reklam_perfect.jpg",
+      "status": "pending"
     },
     {
       "id": "tw_20260907_mor",
@@ -84,22 +90,24 @@
       "date_str": "2026-09-07",
       "slot": "morning",
       "slot_label": "🌅 Ertalabki Post",
-      "cat_tag": "🏛️ Universitet",
+      "cat_tag": "🇹🇷 Twitter",
       "scheduled_time": "2026-09-07T10:00:00",
-      "content": "Davlat va Xususiy universitetlar farqi:\n\n🏛️ Davlat:\n• Kontrakt: 300 - 1,000$\n• Qabul: TR-YÖS yoki attestat kvotasi\n\n🏢 Xususiy:\n• Kontrakt: 1,500 - 4,000$ (Arkadaş orqali 50% chegirma)\n• Qabul: Imtihonsiz, attestat bilan\n\nQaysi biri mos? Yozing: @arkadasuzz",
-      "status": "scheduled_on_twitter"
+      "content": "Yangi hafta — yangi maqsadlar!\n\nO'zbekistonda imtihon topshirmasdan, faqat attestat baholari bilan Turkiya universitetida talaba bo'ling.\n\nBatafsil: @arkadasuzz 🇹🇷",
+      "photo_path": "output/platform_showcase/test_twitter_clean.jpg",
+      "status": "pending"
     },
     {
-      "id": "tw_20260907_noo",
+      "id": "tw_20260907_lun",
       "day_index": 3,
       "day_name": "Dushanba",
       "date_str": "2026-09-07",
-      "slot": "noon",
+      "slot": "lunch",
       "slot_label": "☀️ Tushlik Posti",
-      "cat_tag": "🤝 Xizmat",
+      "cat_tag": "🇹🇷 Twitter",
       "scheduled_time": "2026-09-07T14:00:00",
-      "content": "Ota-onalar xotirjamligi — biz uchun 1-o'rinda:\n\nBiz shunchaki hujjat topshirib qo'ymaymiz. Talaba aeroportga qo'nganidan to yotoqxonaga joylashib, darsga borguniga qadar har qadamda yoningizda bo'lamiz.\n\n🛡️ Rasmiy shartnoma bilan kafolatlangan.\n@arkadasuzz",
-      "status": "scheduled_on_twitter"
+      "content": "Toshkent ➔ Istanbul:\nRasmiy qabul chiptangizni rasmiylashtirish vaqti keldi.\n\nDavlat kvotalari chegaralangan! Qabul uchun: @arkadasuzz",
+      "photo_path": "output/templates_showcase/sablon_1_modern_split.jpg",
+      "status": "pending"
     },
     {
       "id": "tw_20260907_eve",
@@ -108,10 +116,11 @@
       "date_str": "2026-09-07",
       "slot": "evening",
       "slot_label": "🌆 Kechki Post",
-      "cat_tag": "❓ Fikr",
+      "cat_tag": "🇹🇷 Twitter",
       "scheduled_time": "2026-09-07T20:00:00",
-      "content": "Sizningcha, kelajakda qaysi soha mutaxassislariga talab eng yuqori bo'ladi?\n\n💻 Dasturchi va AI muhandislari\n🏥 Tibbiyot va biotexnologiya\n🚢 Xalqaro savdo va logistika\n\nO'z fikringizni bildiring! 👇 @arkadasuzz #ArkadasUz",
-      "status": "scheduled_on_twitter"
+      "content": "Arkadaş Consulting bilan Turkiyada talaba bo'lishning 3 afzalligi:\n1. 100% Rasmiy shartnoma\n2. Aeroportda kutib olish\n3. Yashash ruxsati (İkamet) kafolati\n\nDM: @arkadasuzz",
+      "photo_path": "output/platform_showcase/arkadas_reklam_perfect.jpg",
+      "status": "pending"
     },
     {
       "id": "tw_20260908_mor",
@@ -120,22 +129,24 @@
       "date_str": "2026-09-08",
       "slot": "morning",
       "slot_label": "🌅 Ertalabki Post",
-      "cat_tag": "🌍 Erasmus+",
+      "cat_tag": "🇹🇷 Twitter",
       "scheduled_time": "2026-09-08T10:00:00",
-      "content": "Turkiyada o'qiyotib Yevropada bepul yashash imkoni borligini bilarmidingiz?\n\nErasmus+ dasturi orqali talabalarimiz Germaniya, Italiya yoki Polshada 1 semestr bepul o'qib, har oy 400-600€ stipendiya olishadi.\n\n📌 Saqlab qo'ying! @arkadasuzz #Erasmus",
-      "status": "scheduled_on_twitter"
+      "content": "Menda shahar bor — bino yo'q,\nDengiz bor — suv yo'q,\nDunyo bor — lekin odam yo'q.\n\nMen nimaman? 🤔\nJavobingizni yozib qoldiring! 👇 #Topishmoq @arkadasuzz",
+      "photo_path": "output/platform_showcase/test_twitter_clean.jpg",
+      "status": "pending"
     },
     {
-      "id": "tw_20260908_noo",
+      "id": "tw_20260908_lun",
       "day_index": 4,
       "day_name": "Seshanba",
       "date_str": "2026-09-08",
-      "slot": "noon",
+      "slot": "lunch",
       "slot_label": "☀️ Tushlik Posti",
-      "cat_tag": "💻 Mutaxassislik",
+      "cat_tag": "🇹🇷 Twitter",
       "scheduled_time": "2026-09-08T14:00:00",
-      "content": "Turkiyada IT va Dasturlash sohasida o'qishning 3 katta ustunligi:\n\n1. Universitet texnoparklarida xalqaro amaliyot\n2. Ingliz va turk tillarida 2 tomonlama ta'lim\n3. Yevropa va AQSh loyihalarida masofaviy ishlash imkoni\n\nQabul shartlari: @arkadasuzz #ArkadasUz",
-      "status": "scheduled_on_twitter"
+      "content": "Topishmoq javobi: Dunyo xaritasi! 🗺️\nBu xaritada hamma narsa bor, faqat siz yetishmayapsiz. Shu xaritada Turkiyani tanlash vaqti keldi: @arkadasuzz",
+      "photo_path": "output/templates_showcase/sablon_1_modern_split.jpg",
+      "status": "pending"
     },
     {
       "id": "tw_20260908_eve",
@@ -144,10 +155,11 @@
       "date_str": "2026-09-08",
       "slot": "evening",
       "slot_label": "🌆 Kechki Post",
-      "cat_tag": "❓ Savol",
+      "cat_tag": "🇹🇷 Twitter",
       "scheduled_time": "2026-09-08T20:00:00",
-      "content": "Turkiyaga o'qishga ketsangiz, O'zbekistondan eng ko'p nimani sog'inasiz deb o'ylaysiz?\n\n• Samimiy oilaviy muhitni\n• O'zbek milliy taomlarini\n• Bolalikdagi do'stlaringizni\n\nIzohlarda yozing! 👇 @arkadasuzz",
-      "status": "scheduled_on_twitter"
+      "content": "Turkiyada o'qiyotgan o'zbek talabalari nimalarni maslahat beradi?\n'Faqat harakat qiling va kechiktirmang!'\n\nAriza topshirish: @arkadasuzz 🎓",
+      "photo_path": "output/platform_showcase/arkadas_reklam_perfect.jpg",
+      "status": "pending"
     },
     {
       "id": "tw_20260909_mor",
@@ -156,22 +168,24 @@
       "date_str": "2026-09-09",
       "slot": "morning",
       "slot_label": "🌅 Ertalabki Post",
-      "cat_tag": "🏠 Yotoqxona",
+      "cat_tag": "🇹🇷 Twitter",
       "scheduled_time": "2026-09-09T10:00:00",
-      "content": "Turkiyada talabalar qayerda yashaydi?\n\n1. Davlat KYK yotoqxonasi: 30-50$ (ovqat bepul)\n2. Xususiy yotoqxona: 150-250$ (sportzal, Wi-Fi)\n3. Do'stlar bilan kvartira: kishi boshiga 100-150$\n\nBarchasida 24/7 xavfsizlik bor.\n\n📌 Saqlab qo'ying! @arkadasuzz",
-      "status": "scheduled_on_twitter"
+      "content": "Turkiya davlat OTMlarida qaysi yo'nalishlar eng ommabop?\n• Tibbiyot & Stomatologiya\n• IT & Dasturlash\n• Xalqaro Biznes\n• Arxitektura\n\nSiz qaysi sohani tanlaysiz? @arkadasuzz",
+      "photo_path": "output/platform_showcase/test_twitter_clean.jpg",
+      "status": "pending"
     },
     {
-      "id": "tw_20260909_noo",
+      "id": "tw_20260909_lun",
       "day_index": 5,
       "day_name": "Chorshanba",
       "date_str": "2026-09-09",
-      "slot": "noon",
+      "slot": "lunch",
       "slot_label": "☀️ Tushlik Posti",
-      "cat_tag": "🛡️ Qonuniy Viza",
+      "cat_tag": "🇹🇷 Twitter",
       "scheduled_time": "2026-09-09T14:00:00",
-      "content": "Viza va İkamet byurokratiyasidan qo'rqmang!\n\nKo'plab talabalar hujjatlarni noto'g'ri to'ldirib muammoga duch keladi.\n\nArkadaş Consulting har bir arizani O'zbekistonda ham, Turkiyada ham 100% rasmiy qonuniy rasmiylashtiradi.\n\nMurojaat: @arkadasuzz #ArkadasUz",
-      "status": "scheduled_on_twitter"
+      "content": "Bento Grid: Turkiyada ta'lim imkoniyatlari bir qarashda!\nImtihonsiz qabul, yotoqxona va grant dasturlari to'plami. @arkadasuzz | arkadas.uz",
+      "photo_path": "output/templates_showcase/sablon_1_modern_split.jpg",
+      "status": "pending"
     },
     {
       "id": "tw_20260909_eve",
@@ -180,10 +194,11 @@
       "date_str": "2026-09-09",
       "slot": "evening",
       "slot_label": "🌆 Kechki Post",
-      "cat_tag": "❓ Maslahat",
+      "cat_tag": "🇹🇷 Twitter",
       "scheduled_time": "2026-09-09T20:00:00",
-      "content": "Turk tili seriallardan eshitganingizdek osonmi yoki qiyin deb o'ylaysizmi?\n\nAgar o'zbek tilida gapirsangiz, grammatika va ildizlar 60-70% bir xil ekanini sezasiz!\n\nSiz qancha vaqtda o'rganib ketgan bo'lardingiz? 👇 @arkadasuzz",
-      "status": "scheduled_on_twitter"
+      "content": "Kafolatlangan TÖMER tili va nufuzli universitet diplomi.\n\nBarcha jarayonni ARKADAŞ jamoasi bilan qulay boshqaring: @arkadasuzz 🇹🇷",
+      "photo_path": "output/platform_showcase/arkadas_reklam_perfect.jpg",
+      "status": "pending"
     },
     {
       "id": "tw_20260910_mor",
@@ -192,22 +207,24 @@
       "date_str": "2026-09-10",
       "slot": "morning",
       "slot_label": "🌅 Ertalabki Post",
-      "cat_tag": "🏥 Sog'liq",
+      "cat_tag": "🇹🇷 Twitter",
       "scheduled_time": "2026-09-10T10:00:00",
-      "content": "Turkiyada talaba tibbiy sug'urtasi (GSS) nimalarni qoplaydi?\n\n• Davlat shifoxonalarida bepul ko'rik\n• Tahlillar va barcha davolanish xizmatlari\n• Dorilarga 80-90% gacha davlat chegirmasi\n\nTalaba salomatligi to'liq himoyalangan.\n\n📌 Saqlab qo'ying! @arkadasuzz",
-      "status": "scheduled_on_twitter"
+      "content": "Bebek sohilida tonggi qahva va Boğaziçi universitetida darslar... Bu hayot siz uchun ham mumkin! @arkadasuzz",
+      "photo_path": "output/platform_showcase/test_twitter_clean.jpg",
+      "status": "pending"
     },
     {
-      "id": "tw_20260910_noo",
+      "id": "tw_20260910_lun",
       "day_index": 6,
       "day_name": "Payshanba",
       "date_str": "2026-09-10",
-      "slot": "noon",
+      "slot": "lunch",
       "slot_label": "☀️ Tushlik Posti",
-      "cat_tag": "🎯 Qabul",
+      "cat_tag": "🇹🇷 Twitter",
       "scheduled_time": "2026-09-10T14:00:00",
-      "content": "Maktab attestati bilan qaysi universitetlarga kirish mumkin?\n\nTurkiyaning ko'plab davlat va xususiy oliygohlarida attestat baholari asosida maxsus kvotalar mavjud.\n\nBaholaringiz suratini yuboring va mos universitetlarni bilib oling:\n👉 @arkadasuzz #ArkadasUz",
-      "status": "scheduled_on_twitter"
+      "content": "Xavfsiz davlat yotoqxonalari va 3 mahal issiq ovqat.\nOta-onalar xotirjam, talabalar baxtli. Murojaat: @arkadasuzz",
+      "photo_path": "output/templates_showcase/sablon_1_modern_split.jpg",
+      "status": "pending"
     },
     {
       "id": "tw_20260910_eve",
@@ -216,10 +233,11 @@
       "date_str": "2026-09-10",
       "slot": "evening",
       "slot_label": "🌆 Kechki Post",
-      "cat_tag": "❓ Tajriba",
+      "cat_tag": "🇹🇷 Twitter",
       "scheduled_time": "2026-09-10T20:00:00",
-      "content": "Agar hozir chet elda o'qish imkoningiz bo'lsa, qaysi yo'nalishni tanlardingiz?\n\n1. IT va Kiberxavfsizlik\n2. Xalqaro Munosabatlar va Diplomatiya\n3. Arxitektura va Dizayn\n4. Tibbiyot\n\nIzohda raqamini yozing! 👇 @arkadasuzz",
-      "status": "scheduled_on_twitter"
+      "content": "Kelajagingizni tasodifga qoldirmang. 2026-yilgi kvotalar tez orada yopiladi. Hoziroq ariza qoldiring: @arkadasuzz",
+      "photo_path": "output/platform_showcase/arkadas_reklam_perfect.jpg",
+      "status": "pending"
     },
     {
       "id": "tw_20260911_mor",
@@ -228,22 +246,24 @@
       "date_str": "2026-09-11",
       "slot": "morning",
       "slot_label": "🌅 Ertalabki Post",
-      "cat_tag": "💳 Kontrakt",
+      "cat_tag": "🇹🇷 Twitter",
       "scheduled_time": "2026-09-11T10:00:00",
-      "content": "Muhim moliyaviy qoida:\n\nTurkiyada universitet kontraktlari birdan 1 yillik emas, 2 ga bo'lib (har semestr boshida) to'lanadi.\n\nTo'lov to'g'ridan-to'g'ri universitetning rasmiy davlat bank hisobiga (IBAN) o'tadi.\n\nShaffof va xavfsiz.\n📌 Saqlab qo'ying! @arkadasuzz",
-      "status": "scheduled_on_twitter"
+      "content": "Juma muborak! Bugun kelajagingiz sari yana bir yaxshi niyat bilan qadam tashlang.\n\nTurkiya OTMlariga hujjat topshirish bepul: @arkadasuzz",
+      "photo_path": "output/platform_showcase/test_twitter_clean.jpg",
+      "status": "pending"
     },
     {
-      "id": "tw_20260911_noo",
+      "id": "tw_20260911_lun",
       "day_index": 7,
       "day_name": "Juma",
       "date_str": "2026-09-11",
-      "slot": "noon",
+      "slot": "lunch",
       "slot_label": "☀️ Tushlik Posti",
-      "cat_tag": "⚡ Shoshiling",
+      "cat_tag": "🇹🇷 Twitter",
       "scheduled_time": "2026-09-11T14:00:00",
-      "content": "Qabul jarayonlarida eng katta xato — vaqtni boy berishdir!\n\nUniversitetlarda arzon kvotalar va xalqaro grantlar soni cheklangan.\n\nHujjatlaringizni hozirdan xatosiz topshiring va o'z o'rningizni kafolatlang:\n👉 @arkadasuzz #ArkadasUz #TurkiyaTalim",
-      "status": "scheduled_on_twitter"
+      "content": "Orzu qilgan kelajak sari ilk qadam.\nRasmiy qabul va to'liq viza ko'magi bilan talaba bo'ling: @arkadasuzz | arkadas.uz",
+      "photo_path": "output/templates_showcase/sablon_1_modern_split.jpg",
+      "status": "pending"
     },
     {
       "id": "tw_20260911_eve",
@@ -252,10 +272,11 @@
       "date_str": "2026-09-11",
       "slot": "evening",
       "slot_label": "🌆 Kechki Post",
-      "cat_tag": "❓ Yakuniy",
+      "cat_tag": "🇹🇷 Twitter",
       "scheduled_time": "2026-09-11T20:00:00",
-      "content": "Ushbu haftada Turkiyada ta'lim haqida juda ko'p ma'lumot berdik.\n\nSizni hali ham o'ylantirayotgan, javobini topa olmagan biron bir savol qoldimi?\n\nIzohlarda yozing yoki to'g'ridan-to'g'ri mutaxassisga yo'llang:\n👉 @arkadasuzz #ArkadasUz",
-      "status": "scheduled_on_twitter"
+      "content": "Haftalik qabul davom etmoqda. Davlat OTMlariga so'nggi kvotalar uchun yozing: @arkadasuzz 🚀",
+      "photo_path": "output/platform_showcase/arkadas_reklam_perfect.jpg",
+      "status": "pending"
     }
   ]
 }
