@@ -46,6 +46,7 @@ def load_config():
 
 MAIN_KEYBOARD = {
     "keyboard": [
+        [{"text": "🗓️ 1 Haftalik Reja & Takvim"}],
         [{"text": "🌐 Ilovalar Hubi (5 Ta Tarmoq)"}],
         [{"text": "📱 Telegram Posti"}, {"text": "🖼️ Görsel Post Kartı"}],
         [{"text": "💡 Maxsus Post Yozish"}, {"text": "🎓 Talabalar Yordamchisi"}],
@@ -195,6 +196,61 @@ class AdminApprovalBot:
             "Kerakli bo'limni tanlang:",
             reply_markup=kb
         )
+
+    def show_telegram_calendar(self, chat_id: str):
+        plan = self.tg_scheduler.data
+        posts = plan.get("posts", [])
+        if not posts:
+            self.client.send_message(
+                chat_id,
+                "⚠️ <b>Hozircha faol 1 haftalik reja topilmadi.</b>\n"
+                "Quyidagi tugmani bosib 14 ta ekspert postdan iborat yangi haftalik rejani tuzishingiz mumkin:",
+                reply_markup={
+                    "inline_keyboard": [
+                        [{"text": "🗓️ 1 Haftalik Rejani Tuzish (14 Post)", "callback_data": "app_tg_plan_week"}]
+                    ]
+                }
+            )
+            return
+
+        days_seen = []
+        day_btns = []
+        current_row = []
+        for idx, p in enumerate(posts):
+            d_name = p.get("day_name", "")
+            d_idx = p.get("day_index", 1) - 1
+            if d_name not in days_seen:
+                days_seen.append(d_name)
+                d_date = p.get("date_str", "")[5:]
+                st_icon = "✅" if p.get("status") == "posted" else "⏳"
+                btn_text = f"🗓️ {d_name} ({d_date}) {st_icon}"
+                current_row.append({"text": btn_text, "callback_data": f"app_tg_day_{d_idx}"})
+                if len(current_row) == 2:
+                    day_btns.append(current_row)
+                    current_row = []
+        if current_row:
+            day_btns.append(current_row)
+
+        summ = self.tg_scheduler.get_summary()
+        st_str = "🟢 FAOL (Bulut avtomatik yoqilgan)" if summ["active"] else "⚪️ KUTILMOQDA"
+
+        cal_msg = (
+            f"🗓️ <b>1 HAFTALIK TELEGRAM POSTLAR TAKVIMI</b>\n"
+            f"━━━━━━━━━━━━━━━━━━━━━━\n"
+            f"• <b>Holat:</b> {st_str}\n"
+            f"• <b>Davr:</b> {summ['start_date']} — {summ['end_date']}\n"
+            f"• <b>Kanalga joylangan:</b> {summ['posted']} ta ✅\n"
+            f"• <b>Navbatda kutilayotgan:</b> {summ['pending']} ta ⏳\n\n"
+            f"👇 <b>Batafsil ko'rish va boshqarish uchun kunni tanlang:</b>"
+        )
+        kb = {
+            "inline_keyboard": day_btns + [
+                [{"text": "🔄 Yangi 1 Haftalik Reja Tuzish", "callback_data": "app_tg_plan_week"}],
+                [{"text": "🛑 Rejani Bekor Qilish", "callback_data": "app_tg_cancel_plan"}],
+                [{"text": "⬅️ Telegram Menyusiga", "callback_data": "app_menu_tg"}]
+            ]
+        }
+        self.client.send_message(chat_id, cal_msg, reply_markup=kb)
 
     def prompt_telegram_menu(self, chat_id: str):
         kb = {
@@ -729,49 +785,7 @@ class AdminApprovalBot:
 
                         elif data == "app_tg_view_plan":
                             self.client.answer_callback_query(cb_id, "🗓️ Takvim ochilmoqda...")
-                            plan = self.tg_scheduler.data
-                            posts = plan.get("posts", [])
-                            if not posts:
-                                self.client.send_message(from_user, "⚠️ Hozircha faol reja topilmadi. Avval '1 Haftalik Rejani Tuzish' tugmasini bosing.")
-                            else:
-                                days_seen = []
-                                day_btns = []
-                                current_row = []
-                                for idx, p in enumerate(posts):
-                                    d_name = p.get("day_name", "")
-                                    d_idx = p.get("day_index", 1) - 1
-                                    if d_name not in days_seen:
-                                        days_seen.append(d_name)
-                                        d_date = p.get("date_str", "")[5:]
-                                        st_icon = "✅" if p.get("status") == "posted" else "⏳"
-                                        btn_text = f"🗓️ {d_name} ({d_date}) {st_icon}"
-                                        current_row.append({"text": btn_text, "callback_data": f"app_tg_day_{d_idx}"})
-                                        if len(current_row) == 2:
-                                            day_btns.append(current_row)
-                                            current_row = []
-                                if current_row:
-                                    day_btns.append(current_row)
-
-                                summ = self.tg_scheduler.get_summary()
-                                st_str = "🟢 FAOL (Taymer yoqilgan)" if summ["active"] else "⚪️ KUTILMOQDA"
-
-                                cal_msg = (
-                                    f"🗓️ <b>1 HAFTALIK TELEGRAM POSTLAR TAKVIMI</b>\n"
-                                    f"━━━━━━━━━━━━━━━━━━━━━━\n"
-                                    f"• <b>Holat:</b> {st_str}\n"
-                                    f"• <b>Davr:</b> {summ['start_date']} — {summ['end_date']}\n"
-                                    f"• <b>Kanalga joylangan:</b> {summ['posted']} ta ✅\n"
-                                    f"• <b>Navbatda kutilayotgan:</b> {summ['pending']} ta ⏳\n\n"
-                                    f"👇 <b>Batafsil ko'rish va boshqarish uchun kunni tanlang:</b>"
-                                )
-                                kb = {
-                                    "inline_keyboard": day_btns + [
-                                        [{"text": "🔄 Yangi 1 Haftalik Reja Tuzish", "callback_data": "app_tg_plan_week"}],
-                                        [{"text": "🛑 Rejani Bekor Qilish", "callback_data": "app_tg_cancel_plan"}],
-                                        [{"text": "⬅️ Telegram Menyusiga", "callback_data": "app_menu_tg"}]
-                                    ]
-                                }
-                                self.client.send_message(from_user, cal_msg, reply_markup=kb)
+                            self.show_telegram_calendar(from_user)
 
                         elif data.startswith("app_tg_day_"):
                             d_idx = int(data.replace("app_tg_day_", ""))
@@ -1350,6 +1364,9 @@ class AdminApprovalBot:
                             # Menu selections
                             if text in ["/start", "/menu", "❓ Yordam / Menyu"]:
                                 self.send_main_menu(chat_id, welcome=True)
+
+                            elif text in ["🗓️ 1 Haftalik Reja & Takvim", "takvim", "reja", "haftalik reja"]:
+                                self.show_telegram_calendar(chat_id)
 
                             elif text in ["🌐 Ilovalar Hubi (5 Ta Tarmoq)", "🌐 Ilovalar Hubi (Twitter / Insta / TG)"]:
                                 self.prompt_apps_hub(chat_id)
