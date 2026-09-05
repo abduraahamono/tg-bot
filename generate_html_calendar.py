@@ -1,20 +1,18 @@
+#!/usr/bin/env python3
 import json
 from pathlib import Path
 
-plan_file = Path("brain_data/scheduled_telegram_posts.json")
-if not plan_file.exists():
-    from engine.content_generator import ContentGenerator
-    cg = ContentGenerator()
-    plan = cg.generate_weekly_telegram_plan()
-    from engine.telegram_scheduler import TelegramScheduler
-    ts = TelegramScheduler()
-    ts.save_weekly_plan(plan)
-else:
-    with open(plan_file, "r", encoding="utf-8") as f:
-        plan = json.load(f)
+POSTS_FILE = Path("brain_data/scheduled_telegram_posts.json")
+
+if not POSTS_FILE.exists():
+    print("Xato: scheduled_telegram_posts.json topilmadi")
+    exit(1)
+
+with open(POSTS_FILE, "r", encoding="utf-8") as f:
+    plan = json.load(f)
 
 posts = plan.get("posts", [])
-posts_json_str = json.dumps(posts, ensure_ascii=False)
+posts_json = json.dumps(posts, ensure_ascii=False)
 
 html = f"""<!DOCTYPE html>
 <html lang="uz">
@@ -98,11 +96,9 @@ html = f"""<!DOCTYPE html>
     border: 1px solid var(--border);
     border-radius: 14px;
     padding: 18px 16px;
-    transition: all 0.2s ease;
-  }}
-  .day-col:hover {{
-    border-color: rgba(42, 171, 238, 0.4);
-    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
   }}
   .day-header {{
     display: flex;
@@ -110,10 +106,9 @@ html = f"""<!DOCTYPE html>
     align-items: center;
     padding-bottom: 12px;
     border-bottom: 1px solid var(--border);
-    margin-bottom: 14px;
   }}
   .day-name {{
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 700;
     color: #fff;
   }}
@@ -122,75 +117,76 @@ html = f"""<!DOCTYPE html>
     color: var(--text-muted);
     font-family: 'JetBrains Mono', monospace;
   }}
+  
   .slot-card {{
-    background: var(--bg);
+    background: rgba(255,255,255,0.02);
     border: 1px solid var(--border);
     border-radius: 10px;
-    padding: 12px 14px;
-    margin-bottom: 12px;
+    padding: 14px;
     cursor: pointer;
-    transition: all 0.2s;
-    position: relative;
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
   }}
-  .slot-card:last-child {{ margin-bottom: 0; }}
   .slot-card:hover {{
     background: var(--surface-hover);
     border-color: var(--primary);
     transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(42,171,238,0.12);
   }}
   .slot-meta {{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 8px;
   }}
   .time-badge {{
     font-size: 11px;
-    font-weight: 700;
+    font-weight: 600;
     font-family: 'JetBrains Mono', monospace;
     padding: 3px 8px;
     border-radius: 6px;
-    background: rgba(42, 171, 238, 0.12);
+    background: rgba(42,171,238,0.15);
     color: var(--primary);
-    border: 1px solid rgba(42, 171, 238, 0.3);
   }}
   .cat-badge {{
-    font-size: 10.5px;
-    font-weight: 600;
-    padding: 2px 7px;
-    border-radius: 6px;
-    background: rgba(255,255,255,0.06);
+    font-size: 11px;
     color: var(--text-muted);
+    font-weight: 500;
+  }}
+  .card-pill {{
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: rgba(0, 210, 106, 0.15);
+    color: var(--accent);
+    font-weight: 600;
   }}
   .slot-topic {{
     font-size: 13px;
     font-weight: 600;
     line-height: 1.4;
-    color: var(--text-main);
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+    color: #e2e8f0;
   }}
   .click-hint {{
-    font-size: 10.5px;
+    font-size: 11px;
     color: var(--text-dim);
-    margin-top: 8px;
+    margin-top: 4px;
     display: flex;
     align-items: center;
     gap: 4px;
   }}
 
-  /* MODAL */
+  /* Modal */
   .modal-overlay {{
     position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.75);
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.75);
     backdrop-filter: blur(6px);
     display: none;
     align-items: center;
     justify-content: center;
-    z-index: 1000;
+    z-index: 9999;
     padding: 20px;
   }}
   .modal-overlay.active {{ display: flex; }}
@@ -199,7 +195,7 @@ html = f"""<!DOCTYPE html>
     border: 1px solid var(--border);
     border-radius: 16px;
     width: 100%;
-    max-width: 640px;
+    max-width: 680px;
     max-height: 90vh;
     display: flex;
     flex-direction: column;
@@ -212,15 +208,26 @@ html = f"""<!DOCTYPE html>
     justify-content: space-between;
     align-items: flex-start;
   }}
+  .modal-img-container {{
+    text-align: center;
+    padding: 16px 20px 0;
+  }}
+  .modal-img {{
+    max-height: 380px;
+    max-width: 100%;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+  }}
   .modal-body {{
-    padding: 22px;
+    padding: 20px;
     overflow-y: auto;
     font-size: 14px;
     line-height: 1.6;
     color: var(--text-main);
     white-space: pre-wrap;
     background: var(--bg);
-    margin: 16px 20px;
+    margin: 14px 20px;
     border-radius: 10px;
     border: 1px solid var(--border);
     font-family: inherit;
@@ -275,6 +282,7 @@ html = f"""<!DOCTYPE html>
   <div class="stats-bar">
     <div class="stat-pill">Davr: <b>{plan.get("start_date")} — {plan.get("end_date")}</b></div>
     <div class="stat-pill">Jami: <b>{len(posts)} ta post</b></div>
+    <div class="stat-pill">Dizayn Kartalari: <b style="color: var(--accent);">14/14 Tayyor 🖼️</b></div>
     <div class="stat-pill">Kanal: <b>@arkadasuz</b></div>
     <div class="stat-pill">Holat: <b style="color: var(--accent);">🟢 Faol Reja</b></div>
   </div>
@@ -288,28 +296,34 @@ html = f"""<!DOCTYPE html>
     <div class="modal-head">
       <div>
         <div style="font-size: 11px; color: var(--primary); font-weight: 700; margin-bottom: 4px;" id="modalSlot"></div>
-        <div style="font-size: 16px; font-weight: 700; color: #fff;" id="modalTitle"></div>
+        <div style="font-size: 17px; font-weight: 700; color: #fff;" id="modalTitle"></div>
       </div>
       <button class="close-btn" onclick="closeModalDirect()">&times;</button>
     </div>
+    
+    <div class="modal-img-container" id="modalImgBox" style="display: none;">
+      <img id="modalCardImg" class="modal-img" src="" alt="Dizayn Kartasi" />
+    </div>
+
     <div class="modal-body" id="modalContent"></div>
+
     <div class="modal-foot">
-      <div style="font-size: 12px; color: var(--text-muted);" id="modalCharCount"></div>
-      <div style="display:flex; gap:8px;">
-        <button class="btn btn-ghost" onclick="copyModalContent()">📋 Nusxa Olish</button>
-        <button class="btn btn-primary" onclick="closeModalDirect()">Yopish</button>
+      <span style="font-size: 12px; color: var(--text-dim);" id="modalCharCount"></span>
+      <div style="display: flex; gap: 8px;">
+        <button class="btn btn-primary" onclick="copyModalContent()">📋 Nusxa Olish</button>
+        <button class="btn btn-ghost" onclick="closeModalDirect()">Yopish</button>
       </div>
     </div>
   </div>
 </div>
 
 <script>
-const postsData = {posts_json_str};
+const postsData = {posts_json};
 
 function renderGrid() {{
   const grid = document.getElementById("grid");
   grid.innerHTML = "";
-  
+
   const daysMap = {{}};
   postsData.forEach((p, idx) => {{
     p._idx = idx;
@@ -326,14 +340,16 @@ function renderGrid() {{
     let slotsHtml = "";
     dayObj.posts.forEach(p => {{
       const timeStr = p.scheduled_time.split("T")[1].substring(0, 5);
+      const cardBadge = p.photo_path ? '<span class="card-pill">🖼️ Rasm bor</span>' : '';
       slotsHtml += `
         <div class="slot-card" onclick="openModal(${{p._idx}})">
           <div class="slot-meta">
             <span class="time-badge">⏰ ${{timeStr}}</span>
+            ${{cardBadge}}
             <span class="cat-badge">${{p.cat_tag || ""}}</span>
           </div>
           <div class="slot-topic">${{p.topic}}</div>
-          <div class="click-hint">👉 Ko'rish uchun bosing</div>
+          <div class="click-hint">👉 Karta va matnni ko'rish</div>
         </div>
       `;
     }});
@@ -357,6 +373,17 @@ function openModal(idx) {{
   document.getElementById("modalTitle").innerText = p.topic;
   document.getElementById("modalContent").innerHTML = p.content;
   document.getElementById("modalCharCount").innerText = `Uzunlik: ${{p.content.length}} belgi`;
+
+  const imgBox = document.getElementById("modalImgBox");
+  const imgEl = document.getElementById("modalCardImg");
+  if (p.photo_path) {{
+    const relPath = p.photo_path.replace("output/", "");
+    imgEl.src = relPath;
+    imgBox.style.display = "block";
+  }} else {{
+    imgBox.style.display = "none";
+  }}
+
   document.getElementById("modalOverlay").classList.add("active");
 }}
 
@@ -387,4 +414,4 @@ renderGrid();
 Path("output").mkdir(exist_ok=True)
 with open("output/telegram_calendar.html", "w", encoding="utf-8") as f:
     f.write(html)
-print("SUCCESS: output/telegram_calendar.html created!")
+print("SUCCESS: output/telegram_calendar.html created with visual cards preview!")

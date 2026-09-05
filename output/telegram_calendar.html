@@ -80,11 +80,9 @@
     border: 1px solid var(--border);
     border-radius: 14px;
     padding: 18px 16px;
-    transition: all 0.2s ease;
-  }
-  .day-col:hover {
-    border-color: rgba(42, 171, 238, 0.4);
-    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
   }
   .day-header {
     display: flex;
@@ -92,10 +90,9 @@
     align-items: center;
     padding-bottom: 12px;
     border-bottom: 1px solid var(--border);
-    margin-bottom: 14px;
   }
   .day-name {
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 700;
     color: #fff;
   }
@@ -104,75 +101,76 @@
     color: var(--text-muted);
     font-family: 'JetBrains Mono', monospace;
   }
+  
   .slot-card {
-    background: var(--bg);
+    background: rgba(255,255,255,0.02);
     border: 1px solid var(--border);
     border-radius: 10px;
-    padding: 12px 14px;
-    margin-bottom: 12px;
+    padding: 14px;
     cursor: pointer;
-    transition: all 0.2s;
-    position: relative;
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
   }
-  .slot-card:last-child { margin-bottom: 0; }
   .slot-card:hover {
     background: var(--surface-hover);
     border-color: var(--primary);
     transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(42,171,238,0.12);
   }
   .slot-meta {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 8px;
   }
   .time-badge {
     font-size: 11px;
-    font-weight: 700;
+    font-weight: 600;
     font-family: 'JetBrains Mono', monospace;
     padding: 3px 8px;
     border-radius: 6px;
-    background: rgba(42, 171, 238, 0.12);
+    background: rgba(42,171,238,0.15);
     color: var(--primary);
-    border: 1px solid rgba(42, 171, 238, 0.3);
   }
   .cat-badge {
-    font-size: 10.5px;
-    font-weight: 600;
-    padding: 2px 7px;
-    border-radius: 6px;
-    background: rgba(255,255,255,0.06);
+    font-size: 11px;
     color: var(--text-muted);
+    font-weight: 500;
+  }
+  .card-pill {
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: rgba(0, 210, 106, 0.15);
+    color: var(--accent);
+    font-weight: 600;
   }
   .slot-topic {
     font-size: 13px;
     font-weight: 600;
     line-height: 1.4;
-    color: var(--text-main);
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+    color: #e2e8f0;
   }
   .click-hint {
-    font-size: 10.5px;
+    font-size: 11px;
     color: var(--text-dim);
-    margin-top: 8px;
+    margin-top: 4px;
     display: flex;
     align-items: center;
     gap: 4px;
   }
 
-  /* MODAL */
+  /* Modal */
   .modal-overlay {
     position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.75);
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.75);
     backdrop-filter: blur(6px);
     display: none;
     align-items: center;
     justify-content: center;
-    z-index: 1000;
+    z-index: 9999;
     padding: 20px;
   }
   .modal-overlay.active { display: flex; }
@@ -181,7 +179,7 @@
     border: 1px solid var(--border);
     border-radius: 16px;
     width: 100%;
-    max-width: 640px;
+    max-width: 680px;
     max-height: 90vh;
     display: flex;
     flex-direction: column;
@@ -194,15 +192,26 @@
     justify-content: space-between;
     align-items: flex-start;
   }
+  .modal-img-container {
+    text-align: center;
+    padding: 16px 20px 0;
+  }
+  .modal-img {
+    max-height: 380px;
+    max-width: 100%;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+  }
   .modal-body {
-    padding: 22px;
+    padding: 20px;
     overflow-y: auto;
     font-size: 14px;
     line-height: 1.6;
     color: var(--text-main);
     white-space: pre-wrap;
     background: var(--bg);
-    margin: 16px 20px;
+    margin: 14px 20px;
     border-radius: 10px;
     border: 1px solid var(--border);
     font-family: inherit;
@@ -257,6 +266,7 @@
   <div class="stats-bar">
     <div class="stat-pill">Davr: <b>2026-09-05 — 2026-09-11</b></div>
     <div class="stat-pill">Jami: <b>14 ta post</b></div>
+    <div class="stat-pill">Dizayn Kartalari: <b style="color: var(--accent);">14/14 Tayyor 🖼️</b></div>
     <div class="stat-pill">Kanal: <b>@arkadasuz</b></div>
     <div class="stat-pill">Holat: <b style="color: var(--accent);">🟢 Faol Reja</b></div>
   </div>
@@ -270,28 +280,34 @@
     <div class="modal-head">
       <div>
         <div style="font-size: 11px; color: var(--primary); font-weight: 700; margin-bottom: 4px;" id="modalSlot"></div>
-        <div style="font-size: 16px; font-weight: 700; color: #fff;" id="modalTitle"></div>
+        <div style="font-size: 17px; font-weight: 700; color: #fff;" id="modalTitle"></div>
       </div>
       <button class="close-btn" onclick="closeModalDirect()">&times;</button>
     </div>
+    
+    <div class="modal-img-container" id="modalImgBox" style="display: none;">
+      <img id="modalCardImg" class="modal-img" src="" alt="Dizayn Kartasi" />
+    </div>
+
     <div class="modal-body" id="modalContent"></div>
+
     <div class="modal-foot">
-      <div style="font-size: 12px; color: var(--text-muted);" id="modalCharCount"></div>
-      <div style="display:flex; gap:8px;">
-        <button class="btn btn-ghost" onclick="copyModalContent()">📋 Nusxa Olish</button>
-        <button class="btn btn-primary" onclick="closeModalDirect()">Yopish</button>
+      <span style="font-size: 12px; color: var(--text-dim);" id="modalCharCount"></span>
+      <div style="display: flex; gap: 8px;">
+        <button class="btn btn-primary" onclick="copyModalContent()">📋 Nusxa Olish</button>
+        <button class="btn btn-ghost" onclick="closeModalDirect()">Yopish</button>
       </div>
     </div>
   </div>
 </div>
 
 <script>
-const postsData = [{"id": "tg_20260905_lun", "day_index": 1, "day_name": "Shanba", "date_str": "2026-09-05", "slot": "lunch", "slot_label": "☀️ Tushlik Posti (13:00)", "cat_tag": "💡 Til & Qabul Haqiqati", "scheduled_time": "2026-09-05T13:00:00", "topic": "TÖMER turk tili tayyorlov kursi: Qabul shartlari va 1 yillik til o'rganish haqiqati", "content": "📚 <b>TÖMER turk tili kursi: Til bilmasdan Turkiyada o'qish mumkinmi?</b>\n\nKo'plab abituriyentlar: <i>'Turk tilini bilmayman, qanday o'qiyman?'</i> deb xavotir olishadi. Aslida bu jarayon juda aniq va tizimli yo'lga qo'yilgan.\n\n📌 <b>Asosiy qoidalar va tartib:</b>\n• Universitetga qabul uchun tilni oldindan bilish shart emas. Siz shartli qabul (şartlı kabul) asosida ro'yxatdan o'tasiz.\n• 1-o'quv yili universitet huzuridagi rasmiy <b>TÖMER</b> markazida til o'rganishga bag'ishlanadi (A1 dan C1 darajagacha).\n• Turk tili o'zbek tiliga yaqin bo'lgani sababli, talabalar 3-4 oy ichida erkin so'zlashuv darajasiga yetishadi.\n• C1 sertifikatini olgach, to'g'ridan-to'g'ri 1-kurs asosiy mutaxassislik darslariga start beriladi.\n\n👉 <b>TÖMER shartlari va qabul bo'yicha maslahat:</b> @arkadasuzz\n#TurkiyadaTalim #TOMER #ArkadasUz", "status": "pending"}, {"id": "tg_20260905_eve", "day_index": 1, "day_name": "Shanba", "date_str": "2026-09-05", "slot": "evening", "slot_label": "🌆 Kechki Asosiy Post (19:30)", "cat_tag": "🛡️ Amaliy Hamrohlik", "scheduled_time": "2026-09-05T19:30:00", "topic": "Aeroportdan yotoqxonagacha: Turkiyaga ilk qadamda nimalar qilinadi?", "content": "🛡️ <b>Aeroportdan yotoqxonagacha: Turkiyaga ilk qadamda nimalar qilinadi?</b>\n\nFarzandini boshqa davlatga jo'natayotgan ota-ona uchun eng katta masala — uning begona shaharda qanday joylashishidir.\n\n✅ <b>Arkadaş Consulting amalda nimalarni ta'minlaydi?</b>\n• <b>Aeroportda kutib olish:</b> Talabani shaxsan kutib olamiz va oldindan band qilingan yotoqxonaga xavfsiz yetkazamiz.\n• <b>Mahalliy aloqa:</b> Ota-ona bilan uzluksiz bog'lanish uchun mos tarifdagi turk SIM-kartasini rasmiylashtiramiz.\n• <b>Bank hisobi:</b> Xalqaro to'lovlar va mablag' qabul qilish uchun Ziraat Bankası yoki Vakıfbank dan talabalik hisobi ochamiz.\n• <b>İkamet arizasi:</b> Qonuniy talabalik yashash guvohnomasi (İkamet) uchun hujjatlar to'liq tayyorlanib, topshiriladi.\n\n👉 <b>Ota-onalar uchun bepul ma'lumot:</b> @arkadasuzz\n#OtaOnalarUchun #XavfsizTalabalik #ArkadasUz", "status": "pending"}, {"id": "tg_20260906_lun", "day_index": 2, "day_name": "Yakshanba", "date_str": "2026-09-06", "slot": "lunch", "slot_label": "☀️ Tushlik Posti (13:00)", "cat_tag": "📊 Real Xarajatlar Tahlili", "scheduled_time": "2026-09-06T13:00:00", "topic": "Turkiyada talaba oylik xarajatlari smetasi: Yotoqxona, ovqatlanish va transport", "content": "💰 <b>Turkiyada talaba oylik xarajatlari qancha? (Real smeta)</b>\n\nTurkiyada yashash xarajatlari MDH va Yevropa davlatlariga nisbatan sezilarli darajada hamyonbop:\n\n📌 <b>Oylik asosiy xarajatlar moddalari:</b>\n• 🏠 <b>Yotoqxona:</b> Davlat (KYK) yotoqxonalari oyiga 40-70$ (nonushta va kechki ovqat bepul), xususiy yotoqxonalar esa 150-250$ atrofida.\n• 🚌 <b>Shahar transporti:</b> Talaba kartasi (İstanbulkart) bilan har bir yurish 80% arzon (oyiga taxminan 8-12$).\n• 🍽️ <b>Ovqatlanish:</b> Universitet oshxonalarida 4 xil issiq taomli to'liq tushlik 1-1.5$ atrofida bo'ladi.\n• 🏥 <b>Tibbiy sug'urta (GSS):</b> Davlat shifoxonalarida bepul tibbiy xizmat olish imkonini beradi.\n\nO'rtacha 200-300$ oylik byudjet bilan talaba Turkiyada xotirjam yashashi mumkin.\n\n👉 <b>Shahar bo'yicha aniq smeta olish:</b> @arkadasuzz\n#XarajatlarSmetasi #TalabaHayoti #ArkadasUz", "status": "pending"}, {"id": "tg_20260906_eve", "day_index": 2, "day_name": "Yakshanba", "date_str": "2026-09-06", "slot": "evening", "slot_label": "🌆 Kechki Asosiy Post (19:30)", "cat_tag": "⚖️ Huquqiy Kafolat", "scheduled_time": "2026-09-06T19:30:00", "topic": "O'zbekistonda diplom tan olinishi: Denklik (Nostrifikatsiya) qonuniy mezonlari", "content": "⚖️ <b>Turkiya diplomi O'zbekistonda o'tadimi? (Denklik haqiqati)</b>\n\nKeling, O'zbekiston Bilimni baholash agentligi (Ta'lim inspeksiyasi) qonunchiligi asosida ochiq ko'rib chiqamiz:\n\n📌 <b>Nostrifikatsiyadan o'tishning 3 asosiy talabi:</b>\n1. <b>Universitet maqomi:</b> Oliygoh Turkiya Oliy Ta'lim Kengashi (YÖK) tomonidan akkreditatsiyadan o'tgan bo'lishi shart. Biz tavsiya etadigan barcha universitetlar YÖK tan olgan rasmiy oliygohlardir.\n2. <b>Ta'lim shakli:</b> O'qish kunduzgi (yuzma-yuz) shaklda o'tilishi lozim. Masofaviy diplomlar nostrifikatsiya qilinmaydi.\n3. <b>Apostil:</b> O'qish yakunida diplom va ilova rasman apostil qilinadi.\n\nArkadaş Consulting faqat O'zbekistonda 100% nostrifikatsiyadan o'tuvchi qonuniy dasturlarga yo'naltiradi!\n\n👉 <b>Universitetlar ro'yxatini tekshirish:</b> @arkadasuzz\n#Nostrifikatsiya #Denklik #QonuniyTalim #ArkadasUz", "status": "pending"}, {"id": "tg_20260907_lun", "day_index": 3, "day_name": "Dushanba", "date_str": "2026-09-07", "slot": "lunch", "slot_label": "☀️ Tushlik Posti (13:00)", "cat_tag": "🏛️ Qabul Strategiyasi", "scheduled_time": "2026-09-07T13:00:00", "topic": "Davlat va xususiy universitetlar: TR-YÖS imtihoni yoki attestat orqali qabul", "content": "🏛️ <b>Davlatmi yoki xususiy universitet? Qaysi biri sizga mos keladi?</b>\n\nTurkiyada oliy ta'lim tizimi ikki asosiy toifaga bo'linadi. Farqlarini to'g'ri bilish byudjetingizni tejaydi:\n\n🔹 <b>Davlat Universitetlari:</b>\n• Yillik kontrakt o'ta arzon: 300$ dan 1,200$ gacha.\n• Qabul: Asosan <b>TR-YÖS</b> imtihoni yoki yuqori baholi maktab attestati kvotasi asosida.\n• Katta talabalar shaharchalari (kampus) va kuchli akademik an'analar.\n\n🔹 <b>Xususiy (Vaqf) Universitetlari:</b>\n• Kontraktlar: 1,500$ dan 4,000$ gacha (Arkadaş orqali 50% maxsus chegirma mavjud).\n• Qabul: Imtihonsiz, faqat attestat yoki diplom baholari bilan to'g'ridan-to'g'ri.\n• Zamonaviy laboratoriyalar va xalqaro amaliyot imkoniyati keng.\n\n👉 <b>Baholaringizga mos oliygohni tanlash:</b> @arkadasuzz\n#UniversitetTanlovi #DavlatUniversiteti #ArkadasUz", "status": "pending"}, {"id": "tg_20260907_eve", "day_index": 3, "day_name": "Dushanba", "date_str": "2026-09-07", "slot": "evening", "slot_label": "🌆 Kechki Asosiy Post (19:30)", "cat_tag": "🤝 Shaffof Shartnoma", "scheduled_time": "2026-09-07T19:30:00", "topic": "Nega yuridik shartnoma muhim? Firibgarlardan himoyalaning", "content": "🤝 <b>Nega yuridik shartnoma muhim? O'zingizni firibgarlardan himoya qiling!</b>\n\nSo'nggi vaqtlarda 'Turkiyaga 1 kunda imtihonsiz kiritib qo'yaman' deb soxta va'dalar beruvchi vositachilar ko'paydi.\n\n📌 <b>Arkadaş Consulting bilan qanday kafolatlarga egasiz?</b>\n1. <b>Davlat litsenziyasi:</b> Faoliyatimiz qonuniy ro'yxatdan o'tgan.\n2. <b>Ikki tomonlama shartnoma:</b> Har bir talaba bilan yuridik kuchga ega rasmiy shartnoma imzolanadi va barcha majburiyatlar ochiq belgilanadi.\n3. <b>Xatosiz topshirish:</b> Hujjatlar xalqaro talablar asosida tayyorlanadi.\n4. <b>To'liq hamrohlik:</b> Viza jarayonidan tortib Turkiyada darslar boshlanguncha mutaxassislar nazoratida bo'lasiz.\n\nFarzandingiz kelajagini shaffof va ishonchli mutaxassislarga topshiring!\n\n👉 <b>Shartnoma shartlari bilan tanishish:</b> @arkadasuzz\n#Ishonch #YuridikKafolat #ArkadasUz", "status": "pending"}, {"id": "tg_20260908_lun", "day_index": 4, "day_name": "Seshanba", "date_str": "2026-09-08", "slot": "lunch", "slot_label": "☀️ Tushlik Posti (13:00)", "cat_tag": "🎯 Mutaxassislik Tahlili", "scheduled_time": "2026-09-08T13:00:00", "topic": "Eng talabgir sohalar: IT, Dasturlash, Muhandislik va Xalqaro Logistika", "content": "💻 <b>Turkiyada eng talabgir sohalar: Diplom bilan qanday ish topsa bo'ladi?</b>\n\nUniversitet tanlashda eng muhim narsa — 4 yildan keyin mehnat bozorida qaysi kasblarga talab yuqori bo'lishini hisobga olishdir.\n\n🚀 <b>O'zbek yoshlari uchun eng istiqbolli yo'nalishlar:</b>\n• <b>IT va Dasturiy ta'minot:</b> Texnoparklar orqali talabalik davridayoq xalqaro loyihalarda amaliyot o'tash imkoniyati.\n• <b>Mexatronika va Mashinasozlik:</b> Turkiya sanoat va avtomobilsozlikda Yevropaning yetakchi markazlaridan biridir.\n• <b>Xalqaro savdo va Logistika:</b> Yevropa va Osiyo o'rtasidagi yirik transport xabi. Bu soha mutaxassislariga O'zbekistonda ham talab juda yuqori.\n\n👉 <b>Qaysi sohalarda grantlar borligini bilish:</b> @arkadasuzz\n#KelajakKasblari #ITMutaxassis #TurkiyadaUqish #ArkadasUz", "status": "pending"}, {"id": "tg_20260908_eve", "day_index": 4, "day_name": "Seshanba", "date_str": "2026-09-08", "slot": "evening", "slot_label": "🌆 Kechki Asosiy Post (19:30)", "cat_tag": "🌍 Yevropa Imkoniyati", "scheduled_time": "2026-09-08T19:30:00", "topic": "Erasmus+ dasturi: Turkiyada o'qiyotib, 1 semestr Yevropada grant bilan bepul o'qish", "content": "🌍 <b>Turkiyada o'qib, Yevropada 1 semestr grant yutish siri (Erasmus+)</b>\n\nBilasizmi, Turkiya universitetlari Yevropa Ittifoqining <b>Erasmus+</b> talabalar almashinuv dasturining to'laqonli a'zosi hisoblanadi?\n\n📌 <b>Bu sizga nima beradi?</b>\n• 2 yoki 3-kursda a'lo baholarga o'qiyotgan talabalar Germaniya, Polsha, Italiya kabi davlatlarga 1 semestrga bepul o'qishga yuboriladi.\n• Yevropa Ittifoqi talabaning yashash xarajatlari uchun har oy <b>400€ dan 600€ gacha</b> bepul stipendiya to'laydi.\n• Yevropada o'qilgan fanlar Turkiya diplomingizga to'g'ridan-to'g'ri hisoblanadi.\n\nTurkiyada talaba bo'lish — butun Yevropa ta'lim eshiklarini ochish demakdir!\n\n👉 <b>Erasmus+ ga ega oliygohlar bo'yicha maslahat:</b> @arkadasuzz\n#Erasmus #YevropadaTalim #ArkadasUz", "status": "pending"}, {"id": "tg_20260909_lun", "day_index": 5, "day_name": "Chorshanba", "date_str": "2026-09-09", "slot": "lunch", "slot_label": "☀️ Tushlik Posti (13:00)", "cat_tag": "🏠 Turar-Joy Qo'llanmasi", "scheduled_time": "2026-09-09T13:00:00", "topic": "Yotoqxonalar tahlili: Davlat (KYK), xususiy yotoqxona va talaba ijarasi", "content": "🏠 <b>Turkiyada qayerda yashash qulay? Yotoqxonalar haqida xolis ma'lumot</b>\n\nTurar-joy tanlash — o'qish samaradorligi va xavfsizligingizning muhim kafolatidir:\n\n1. <b>Davlat (KYK) yotoqxonalari:</b>\n• Oyiga 30-50$ atrofida. Nonushta va kechki issiq ovqat bepul beriladi. Xavfsizlik 24/7 ta'minlangan.\n• <i>Haqiqat:</i> Chet elliklar uchun kvota cheklangan, arizani erta topshirish shart.\n\n2. <b>Xususiy talabalar yotoqxonalari:</b>\n• Narxi: oyiga 150$ dan 250$ gacha. Kir yuvish, Wi-Fi va darsxona bilan jihozlangan shinam xonalar.\n\n3. <b>Do'stlar bilan ijara xonadon:</b>\n• 2-3 nafar do'stlar 2 xonali uy ijaraga olishsa, kishi boshiga 100-150$ to'g'ri keladi.\n\n👉 <b>Xavfsiz yotoqxona band qilish bo'yicha yordam:</b> @arkadasuzz\n#Yotoqxona #KYK #TalabalarTurarJoyi #ArkadasUz", "status": "pending"}, {"id": "tg_20260909_eve", "day_index": 5, "day_name": "Chorshanba", "date_str": "2026-09-09", "slot": "evening", "slot_label": "🌆 Kechki Asosiy Post (19:30)", "cat_tag": "📋 Birinchi 30 Kun", "scheduled_time": "2026-09-09T19:30:00", "topic": "Turkiyaga yetib borgach birinchi 30 kunda qilinadigan 4 ta muhim vazifa", "content": "📋 <b>Turkiyaga yetib borgach birinchi 30 kunda nimalar qilinadi?</b>\n\nYangi muhitga tez va qonuniy moslashish uchun ushbu 4 ta bosqichni o'z vaqtida bajarish shart:\n\n1️⃣ <b>Universitetda yakuniy ro'yxatdan o'tish (Kesin Kayıt):</b> Asl hujjatlar topshirilib, talabalik guvohnomasi (Öğrenci Belgesi) olinadi.\n2️⃣ <b>İkamet arizasi:</b> Göç İdaresi portalida qonuniy talabalik yashash ruxsatnomasiga ariza to'ldiriladi.\n3️⃣ <b>GSS Tibbiy sug'urtasi:</b> Davlat talaba sug'urtasiga a'zo bo'linadi va bepul shifoxona xizmati faollashadi.\n4️⃣ <b>Talaba transport kartasi:</b> Universitet ma'lumotnomasi bilan chegirmali shahar kartasi olinadi.\n\nArkadaş Consulting talabalari bu jarayonlarning hech birida yolg'iz qolmaydi — koordinatorimiz barchasini birga bajaradi.\n\n👉 <b>Batafsil konsultatsiya:</b> @arkadasuzz\n#TalabaHayoti #Maslahatlar #ArkadasUz", "status": "pending"}, {"id": "tg_20260910_lun", "day_index": 6, "day_name": "Payshanba", "date_str": "2026-09-10", "slot": "lunch", "slot_label": "☀️ Tushlik Posti (13:00)", "cat_tag": "🌟 Talaba Tajribasi", "scheduled_time": "2026-09-10T13:00:00", "topic": "Til bilmasdan borib, 1-kursni a'lo baholarga tugatgan talabamiz tajribasi", "content": "🌟 <b>'Boshida juda qo'rqqan edim, hozir esa guruh sardoriman' — Talabamiz hikoyasi</b>\n\nSamarqandlik talabamiz Javohir o'tgan yili maktabni bitirib, Turkiya davlat universitetining Logistika yo'nalishiga qabul qilindi.\n\n📌 <b>Javohirning tajribasi:</b>\n• <i>'Turk tilini umuman bilmas edim. Qabul xatini olganimda quvonganim bilan, Turkiyada qanday o'qiyman deb juda xavotirda edim.'</i>\n• <i>'TÖMER kursida 1-oydayoq kundalik so'zlarni tushuna boshladim. O'qituvchilar chet ellik talabalarga juda sabr bilan, samimiy munosabatda bo'lishar ekan.'</i>\n• <i>'Arkadaş Consulting meni aeroportda kutib olib, yotoqxonaga joylashtirib berganida ota-onamning ko'ngli butunlay xotirjam bo'ldi.'</i>\n\nQat'iyat va to'g'ri yo'l-yo'riq bo'lsa, har qanday maqsadga erishish mumkin!\n\n👉 <b>Siz ham o'z yo'lingizni boshlang:</b> @arkadasuzz\n#MuvaffaqiyatTarixi #Talabalarimiz #ArkadasUz", "status": "pending"}, {"id": "tg_20260910_eve", "day_index": 6, "day_name": "Payshanba", "date_str": "2026-09-10", "slot": "evening", "slot_label": "🌆 Kechki Asosiy Post (19:30)", "cat_tag": "🏥 Tibbiy Himoya", "scheduled_time": "2026-09-10T19:30:00", "topic": "Turkiyada talabalar sog'lig'i: GSS davlat tibbiy sug'urtasi qanday ishlaydi?", "content": "🏥 <b>Turkiyada kasal bo'lib qolsa nima bo'ladi? Tibbiy sug'urta haqiqati</b>\n\nOta-onalarni eng ko'p o'ylantiradigan masalalardan biri — farzandining begona yurtda sog'lig'i va tibbiy yordam olish imkoniyatidir.\n\n📌 <b>Turkiyada talabalik tibbiy tizimi:</b>\n• Har bir qonuniy xalqaro talaba <b>Genel Sağlık Sigortası (GSS)</b> davlat umumiy sog'liq sug'urtasiga ega bo'lish huquqiga ega.\n• Ushbu sug'urta bilan talaba barcha davlat shifoxonalarida, poliklinikalarda va universitet klinikasida <b>bepul ko'rik va davolanish</b> oladi.\n• Shifokor yozib bergan dori-darmonlarga 80-90% gacha chegirma beriladi.\n• Tez tibbiy yordam (112) hamma uchun bepul.\n\nFarzandingiz Turkiyada doimo qonuniy va tibbiy himoya ostida bo'ladi!\n\n👉 <b>Batafsil ma'lumot olish:</b> @arkadasuzz\n#TibbiySugurta #GSS #XavfsizTalabalik #ArkadasUz", "status": "pending"}, {"id": "tg_20260911_lun", "day_index": 7, "day_name": "Juma", "date_str": "2026-09-11", "slot": "lunch", "slot_label": "☀️ Tushlik Posti (13:00)", "cat_tag": "💳 To'lovlar Tartibi", "scheduled_time": "2026-09-11T13:00:00", "topic": "Kontrakt to'lovlari qachon va qanday amalga oshiriladi? Bo'lib to'lash tartibi", "content": "💳 <b>Universitet kontraktlari qanday to'lanadi? 1 yillik birdan to'lanadimi?</b>\n\nAbituriyentlarimizdan tez-tez so'raladigan muhim moliyaviy savolga aniq javob beramiz:\n\n📌 <b>To'lov tizimining asosiy qoidalari:</b>\n• Turkiyada deyarli barcha davlat va xususiy universitetlarda kontrakt to'lovi <b>semestrma-semestr (yiliga 2 ga bo'lib)</b> to'lanadi.\n• 1-semestr to'lovi kuzgi ro'yxatdan o'tishda (sentyabr-oktyabr), 2-semestr to'lovi fevral-mart oylarida amalga oshiriladi.\n• To'lov to'g'ridan-to'g'ri universitetning rasmiy davlat bank hisob raqamiga (IBAN) talabaning o'z nomidan o'tkaziladi. Hech kimning qo'liga berilmaydi.\n• Xususiy oliygohlarda esa 4-8 oylik bo'lib to'lash imkoniyatlari mavjud.\n\nShaffoflik va to'g'ri moliya — talabalik xotirjamligining asosi!\n\n👉 <b>Fakultetingiz bo'yicha kontrakt narxini bilish:</b> @arkadasuzz\n#KontraktNarxlari #Moliya #ArkadasUz", "status": "pending"}, {"id": "tg_20260911_eve", "day_index": 7, "day_name": "Juma", "date_str": "2026-09-11", "slot": "evening", "slot_label": "🌆 Kechki Asosiy Post (19:30)", "cat_tag": "❓ Haftalik Savol-Javob", "scheduled_time": "2026-09-11T19:30:00", "topic": "Haftalik ochiq savol-javob: Abituriyentlar eng ko'p beradigan 4 savolga javob", "content": "❓ <b>Hafta savol-javobi: Abituriyentlar eng ko'p so'ragan 4 savolga javob</b>\n\nHafta davomida kelib tushgan yuzlab savollardan eng muhimlarini jamladik:\n\n1️⃣ <b>Attestat bahosi qanchalik muhim?</b>\n— O'rtacha 4 yoki 5 baholi attestat bilan Turkiyadagi nufuzli davlat va xususiy universitetlarga ariza topshirish mumkin.\n2️⃣ <b>Yoshi 25 dan oshganlar topshira oladimi?</b>\n— Ha, bakalavr yoki magistratura uchun yosh cheklovi yo'q, hamma topshirishi mumkin.\n3️⃣ <b>Darslar qaysi tilda o'tiladi?</b>\n— Tanlovingizga qarab: 100% turk tili yoki 100% ingliz tili bo'lgan dasturlar mavjud.\n4️⃣ <b>Hujjat topshirishni qachon boshlash kerak?</b>\n— Joylar va arzon kvotalar tez to'lishi sababli hozirdan boshlash maqsadga muvofiq.\n\n👉 <b>Shaxsiy savolingizni berish uchun:</b> @arkadasuzz\n#SavolJavob #Abituriyent2025 #ArkadasUz", "status": "pending"}];
+const postsData = [{"id": "tg_20260905_lun", "day_index": 1, "day_name": "Shanba", "date_str": "2026-09-05", "slot": "lunch", "slot_label": "☀️ Tushlik Posti (13:00)", "cat_tag": "💡 Til & Qabul Haqiqati", "scheduled_time": "2026-09-05T13:00:00", "topic": "TÖMER turk tili tayyorlov kursi: Qabul shartlari va 1 yillik til o'rganish haqiqati", "content": "📚 <b>TÖMER turk tili kursi: Til bilmasdan Turkiyada o'qish mumkinmi?</b>\n\nKo'plab abituriyentlar: <i>'Turk tilini bilmayman, qanday o'qiyman?'</i> deb xavotir olishadi. Aslida bu jarayon juda aniq va tizimli yo'lga qo'yilgan.\n\n📌 <b>Asosiy qoidalar va tartib:</b>\n• Universitetga qabul uchun tilni oldindan bilish shart emas. Siz shartli qabul (şartlı kabul) asosida ro'yxatdan o'tasiz.\n• 1-o'quv yili universitet huzuridagi rasmiy <b>TÖMER</b> markazida til o'rganishga bag'ishlanadi (A1 dan C1 darajagacha).\n• Turk tili o'zbek tiliga yaqin bo'lgani sababli, talabalar 3-4 oy ichida erkin so'zlashuv darajasiga yetishadi.\n• C1 sertifikatini olgach, to'g'ridan-to'g'ri 1-kurs asosiy mutaxassislik darslariga start beriladi.\n\n👉 <b>TÖMER shartlari va qabul bo'yicha maslahat:</b> @arkadasuzz\n#TurkiyadaTalim #TOMER #ArkadasUz", "status": "pending", "photo_path": "output/cards/card_tg_20260905_lun.png"}, {"id": "tg_20260905_eve", "day_index": 1, "day_name": "Shanba", "date_str": "2026-09-05", "slot": "evening", "slot_label": "🌆 Kechki Asosiy Post (19:30)", "cat_tag": "🛡️ Amaliy Hamrohlik", "scheduled_time": "2026-09-05T19:30:00", "topic": "Aeroportdan yotoqxonagacha: Turkiyaga ilk qadamda nimalar qilinadi?", "content": "🛡️ <b>Aeroportdan yotoqxonagacha: Turkiyaga ilk qadamda nimalar qilinadi?</b>\n\nFarzandini boshqa davlatga jo'natayotgan ota-ona uchun eng katta masala — uning begona shaharda qanday joylashishidir.\n\n✅ <b>Arkadaş Consulting amalda nimalarni ta'minlaydi?</b>\n• <b>Aeroportda kutib olish:</b> Talabani shaxsan kutib olamiz va oldindan band qilingan yotoqxonaga xavfsiz yetkazamiz.\n• <b>Mahalliy aloqa:</b> Ota-ona bilan uzluksiz bog'lanish uchun mos tarifdagi turk SIM-kartasini rasmiylashtiramiz.\n• <b>Bank hisobi:</b> Xalqaro to'lovlar va mablag' qabul qilish uchun Ziraat Bankası yoki Vakıfbank dan talabalik hisobi ochamiz.\n• <b>İkamet arizasi:</b> Qonuniy talabalik yashash guvohnomasi (İkamet) uchun hujjatlar to'liq tayyorlanib, topshiriladi.\n\n👉 <b>Ota-onalar uchun bepul ma'lumot:</b> @arkadasuzz\n#OtaOnalarUchun #XavfsizTalabalik #ArkadasUz", "status": "pending", "photo_path": "output/cards/card_tg_20260905_eve.png"}, {"id": "tg_20260906_lun", "day_index": 2, "day_name": "Yakshanba", "date_str": "2026-09-06", "slot": "lunch", "slot_label": "☀️ Tushlik Posti (13:00)", "cat_tag": "📊 Real Xarajatlar Tahlili", "scheduled_time": "2026-09-06T13:00:00", "topic": "Turkiyada talaba oylik xarajatlari smetasi: Yotoqxona, ovqatlanish va transport", "content": "💰 <b>Turkiyada talaba oylik xarajatlari qancha? (Real smeta)</b>\n\nTurkiyada yashash xarajatlari MDH va Yevropa davlatlariga nisbatan sezilarli darajada hamyonbop:\n\n📌 <b>Oylik asosiy xarajatlar moddalari:</b>\n• 🏠 <b>Yotoqxona:</b> Davlat (KYK) yotoqxonalari oyiga 40-70$ (nonushta va kechki ovqat bepul), xususiy yotoqxonalar esa 150-250$ atrofida.\n• 🚌 <b>Shahar transporti:</b> Talaba kartasi (İstanbulkart) bilan har bir yurish 80% arzon (oyiga taxminan 8-12$).\n• 🍽️ <b>Ovqatlanish:</b> Universitet oshxonalarida 4 xil issiq taomli to'liq tushlik 1-1.5$ atrofida bo'ladi.\n• 🏥 <b>Tibbiy sug'urta (GSS):</b> Davlat shifoxonalarida bepul tibbiy xizmat olish imkonini beradi.\n\nO'rtacha 200-300$ oylik byudjet bilan talaba Turkiyada xotirjam yashashi mumkin.\n\n👉 <b>Shahar bo'yicha aniq smeta olish:</b> @arkadasuzz\n#XarajatlarSmetasi #TalabaHayoti #ArkadasUz", "status": "pending", "photo_path": "output/cards/card_tg_20260906_lun.png"}, {"id": "tg_20260906_eve", "day_index": 2, "day_name": "Yakshanba", "date_str": "2026-09-06", "slot": "evening", "slot_label": "🌆 Kechki Asosiy Post (19:30)", "cat_tag": "⚖️ Huquqiy Kafolat", "scheduled_time": "2026-09-06T19:30:00", "topic": "O'zbekistonda diplom tan olinishi: Denklik (Nostrifikatsiya) qonuniy mezonlari", "content": "⚖️ <b>Turkiya diplomi O'zbekistonda o'tadimi? (Denklik haqiqati)</b>\n\nKeling, O'zbekiston Bilimni baholash agentligi (Ta'lim inspeksiyasi) qonunchiligi asosida ochiq ko'rib chiqamiz:\n\n📌 <b>Nostrifikatsiyadan o'tishning 3 asosiy talabi:</b>\n1. <b>Universitet maqomi:</b> Oliygoh Turkiya Oliy Ta'lim Kengashi (YÖK) tomonidan akkreditatsiyadan o'tgan bo'lishi shart. Biz tavsiya etadigan barcha universitetlar YÖK tan olgan rasmiy oliygohlardir.\n2. <b>Ta'lim shakli:</b> O'qish kunduzgi (yuzma-yuz) shaklda o'tilishi lozim. Masofaviy diplomlar nostrifikatsiya qilinmaydi.\n3. <b>Apostil:</b> O'qish yakunida diplom va ilova rasman apostil qilinadi.\n\nArkadaş Consulting faqat O'zbekistonda 100% nostrifikatsiyadan o'tuvchi qonuniy dasturlarga yo'naltiradi!\n\n👉 <b>Universitetlar ro'yxatini tekshirish:</b> @arkadasuzz\n#Nostrifikatsiya #Denklik #QonuniyTalim #ArkadasUz", "status": "pending", "photo_path": "output/cards/card_tg_20260906_eve.png"}, {"id": "tg_20260907_lun", "day_index": 3, "day_name": "Dushanba", "date_str": "2026-09-07", "slot": "lunch", "slot_label": "☀️ Tushlik Posti (13:00)", "cat_tag": "🏛️ Qabul Strategiyasi", "scheduled_time": "2026-09-07T13:00:00", "topic": "Davlat va xususiy universitetlar: TR-YÖS imtihoni yoki attestat orqali qabul", "content": "🏛️ <b>Davlatmi yoki xususiy universitet? Qaysi biri sizga mos keladi?</b>\n\nTurkiyada oliy ta'lim tizimi ikki asosiy toifaga bo'linadi. Farqlarini to'g'ri bilish byudjetingizni tejaydi:\n\n🔹 <b>Davlat Universitetlari:</b>\n• Yillik kontrakt o'ta arzon: 300$ dan 1,200$ gacha.\n• Qabul: Asosan <b>TR-YÖS</b> imtihoni yoki yuqori baholi maktab attestati kvotasi asosida.\n• Katta talabalar shaharchalari (kampus) va kuchli akademik an'analar.\n\n🔹 <b>Xususiy (Vaqf) Universitetlari:</b>\n• Kontraktlar: 1,500$ dan 4,000$ gacha (Arkadaş orqali 50% maxsus chegirma mavjud).\n• Qabul: Imtihonsiz, faqat attestat yoki diplom baholari bilan to'g'ridan-to'g'ri.\n• Zamonaviy laboratoriyalar va xalqaro amaliyot imkoniyati keng.\n\n👉 <b>Baholaringizga mos oliygohni tanlash:</b> @arkadasuzz\n#UniversitetTanlovi #DavlatUniversiteti #ArkadasUz", "status": "pending", "photo_path": "output/cards/card_tg_20260907_lun.png"}, {"id": "tg_20260907_eve", "day_index": 3, "day_name": "Dushanba", "date_str": "2026-09-07", "slot": "evening", "slot_label": "🌆 Kechki Asosiy Post (19:30)", "cat_tag": "🤝 Shaffof Shartnoma", "scheduled_time": "2026-09-07T19:30:00", "topic": "Nega yuridik shartnoma muhim? Firibgarlardan himoyalaning", "content": "🤝 <b>Nega yuridik shartnoma muhim? O'zingizni firibgarlardan himoya qiling!</b>\n\nSo'nggi vaqtlarda 'Turkiyaga 1 kunda imtihonsiz kiritib qo'yaman' deb soxta va'dalar beruvchi vositachilar ko'paydi.\n\n📌 <b>Arkadaş Consulting bilan qanday kafolatlarga egasiz?</b>\n1. <b>Davlat litsenziyasi:</b> Faoliyatimiz qonuniy ro'yxatdan o'tgan.\n2. <b>Ikki tomonlama shartnoma:</b> Har bir talaba bilan yuridik kuchga ega rasmiy shartnoma imzolanadi va barcha majburiyatlar ochiq belgilanadi.\n3. <b>Xatosiz topshirish:</b> Hujjatlar xalqaro talablar asosida tayyorlanadi.\n4. <b>To'liq hamrohlik:</b> Viza jarayonidan tortib Turkiyada darslar boshlanguncha mutaxassislar nazoratida bo'lasiz.\n\nFarzandingiz kelajagini shaffof va ishonchli mutaxassislarga topshiring!\n\n👉 <b>Shartnoma shartlari bilan tanishish:</b> @arkadasuzz\n#Ishonch #YuridikKafolat #ArkadasUz", "status": "pending", "photo_path": "output/cards/card_tg_20260907_eve.png"}, {"id": "tg_20260908_lun", "day_index": 4, "day_name": "Seshanba", "date_str": "2026-09-08", "slot": "lunch", "slot_label": "☀️ Tushlik Posti (13:00)", "cat_tag": "🎯 Mutaxassislik Tahlili", "scheduled_time": "2026-09-08T13:00:00", "topic": "Eng talabgir sohalar: IT, Dasturlash, Muhandislik va Xalqaro Logistika", "content": "💻 <b>Turkiyada eng talabgir sohalar: Diplom bilan qanday ish topsa bo'ladi?</b>\n\nUniversitet tanlashda eng muhim narsa — 4 yildan keyin mehnat bozorida qaysi kasblarga talab yuqori bo'lishini hisobga olishdir.\n\n🚀 <b>O'zbek yoshlari uchun eng istiqbolli yo'nalishlar:</b>\n• <b>IT va Dasturiy ta'minot:</b> Texnoparklar orqali talabalik davridayoq xalqaro loyihalarda amaliyot o'tash imkoniyati.\n• <b>Mexatronika va Mashinasozlik:</b> Turkiya sanoat va avtomobilsozlikda Yevropaning yetakchi markazlaridan biridir.\n• <b>Xalqaro savdo va Logistika:</b> Yevropa va Osiyo o'rtasidagi yirik transport xabi. Bu soha mutaxassislariga O'zbekistonda ham talab juda yuqori.\n\n👉 <b>Qaysi sohalarda grantlar borligini bilish:</b> @arkadasuzz\n#KelajakKasblari #ITMutaxassis #TurkiyadaUqish #ArkadasUz", "status": "pending", "photo_path": "output/cards/card_tg_20260908_lun.png"}, {"id": "tg_20260908_eve", "day_index": 4, "day_name": "Seshanba", "date_str": "2026-09-08", "slot": "evening", "slot_label": "🌆 Kechki Asosiy Post (19:30)", "cat_tag": "🌍 Yevropa Imkoniyati", "scheduled_time": "2026-09-08T19:30:00", "topic": "Erasmus+ dasturi: Turkiyada o'qiyotib, 1 semestr Yevropada grant bilan bepul o'qish", "content": "🌍 <b>Turkiyada o'qib, Yevropada 1 semestr grant yutish siri (Erasmus+)</b>\n\nBilasizmi, Turkiya universitetlari Yevropa Ittifoqining <b>Erasmus+</b> talabalar almashinuv dasturining to'laqonli a'zosi hisoblanadi?\n\n📌 <b>Bu sizga nima beradi?</b>\n• 2 yoki 3-kursda a'lo baholarga o'qiyotgan talabalar Germaniya, Polsha, Italiya kabi davlatlarga 1 semestrga bepul o'qishga yuboriladi.\n• Yevropa Ittifoqi talabaning yashash xarajatlari uchun har oy <b>400€ dan 600€ gacha</b> bepul stipendiya to'laydi.\n• Yevropada o'qilgan fanlar Turkiya diplomingizga to'g'ridan-to'g'ri hisoblanadi.\n\nTurkiyada talaba bo'lish — butun Yevropa ta'lim eshiklarini ochish demakdir!\n\n👉 <b>Erasmus+ ga ega oliygohlar bo'yicha maslahat:</b> @arkadasuzz\n#Erasmus #YevropadaTalim #ArkadasUz", "status": "pending", "photo_path": "output/cards/card_tg_20260908_eve.png"}, {"id": "tg_20260909_lun", "day_index": 5, "day_name": "Chorshanba", "date_str": "2026-09-09", "slot": "lunch", "slot_label": "☀️ Tushlik Posti (13:00)", "cat_tag": "🏠 Turar-Joy Qo'llanmasi", "scheduled_time": "2026-09-09T13:00:00", "topic": "Yotoqxonalar tahlili: Davlat (KYK), xususiy yotoqxona va talaba ijarasi", "content": "🏠 <b>Turkiyada qayerda yashash qulay? Yotoqxonalar haqida xolis ma'lumot</b>\n\nTurar-joy tanlash — o'qish samaradorligi va xavfsizligingizning muhim kafolatidir:\n\n1. <b>Davlat (KYK) yotoqxonalari:</b>\n• Oyiga 30-50$ atrofida. Nonushta va kechki issiq ovqat bepul beriladi. Xavfsizlik 24/7 ta'minlangan.\n• <i>Haqiqat:</i> Chet elliklar uchun kvota cheklangan, arizani erta topshirish shart.\n\n2. <b>Xususiy talabalar yotoqxonalari:</b>\n• Narxi: oyiga 150$ dan 250$ gacha. Kir yuvish, Wi-Fi va darsxona bilan jihozlangan shinam xonalar.\n\n3. <b>Do'stlar bilan ijara xonadon:</b>\n• 2-3 nafar do'stlar 2 xonali uy ijaraga olishsa, kishi boshiga 100-150$ to'g'ri keladi.\n\n👉 <b>Xavfsiz yotoqxona band qilish bo'yicha yordam:</b> @arkadasuzz\n#Yotoqxona #KYK #TalabalarTurarJoyi #ArkadasUz", "status": "pending", "photo_path": "output/cards/card_tg_20260909_lun.png"}, {"id": "tg_20260909_eve", "day_index": 5, "day_name": "Chorshanba", "date_str": "2026-09-09", "slot": "evening", "slot_label": "🌆 Kechki Asosiy Post (19:30)", "cat_tag": "📋 Birinchi 30 Kun", "scheduled_time": "2026-09-09T19:30:00", "topic": "Turkiyaga yetib borgach birinchi 30 kunda qilinadigan 4 ta muhim vazifa", "content": "📋 <b>Turkiyaga yetib borgach birinchi 30 kunda nimalar qilinadi?</b>\n\nYangi muhitga tez va qonuniy moslashish uchun ushbu 4 ta bosqichni o'z vaqtida bajarish shart:\n\n1️⃣ <b>Universitetda yakuniy ro'yxatdan o'tish (Kesin Kayıt):</b> Asl hujjatlar topshirilib, talabalik guvohnomasi (Öğrenci Belgesi) olinadi.\n2️⃣ <b>İkamet arizasi:</b> Göç İdaresi portalida qonuniy talabalik yashash ruxsatnomasiga ariza to'ldiriladi.\n3️⃣ <b>GSS Tibbiy sug'urtasi:</b> Davlat talaba sug'urtasiga a'zo bo'linadi va bepul shifoxona xizmati faollashadi.\n4️⃣ <b>Talaba transport kartasi:</b> Universitet ma'lumotnomasi bilan chegirmali shahar kartasi olinadi.\n\nArkadaş Consulting talabalari bu jarayonlarning hech birida yolg'iz qolmaydi — koordinatorimiz barchasini birga bajaradi.\n\n👉 <b>Batafsil konsultatsiya:</b> @arkadasuzz\n#TalabaHayoti #Maslahatlar #ArkadasUz", "status": "pending", "photo_path": "output/cards/card_tg_20260909_eve.png"}, {"id": "tg_20260910_lun", "day_index": 6, "day_name": "Payshanba", "date_str": "2026-09-10", "slot": "lunch", "slot_label": "☀️ Tushlik Posti (13:00)", "cat_tag": "🌟 Talaba Tajribasi", "scheduled_time": "2026-09-10T13:00:00", "topic": "Til bilmasdan borib, 1-kursni a'lo baholarga tugatgan talabamiz tajribasi", "content": "🌟 <b>'Boshida juda qo'rqqan edim, hozir esa guruh sardoriman' — Talabamiz hikoyasi</b>\n\nSamarqandlik talabamiz Javohir o'tgan yili maktabni bitirib, Turkiya davlat universitetining Logistika yo'nalishiga qabul qilindi.\n\n📌 <b>Javohirning tajribasi:</b>\n• <i>'Turk tilini umuman bilmas edim. Qabul xatini olganimda quvonganim bilan, Turkiyada qanday o'qiyman deb juda xavotirda edim.'</i>\n• <i>'TÖMER kursida 1-oydayoq kundalik so'zlarni tushuna boshladim. O'qituvchilar chet ellik talabalarga juda sabr bilan, samimiy munosabatda bo'lishar ekan.'</i>\n• <i>'Arkadaş Consulting meni aeroportda kutib olib, yotoqxonaga joylashtirib berganida ota-onamning ko'ngli butunlay xotirjam bo'ldi.'</i>\n\nQat'iyat va to'g'ri yo'l-yo'riq bo'lsa, har qanday maqsadga erishish mumkin!\n\n👉 <b>Siz ham o'z yo'lingizni boshlang:</b> @arkadasuzz\n#MuvaffaqiyatTarixi #Talabalarimiz #ArkadasUz", "status": "pending", "photo_path": "output/cards/card_tg_20260910_lun.png"}, {"id": "tg_20260910_eve", "day_index": 6, "day_name": "Payshanba", "date_str": "2026-09-10", "slot": "evening", "slot_label": "🌆 Kechki Asosiy Post (19:30)", "cat_tag": "🏥 Tibbiy Himoya", "scheduled_time": "2026-09-10T19:30:00", "topic": "Turkiyada talabalar sog'lig'i: GSS davlat tibbiy sug'urtasi qanday ishlaydi?", "content": "🏥 <b>Turkiyada kasal bo'lib qolsa nima bo'ladi? Tibbiy sug'urta haqiqati</b>\n\nOta-onalarni eng ko'p o'ylantiradigan masalalardan biri — farzandining begona yurtda sog'lig'i va tibbiy yordam olish imkoniyatidir.\n\n📌 <b>Turkiyada talabalik tibbiy tizimi:</b>\n• Har bir qonuniy xalqaro talaba <b>Genel Sağlık Sigortası (GSS)</b> davlat umumiy sog'liq sug'urtasiga ega bo'lish huquqiga ega.\n• Ushbu sug'urta bilan talaba barcha davlat shifoxonalarida, poliklinikalarda va universitet klinikasida <b>bepul ko'rik va davolanish</b> oladi.\n• Shifokor yozib bergan dori-darmonlarga 80-90% gacha chegirma beriladi.\n• Tez tibbiy yordam (112) hamma uchun bepul.\n\nFarzandingiz Turkiyada doimo qonuniy va tibbiy himoya ostida bo'ladi!\n\n👉 <b>Batafsil ma'lumot olish:</b> @arkadasuzz\n#TibbiySugurta #GSS #XavfsizTalabalik #ArkadasUz", "status": "pending", "photo_path": "output/cards/card_tg_20260910_eve.png"}, {"id": "tg_20260911_lun", "day_index": 7, "day_name": "Juma", "date_str": "2026-09-11", "slot": "lunch", "slot_label": "☀️ Tushlik Posti (13:00)", "cat_tag": "💳 To'lovlar Tartibi", "scheduled_time": "2026-09-11T13:00:00", "topic": "Kontrakt to'lovlari qachon va qanday amalga oshiriladi? Bo'lib to'lash tartibi", "content": "💳 <b>Universitet kontraktlari qanday to'lanadi? 1 yillik birdan to'lanadimi?</b>\n\nAbituriyentlarimizdan tez-tez so'raladigan muhim moliyaviy savolga aniq javob beramiz:\n\n📌 <b>To'lov tizimining asosiy qoidalari:</b>\n• Turkiyada deyarli barcha davlat va xususiy universitetlarda kontrakt to'lovi <b>semestrma-semestr (yiliga 2 ga bo'lib)</b> to'lanadi.\n• 1-semestr to'lovi kuzgi ro'yxatdan o'tishda (sentyabr-oktyabr), 2-semestr to'lovi fevral-mart oylarida amalga oshiriladi.\n• To'lov to'g'ridan-to'g'ri universitetning rasmiy davlat bank hisob raqamiga (IBAN) talabaning o'z nomidan o'tkaziladi. Hech kimning qo'liga berilmaydi.\n• Xususiy oliygohlarda esa 4-8 oylik bo'lib to'lash imkoniyatlari mavjud.\n\nShaffoflik va to'g'ri moliya — talabalik xotirjamligining asosi!\n\n👉 <b>Fakultetingiz bo'yicha kontrakt narxini bilish:</b> @arkadasuzz\n#KontraktNarxlari #Moliya #ArkadasUz", "status": "pending", "photo_path": "output/cards/card_tg_20260911_lun.png"}, {"id": "tg_20260911_eve", "day_index": 7, "day_name": "Juma", "date_str": "2026-09-11", "slot": "evening", "slot_label": "🌆 Kechki Asosiy Post (19:30)", "cat_tag": "❓ Haftalik Savol-Javob", "scheduled_time": "2026-09-11T19:30:00", "topic": "Haftalik ochiq savol-javob: Abituriyentlar eng ko'p beradigan 4 savolga javob", "content": "❓ <b>Hafta savol-javobi: Abituriyentlar eng ko'p so'ragan 4 savolga javob</b>\n\nHafta davomida kelib tushgan yuzlab savollardan eng muhimlarini jamladik:\n\n1️⃣ <b>Attestat bahosi qanchalik muhim?</b>\n— O'rtacha 4 yoki 5 baholi attestat bilan Turkiyadagi nufuzli davlat va xususiy universitetlarga ariza topshirish mumkin.\n2️⃣ <b>Yoshi 25 dan oshganlar topshira oladimi?</b>\n— Ha, bakalavr yoki magistratura uchun yosh cheklovi yo'q, hamma topshirishi mumkin.\n3️⃣ <b>Darslar qaysi tilda o'tiladi?</b>\n— Tanlovingizga qarab: 100% turk tili yoki 100% ingliz tili bo'lgan dasturlar mavjud.\n4️⃣ <b>Hujjat topshirishni qachon boshlash kerak?</b>\n— Joylar va arzon kvotalar tez to'lishi sababli hozirdan boshlash maqsadga muvofiq.\n\n👉 <b>Shaxsiy savolingizni berish uchun:</b> @arkadasuzz\n#SavolJavob #Abituriyent2025 #ArkadasUz", "status": "pending", "photo_path": "output/cards/card_tg_20260911_eve.png"}];
 
 function renderGrid() {
   const grid = document.getElementById("grid");
   grid.innerHTML = "";
-  
+
   const daysMap = {};
   postsData.forEach((p, idx) => {
     p._idx = idx;
@@ -308,14 +324,16 @@ function renderGrid() {
     let slotsHtml = "";
     dayObj.posts.forEach(p => {
       const timeStr = p.scheduled_time.split("T")[1].substring(0, 5);
+      const cardBadge = p.photo_path ? '<span class="card-pill">🖼️ Rasm bor</span>' : '';
       slotsHtml += `
         <div class="slot-card" onclick="openModal(${p._idx})">
           <div class="slot-meta">
             <span class="time-badge">⏰ ${timeStr}</span>
+            ${cardBadge}
             <span class="cat-badge">${p.cat_tag || ""}</span>
           </div>
           <div class="slot-topic">${p.topic}</div>
-          <div class="click-hint">👉 Ko'rish uchun bosing</div>
+          <div class="click-hint">👉 Karta va matnni ko'rish</div>
         </div>
       `;
     });
@@ -339,6 +357,17 @@ function openModal(idx) {
   document.getElementById("modalTitle").innerText = p.topic;
   document.getElementById("modalContent").innerHTML = p.content;
   document.getElementById("modalCharCount").innerText = `Uzunlik: ${p.content.length} belgi`;
+
+  const imgBox = document.getElementById("modalImgBox");
+  const imgEl = document.getElementById("modalCardImg");
+  if (p.photo_path) {
+    const relPath = p.photo_path.replace("output/", "");
+    imgEl.src = relPath;
+    imgBox.style.display = "block";
+  } else {
+    imgBox.style.display = "none";
+  }
+
   document.getElementById("modalOverlay").classList.add("active");
 }
 

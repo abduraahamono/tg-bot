@@ -868,7 +868,15 @@ class AdminApprovalBot:
                                 }
                                 # filter out empty button rows
                                 post_kb["inline_keyboard"] = [r for r in post_kb["inline_keyboard"] if r]
-                                self.client.send_message(from_user, full_msg, reply_markup=post_kb)
+
+                                photo_p = p.get("photo_path", "")
+                                if photo_p and not os.path.isabs(photo_p):
+                                    photo_p = str(BASE_DIR / photo_p)
+
+                                if photo_p and os.path.exists(photo_p):
+                                    self.client.send_photo(from_user, photo_p, caption=full_msg, reply_markup=post_kb)
+                                else:
+                                    self.client.send_message(from_user, full_msg, reply_markup=post_kb)
 
                         elif data.startswith("app_tg_pub_now_"):
                             idx = int(data.replace("app_tg_pub_now_", ""))
@@ -878,7 +886,15 @@ class AdminApprovalBot:
                                 ch = self.config.get("channel_id", "@arkadasuz")
                                 self.client.answer_callback_query(cb_id, "🚀 Kanalga yuborilmoqda...")
                                 from datetime import datetime
-                                res = self.client.send_message(ch, p.get("content", ""))
+                                photo_p = p.get("photo_path", "")
+                                if photo_p and not os.path.isabs(photo_p):
+                                    photo_p = str(BASE_DIR / photo_p)
+
+                                if photo_p and os.path.exists(photo_p):
+                                    res = self.client.send_photo(ch, photo_p, caption=p.get("content", ""))
+                                else:
+                                    res = self.client.send_message(ch, p.get("content", ""))
+
                                 if res.get("ok"):
                                     p["status"] = "posted"
                                     p["posted_at"] = datetime.now().isoformat()
