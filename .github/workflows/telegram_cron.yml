@@ -34,4 +34,4 @@ jobs:
           git config --global user.name "Telegram Auto-Poster"
           git config --global user.email "bot@arkadas.uz"
           git add brain_data/scheduled_telegram_posts.json
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-posted scheduled post [skip ci]" && git push)
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-posted scheduled post [skip ci]" && git pull --rebase origin main && git push)
