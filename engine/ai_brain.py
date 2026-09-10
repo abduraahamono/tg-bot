@@ -136,8 +136,8 @@ class AIBrain:
         if not keys:
             return None
 
-        # Priority working model
-        models = ["gemini-3.6-flash"]
+        # Priority working models
+        models = ["gemini-flash-lite-latest", "gemini-pro-latest", "gemini-flash-latest"]
         for model in models:
             for _ in range(len(keys)):
                 key = keys[self.current_gemini_idx % len(keys)]
