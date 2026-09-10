@@ -251,7 +251,8 @@
       "scheduled_time": "2026-09-11T10:00:00",
       "content": "Juma muborak! Bugun kelajagingiz sari yana bir yaxshi niyat bilan qadam tashlang.\n\nTurkiya OTMlariga hujjat topshirish bepul: @arkadasuzz",
       "photo_path": "output/platform_showcase/test_twitter_clean.jpg",
-      "status": "pending"
+      "status": "scheduled_on_twitter",
+      "twitter_queued_at": "2026-09-10T20:27:41.092047"
     },
     {
       "id": "tw_20260911_lun",
@@ -264,7 +265,8 @@
       "scheduled_time": "2026-09-11T14:00:00",
       "content": "Orzu qilgan kelajak sari ilk qadam.\nRasmiy qabul va to'liq viza ko'magi bilan talaba bo'ling: @arkadasuzz",
       "photo_path": "output/templates_showcase/sablon_1_modern_split.jpg",
-      "status": "pending"
+      "status": "scheduled_on_twitter",
+      "twitter_queued_at": "2026-09-10T20:27:50.257473"
     },
     {
       "id": "tw_20260911_eve",
@@ -277,7 +279,8 @@
       "scheduled_time": "2026-09-11T20:00:00",
       "content": "Haftalik qabul davom etmoqda. Davlat OTMlariga so'nggi kvotalar uchun yozing: @arkadasuzz 🚀",
       "photo_path": "output/platform_showcase/arkadas_reklam_perfect.jpg",
-      "status": "pending"
+      "status": "scheduled_on_twitter",
+      "twitter_queued_at": "2026-09-10T20:27:59.438390"
     },
     {
       "id": "tw_20260912_mor",
@@ -291,7 +294,8 @@
       "content": "Turkiyada o'qish bo'yicha 90% abituriyent bilmaydigan haqiqat: Attestat bilan to'g'ridan-to'g'ri davlat OTMiga kirish mumkin. Imtihonsiz qabul: @arkadasuzz",
       "photo_path": "output/archetypes_factory/kalip_1_sinematik_hikaye_v2.jpg",
       "image_path": "output/archetypes_factory/kalip_1_sinematik_hikaye_v2.jpg",
-      "status": "pending"
+      "status": "scheduled_on_twitter",
+      "twitter_queued_at": "2026-09-10T20:28:39.626397"
     },
     {
       "id": "tw_20260912_lun",
@@ -305,7 +309,8 @@
       "content": "Yillik kontrakt $300 dan boshlanadi. O'zbekistondagi to'lovlardan ancha arzon, diplomi esa Yevropada 100% o'tadi. @arkadasuzz",
       "photo_path": null,
       "image_path": null,
-      "status": "pending"
+      "status": "scheduled_on_twitter",
+      "twitter_queued_at": "2026-09-10T20:28:48.681862"
     },
     {
       "id": "tw_20260912_eve",
@@ -319,7 +324,8 @@
       "content": "SEN FAQAT QAROR QABUL QIL — qolgan barcha rasmiyatchilikni ARKADAŞ hal qiladi. Ariza topshirish bepul: @arkadasuzz",
       "photo_path": "output/archetypes_factory/kalip_3_taqqoslash_v2.jpg",
       "image_path": "output/archetypes_factory/kalip_3_taqqoslash_v2.jpg",
-      "status": "pending"
+      "status": "scheduled_on_twitter",
+      "twitter_queued_at": "2026-09-10T20:28:57.952545"
     },
     {
       "id": "tw_20260913_mor",
@@ -333,7 +339,8 @@
       "content": "TÖMER turk tili kursi: Til bilmasangiz ham shartli qabul bilan talaba bo'lasiz. 1-yil til o'rganib, C1 olasiz. @arkadasuzz",
       "photo_path": null,
       "image_path": null,
-      "status": "pending"
+      "status": "scheduled_on_twitter",
+      "twitter_queued_at": "2026-09-10T20:29:07.094534"
     },
     {
       "id": "tw_20260913_lun",
@@ -347,7 +354,8 @@
       "content": "Turkiya davlat OTM diplomi O'zbekistonda to'g'ridan-to'g'ri nostrifikatsiya qilinadi (Oliy Majlis qonuni). @arkadasuzz",
       "photo_path": "output/fresh_tram_post.jpg",
       "image_path": "output/fresh_tram_post.jpg",
-      "status": "pending"
+      "status": "scheduled_on_twitter",
+      "twitter_queued_at": "2026-09-10T20:29:16.838490"
     },
     {
       "id": "tw_20260913_eve",
@@ -361,7 +369,8 @@
       "content": "Istanbulda talaba yashashi uchun oyiga $200-$250 yetarli. Davlat yotoqxonalarida 3 mahal ovqat bepul/arzon beriladi. @arkadasuzz",
       "photo_path": null,
       "image_path": null,
-      "status": "pending"
+      "status": "scheduled_on_twitter",
+      "twitter_queued_at": "2026-09-10T20:29:25.741394"
     },
     {
       "id": "tw_20260914_mor",
@@ -375,7 +384,8 @@
       "content": "DTM stressida 1 yil yo'qotgandan ko'ra, bugunoq xalqaro talabalik sari qadam tashlang. Murojaat: @arkadasuzz",
       "photo_path": "output/templates_showcase/sablon_1_modern_split.jpg",
       "image_path": "output/templates_showcase/sablon_1_modern_split.jpg",
-      "status": "pending"
+      "status": "scheduled_on_twitter",
+      "twitter_queued_at": "2026-09-10T20:29:34.810770"
     },
     {
       "id": "tw_20260914_lun",
@@ -389,7 +399,8 @@
       "content": "Davlat OTMlariga kuzgi qabul kvotalari cheklangan. Bepul konsultatsiya olish uchun yozing: @arkadasuzz",
       "photo_path": null,
       "image_path": null,
-      "status": "pending"
+      "status": "scheduled_on_twitter",
+      "twitter_queued_at": "2026-09-10T20:29:43.933650"
     },
     {
       "id": "tw_20260914_eve",
@@ -403,7 +414,8 @@
       "content": "Tibbiyot, IT, Muhandislik, Biznes — barcha yo'nalishlar bo'yicha imtihonsiz rasmiy qabul. @arkadasuzz",
       "photo_path": "output/templates_showcase/sablon_3_white_minimal.jpg",
       "image_path": "output/templates_showcase/sablon_3_white_minimal.jpg",
-      "status": "pending"
+      "status": "scheduled_on_twitter",
+      "twitter_queued_at": "2026-09-10T20:29:53.002374"
     },
     {
       "id": "tw_20260915_mor",
@@ -417,7 +429,8 @@
       "content": "Viza, sug'urta, yashash guvohnomasi (İkamet) va aeroportda kutib olish kafolati. @arkadasuzz",
       "photo_path": null,
       "image_path": null,
-      "status": "pending"
+      "status": "scheduled_on_twitter",
+      "twitter_queued_at": "2026-09-10T20:30:01.947004"
     },
     {
       "id": "tw_20260915_lun",
@@ -431,7 +444,8 @@
       "content": "Turkiyada o'qish bo'yicha 90% abituriyent bilmaydigan haqiqat: Attestat bilan to'g'ridan-to'g'ri davlat OTMiga kirish mumkin. Imtihonsiz qabul: @arkadasuzz",
       "photo_path": "output/templates_showcase/sablon_5_bento_grid.jpg",
       "image_path": "output/templates_showcase/sablon_5_bento_grid.jpg",
-      "status": "pending"
+      "status": "scheduled_on_twitter",
+      "twitter_queued_at": "2026-09-10T20:30:11.111222"
     },
     {
       "id": "tw_20260915_eve",
@@ -445,7 +459,8 @@
       "content": "Yillik kontrakt $300 dan boshlanadi. O'zbekistondagi to'lovlardan ancha arzon, diplomi esa Yevropada 100% o'tadi. @arkadasuzz",
       "photo_path": null,
       "image_path": null,
-      "status": "pending"
+      "status": "scheduled_on_twitter",
+      "twitter_queued_at": "2026-09-10T20:30:22.616213"
     },
     {
       "id": "tw_20260916_mor",
@@ -459,7 +474,8 @@
       "content": "SEN FAQAT QAROR QABUL QIL — qolgan barcha rasmiyatchilikni ARKADAŞ hal qiladi. Ariza topshirish bepul: @arkadasuzz",
       "photo_path": "output/archetypes_factory/kalip_1_sinematik_hikaye_v2.jpg",
       "image_path": "output/archetypes_factory/kalip_1_sinematik_hikaye_v2.jpg",
-      "status": "pending"
+      "status": "scheduled_on_twitter",
+      "twitter_queued_at": "2026-09-10T20:30:34.023408"
     },
     {
       "id": "tw_20260916_lun",
@@ -473,7 +489,8 @@
       "content": "TÖMER turk tili kursi: Til bilmasangiz ham shartli qabul bilan talaba bo'lasiz. 1-yil til o'rganib, C1 olasiz. @arkadasuzz",
       "photo_path": null,
       "image_path": null,
-      "status": "pending"
+      "status": "scheduled_on_twitter",
+      "twitter_queued_at": "2026-09-10T20:30:43.714461"
     },
     {
       "id": "tw_20260916_eve",
@@ -487,7 +504,8 @@
       "content": "Turkiya davlat OTM diplomi O'zbekistonda to'g'ridan-to'g'ri nostrifikatsiya qilinadi (Oliy Majlis qonuni). @arkadasuzz",
       "photo_path": "output/archetypes_factory/kalip_3_taqqoslash_v2.jpg",
       "image_path": "output/archetypes_factory/kalip_3_taqqoslash_v2.jpg",
-      "status": "pending"
+      "status": "scheduled_on_twitter",
+      "twitter_queued_at": "2026-09-10T20:30:52.792378"
     },
     {
       "id": "tw_20260917_mor",
@@ -501,7 +519,8 @@
       "content": "Istanbulda talaba yashashi uchun oyiga $200-$250 yetarli. Davlat yotoqxonalarida 3 mahal ovqat bepul/arzon beriladi. @arkadasuzz",
       "photo_path": null,
       "image_path": null,
-      "status": "pending"
+      "status": "scheduled_on_twitter",
+      "twitter_queued_at": "2026-09-10T20:31:01.937728"
     },
     {
       "id": "tw_20260917_lun",
@@ -515,7 +534,8 @@
       "content": "DTM stressida 1 yil yo'qotgandan ko'ra, bugunoq xalqaro talabalik sari qadam tashlang. Murojaat: @arkadasuzz",
       "photo_path": "output/fresh_tram_post.jpg",
       "image_path": "output/fresh_tram_post.jpg",
-      "status": "pending"
+      "status": "scheduled_on_twitter",
+      "twitter_queued_at": "2026-09-10T20:31:11.089371"
     },
     {
       "id": "tw_20260917_eve",
@@ -529,7 +549,8 @@
       "content": "Davlat OTMlariga kuzgi qabul kvotalari cheklangan. Bepul konsultatsiya olish uchun yozing: @arkadasuzz",
       "photo_path": null,
       "image_path": null,
-      "status": "pending"
+      "status": "scheduled_on_twitter",
+      "twitter_queued_at": "2026-09-10T20:31:20.569373"
     },
     {
       "id": "tw_20260918_mor",
@@ -543,7 +564,8 @@
       "content": "Tibbiyot, IT, Muhandislik, Biznes — barcha yo'nalishlar bo'yicha imtihonsiz rasmiy qabul. @arkadasuzz",
       "photo_path": "output/templates_showcase/sablon_1_modern_split.jpg",
       "image_path": "output/templates_showcase/sablon_1_modern_split.jpg",
-      "status": "pending"
+      "status": "scheduled_on_twitter",
+      "twitter_queued_at": "2026-09-10T20:31:29.587154"
     },
     {
       "id": "tw_20260918_lun",
@@ -557,7 +579,8 @@
       "content": "Viza, sug'urta, yashash guvohnomasi (İkamet) va aeroportda kutib olish kafolati. @arkadasuzz",
       "photo_path": null,
       "image_path": null,
-      "status": "pending"
+      "status": "scheduled_on_twitter",
+      "twitter_queued_at": "2026-09-10T20:31:39.257569"
     },
     {
       "id": "tw_20260918_eve",
@@ -571,7 +594,8 @@
       "content": "Turkiyada o'qish bo'yicha 90% abituriyent bilmaydigan haqiqat: Attestat bilan to'g'ridan-to'g'ri davlat OTMiga kirish mumkin. Imtihonsiz qabul: @arkadasuzz",
       "photo_path": "output/templates_showcase/sablon_3_white_minimal.jpg",
       "image_path": "output/templates_showcase/sablon_3_white_minimal.jpg",
-      "status": "pending"
+      "status": "scheduled_on_twitter",
+      "twitter_queued_at": "2026-09-10T20:31:48.420255"
     },
     {
       "id": "tw_20260919_mor",
@@ -585,7 +609,8 @@
       "content": "Yillik kontrakt $300 dan boshlanadi. O'zbekistondagi to'lovlardan ancha arzon, diplomi esa Yevropada 100% o'tadi. @arkadasuzz",
       "photo_path": null,
       "image_path": null,
-      "status": "pending"
+      "status": "scheduled_on_twitter",
+      "twitter_queued_at": "2026-09-10T20:31:57.609203"
     },
     {
       "id": "tw_20260919_lun",
@@ -599,7 +624,8 @@
       "content": "SEN FAQAT QAROR QABUL QIL — qolgan barcha rasmiyatchilikni ARKADAŞ hal qiladi. Ariza topshirish bepul: @arkadasuzz",
       "photo_path": "output/templates_showcase/sablon_5_bento_grid.jpg",
       "image_path": "output/templates_showcase/sablon_5_bento_grid.jpg",
-      "status": "pending"
+      "status": "scheduled_on_twitter",
+      "twitter_queued_at": "2026-09-10T20:32:07.321150"
     },
     {
       "id": "tw_20260919_eve",
@@ -613,7 +639,8 @@
       "content": "TÖMER turk tili kursi: Til bilmasangiz ham shartli qabul bilan talaba bo'lasiz. 1-yil til o'rganib, C1 olasiz. @arkadasuzz",
       "photo_path": null,
       "image_path": null,
-      "status": "pending"
+      "status": "scheduled_on_twitter",
+      "twitter_queued_at": "2026-09-10T20:32:16.429597"
     },
     {
       "id": "tw_20260920_mor",
@@ -627,7 +654,8 @@
       "content": "Turkiya davlat OTM diplomi O'zbekistonda to'g'ridan-to'g'ri nostrifikatsiya qilinadi (Oliy Majlis qonuni). @arkadasuzz",
       "photo_path": "output/archetypes_factory/kalip_1_sinematik_hikaye_v2.jpg",
       "image_path": "output/archetypes_factory/kalip_1_sinematik_hikaye_v2.jpg",
-      "status": "pending"
+      "status": "scheduled_on_twitter",
+      "twitter_queued_at": "2026-09-10T20:32:25.828089"
     },
     {
       "id": "tw_20260920_lun",
@@ -641,7 +669,8 @@
       "content": "Istanbulda talaba yashashi uchun oyiga $200-$250 yetarli. Davlat yotoqxonalarida 3 mahal ovqat bepul/arzon beriladi. @arkadasuzz",
       "photo_path": null,
       "image_path": null,
-      "status": "pending"
+      "status": "scheduled_on_twitter",
+      "twitter_queued_at": "2026-09-10T20:32:35.437246"
     },
     {
       "id": "tw_20260920_eve",
@@ -655,7 +684,8 @@
       "content": "DTM stressida 1 yil yo'qotgandan ko'ra, bugunoq xalqaro talabalik sari qadam tashlang. Murojaat: @arkadasuzz",
       "photo_path": "output/archetypes_factory/kalip_3_taqqoslash_v2.jpg",
       "image_path": "output/archetypes_factory/kalip_3_taqqoslash_v2.jpg",
-      "status": "pending"
+      "status": "scheduled_on_twitter",
+      "twitter_queued_at": "2026-09-10T20:32:45.006582"
     },
     {
       "id": "tw_20260921_mor",
@@ -669,7 +699,8 @@
       "content": "Davlat OTMlariga kuzgi qabul kvotalari cheklangan. Bepul konsultatsiya olish uchun yozing: @arkadasuzz",
       "photo_path": null,
       "image_path": null,
-      "status": "pending"
+      "status": "scheduled_on_twitter",
+      "twitter_queued_at": "2026-09-10T20:32:54.175687"
     },
     {
       "id": "tw_20260921_lun",
@@ -683,7 +714,8 @@
       "content": "Tibbiyot, IT, Muhandislik, Biznes — barcha yo'nalishlar bo'yicha imtihonsiz rasmiy qabul. @arkadasuzz",
       "photo_path": "output/fresh_tram_post.jpg",
       "image_path": "output/fresh_tram_post.jpg",
-      "status": "pending"
+      "status": "scheduled_on_twitter",
+      "twitter_queued_at": "2026-09-10T20:33:03.813179"
     },
     {
       "id": "tw_20260921_eve",
@@ -697,7 +729,8 @@
       "content": "Viza, sug'urta, yashash guvohnomasi (İkamet) va aeroportda kutib olish kafolati. @arkadasuzz",
       "photo_path": null,
       "image_path": null,
-      "status": "pending"
+      "status": "scheduled_on_twitter",
+      "twitter_queued_at": "2026-09-10T20:33:13.290137"
     },
     {
       "id": "tw_20260922_mor",
@@ -711,7 +744,8 @@
       "content": "Turkiyada o'qish bo'yicha 90% abituriyent bilmaydigan haqiqat: Attestat bilan to'g'ridan-to'g'ri davlat OTMiga kirish mumkin. Imtihonsiz qabul: @arkadasuzz",
       "photo_path": "output/templates_showcase/sablon_1_modern_split.jpg",
       "image_path": "output/templates_showcase/sablon_1_modern_split.jpg",
-      "status": "pending"
+      "status": "scheduled_on_twitter",
+      "twitter_queued_at": "2026-09-10T20:33:23.430511"
     },
     {
       "id": "tw_20260922_lun",
@@ -725,7 +759,8 @@
       "content": "Yillik kontrakt $300 dan boshlanadi. O'zbekistondagi to'lovlardan ancha arzon, diplomi esa Yevropada 100% o'tadi. @arkadasuzz",
       "photo_path": null,
       "image_path": null,
-      "status": "pending"
+      "status": "scheduled_on_twitter",
+      "twitter_queued_at": "2026-09-10T20:33:32.941698"
     },
     {
       "id": "tw_20260922_eve",
@@ -739,7 +774,8 @@
       "content": "SEN FAQAT QAROR QABUL QIL — qolgan barcha rasmiyatchilikni ARKADAŞ hal qiladi. Ariza topshirish bepul: @arkadasuzz",
       "photo_path": "output/templates_showcase/sablon_3_white_minimal.jpg",
       "image_path": "output/templates_showcase/sablon_3_white_minimal.jpg",
-      "status": "pending"
+      "status": "scheduled_on_twitter",
+      "twitter_queued_at": "2026-09-10T20:33:42.072394"
     },
     {
       "id": "tw_20260923_mor",
@@ -753,7 +789,8 @@
       "content": "TÖMER turk tili kursi: Til bilmasangiz ham shartli qabul bilan talaba bo'lasiz. 1-yil til o'rganib, C1 olasiz. @arkadasuzz",
       "photo_path": null,
       "image_path": null,
-      "status": "pending"
+      "status": "scheduled_on_twitter",
+      "twitter_queued_at": "2026-09-10T20:33:51.566222"
     },
     {
       "id": "tw_20260923_lun",
@@ -767,7 +804,8 @@
       "content": "Turkiya davlat OTM diplomi O'zbekistonda to'g'ridan-to'g'ri nostrifikatsiya qilinadi (Oliy Majlis qonuni). @arkadasuzz",
       "photo_path": "output/templates_showcase/sablon_5_bento_grid.jpg",
       "image_path": "output/templates_showcase/sablon_5_bento_grid.jpg",
-      "status": "pending"
+      "status": "scheduled_on_twitter",
+      "twitter_queued_at": "2026-09-10T20:34:00.463048"
     },
     {
       "id": "tw_20260923_eve",
@@ -781,7 +819,8 @@
       "content": "Istanbulda talaba yashashi uchun oyiga $200-$250 yetarli. Davlat yotoqxonalarida 3 mahal ovqat bepul/arzon beriladi. @arkadasuzz",
       "photo_path": null,
       "image_path": null,
-      "status": "pending"
+      "status": "scheduled_on_twitter",
+      "twitter_queued_at": "2026-09-10T20:34:09.636939"
     },
     {
       "id": "tw_20260924_mor",
@@ -795,7 +834,8 @@
       "content": "DTM stressida 1 yil yo'qotgandan ko'ra, bugunoq xalqaro talabalik sari qadam tashlang. Murojaat: @arkadasuzz",
       "photo_path": "output/archetypes_factory/kalip_1_sinematik_hikaye_v2.jpg",
       "image_path": "output/archetypes_factory/kalip_1_sinematik_hikaye_v2.jpg",
-      "status": "pending"
+      "status": "scheduled_on_twitter",
+      "twitter_queued_at": "2026-09-10T20:34:22.685935"
     },
     {
       "id": "tw_20260924_lun",
@@ -809,7 +849,8 @@
       "content": "Davlat OTMlariga kuzgi qabul kvotalari cheklangan. Bepul konsultatsiya olish uchun yozing: @arkadasuzz",
       "photo_path": null,
       "image_path": null,
-      "status": "pending"
+      "status": "scheduled_on_twitter",
+      "twitter_queued_at": "2026-09-10T20:34:31.922493"
     },
     {
       "id": "tw_20260924_eve",
@@ -823,7 +864,8 @@
       "content": "Tibbiyot, IT, Muhandislik, Biznes — barcha yo'nalishlar bo'yicha imtihonsiz rasmiy qabul. @arkadasuzz",
       "photo_path": "output/archetypes_factory/kalip_3_taqqoslash_v2.jpg",
       "image_path": "output/archetypes_factory/kalip_3_taqqoslash_v2.jpg",
-      "status": "pending"
+      "status": "scheduled_on_twitter",
+      "twitter_queued_at": "2026-09-10T20:34:40.933822"
     },
     {
       "id": "tw_20260925_mor",
@@ -837,7 +879,8 @@
       "content": "Viza, sug'urta, yashash guvohnomasi (İkamet) va aeroportda kutib olish kafolati. @arkadasuzz",
       "photo_path": null,
       "image_path": null,
-      "status": "pending"
+      "status": "scheduled_on_twitter",
+      "twitter_queued_at": "2026-09-10T20:34:51.123719"
     },
     {
       "id": "tw_20260925_lun",
@@ -851,7 +894,8 @@
       "content": "Turkiyada o'qish bo'yicha 90% abituriyent bilmaydigan haqiqat: Attestat bilan to'g'ridan-to'g'ri davlat OTMiga kirish mumkin. Imtihonsiz qabul: @arkadasuzz",
       "photo_path": "output/fresh_tram_post.jpg",
       "image_path": "output/fresh_tram_post.jpg",
-      "status": "pending"
+      "status": "scheduled_on_twitter",
+      "twitter_queued_at": "2026-09-10T20:35:07.039322"
     },
     {
       "id": "tw_20260925_eve",
@@ -865,7 +909,8 @@
       "content": "Yillik kontrakt $300 dan boshlanadi. O'zbekistondagi to'lovlardan ancha arzon, diplomi esa Yevropada 100% o'tadi. @arkadasuzz",
       "photo_path": null,
       "image_path": null,
-      "status": "pending"
+      "status": "scheduled_on_twitter",
+      "twitter_queued_at": "2026-09-10T20:35:15.814004"
     },
     {
       "id": "tw_20260926_mor",
@@ -879,7 +924,8 @@
       "content": "SEN FAQAT QAROR QABUL QIL — qolgan barcha rasmiyatchilikni ARKADAŞ hal qiladi. Ariza topshirish bepul: @arkadasuzz",
       "photo_path": "output/templates_showcase/sablon_1_modern_split.jpg",
       "image_path": "output/templates_showcase/sablon_1_modern_split.jpg",
-      "status": "pending"
+      "status": "scheduled_on_twitter",
+      "twitter_queued_at": "2026-09-10T20:35:24.776266"
     },
     {
       "id": "tw_20260926_lun",
@@ -893,7 +939,8 @@
       "content": "TÖMER turk tili kursi: Til bilmasangiz ham shartli qabul bilan talaba bo'lasiz. 1-yil til o'rganib, C1 olasiz. @arkadasuzz",
       "photo_path": null,
       "image_path": null,
-      "status": "pending"
+      "status": "scheduled_on_twitter",
+      "twitter_queued_at": "2026-09-10T20:35:33.195886"
     },
     {
       "id": "tw_20260926_eve",
@@ -907,7 +954,8 @@
       "content": "Turkiya davlat OTM diplomi O'zbekistonda to'g'ridan-to'g'ri nostrifikatsiya qilinadi (Oliy Majlis qonuni). @arkadasuzz",
       "photo_path": "output/templates_showcase/sablon_3_white_minimal.jpg",
       "image_path": "output/templates_showcase/sablon_3_white_minimal.jpg",
-      "status": "pending"
+      "status": "scheduled_on_twitter",
+      "twitter_queued_at": "2026-09-10T20:35:41.779776"
     },
     {
       "id": "tw_20260927_mor",
@@ -921,7 +969,8 @@
       "content": "Istanbulda talaba yashashi uchun oyiga $200-$250 yetarli. Davlat yotoqxonalarida 3 mahal ovqat bepul/arzon beriladi. @arkadasuzz",
       "photo_path": null,
       "image_path": null,
-      "status": "pending"
+      "status": "scheduled_on_twitter",
+      "twitter_queued_at": "2026-09-10T20:35:51.038627"
     },
     {
       "id": "tw_20260927_lun",
@@ -935,7 +984,8 @@
       "content": "DTM stressida 1 yil yo'qotgandan ko'ra, bugunoq xalqaro talabalik sari qadam tashlang. Murojaat: @arkadasuzz",
       "photo_path": "output/templates_showcase/sablon_5_bento_grid.jpg",
       "image_path": "output/templates_showcase/sablon_5_bento_grid.jpg",
-      "status": "pending"
+      "status": "scheduled_on_twitter",
+      "twitter_queued_at": "2026-09-10T20:35:59.876386"
     },
     {
       "id": "tw_20260927_eve",
@@ -949,7 +999,8 @@
       "content": "Davlat OTMlariga kuzgi qabul kvotalari cheklangan. Bepul konsultatsiya olish uchun yozing: @arkadasuzz",
       "photo_path": null,
       "image_path": null,
-      "status": "pending"
+      "status": "scheduled_on_twitter",
+      "twitter_queued_at": "2026-09-10T20:36:08.258141"
     },
     {
       "id": "tw_20260928_mor",
@@ -963,7 +1014,8 @@
       "content": "Tibbiyot, IT, Muhandislik, Biznes — barcha yo'nalishlar bo'yicha imtihonsiz rasmiy qabul. @arkadasuzz",
       "photo_path": "output/archetypes_factory/kalip_1_sinematik_hikaye_v2.jpg",
       "image_path": "output/archetypes_factory/kalip_1_sinematik_hikaye_v2.jpg",
-      "status": "pending"
+      "status": "scheduled_on_twitter",
+      "twitter_queued_at": "2026-09-10T20:36:16.933530"
     },
     {
       "id": "tw_20260928_lun",
@@ -977,7 +1029,8 @@
       "content": "Viza, sug'urta, yashash guvohnomasi (İkamet) va aeroportda kutib olish kafolati. @arkadasuzz",
       "photo_path": null,
       "image_path": null,
-      "status": "pending"
+      "status": "scheduled_on_twitter",
+      "twitter_queued_at": "2026-09-10T20:36:25.709316"
     },
     {
       "id": "tw_20260928_eve",
@@ -991,7 +1044,8 @@
       "content": "Turkiyada o'qish bo'yicha 90% abituriyent bilmaydigan haqiqat: Attestat bilan to'g'ridan-to'g'ri davlat OTMiga kirish mumkin. Imtihonsiz qabul: @arkadasuzz",
       "photo_path": "output/archetypes_factory/kalip_3_taqqoslash_v2.jpg",
       "image_path": "output/archetypes_factory/kalip_3_taqqoslash_v2.jpg",
-      "status": "pending"
+      "status": "scheduled_on_twitter",
+      "twitter_queued_at": "2026-09-10T20:36:34.353589"
     },
     {
       "id": "tw_20260929_mor",
@@ -1005,7 +1059,8 @@
       "content": "Yillik kontrakt $300 dan boshlanadi. O'zbekistondagi to'lovlardan ancha arzon, diplomi esa Yevropada 100% o'tadi. @arkadasuzz",
       "photo_path": null,
       "image_path": null,
-      "status": "pending"
+      "status": "scheduled_on_twitter",
+      "twitter_queued_at": "2026-09-10T20:36:42.840579"
     },
     {
       "id": "tw_20260929_lun",
@@ -1019,7 +1074,8 @@
       "content": "SEN FAQAT QAROR QABUL QIL — qolgan barcha rasmiyatchilikni ARKADAŞ hal qiladi. Ariza topshirish bepul: @arkadasuzz",
       "photo_path": "output/fresh_tram_post.jpg",
       "image_path": "output/fresh_tram_post.jpg",
-      "status": "pending"
+      "status": "scheduled_on_twitter",
+      "twitter_queued_at": "2026-09-10T20:36:51.337540"
     },
     {
       "id": "tw_20260929_eve",
@@ -1033,7 +1089,8 @@
       "content": "TÖMER turk tili kursi: Til bilmasangiz ham shartli qabul bilan talaba bo'lasiz. 1-yil til o'rganib, C1 olasiz. @arkadasuzz",
       "photo_path": null,
       "image_path": null,
-      "status": "pending"
+      "status": "scheduled_on_twitter",
+      "twitter_queued_at": "2026-09-10T20:36:59.866112"
     },
     {
       "id": "tw_20260930_mor",
@@ -1047,7 +1104,8 @@
       "content": "Turkiya davlat OTM diplomi O'zbekistonda to'g'ridan-to'g'ri nostrifikatsiya qilinadi (Oliy Majlis qonuni). @arkadasuzz",
       "photo_path": "output/templates_showcase/sablon_1_modern_split.jpg",
       "image_path": "output/templates_showcase/sablon_1_modern_split.jpg",
-      "status": "pending"
+      "status": "scheduled_on_twitter",
+      "twitter_queued_at": "2026-09-10T20:37:08.405683"
     },
     {
       "id": "tw_20260930_lun",
@@ -1061,7 +1119,8 @@
       "content": "Istanbulda talaba yashashi uchun oyiga $200-$250 yetarli. Davlat yotoqxonalarida 3 mahal ovqat bepul/arzon beriladi. @arkadasuzz",
       "photo_path": null,
       "image_path": null,
-      "status": "pending"
+      "status": "scheduled_on_twitter",
+      "twitter_queued_at": "2026-09-10T20:37:17.221770"
     },
     {
       "id": "tw_20260930_eve",
@@ -1075,7 +1134,8 @@
       "content": "DTM stressida 1 yil yo'qotgandan ko'ra, bugunoq xalqaro talabalik sari qadam tashlang. Murojaat: @arkadasuzz",
       "photo_path": "output/templates_showcase/sablon_3_white_minimal.jpg",
       "image_path": "output/templates_showcase/sablon_3_white_minimal.jpg",
-      "status": "pending"
+      "status": "scheduled_on_twitter",
+      "twitter_queued_at": "2026-09-10T20:37:25.780422"
     },
     {
       "id": "tw_20261001_mor",
@@ -1089,7 +1149,8 @@
       "content": "Davlat OTMlariga kuzgi qabul kvotalari cheklangan. Bepul konsultatsiya olish uchun yozing: @arkadasuzz",
       "photo_path": null,
       "image_path": null,
-      "status": "pending"
+      "status": "scheduled_on_twitter",
+      "twitter_queued_at": "2026-09-10T20:37:34.368478"
     },
     {
       "id": "tw_20261001_lun",
@@ -1103,7 +1164,8 @@
       "content": "Tibbiyot, IT, Muhandislik, Biznes — barcha yo'nalishlar bo'yicha imtihonsiz rasmiy qabul. @arkadasuzz",
       "photo_path": "output/templates_showcase/sablon_5_bento_grid.jpg",
       "image_path": "output/templates_showcase/sablon_5_bento_grid.jpg",
-      "status": "pending"
+      "status": "scheduled_on_twitter",
+      "twitter_queued_at": "2026-09-10T20:37:42.717564"
     },
     {
       "id": "tw_20261001_eve",
@@ -1117,7 +1179,8 @@
       "content": "Viza, sug'urta, yashash guvohnomasi (İkamet) va aeroportda kutib olish kafolati. @arkadasuzz",
       "photo_path": null,
       "image_path": null,
-      "status": "pending"
+      "status": "scheduled_on_twitter",
+      "twitter_queued_at": "2026-09-10T20:37:51.290093"
     },
     {
       "id": "tw_20261002_mor",
