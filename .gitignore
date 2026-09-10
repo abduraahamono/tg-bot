@@ -5,7 +5,9 @@ __pycache__/
 social_credentials.json
 ChatExport_Turkiyada*
 output/*.png
-assets/
+assets/*
+!assets/fonts/
+!assets/logo*.png
 data/
 login_browser.py
 login_telegram_web.py

@@ -35,11 +35,8 @@ class TwitterScheduler:
         }
 
     def _save(self):
-        try:
-            with open(self.schedule_file, "w", encoding="utf-8") as f:
-                json.dump(self.data, f, ensure_ascii=False, indent=2)
-        except Exception as e:
-            print(f"[TwitterScheduler] Error saving schedule: {e}")
+        from engine.storage_utils import atomic_save_json
+        atomic_save_json(self.schedule_file, self.data)
 
     def save_weekly_plan(self, week_plan: dict):
         self.data = {

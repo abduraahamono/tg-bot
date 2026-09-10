@@ -187,8 +187,8 @@ def dispatch(dry_run: bool = False, force_first_pending: bool = False):
     if success:
         due_post["status"] = "posted"
         due_post["posted_at"] = now_str
-        with open(POSTS_FILE, "w", encoding="utf-8") as f:
-            json.dump(data, f, ensure_ascii=False, indent=2)
+        from engine.storage_utils import atomic_save_json
+        atomic_save_json(POSTS_FILE, data)
         print("[OK] Rejadagi holat 'posted' ga yangilandi va saqlandi.")
 
 if __name__ == "__main__":
