@@ -107,6 +107,16 @@ class TelegramScheduler:
                 continue
 
             if now >= dt:
+                # EXPIRY GUARD: If a post is overdue by more than 3 hours (e.g. laptop was asleep for days),
+                # do NOT dump it simultaneously into the channel. Mark as skipped or only post if within 3 hours.
+                overdue_seconds = (now - dt).total_seconds()
+                if overdue_seconds > 3 * 3600:
+                    print(f"[TelegramScheduler] Post {post.get('id')} is too old ({overdue_seconds/3600:.1f}h overdue). Skipping batch spam.")
+                    post["status"] = "skipped_overdue"
+                    post["skipped_at"] = now.isoformat()
+                    updated = True
+                    continue
+
                 content = post.get("content", "")
                 if not content:
                     continue

@@ -109,6 +109,14 @@ class TwitterScheduler:
 
             # Check if time has arrived (within current minute or earlier)
             if now >= sched_dt:
+                overdue_seconds = (now - sched_dt).total_seconds()
+                if overdue_seconds > 3 * 3600:
+                    print(f"[TwitterScheduler] Tweet {tw.get('id')} is too old ({overdue_seconds/3600:.1f}h overdue). Skipping batch spam.")
+                    tw["status"] = "skipped_overdue"
+                    tw["skipped_at"] = now.isoformat()
+                    updated = True
+                    continue
+
                 is_thread = tw.get("is_thread", False)
                 content = tw.get("content", "")
                 image_path = tw.get("image_path") or tw.get("photo_path")
