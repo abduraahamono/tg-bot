@@ -1331,6 +1331,7 @@ class AdminApprovalBot:
                         msg = u["message"]
                         chat_id = str(msg["chat"]["id"])
                         text = msg["text"].strip()
+                        print(f"[TG RECV] From {chat_id} ({msg.get('from', {}).get('first_name')}): {text}", flush=True)
 
                         # Auto-assign Admin ID if not set
                         if not self.config.get("admin_chat_id"):
@@ -1532,10 +1533,12 @@ class AdminApprovalBot:
 
                             else:
                                 # Har qanday boshqa savolga to'g'ridan-to'g'ri AI Brain orqali javob berish!
+                                print(f"[AI GENERATING] Question from {chat_id}: {text}", flush=True)
                                 reply = self.ai.answer_student_consultation(text)
                                 if not reply:
                                     reply = "ℹ️ Arkadaş Consulting bilan Turkiyada kafolatlangan ta'lim olishingiz mumkin. Savolingiz bo'yicha batafsil konsultatsiya: @arkadasuzz"
-                                self.client.send_message(chat_id, reply, reply_markup=MAIN_KEYBOARD)
+                                res = self.client.send_message(chat_id, reply, reply_markup=MAIN_KEYBOARD)
+                                print(f"[AI SENT] Result: {res.get('ok')}", flush=True)
 
                         else:
                             # Message from regular student / user
