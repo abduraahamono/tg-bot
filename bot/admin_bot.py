@@ -72,9 +72,16 @@ class AdminApprovalBot:
 
         from bot.student_bot import StudentAssistantBot
         self.student_bot = StudentAssistantBot()
+        from engine.ai_brain import AIBrain
+        self.ai = AIBrain()
         self._start_scheduler_daemon()
 
     def _start_scheduler_daemon(self):
+        enable_sched = os.environ.get("ENABLE_INTERNAL_SCHEDULER", "false").lower() == "true"
+        if not enable_sched:
+            print("[INFO] Ichki avtomatik scheduler o'chirilgan (GitHub Actions bulut cron boshqarmoqda).")
+            return
+
         def _tg_loop():
             while True:
                 try:
@@ -1436,6 +1443,18 @@ class AdminApprovalBot:
                                     "• <i>Attestat bilan imtihonsiz qabul</i>"
                                 )
 
+                            elif text in ["🎓 Talabalar Yordamchisi", "yordamchi", "konsultatsiya"]:
+                                self.client.send_message(
+                                    chat_id,
+                                    "🤖 <b>Arkadaş AI Maslahatchi rejimi:</b>\n\n"
+                                    "Talaba yoki ota-ona sifatida istalgan savolingizni to'g'ridan-to'g'ri yozib yuboring!\n\n"
+                                    "<i>Masalan:\n"
+                                    "• 'DTM dan yiqildim, Turkiyada o'qiy olamanmi?'\n"
+                                    "• 'Tibbiyot kontraktlari qancha?'\n"
+                                    "• 'Yotoqxona xavfsizmi?'</i>\n\n"
+                                    "Sun'iy intellekt Arkadaş Consulting nomidan to'liq professional va samimiy javob qaytaradi! 👇"
+                                )
+
                             elif text == "📅 7 Kunlik Reja":
                                 cal_text = (
                                     "📅 <b>7 KUNLIK SOATLIK MARKETING TAQVIMI (@arkadasuz)</b> 🇹🇷\n"
@@ -1512,7 +1531,11 @@ class AdminApprovalBot:
                                 self.client.send_message(chat_id, txt)
 
                             else:
-                                self.client.send_message(chat_id, "ℹ️ Quyidagi tugmalardan birini bosing:", reply_markup=MAIN_KEYBOARD)
+                                # Har qanday boshqa savolga to'g'ridan-to'g'ri AI Brain orqali javob berish!
+                                reply = self.ai.answer_student_consultation(text)
+                                if not reply:
+                                    reply = "ℹ️ Arkadaş Consulting bilan Turkiyada kafolatlangan ta'lim olishingiz mumkin. Savolingiz bo'yicha batafsil konsultatsiya: @arkadasuzz"
+                                self.client.send_message(chat_id, reply, reply_markup=MAIN_KEYBOARD)
 
                         else:
                             # Message from regular student / user
