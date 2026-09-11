@@ -31,7 +31,7 @@ from engine.telegram_scheduler import TelegramScheduler
 
 def load_config():
     default_config = {
-        "bot_token": os.environ.get("TELEGRAM_BOT_TOKEN", "7850828340:AAENUCBd_PG2U7Nzl2lx0RsE45h8t5i0vqg"),
+        "bot_token": os.environ.get("TELEGRAM_BOT_TOKEN", "7850828340:AAEFEeuRZVx6CP5gaD1n_hHv1hiSOPz0ET0"),
         "admin_chat_id": os.environ.get("TELEGRAM_ADMIN_CHAT_ID", "8021468690"),
         "channel_id": os.environ.get("TELEGRAM_CHANNEL_ID", "@arkadasuz")
     }
@@ -570,9 +570,12 @@ class AdminApprovalBot:
 
         while True:
             try:
-                updates = self.client.get_updates(offset=offset, timeout=20)
+                updates = self.client.get_updates(offset=offset, timeout=10)
+                if updates:
+                    print(f"[POLL] Received {len(updates)} updates", flush=True)
                 for u in updates:
                     offset = u["update_id"] + 1
+                    print(f"[UPDATE RECV] ID: {u.get('update_id')}, Keys: {list(u.keys())}", flush=True)
 
                     # 1. Inline Button Callback Queries
                     if "callback_query" in u:

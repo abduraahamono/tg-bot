@@ -216,7 +216,11 @@ class TelegramClient:
             with urllib.request.urlopen(url, timeout=timeout + 5) as resp:
                 data = json.loads(resp.read().decode("utf-8"))
                 return data.get("result", [])
-        except Exception:
+        except Exception as e:
+            if "Conflict" in str(e):
+                print(f"[get_updates Conflict Error]: Boshqa jarayon ham getUpdates qilmoqda: {e}", flush=True)
+            else:
+                print(f"[get_updates Error]: {e}", flush=True)
             return []
 
     def answer_callback_query(self, callback_query_id: str, text: str = ""):

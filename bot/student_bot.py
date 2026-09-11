@@ -88,68 +88,7 @@ class StudentAssistantBot:
                 )
             }
 
-        # 2. Check for University queries
-        for uni in self.universities:
-            u_name = uni["name"].lower()
-            short_name = u_name.replace("universiteti", "").replace("üniversitesi", "").strip()
-            if short_name in text_lower:
-                return {
-                    "is_lead": False,
-                    "reply": (
-                        f"🏛 <b>{uni['name']}</b> haqida ma'lumot:\n\n"
-                        f"📍 Joylashuvi: {uni.get('location', 'Turkiya')}\n"
-                        f"🏢 Turi: {uni.get('type', 'Davlat')}\n"
-                        f"🗓 Tashkil etilgan: {uni.get('established', 'Noma\'lum')}\n\n"
-                        f"Ushbu universitetga qabul shartlari va grant imkoniyatlarini bilish uchun "
-                        f"<b>telefon raqamingizni</b> qoldiring, mutaxassisimiz sizga to'liq tushuntirib beradi! 😊"
-                    )
-                }
-
-        # 3. Check for specific FAQ topics
-        if any(k in text_lower for k in ["imtihon", "yos", "yös", "attestat", "qabul"]):
-            return {
-                "is_lead": False,
-                "reply": (
-                    "🎓 <b>Qabul tartibi:</b>\n"
-                    "Arkadaş Consulting orqali imtihonli yoki <b>imtihonsiz (faqat attestat baholari asosida)</b> "
-                    "Turkiya universitetlariga qabul qilinasiz!\n\n"
-                    "Siz qaysi yo'nalishga qiziqyapsiz? Ismingiz va telefon raqamingizni yozsangiz, mos variantlarni tashlab beramiz."
-                )
-            }
-
-        if any(k in text_lower for k in ["grant", "burs", "tekin", "bepul"]):
-            return {
-                "is_lead": False,
-                "reply": (
-                    "💸 <b>Grant va Stipendiyalar:</b>\n"
-                    "Biz orqali 25%, 50%, 75% va hatto <b>100% gacha bo'lgan to'liq grant</b> asosida "
-                    "Turkiyada ta'lim olish imkoniyati mavjud!\n\n"
-                    "Batafsil grant shartlari uchun telefon raqamingizni qoldiring, danishmandimiz aloqaga chiqadi."
-                )
-            }
-
-        if any(k in text_lower for k in ["tolov", "to'lov", "narx", "kontrakt", "oldindan"]):
-            return {
-                "is_lead": False,
-                "reply": (
-                    "🚫 <b>Oldindan to'lov yo'q!</b>\n"
-                    "Dastlab o'qishga qabul qilinib, rasmiy taklifnoma olganingizdan keyin xizmat haqi to'lanadi. "
-                    "Hech qanday moliyaviy xavf yo'q!\n\n"
-                    "Raqamingizni qoldiring, barcha shartlarni shaffof tushuntirib beramiz."
-                )
-            }
-
-        if any(k in text_lower for k in ["yotoqxona", "yashash", "viza", "kutib olish", "aeroport"]):
-            return {
-                "is_lead": False,
-                "reply": (
-                    "🏠 <b>Yotoqxona va Hamrohlik:</b>\n"
-                    "Turkiyaga kelishingiz bilan sizni aeroportda kutib olamiz, hamyonbop yotoqxonaga joylashtiramiz, "
-                    "yashash ruxsatnomasi (ikamet), sim-karta va bank hisobi ochishda to'liq yordam beramiz!"
-                )
-            }
-
-        # 4. If AI Brain has active provider (Gemini, Groq, GLM, Ollama), ask AI Brain!
+        # 2. Use AI Brain directly for human, natural, conversational answers!
         try:
             ai_ans = self.ai.answer_student_consultation(user_text)
             if ai_ans:
@@ -157,21 +96,15 @@ class StudentAssistantBot:
                     "is_lead": False,
                     "reply": ai_ans
                 }
-        except Exception:
-            pass
+        except Exception as e:
+            print(f"[StudentBot AI Error] {e}", flush=True)
 
-        # Default friendly greeting & Lead funnel
+        # Fallback friendly greeting if AI is unavailable
         return {
             "is_lead": False,
             "reply": (
                 f"Assalomu alaykum, {user_name}! 👋\n\n"
-                f"Men <b>Arkadaş Consulting</b> virtual assistentiman.\n\n"
-                f"Biz sizga Turkiyada:\n"
-                f"✅ 100% gacha grantlar\n"
-                f"✅ Imtihonsiz to'g'ridan-to'g'ri qabul\n"
-                f"✅ Yotoqxona va barcha hujjatlar bo'yicha yordam beramiz.\n\n"
-                f"Sizga eng mos universitet va grantni aniqlab berishimiz uchun:\n"
-                f"👉 <b>Ismingiz, qiziqqan sohangiz va telefon raqamingizni</b> yozib qoldiring! 😊"
+                f"Arkadaş Consulting bilan Turkiyada oliy ta'lim, 100% gacha grantlar va imtihonsiz qabul bo'yicha qanday savolingiz bor? Savolingizni bemalol yozishingiz mumkin. 😊"
             )
         }
 
