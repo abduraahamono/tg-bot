@@ -39,7 +39,8 @@ class StudentAssistantBot:
         self.client = TelegramClient(self.config.get("bot_token"))
         self.brand = load_json(BRAIN_DIR / "brand_profile.json")
         self.faqs = load_json(BRAIN_DIR / "faq_knowledge.json")
-        self.universities = load_json(BRAIN_DIR / "universities.json")
+        from engine.conversation_memory import ConversationMemory
+        self.memory = ConversationMemory()
         self.ai = AIBrain()
         self.pending_leads = {}  # user_id -> state
 
@@ -71,27 +72,37 @@ class StudentAssistantBot:
             )
             self.client.send_message(admin_chat, alert_text)
 
-    def generate_reply(self, user_text: str, user_name: str) -> str:
+    def generate_reply(self, user_text: str, user_name: str, chat_id: str = "") -> dict:
         text_lower = user_text.lower()
 
         # 1. Check for Phone Number detection
         phone_match = re.search(r'(\+?[0-9\s\-]{9,16})', user_text)
         if phone_match and len(re.sub(r'\D', '', phone_match.group(1))) >= 9:
             phone_num = phone_match.group(1).strip()
+            if chat_id:
+                self.memory.update_user_profile(chat_id, {"phone": phone_num, "name": user_name})
             return {
                 "is_lead": True,
                 "phone": phone_num,
                 "reply": (
                     f"Rahmat, {user_name}! ✅ Telefon raqamingiz qabul qilindi ({phone_num}).\n\n"
-                    f"Tez orada Arkadaş Consulting bosh mutaxassisi siz bilan bog'lanadi va "
-                    f"sizga mos universitetlar hamda grant dasturlari bo'yicha bepul to'liq yo'l xaritasini taqdim etadi! 🎓✨"
+                    f"Tez orada Arkadaş Consulting mutaxassisi siz bilan bog'lanadi va "
+                    f"sizga mos universitetlar hamda grant dasturlari bo'yicha to'liq ma'lumot beradi! 🎓"
                 )
             }
 
-        # 2. Use AI Brain directly for human, natural, conversational answers!
+        # 2. Use AI Brain with conversation history & user profile
+        hist_context = ""
+        user_meta = {"name": user_name, "is_admin": False}
+        if chat_id:
+            hist_context = self.memory.get_history_summary_for_prompt(chat_id, limit=6)
+            self.memory.add_message(chat_id, "user", user_text, user_meta=user_meta)
+
         try:
-            ai_ans = self.ai.answer_student_consultation(user_text)
+            ai_ans = self.ai.answer_student_consultation(user_text, history_context=hist_context, user_info=user_meta)
             if ai_ans:
+                if chat_id:
+                    self.memory.add_message(chat_id, "assistant", ai_ans)
                 return {
                     "is_lead": False,
                     "reply": ai_ans
@@ -115,7 +126,7 @@ class StudentAssistantBot:
         user_name = from_user.get("first_name", "Do'st")
         username = from_user.get("username", "")
 
-        result = self.generate_reply(user_text, user_name)
+        result = self.generate_reply(user_text, user_name, chat_id=chat_id)
 
         if result.get("is_lead"):
             lead_entry = {

@@ -72,6 +72,8 @@ class AdminApprovalBot:
 
         from bot.student_bot import StudentAssistantBot
         self.student_bot = StudentAssistantBot()
+        from engine.conversation_memory import ConversationMemory
+        self.memory = ConversationMemory()
         from engine.ai_brain import AIBrain
         self.ai = AIBrain()
         self._start_scheduler_daemon()
@@ -1537,9 +1539,18 @@ class AdminApprovalBot:
                             else:
                                 # Har qanday boshqa savolga to'g'ridan-to'g'ri AI Brain orqali javob berish!
                                 print(f"[AI GENERATING] Question from {chat_id}: {text}", flush=True)
-                                reply = self.ai.answer_student_consultation(text)
+                                from_user = msg.get("from", {})
+                                user_meta = {
+                                    "is_admin": True,
+                                    "name": from_user.get("first_name", "Admin"),
+                                    "username": from_user.get("username", "")
+                                }
+                                hist_context = self.memory.get_history_summary_for_prompt(chat_id, limit=6)
+                                self.memory.add_message(chat_id, "user", text, user_meta=user_meta)
+                                reply = self.ai.answer_student_consultation(text, history_context=hist_context, user_info=user_meta)
                                 if not reply:
                                     reply = "ℹ️ Arkadaş Consulting bilan Turkiyada kafolatlangan ta'lim olishingiz mumkin. Savolingiz bo'yicha batafsil konsultatsiya: @arkadasuzz"
+                                self.memory.add_message(chat_id, "assistant", reply)
                                 res = self.client.send_message(chat_id, reply, reply_markup=MAIN_KEYBOARD)
                                 print(f"[AI SENT] Result: {res.get('ok')}", flush=True)
 

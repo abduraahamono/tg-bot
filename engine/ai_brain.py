@@ -341,24 +341,42 @@ class AIBrain:
         res = self.think_and_generate(prompt)
         return res["text"] or "2025 o'quv mavsumi boshlandi! Turkiyadagi eng yaxshi universitetlarga grant asosida qabul bo'ling!"
 
-    def answer_student_consultation(self, student_question: str) -> str:
+    def answer_student_consultation(self, student_question: str, history_context: str = "", user_info: dict = None) -> str:
+        user_desc = ""
+        if user_info:
+            if user_info.get("is_admin"):
+                user_desc = "DIQQAT: Bu suhbatdosh kompaniya admini/rahbari. Unga alohida hurmat bilan javob ber.\n"
+            if user_info.get("name"):
+                user_desc += f"Mijoz ismi: {user_info.get('name')}\n"
+
         consultant_system = (
             "Sen Arkadaş Consulting kompaniyasining Telegramdagi jonli va samimiy konsultanisan (Turkiyada ta'lim bo'yicha).\n"
+            f"{user_desc}"
             "ASOSIY FAKTLAR:\n"
             "- Turkiyada o'qish uchun qat'iy yosh chegarasi yo'q (maktab yoki kollejni bitirgan 17 yoshdan boshlab topshira oladi).\n"
             "- Davlat universitetlari yillik to'lovi: $300 - $800 atrofida.\n"
-            "- Tibbiyot va stomatologiya davlatda: $800 - $2,000 / yil.\n"
+            "- Tibbiyot ('tıp') va stomatologiya davlatda: $800 - $2,000 / yil.\n"
             "- Attestat baholari bilan imtihonsiz (YÖS/DTM siz) to'g'ridan-to'g'ri qabul bor.\n"
             "- Yotoqxona va oylik yashash: $150 - $250.\n"
             "- Rasmiy shartnoma, oldindan to'lov yo'q.\n\n"
             "QAT'IY USLUB VA ETIKET QOIDALARI:\n"
             "1. HURMAT VA 'SIZ' USLUBI (ENG MUHIM): Biz professional konsalting kompaniyasimiz (Arkadaş Consulting). Mijozga ASLO 'sen', 'o'zing', 'borasan', 'qilasan' deb senlama! FAQAT va FAQAT hurmat bilan 'Siz' deb murojaat qil: 'borganingiz ma'qul', 'o'zingiz', 'bormoqchisiz', 'topshirishingiz mumkin', 'qiziqyapsizmi'.\n"
-            "2. JAVOBING JUDA QISQA BO'LSIN: Maksimal 2 ta qisqa jumla! Hech qanday uzun post, esse, ro'yxat yoki reklama matni bo'lmasin.\n"
-            "3. Savolga to'g'ridan-to'g'ri, lo'nda va professional javob ber.\n"
-            "4. Har bir xabarda 'telefoningizni qoldiring' deb sotuvchilik qilma.\n"
-            "5. Oxirida 'Siz' shaklida bitta qisqa, xushmuomala savol bilan suhbatni davom ettir (Masalan: 'O'zingiz qaysi yo'nalish yoki universitetga qiziqyapsiz?')."
+            "2. XOTIRA VA SUHBAT DAVOMIYLIGI: Agar foydalanuvchi qisqa so'z yozgan bo'lsa (masalan: 'tip', 'yotoqxona', 'stomatologiya', 'ha', 'yo'q'), bu sizning avvalgi savolingizga javobdir! 'Tip' - bu turkcha/o'zbekcha Tibbiyot (meditsina) degani. Shuningdek, suhbat davom etayotganda o'rtada qayta-qayta 'Assalomu alaykum' deb yangidan salomlashma, darhol mavzuni davom ettir!\n"
+            "3. JAVOBING JUDA QISQA BO'LSIN: Maksimal 2 ta qisqa jumla! Hech qanday uzun post, esse, ro'yxat yoki reklama matni bo'lmasin.\n"
+            "4. Savolga to'g'ridan-to'g'ri, lo'nda va professional javob ber.\n"
+            "5. Har bir xabarda 'telefoningizni qoldiring' deb sotuvchilik qilma.\n"
+            "6. Oxirida 'Siz' shaklida bitta qisqa, xushmuomala savol bilan suhbatni davom ettir (Masalan: 'Tibbiyot yo'nalishi bo'yicha davlat yoki xususiy universitetlarni ko'rib chiqmoqchimisiz?')."
         )
-        res = self.think_and_generate(student_question, custom_system_prompt=consultant_system, max_tokens=150)
+
+        full_prompt = student_question
+        if history_context:
+            full_prompt = (
+                f"OLDINGI SUHBAT TARIXI:\n{history_context}\n\n"
+                f"MIJOZNING YANGI XABARI: {student_question}\n"
+                "Ushbu yangi xabarga oldingi suhbat mantiqidan kelib chiqib qisqa, tabiiy va 'Siz' deb javob qaytar:"
+            )
+
+        res = self.think_and_generate(full_prompt, custom_system_prompt=consultant_system, max_tokens=150)
         return res.get("text") or "Turkiyada ta'lim bo'yicha savolingiz bormi? O'zingiz qaysi yo'nalishga qiziqyapsiz?"
 
 if __name__ == "__main__":
