@@ -76,27 +76,30 @@ class StudentAssistantBot:
         text_lower = user_text.lower()
 
         # 1. Check for Phone Number detection
-        phone_match = re.search(r'(\+?[0-9\s\-]{9,16})', user_text)
-        if phone_match and len(re.sub(r'\D', '', phone_match.group(1))) >= 9:
-            phone_num = phone_match.group(1).strip()
+        phone_match = re.search(r'(\+?[0-9]{1,3}[\s\-]?)?(\(?[0-9]{2,3}\)?[\s\-]?)?([0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}|[0-9]{7,10})', user_text)
+        if phone_match and len(re.sub(r'\D', '', phone_match.group(0))) >= 7:
+            phone_num = phone_match.group(0).strip()
+            reply_txt = (
+                f"Rahmat, {user_name}! ✅ Telefon raqamingizni saqlab oldik ({phone_num}).\n\n"
+                f"Mutaxassisimiz sizga mos universitetlar va grantlar bo'yicha tez orada to'liq ma'lumot taqdim etadi! 🎓"
+            )
             if chat_id:
                 self.memory.update_user_profile(chat_id, {"phone": phone_num, "name": user_name})
+                self.memory.add_message(chat_id, "user", user_text)
+                self.memory.add_message(chat_id, "assistant", reply_txt)
             return {
                 "is_lead": True,
                 "phone": phone_num,
-                "reply": (
-                    f"Rahmat, {user_name}! ✅ Telefon raqamingiz qabul qilindi ({phone_num}).\n\n"
-                    f"Tez orada Arkadaş Consulting mutaxassisi siz bilan bog'lanadi va "
-                    f"sizga mos universitetlar hamda grant dasturlari bo'yicha to'liq ma'lumot beradi! 🎓"
-                )
+                "reply": reply_txt
             }
 
         # 2. Use AI Brain with conversation history & user profile
         hist_context = ""
         user_meta = {"name": user_name, "is_admin": False}
         if chat_id:
-            hist_context = self.memory.get_history_summary_for_prompt(chat_id, limit=6)
+            hist_context = self.memory.get_history_summary_for_prompt(chat_id, limit=8)
             self.memory.add_message(chat_id, "user", user_text, user_meta=user_meta)
+            user_meta["profile_summary"] = self.memory.get_profile_summary_for_prompt(chat_id)
 
         try:
             ai_ans = self.ai.answer_student_consultation(user_text, history_context=hist_context, user_info=user_meta)
@@ -121,10 +124,21 @@ class StudentAssistantBot:
 
     def process_incoming_message(self, message: dict):
         chat_id = str(message["chat"]["id"])
-        user_text = message.get("text", "").strip()
+        user_text = (message.get("text") or message.get("caption") or "").strip()
         from_user = message.get("from", {})
         user_name = from_user.get("first_name", "Do'st")
         username = from_user.get("username", "")
+
+        # Handle photo or document sent without text
+        if not user_text and ("photo" in message or "document" in message):
+            self.memory.add_message(chat_id, "user", "[Hujjat/Rasm yuborildi]")
+            photo_reply = "Rasmni qabul qildik! ✅ Agar bu attestat, diplom yoki pasportingiz bo'lsa, mutaxassisimiz hujjatlaringizni tahlil qilib sizga mos universitetlarni saralab beradi. Qaysi yo'nalishda o'qimoqchisiz?"
+            self.memory.add_message(chat_id, "assistant", photo_reply)
+            self.client.send_message(chat_id, photo_reply)
+            return
+
+        if not user_text:
+            return
 
         result = self.generate_reply(user_text, user_name, chat_id=chat_id)
 

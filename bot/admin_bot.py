@@ -1331,12 +1331,27 @@ class AdminApprovalBot:
                             else:
                                 self.client.answer_callback_query(cb_id, "⚠️ Taslaq eskirgan.")
 
-                    # 2. Text Messages & Menu Buttons
-                    elif "message" in u and "text" in u["message"]:
+                    # 2. Text Messages, Photos & Menu Buttons
+                    elif "message" in u:
                         msg = u["message"]
                         chat_id = str(msg["chat"]["id"])
-                        text = msg["text"].strip()
-                        print(f"[TG RECV] From {chat_id} ({msg.get('from', {}).get('first_name')}): {text}", flush=True)
+                        from_user = msg.get("from", {})
+                        user_name = from_user.get("first_name", "Do'st")
+                        text = (msg.get("text") or msg.get("caption") or "").strip()
+
+                        # Photo / Document handling without text
+                        if not text and ("photo" in msg or "document" in msg):
+                            print(f"[PHOTO/DOC RECV] From {chat_id} ({user_name})", flush=True)
+                            self.memory.add_message(chat_id, "user", "[Hujjat/Rasm yuborildi]")
+                            photo_reply = "Rasmni qabul qildik! ✅ Agar bu attestat, diplom yoki pasportingiz bo'lsa, mutaxassisimiz hujjatlaringizni tahlil qilib sizga mos universitetlarni saralab beradi. Qaysi yo'nalishda o'qimoqchisiz?"
+                            self.memory.add_message(chat_id, "assistant", photo_reply)
+                            self.client.send_message(chat_id, photo_reply)
+                            continue
+
+                        if not text:
+                            continue
+
+                        print(f"[TG RECV] From {chat_id} ({user_name}): {text}", flush=True)
 
                         # Auto-assign Admin ID if not set
                         if not self.config.get("admin_chat_id"):
@@ -1545,8 +1560,9 @@ class AdminApprovalBot:
                                     "name": from_user.get("first_name", "Admin"),
                                     "username": from_user.get("username", "")
                                 }
-                                hist_context = self.memory.get_history_summary_for_prompt(chat_id, limit=6)
+                                hist_context = self.memory.get_history_summary_for_prompt(chat_id, limit=8)
                                 self.memory.add_message(chat_id, "user", text, user_meta=user_meta)
+                                user_meta["profile_summary"] = self.memory.get_profile_summary_for_prompt(chat_id)
                                 reply = self.ai.answer_student_consultation(text, history_context=hist_context, user_info=user_meta)
                                 if not reply:
                                     reply = "ℹ️ Arkadaş Consulting bilan Turkiyada kafolatlangan ta'lim olishingiz mumkin. Savolingiz bo'yicha batafsil konsultatsiya: @arkadasuzz"
