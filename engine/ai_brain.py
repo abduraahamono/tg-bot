@@ -131,10 +131,13 @@ class AIBrain:
         )
 
     # 1. Google Gemini Provider
-    def _call_gemini(self, prompt: str) -> Optional[str]:
+    def _call_gemini(self, prompt: str, custom_system_prompt: Optional[str] = None, max_tokens: int = 4096) -> Optional[str]:
         keys = self.config.get("gemini_keys", [])
         if not keys:
             return None
+
+        sys_p = custom_system_prompt if custom_system_prompt else self.system_prompt
+        parts_text = f"{sys_p}\n\nMijoz savoli: {prompt}" if custom_system_prompt else f"{sys_p}\n\n---\nVAZIFA:\n{prompt}"
 
         # Priority working models
         models = ["gemini-flash-lite-latest", "gemini-pro-latest", "gemini-flash-latest"]
@@ -148,12 +151,12 @@ class AIBrain:
                     "contents": [
                         {
                             "role": "user",
-                            "parts": [{"text": f"{self.system_prompt}\n\n---\nVAZIFA:\n{prompt}"}]
+                            "parts": [{"text": parts_text}]
                         }
                     ],
                     "generationConfig": {
-                        "temperature": 0.7,
-                        "maxOutputTokens": 4096
+                        "temperature": 0.6 if custom_system_prompt else 0.7,
+                        "maxOutputTokens": max_tokens
                     }
                 }
 
@@ -280,7 +283,7 @@ class AIBrain:
             return None
 
     # Master Generate with Auto-Fallback
-    def think_and_generate(self, task_prompt: str) -> Dict[str, Any]:
+    def think_and_generate(self, task_prompt: str, custom_system_prompt: Optional[str] = None, max_tokens: int = 4096) -> Dict[str, Any]:
         """
         Executes prompt through active provider or auto-fallback chain:
         Gemini -> Groq -> GLM -> Ollama
@@ -289,7 +292,7 @@ class AIBrain:
 
         # 1. Direct provider selection if specified
         if provider == "gemini":
-            res = self._call_gemini(task_prompt)
+            res = self._call_gemini(task_prompt, custom_system_prompt=custom_system_prompt, max_tokens=max_tokens)
             if res: return {"provider": "gemini", "text": res}
         elif provider == "groq":
             res = self._call_groq(task_prompt)
@@ -303,7 +306,7 @@ class AIBrain:
 
         # 2. Auto-Fallback Chain
         # Try Gemini first (Best Uzbek accuracy)
-        res = self._call_gemini(task_prompt)
+        res = self._call_gemini(task_prompt, custom_system_prompt=custom_system_prompt, max_tokens=max_tokens)
         if res:
             return {"provider": "gemini", "text": res}
 
@@ -339,14 +342,24 @@ class AIBrain:
         return res["text"] or "2025 o'quv mavsumi boshlandi! Turkiyadagi eng yaxshi universitetlarga grant asosida qabul bo'ling!"
 
     def answer_student_consultation(self, student_question: str) -> str:
-        prompt = (
-            f"Talaba savoli: '{student_question}'\n"
-            "Arkadaş Consulting nomidan ushbu talabaga juda samimiy, dalda beruvchi, uning qo'rquvini yo'qotuvchi "
-            "va oxirida uning ismini hamda telefon raqamini so'rab oladigan professional konsultatsiya javobi yoz. "
-            "Eslatma: Oldindan to'lov yo'qligini, faqat attestat bilan ham kirish mumkinligini ta'kidla."
+        consultant_system = (
+            "Sen Arkadaş Consulting kompaniyasining Telegramdagi jonli va samimiy konsultanisan (Turkiyada ta'lim bo'yicha).\n"
+            "ASOSIY FAKTLAR:\n"
+            "- Turkiyada o'qish uchun qat'iy yosh chegarasi yo'q (maktab yoki kollejni bitirgan 17 yoshdan boshlab topshira oladi).\n"
+            "- Davlat universitetlari yillik to'lovi: $300 - $800 atrofida.\n"
+            "- Tibbiyot va stomatologiya davlatda: $800 - $2,000 / yil.\n"
+            "- Attestat baholari bilan imtihonsiz (YÖS/DTM siz) to'g'ridan-to'g'ri qabul bor.\n"
+            "- Yotoqxona va oylik yashash: $150 - $250.\n"
+            "- Rasmiy shartnoma, oldindan to'lov yo'q.\n\n"
+            "QAT'IY USLUB QOIDALARI:\n"
+            "1. FAQAT va FAQAT o'zbek tilida, xuddi Telegramda yozishayotgan tirik insonga o'xshab tabiiy va do'stona gapir. Kitobiy, rasmiy yoki soxta iboralardan ('shuni mamnuniyat bilan aytamizki', 'savolingiz uchun rahmat' kabi) ASLO foydalanma.\n"
+            "2. JAVOBING JUDA QISQA BO'LSIN: Maksimal 2 ta yoki 3 ta qisqa jumla! Hech qanday uzun post, esse, ro'yxat, emoji tiqishtirish yoki reklama matni bo'lmasin.\n"
+            "3. Berilgan savolga to'g'ridan-to'g'ri, lo'nda javob ber.\n"
+            "4. Har bir javobda 'telefoningizni bering' deb tiqishtirma.\n"
+            "5. Oxirida bitta do'stona qisqa savol bilan suhbatni davom ettir."
         )
-        res = self.think_and_generate(prompt)
-        return res["text"]
+        res = self.think_and_generate(student_question, custom_system_prompt=consultant_system, max_tokens=150)
+        return res.get("text") or "Turkiyada o'qish bo'yicha savolingiz bormi? Qaysi yo'nalishga qiziqyapsiz?"
 
 if __name__ == "__main__":
     brain = AIBrain()
