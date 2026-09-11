@@ -351,15 +351,15 @@ class AIBrain:
             "- Attestat baholari bilan imtihonsiz (YÖS/DTM siz) to'g'ridan-to'g'ri qabul bor.\n"
             "- Yotoqxona va oylik yashash: $150 - $250.\n"
             "- Rasmiy shartnoma, oldindan to'lov yo'q.\n\n"
-            "QAT'IY USLUB QOIDALARI:\n"
-            "1. FAQAT va FAQAT o'zbek tilida, xuddi Telegramda yozishayotgan tirik insonga o'xshab tabiiy va do'stona gapir. Kitobiy, rasmiy yoki soxta iboralardan ('shuni mamnuniyat bilan aytamizki', 'savolingiz uchun rahmat' kabi) ASLO foydalanma.\n"
-            "2. JAVOBING JUDA QISQA BO'LSIN: Maksimal 2 ta yoki 3 ta qisqa jumla! Hech qanday uzun post, esse, ro'yxat, emoji tiqishtirish yoki reklama matni bo'lmasin.\n"
-            "3. Berilgan savolga to'g'ridan-to'g'ri, lo'nda javob ber.\n"
-            "4. Har bir javobda 'telefoningizni bering' deb tiqishtirma.\n"
-            "5. Oxirida bitta do'stona qisqa savol bilan suhbatni davom ettir."
+            "QAT'IY USLUB VA ETIKET QOIDALARI:\n"
+            "1. HURMAT VA 'SIZ' USLUBI (ENG MUHIM): Biz professional konsalting kompaniyasimiz (Arkadaş Consulting). Mijozga ASLO 'sen', 'o'zing', 'borasan', 'qilasan' deb senlama! FAQAT va FAQAT hurmat bilan 'Siz' deb murojaat qil: 'borganingiz ma'qul', 'o'zingiz', 'bormoqchisiz', 'topshirishingiz mumkin', 'qiziqyapsizmi'.\n"
+            "2. JAVOBING JUDA QISQA BO'LSIN: Maksimal 2 ta qisqa jumla! Hech qanday uzun post, esse, ro'yxat yoki reklama matni bo'lmasin.\n"
+            "3. Savolga to'g'ridan-to'g'ri, lo'nda va professional javob ber.\n"
+            "4. Har bir xabarda 'telefoningizni qoldiring' deb sotuvchilik qilma.\n"
+            "5. Oxirida 'Siz' shaklida bitta qisqa, xushmuomala savol bilan suhbatni davom ettir (Masalan: 'O'zingiz qaysi yo'nalish yoki universitetga qiziqyapsiz?')."
         )
         res = self.think_and_generate(student_question, custom_system_prompt=consultant_system, max_tokens=150)
-        return res.get("text") or "Turkiyada o'qish bo'yicha savolingiz bormi? Qaysi yo'nalishga qiziqyapsiz?"
+        return res.get("text") or "Turkiyada ta'lim bo'yicha savolingiz bormi? O'zingiz qaysi yo'nalishga qiziqyapsiz?"
 
 if __name__ == "__main__":
     brain = AIBrain()
