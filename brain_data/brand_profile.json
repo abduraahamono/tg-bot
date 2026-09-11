@@ -1,0 +1,88 @@
+{
+  "brand_name": "Arkadaş Consulting",
+  "brand_name_uz": "Arkadaş Konsalting",
+  "channel_title": "Turkiyada ta'lim🇹🇷",
+  "slogan": "Siz faqat qaror qabul qiling — qolganini Arkadaş hal qiladi!",
+  "taglines": [
+    "Arkadaş – Sizning Turkiyadagi yo'ldoshingiz!",
+    "Turkiyada tekinga o'qish imkoniyati!",
+    "Dastlab o'qishga kirasiz, keyin esa to'lov qilasiz! Oldindan to'lov yo'q, risk yo'q!"
+  ],
+  "contact": {
+    "telegram_admin": "@arkadasuzz",
+    "telegram_channel": "https://t.me/arkadasuz",
+    "instagram": "@arkadas.uz",
+    "twitter": "@arkadasuz",
+    "youtube": "@arkadaşuz"
+  },
+  "official_packages": {
+    "asosiy_paket": {
+      "price": "$500",
+      "guarantee": "99% muvaffaqiyat kafolati",
+      "features": [
+        "Universitetga ariza topshirish",
+        "Elchixonadan denklik olish",
+        "Hujjatlarning rasmiy tarjimasi",
+        "Universitetdan rasmiy qabul xati"
+      ]
+    },
+    "orta_paket": {
+      "price": "$800",
+      "features": [
+        "Asosiy paketdagi barcha xizmatlar",
+        "Aeroportda kutib olish",
+        "1 kunlik Istanbul sayohati",
+        "Sog'liqni saqlash sug'urtasi",
+        "Yashash uchun ruxsatnoma (kimlik/ikamet)",
+        "SIM karta va bank hisob raqami ochish"
+      ]
+    },
+    "katta_paket": {
+      "price": "$1100",
+      "features": [
+        "O'rta paketdagi barcha xizmatlar",
+        "1 yillik TÖMER (turk tili tayyorlov)",
+        "4 yillik to'liq grant kelishuvi (75% gacha grant yoki bepul o'qish)"
+      ]
+    },
+    "burs_xizmati": {
+      "title": "Türkiye Bursları Davlat Granti Xizmati",
+      "features": [
+        "Burs (grant) hujjatlarini yig'ishda to'liq yordam",
+        "Motivatsion xat yozib berish va professional ko'mak",
+        "Onlayn ariza topshirish",
+        "Professor yoki universitetdan tavsiyanoma olishda ko'mak"
+      ],
+      "guarantee": "Agar grant chiqmasa: to'lovning 50% qaytariladi YOKI $500 qiymatidagi Asosiy Paket BEPUL taqdim etiladi! (Shu kungacha 20 dan ortiq talabamiz grantni qo'lga kiritgan)"
+    }
+  },
+  "company_legal": {
+    "entity": "O'zbekistonda rasmiy ro'yxatdan o'tgan MChJ",
+    "track_record": "O'tgan yili 40 nafar, joriy yilda 20 dan ortiq talaba Turkiyaga yuborilgan",
+    "contract": "Barcha xizmatlar rasmiy shartnoma asosida amalga oshiriladi, 100% ishonchli"
+  },
+  "tone_guidelines": {
+    "tone": "Do'stona, ishonchli, professional, motivatsion va samimiy",
+    "language": "O'zbek tili (Lotin alifbosida)",
+    "key_values": [
+      "Ishonchlilik",
+      "Oldindan to'lovsiz tizim",
+      "Doimiy qo'llab-quvvatlash",
+      "Talaba manfaati"
+    ],
+    "common_emojis": [
+      "🇹🇷",
+      "🎓",
+      "✨",
+      "📌",
+      "✅",
+      "📲",
+      "👉",
+      "🏠",
+      "✈️",
+      "💸",
+      "🪪",
+      "📱"
+    ]
+  }
+}

@@ -1,0 +1,122 @@
+[
+  {
+    "id": 1,
+    "question": "Qabul uchun imtihon bormi?",
+    "answer": "ARKADAŞ orqali imtihonli yoki imtihonsiz ham qabul qilinasiz. Attestat baholaringiz asosida ham Turkiyaning nufuzli davlat va xususiy universitetlariga kirish imkoniyati mavjud.",
+    "category": "admission"
+  },
+  {
+    "id": 2,
+    "question": "Grant yoki stipendiya olish mumkinmi?",
+    "answer": "Ha! Hamkor universitetlarimiz orqali 25%, 50%, 75% va hatto 100% gacha bo'lgan to'liq grant dasturlariga ariza topshirishda yordam beramiz.",
+    "category": "scholarship"
+  },
+  {
+    "id": 3,
+    "question": "Oldindan to'lov bormi?",
+    "answer": "Yo'q! Bizda tizim ishonchli va shaffof: Dastlab universitetga qabul qilinib, taklifnomangiz (acceptance letter) qo'lingizga tekkandan keyin xizmat haqi to'lanadi. Hech qanday oldindan to'lov va moliyaviy risk yo'q!",
+    "category": "payment"
+  },
+  {
+    "id": 4,
+    "question": "Turkiyaga borgandan keyin yotoqxona va yashash masalalari qanday hal qilinadi?",
+    "answer": "Siz Turkiyaga borganingizda biz sizni aeroportda kutib olamiz. Universitetga yaqin va hamyonbop yotoqxonaga joylashtiramiz, yashash guvohnomasi (ikamet), sim-karta va bank kartasi ochishda to'liq hamrohlik qilamiz.",
+    "category": "support"
+  },
+  {
+    "id": 5,
+    "question": "Turk tilini bilish shartmi?",
+    "answer": "Shart emas. Turkiya universitetlarida 100% ingliz tilidagi yo'nalishlar mavjud. Agar turk tilidagi yo'nalishni tanlasangiz, universitet huzurida 1 yillik turk tili tayyorlov (TÖMER/Hazırlık) kursi o'qib, keyin mutaxassislikni davom ettirasiz.",
+    "category": "language"
+  },
+  {
+    "id": 6,
+    "question": "Turkiya diplomlari O'zbekistonda tan olinadimi?",
+    "answer": "Ha, albatta! Turkiya Yevropa ta'lim hududiga (Bologna jarayoni) kiradi. Davlat va xususiy universitetlar diplomlari O'zbekiston Oliy ta'lim vazirligi tomonidan to'g'ridan-to'g'ri va imtihonsiz tan olinadi (nostrifikatsiya qilinadi).",
+    "category": "diploma"
+  },
+  {
+    "id": 7,
+    "question": "Talabalarga Turkiyada ishlashga ruxsat bormi?",
+    "answer": "Ha! Turkiya qonunchiligiga ko'ra xalqaro talabalar haftasiga 20 soat rasmiy part-time ishlash huquqiga ega. Talabalar soatiga o'rtacha $5 - $10 daromad topishi mumkin.",
+    "category": "work"
+  },
+  {
+    "id": 8,
+    "question": "Turkiyada oylik yashash xarajati qancha?",
+    "answer": "Talabalar uchun o'rtacha oylik yotoqxona va ovqatlanish xarajatlari $150 - $250 atrofida. Talabalik transport kartasi (İstanbulkart) bilan yo'lkira deyarli tekin!",
+    "category": "expenses"
+  },
+  {
+    "id": 9,
+    "question": "Attestat baholarim past bo'lsa ham kirsam bo'ladimi?",
+    "answer": "Ha! Bizda 50 dan ortiq hamkor universitetlar mavjud bo'lib, o'rtacha 3 yoki 4 baholi attestatlar bilan ham istalgan nufuzli sohaga qabul kafolatlanadi.",
+    "category": "grades"
+  },
+  {
+    "id": 10,
+    "question": "Turkiyada tibbiyot fakultetiga grant bormi?",
+    "answer": "Ha! Davlat va nufuzli xususiy universitetlarning Davolash ishi, Stomatologiya va Farmatsevtika yo'nalishlariga 50% va 100% grant kvotalari mavjud.",
+    "category": "medicine"
+  },
+  {
+    "id": 11,
+    "question": "YÖS yoki SAT imtihonlarini topshirish majburiymi?",
+    "answer": "Majburiy emas! Arkadaş Consulting bilan siz YÖS yoki SAT imtihonlarisiz, faqat maktab yoki kollej attestatingiz bilan to'g'ridan-to'g'ri qabul qilinishingiz mumkin.",
+    "category": "exams"
+  },
+  {
+    "id": 12,
+    "question": "Hujjat topshirish uchun qanday hujjatlar kerak?",
+    "answer": "Faqat 3 ta hujjat kifoya: Pasport nusxasi, Attestat (yoki diplom) ilovasi bilan, hamda 3x4 o'lchamdagi rasm. Qolgan tarjima va apostil ishlarini o'zimiz bajaramiz.",
+    "category": "documents"
+  },
+  {
+    "id": 13,
+    "question": "O'qishga qabul qancha vaqt oladi?",
+    "answer": "Hujjatlar topshirilgandan so'ng 3 kundan 7 kungacha universitetdan rasmiy qabul xati (Acceptance Letter) chiqadi. Jarayon juda tez va ishonchli!",
+    "category": "timeline"
+  },
+  {
+    "id": 14,
+    "question": "Davlat universitetlarida kontrakt narxi qancha?",
+    "answer": "Turkiya davlat universitetlarida yillik ta'lim to'lovi juda hamyonbop: yo'nalishiga qarab yiliga $200 dan $800 gacha. Grant yutsangiz butunlay bepul!",
+    "category": "tuition"
+  },
+  {
+    "id": 15,
+    "question": "Universitet yotoqxonalari sharoiti qanday?",
+    "answer": "Yotoqxonalar 1-2-3 kishilik zamonaviy xonalardan iborat bo'lib, har kuni 2 mahal issiq ovqat, 24/7 tezkor Wi-Fi, xavfsizlik va bepul kir yuvish xizmatlari bilan ta'minlangan.",
+    "category": "dorm"
+  },
+  {
+    "id": 16,
+    "question": "Türkiye Bursları nima va u orqali qanday imtiyozlar bor?",
+    "answer": "Qishda 'Türkiye Bursları' davlat stipendiya dasturiga arizalar ochiladi. Agar grant yutib olsangiz: kontrakt to'lovi olinmaydi (bepul o'qish), bepul yotoqxona, oylik stipendiya va samolyot bileti beriladi. Bizning Burs xizmatimiz orqali ariza topshirish, motivatsion xat yozish va tavsiyanoma olishda to'liq yordam beramiz. Agar grant chiqmasa: to'lovingizning 50% qaytariladi yoki $500 lik Asosiy Paketimiz bepul beriladi!",
+    "category": "burs"
+  },
+  {
+    "id": 17,
+    "question": "Arkadaş Consulting xizmat paketlari va narxlari qanday?",
+    "answer": "Bizda 3 ta rasmiy xizmat paketi mavjud: 1) Asosiy paket ($500) - Ariza, denklik, rasmiy tarjima va 99% kafolatlangan qabul xati; 2) O'rta paket ($800) - Asosiy paket + Aeroportda kutib olish, 1 kunlik Istanbul sayohati, sug'urta, kimlik (yashash ruxsatnomasi), SIM karta va bank hisobi; 3) Katta paket ($1100) - O'rta paket + 1 yillik TÖMER tili kursi va 4 yillik to'liq grant kelishuvi (75% gacha grant).",
+    "category": "packages"
+  },
+  {
+    "id": 18,
+    "question": "Tibbiyot uchun Medipol yaxshimi yoki davlat universitetlarimi?",
+    "answer": "Medipol xususiy universitet bo'lib, narxlari ancha qimmat. Tibbiyot bo'yicha Istanbul va Ankara Universitetlari kabi davlat oliygohlari juda kuchli va yillik to'lovi ancha arzon ($800-$2000). Biz sizga eng maqbul variantlarni tanlab beramiz.",
+    "category": "medicine"
+  },
+  {
+    "id": 19,
+    "question": "İlahiyat (dinshunoslik) yo'nalishiga qabul qanday bo'ladi?",
+    "answer": "İlahiyat yo'nalishi bo'yicha 29 Mayıs Universiteti va Istanbul Universiteti juda kuchli. Bu yo'nalish uchun arab tili talab etiladi; agar arab tilini bilmasangiz, universitetda 1 yil arabcha tayyorlov kursida (hazırlık) o'qib, keyin 4 yillik asosiy ta'limni boshlaysiz.",
+    "category": "theology"
+  },
+  {
+    "id": 20,
+    "question": "YÖS yoki SAT imtihonisiz kirsam bo'ladimi?",
+    "answer": "Albatta! Davlat universitetlariga YÖS topshirmoqchi bo'lsangiz 90-95 ball kerak, xususiyga SAT. Lekin biz orqali YÖS yoki DTM imtihonisiz, faqat maktab/kollej attestat baholaringiz asosida ham nufuzli davlat va xususiy universitetlarga to'g'ridan-to'g'ri qabul qilinishingiz mumkin!",
+    "category": "exams"
+  }
+]
