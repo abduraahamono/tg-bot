@@ -643,7 +643,7 @@ class ContentGenerator:
             "1. Post umumiy hajmi BARCHA belgilar, bo'shliqlar va emojilar bilan birga MAKSIMAL 240-260 BELGI bo'lsin! 270 dan ASLO OSHMASIN!\n"
             "2. Birinchi jumla juda qiziqarli (Hook) bo'lsin.\n"
             "3. 0$ risk, 0 risk yoki dollar so'zlari ASLO ISHLATILMASIN.\n"
-            "4. Post oxiriga qisqa qilib: '👉 @arkadasuzz #TurkiyaTalim' qo'sh.\n"
+            "4. Post oxiriga qisqa qilib: '👉 t.me/arkadasuz #Turkiya' qo'sh.\n"
             "5. Faqat tayyor tvit matnini qaytar, boshqa hech qanday izohsiz."
         )
 
@@ -653,10 +653,10 @@ class ContentGenerator:
         # Strict character length guardrail for Twitter
         if len(content) > 275 or len(content) < 80:
             fallbacks = [
-                "🇹🇷 Turkiyada imtihonsiz talaba bo'lish siri: Attestat bahosi yetarli!\n\nDiplomi dunyoda tan olinadi, kontraktlar esa hamyonbop.\n\nBatafsil: @arkadasuzz #TurkiyaTalim",
-                "🎓 Bologna tizimi nima beradi? Turkiya diplomi bilan 150+ davlatda bemalol ishlash va o'qish mumkin!\n\nOldindan to'lovsiz boshlang.\n\nBatafsil: @arkadasuzz #Turkiya",
-                "✈️ Erasmus+ bilan Turkiyadan Yevropaga! Bepul o'qish va yevroda stipendiya olish imkoniyati.\n\nQabul ochiq!\n\nBatafsil: @arkadasuzz #Talim",
-                "🏛️ Eskişehir talabalar poytaxti: aholining 70% yoshlar, juda arzon va qulay muhit!\n\nAttestat bilan qabul.\n\nBatafsil: @arkadasuzz #TurkiyaTalim"
+                "🇹🇷 Turkiyada imtihonsiz talaba bo'lish siri: Attestat bahosi yetarli!\n\nDiplomi dunyoda tan olinadi, kontraktlar esa hamyonbop.\n\nKanal: t.me/arkadasuz #Turkiya",
+                "🎓 Bologna tizimi nima beradi? Turkiya diplomi bilan 150+ davlatda bemalol ishlash va o'qish mumkin!\n\nBarcha ma'lumotlar: t.me/arkadasuz #Talim",
+                "✈️ Erasmus+ bilan Turkiyadan Yevropaga! Bepul o'qish va yevroda stipendiya olish imkoniyati.\n\nQabul ochiq: t.me/arkadasuz #Grant",
+                "🏛️ Eskişehir talabalar shaharchasi: aholining 70% yoshlar, juda arzon va qulay muhit!\n\nBatafsil: t.me/arkadasuz #Turkiya"
             ]
             content = random.choice(fallbacks)
 

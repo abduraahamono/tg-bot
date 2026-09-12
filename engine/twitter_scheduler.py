@@ -122,10 +122,10 @@ class TwitterScheduler:
 
                 print(f"[TwitterScheduler] Publishing due tweet {tw.get('id')} ({tw.get('slot')})...")
 
-                if is_thread and thread_items:
-                    res = browser_pub.publish_twitter_thread(thread_items)
+                if is_thread and tw.get("thread_items"):
+                    res = browser_pub.publish_twitter_thread(tw["thread_items"])
                 else:
-                    res = browser_pub.publish_twitter_web(content, image_path)
+                    res = browser_pub.publish_twitter_web(content, image_path, auto_reply_telegram=True)
 
                 if res.get("success"):
                     tw["status"] = "posted"

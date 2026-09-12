@@ -55,10 +55,11 @@ class BrowserPublisher:
                 except Exception:
                     pass
 
-    def publish_twitter_web(self, text: str, image_path: str = None) -> Dict[str, Any]:
-        """Twitter (X) ga bepul tvit chiqarish."""
+    def publish_twitter_web(self, text: str, image_path: Optional[str] = None, auto_reply_telegram: bool = True) -> Dict[str, Any]:
+        """Twitter (X) ga brauzer orqali to'g'ridan-to'g'ri tvit va avtomatik Telegram sharhi joylash."""
         self.clean_locks()
         from playwright.sync_api import sync_playwright
+        from engine.growth_tactics import get_growth_reply
         try:
             with sync_playwright() as p:
                 browser = p.chromium.launch_persistent_context(
@@ -67,16 +68,13 @@ class BrowserPublisher:
                     args=["--disable-blink-features=AutomationControlled"]
                 )
                 page = browser.new_page()
-                page.goto("https://x.com/home", timeout=25000)
+                page.goto("https://x.com/compose/post", timeout=25000)
                 page.wait_for_timeout(3000)
 
-                # Dismiss any open menus/modals with Escape
-                page.keyboard.press("Escape")
-                page.wait_for_timeout(400)
+                # Modalni tozalash
                 page.keyboard.press("Escape")
                 page.wait_for_timeout(400)
 
-                # Find compose box
                 box = page.locator('div[data-testid="tweetTextarea_0"], div[role="textbox"]').first
                 if box.count() == 0:
                     page.goto("https://x.com/compose/post", timeout=20000)
@@ -102,27 +100,38 @@ class BrowserPublisher:
                         file_input.set_input_files(image_path)
                         page.wait_for_timeout(3500)
 
-                # Submit tweet via native shortcut (Meta+Enter on Mac, Control+Enter on Win/Linux)
-                page.keyboard.press("Meta+Enter")
-                page.wait_for_timeout(2000)
+                # If auto_reply_telegram is True, add a threaded reply comment with Telegram channel link
+                if auto_reply_telegram:
+                    add_btn = page.locator('button[data-testid="addButton"]').first
+                    if add_btn.count() > 0:
+                        add_btn.click(force=True)
+                        page.wait_for_timeout(800)
+                        boxes = page.locator('div[data-testid^="tweetTextarea_"], div[role="textbox"]').all()
+                        if len(boxes) > 1:
+                            reply_box = boxes[-1]
+                            reply_box.click()
+                            reply_box.fill(get_growth_reply())
+                            page.wait_for_timeout(800)
 
-                # Fallback: Control+Enter
+                # Submit tweet / thread via button or shortcut
+                post_btn = page.locator('button[data-testid="tweetButton"], button[data-testid="tweetButtonInline"]').first
+                if post_btn.count() > 0:
+                    post_btn.scroll_into_view_if_needed()
+                    post_btn.click(force=True)
+                    page.wait_for_timeout(4000)
+                else:
+                    page.keyboard.press("Meta+Enter")
+                    page.wait_for_timeout(3000)
+
+                # Fallback check
                 box_check = page.locator('div[data-testid="tweetTextarea_0"]').first
                 if box_check.count() > 0 and box_check.inner_text().strip():
                     page.keyboard.press("Control+Enter")
-                    page.wait_for_timeout(2000)
-
-                # Fallback: Button click
-                if box_check.count() > 0 and box_check.inner_text().strip():
-                    post_btn = page.locator('button[data-testid="tweetButtonInline"], button[data-testid="tweetButton"]').first
-                    if post_btn.count() > 0:
-                        post_btn.scroll_into_view_if_needed()
-                        post_btn.click(force=True)
-                        page.wait_for_timeout(3000)
+                    page.wait_for_timeout(2500)
 
                 page.wait_for_timeout(2000)
                 browser.close()
-                return {"success": True, "platform": "twitter_web"}
+                return {"success": True, "platform": "twitter_web", "auto_reply_sent": auto_reply_telegram}
         except Exception as e:
             return {"success": False, "error": str(e)}
 

@@ -38,9 +38,9 @@ def format_multichannel_pack(post_data: Dict[str, Any]) -> Dict[str, str]:
     first_line = lines[0] if lines else "Turkiyada 100% grant asosida o'qish imkoniyati! 🇹🇷"
     second_line = lines[1] if len(lines) > 1 else "Arkadaş Consulting bilan imtihonsiz qabul."
     
-    tw_base = f"{first_line}\n\n{second_line}\n\n📲 Murojaat: @arkadasuzz\n#TurkiyadaTalim #Grant"
+    tw_base = f"{first_line}\n\n{second_line}\n\n👉 Kanalimiz: t.me/arkadasuz\n#TurkiyadaTalim"
     if len(tw_base) > 275:
-        tw_base = tw_base[:240] + "...\n📲 @arkadasuzz\n#TurkiyadaTalim"
+        tw_base = tw_base[:235] + "...\n👉 t.me/arkadasuz"
 
     # 3. TIKTOK / REELS FORMAT
     tt_hook = lines[0] if lines else "Turkiyada o'qishni xohlaysizmi? 🇹🇷"
