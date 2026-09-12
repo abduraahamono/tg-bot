@@ -41,33 +41,29 @@ class StudentAssistantBot:
         self.faqs = load_json(BRAIN_DIR / "faq_knowledge.json")
         from engine.conversation_memory import ConversationMemory
         self.memory = ConversationMemory()
+        from crm.lead_manager import CRMLeadManager
+        self.crm_manager = CRMLeadManager()
         self.ai = AIBrain()
         self.pending_leads = {}  # user_id -> state
 
     def save_lead(self, lead_data: dict):
-        CRM_FILE.parent.mkdir(parents=True, exist_ok=True)
-        leads = []
-        if CRM_FILE.exists():
-            try:
-                with open(CRM_FILE, "r", encoding="utf-8") as f:
-                    leads = json.load(f)
-            except Exception:
-                leads = []
-        
-        leads.append(lead_data)
-        with open(CRM_FILE, "w", encoding="utf-8") as f:
-            json.dump(leads, f, ensure_ascii=False, indent=2)
+        # 1. Save locally (JSON + CSV) and Push to Google Sheets (if configured)
+        res = self.crm_manager.save_lead(lead_data)
+        saved_lead = res.get("lead", lead_data)
+        gs_status = "✅ Google Sheets'ga yuborildi" if res.get("google_sheets_synced") else "ℹ️ Google Sheets sozlanmagan"
 
-        # Notify Admin
+        # 2. Notify Admin via Telegram
         admin_chat = load_config().get("admin_chat_id")
         if admin_chat and self.client.is_configured():
             alert_text = (
                 f"🚨 <b>YANGI TALABA MUROJAATI (LEAD)!</b>\n\n"
-                f"👤 <b>Ism:</b> {lead_data.get('name', 'Noma\'lum')}\n"
-                f"📱 <b>Telefon:</b> <code>{lead_data.get('phone', 'Noma\'lum')}</code>\n"
-                f"🎓 <b>Qiziqqan soha:</b> {lead_data.get('interest', 'Turkiyada ta\'lim')}\n"
-                f"📅 <b>Vaqt:</b> {lead_data.get('timestamp')}\n"
-                f"💬 <b>Telegram:</b> @{lead_data.get('username', '')} (ID: {lead_data.get('user_id')})\n\n"
+                f"👤 <b>Ism:</b> {saved_lead.get('name', 'Noma\'lum')}\n"
+                f"📱 <b>Telefon:</b> <code>{saved_lead.get('phone', 'Noma\'lum')}</code>\n"
+                f"🎯 <b>Yo'nalish / Maqsad:</b> {saved_lead.get('interest', 'Turkiyada ta\'lim')}\n"
+                f"📊 <b>Holat:</b> {saved_lead.get('current_status', 'Yangi ariza')}\n"
+                f"💬 <b>Telegram:</b> @{saved_lead.get('username', '')} (ID: <code>{saved_lead.get('user_id')}</code>)\n"
+                f"📅 <b>Vaqt:</b> {saved_lead.get('timestamp')}\n"
+                f"🌐 <b>Sheets:</b> <i>{gs_status}</i>\n\n"
                 f"👉 <i>Darhol bog'lanib, konsultatsiya bering!</i>"
             )
             self.client.send_message(admin_chat, alert_text)
@@ -143,12 +139,16 @@ class StudentAssistantBot:
         result = self.generate_reply(user_text, user_name, chat_id=chat_id)
 
         if result.get("is_lead"):
+            profile = self.memory.get_user_profile(chat_id)
+            final_name = profile.get("name") or user_name
+            final_interest = profile.get("interest") or "Turkiyada ta'lim"
             lead_entry = {
                 "user_id": from_user.get("id"),
                 "username": username,
-                "name": user_name,
+                "name": final_name,
                 "phone": result["phone"],
-                "interest": "Turkiyada ta'lim",
+                "interest": final_interest,
+                "current_status": "Yangi ariza (Bog'lanish kutilmoqda)",
                 "first_message": user_text,
                 "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             }

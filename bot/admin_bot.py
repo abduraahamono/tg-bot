@@ -74,6 +74,8 @@ class AdminApprovalBot:
         self.student_bot = StudentAssistantBot()
         from engine.conversation_memory import ConversationMemory
         self.memory = ConversationMemory()
+        from crm.lead_manager import CRMLeadManager
+        self.crm_manager = CRMLeadManager()
         from engine.ai_brain import AIBrain
         self.ai = AIBrain()
         self._start_scheduler_daemon()
@@ -175,6 +177,36 @@ class AdminApprovalBot:
             "• <b>🚀 To'g'ridan-to'g'ri E'lon:</b> Telegram (@arkadasuz), Twitter va Facebook ga bitta tugma bilan chiqarish!"
         ) if welcome else "Kerakli bo'limni tanlang:"
         self.client.send_message(chat_id, msg, reply_markup=MAIN_KEYBOARD)
+
+    def show_crm_hub(self, chat_id: str):
+        leads = self.crm_manager.load_leads()
+        gs_url = self.crm_manager.get_google_sheets_url()
+        gs_status = "🟢 Ulangan (Faol)" if gs_url else "⚪️ Hali ulanmagan"
+
+        msg = (
+            "📊 <b>ARKADAŞ CONSULTING - LEAD CRM MARKAZI</b>\n"
+            "━━━━━━━━━━━━━━━━━━━━━━\n"
+            f"• <b>Jami yig'ilgan arizalar:</b> <b>{len(leads)} ta talaba</b>\n"
+            f"• <b>Google Sheets integratsiyasi:</b> {gs_status}\n"
+            f"• <b>Excel / CSV bazasi:</b> Tayyor (Yuklab olish mumkin)\n\n"
+        )
+
+        if leads:
+            msg += "<b>OXIRGI KELGAN TALABALAR:</b>\n"
+            for l in leads[-4:]:
+                u_tag = f"(@{l.get('username')})" if l.get('username') else ""
+                msg += f"• 👤 <b>{l.get('name')}</b> {u_tag}\n  📞 <code>{l.get('phone')}</code> | 🎯 <i>{l.get('interest')}</i>\n"
+        else:
+            msg += "<i>Hozircha yangi arizalar kelib tushmadi. Talabalar botga telefon raqamini yozishi bilan bu yerga va Google Sheets'ga tushadi.</i>\n"
+
+        kb = {
+            "inline_keyboard": [
+                [{"text": "📥 Excel / CSV Faylni Yuklab Olish", "callback_data": "crm_export_excel"}],
+                [{"text": "🌐 Google Sheets Sozlash & Qo'llanma", "callback_data": "crm_sheets_info"}],
+                [{"text": "🔗 Webhook Havolasini Yangilash", "callback_data": "crm_input_webhook"}]
+            ]
+        }
+        self.client.send_message(chat_id, msg, reply_markup=kb)
 
     def prompt_apps_hub(self, chat_id: str):
         kb = {
@@ -1331,6 +1363,61 @@ class AdminApprovalBot:
                             else:
                                 self.client.answer_callback_query(cb_id, "⚠️ Taslaq eskirgan.")
 
+                        # --- CRM & Google Sheets Callbacks ---
+                        elif data == "crm_export_excel":
+                            self.client.answer_callback_query(cb_id, "📊 Excel/CSV fayli tayyorlanmoqda...")
+                            csv_path = self.crm_manager.generate_excel_export()
+                            leads_count = len(self.crm_manager.load_leads())
+                            caption = (
+                                f"📊 <b>Arkadaş Consulting - Talabalar Ro'yxati (CRM)</b>\n\n"
+                                f"• Jami arizalar: <b>{leads_count} ta</b>\n"
+                                f"• Format: Excel / UTF-8 CSV\n"
+                                f"• Har qanday kompyuter yoki telefonda ochiladi."
+                            )
+                            res_doc = self.client.send_document(from_user, str(csv_path), caption=caption)
+                            if not res_doc.get("ok"):
+                                self.client.send_message(from_user, f"⚠️ Fayl yuborishda xatolik: {res_doc.get('error')}")
+
+                        elif data == "crm_sheets_info":
+                            self.client.answer_callback_query(cb_id, "🌐 Google Sheets qo'llanmasi")
+                            script_code = self.crm_manager.get_google_apps_script_code()
+                            gs_url = self.crm_manager.get_google_sheets_url()
+                            current_st = f"✅ Faol: <code>{gs_url}</code>" if gs_url else "⚪️ Hali ulanmagan"
+                            guide_msg = (
+                                "📊 <b>GOOGLE SHEETS BILAN AVTOMATIK SINXRONIZATSIYA:</b>\n"
+                                "━━━━━━━━━━━━━━━━━━━━━━\n"
+                                f"• <b>Hozirgi holat:</b> {current_st}\n\n"
+                                "🚀 <b>Qanday qilib 2 daqiqada ulanadi?</b>\n"
+                                "1. Google Drive'da yangi <b>Google Sheets (Tablo)</b> oching.\n"
+                                "2. Yuqori menyudan: <b>Kengaytmalar (Extensions) ➔ Apps Script</b> ga kiring.\n"
+                                "3. Quyidagi skript kodini butunlay nusxalab joylang va Saqlang (Save Ctrl+S).\n"
+                                "4. O'ng yuqoridagi <b>Deploy ➔ New deployment ➔ Web App</b> ni tanlang.\n"
+                                "5. 'Who has access' bandini <b>'Anyone' (Har kim)</b> qilib belgilang va <b>Deploy</b> tugmasini bosing.\n"
+                                "6. Chiqqan <code>https://script.google.com/...</code> havolasini botga yuborish uchun pastdagi tugmani bosing!\n\n"
+                                "📋 <b>Google Apps Script KODI (Nusxalang):</b>\n"
+                                f"<pre>{script_code}</pre>"
+                            )
+                            kb_gs = {
+                                "inline_keyboard": [
+                                    [{"text": "🔗 Webhook Havolasini Kiritish", "callback_data": "crm_input_webhook"}],
+                                    [{"text": "⬅️ Orqaga", "callback_data": "crm_show_menu"}]
+                                ]
+                            }
+                            self.client.send_message(from_user, guide_msg, reply_markup=kb_gs)
+
+                        elif data == "crm_input_webhook":
+                            self.client.answer_callback_query(cb_id, "Havolani kiritish kutilmoqda...")
+                            self.admin_states[from_user] = "waiting_sheets_webhook"
+                            self.client.send_message(
+                                from_user,
+                                "🔗 <b>Google Apps Script Webhook havolasini yuboring:</b>\n\n"
+                                "<i>(Havola https://script.google.com/... bilan boshlanishi kerak)</i>"
+                            )
+
+                        elif data == "crm_show_menu":
+                            self.client.answer_callback_query(cb_id, "📊 CRM Menyu")
+                            self.show_crm_hub(from_user)
+
                     # 2. Text Messages, Photos & Menu Buttons
                     elif "message" in u:
                         msg = u["message"]
@@ -1367,7 +1454,7 @@ class AdminApprovalBot:
                                 "📱 Telegram Posti",
                                 "📝 Salt Metin Posti", "🖼️ Görsel Post Kartı",
                                 "💡 Maxsus Post Yozish", "📅 7 Kunlik Reja",
-                                "📊 Lead CRM Ro'yxati", "❓ Yordam / Menyu",
+                                "📊 Leadlar & CRM", "📊 Lead CRM Ro'yxati", "❓ Yordam / Menyu",
                                 "/start", "/menu", "/help"
                             ]
 
@@ -1376,6 +1463,26 @@ class AdminApprovalBot:
                                 self.admin_states[chat_id] = None
 
                             state = self.admin_states.get(chat_id)
+
+                            # Handle Google Sheets Webhook URL input
+                            if state == "waiting_sheets_webhook" and text not in menu_buttons and not text.startswith("/"):
+                                self.admin_states[chat_id] = None
+                                if text.startswith("http") and "script.google.com" in text:
+                                    self.crm_manager.set_google_sheets_url(text)
+                                    self.client.send_message(
+                                        chat_id,
+                                        "🎉 <b>GOOGLE SHEETS MUVAFFAQIYATLI ULANDI!</b>\n\n"
+                                        "Endi yangi talaba telefon raqamini qoldirgan daqiqada Google jadvalingizga satrma-satr avtomatik yoziladi!\n\n"
+                                        f"🔗 Havola: <code>{text}</code>"
+                                    )
+                                    self.show_crm_hub(chat_id)
+                                else:
+                                    self.client.send_message(
+                                        chat_id,
+                                        "⚠️ <b>Noto'g'ri havola formati!</b>\n"
+                                        "Havola <code>https://script.google.com/macros/s/.../exec</code> shaklida bo'lishi kerak. Iltimos tekshirib qaytadan yuboring."
+                                    )
+                                continue
 
                             # Handle custom topic input
                             if state == "waiting_topic" and text not in menu_buttons and not text.startswith("/"):
@@ -1518,21 +1625,8 @@ class AdminApprovalBot:
                                 )
                                 self.client.send_message(chat_id, cal_text)
 
-                            elif text == "📊 Lead CRM Ro'yxati":
-                                crm_file = BASE_DIR / "brain_data" / "leads_crm.json"
-                                leads = []
-                                if crm_file.exists():
-                                    try:
-                                        with open(crm_file, "r", encoding="utf-8") as f:
-                                            leads = json.load(f)
-                                    except Exception: pass
-                                if leads:
-                                    ltxt = f"📊 <b>Jami Yangi Talabalar: {len(leads)} ta</b>\n\n"
-                                    for idx, l in enumerate(leads[-5:], 1):
-                                        ltxt += f"{idx}. <b>{l.get('name')}</b> | 📞 {l.get('phone')} | {l.get('interest')}\n"
-                                    self.client.send_message(chat_id, ltxt)
-                                else:
-                                    self.client.send_message(chat_id, "ℹ️ Hozircha CRM bazasida yangi arizalar mavjud emas.")
+                            elif text in ["📊 Leadlar & CRM", "📊 Lead CRM Ro'yxati", "/leads", "crm"]:
+                                self.show_crm_hub(chat_id)
                             elif text == "🌐 6 Ta Tarmoq Holati":
                                 st = self.publisher.get_platforms_status()
                                 txt = "🌐 <b>IJTIMOIY TARMOQLAR INTEGRATSIYASI (6 TA PLATFORMA):</b>\n━━━━━━━━━━━━━━━━━━━━━━\n"

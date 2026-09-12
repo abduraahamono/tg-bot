@@ -208,6 +208,70 @@ class TelegramClient:
         except Exception as e:
             return {"ok": False, "error": str(e)}
 
+    def send_document(
+        self,
+        chat_id: str,
+        document_path: str,
+        caption: str = "",
+        parse_mode: str = "HTML"
+    ) -> Dict[str, Any]:
+        """Uploads a local document/file via multipart/form-data."""
+        if not self.is_configured():
+            return {"ok": False, "error": "Bot token not configured"}
+
+        url = f"{self.api_url}/sendDocument"
+        boundary = "----WebKitFormBoundaryArkadasDoc"
+        body = []
+
+        body.extend([
+            f"--{boundary}".encode("utf-8"),
+            f'Content-Disposition: form-data; name="chat_id"'.encode("utf-8"),
+            b"",
+            str(chat_id).encode("utf-8")
+        ])
+
+        if caption:
+            body.extend([
+                f"--{boundary}".encode("utf-8"),
+                f'Content-Disposition: form-data; name="caption"'.encode("utf-8"),
+                b"",
+                caption.encode("utf-8")
+            ])
+
+        if parse_mode:
+            body.extend([
+                f"--{boundary}".encode("utf-8"),
+                f'Content-Disposition: form-data; name="parse_mode"'.encode("utf-8"),
+                b"",
+                parse_mode.encode("utf-8")
+            ])
+
+        p = Path(document_path)
+        with open(p, "rb") as f:
+            file_data = f.read()
+
+        body.extend([
+            f"--{boundary}".encode("utf-8"),
+            f'Content-Disposition: form-data; name="document"; filename="{p.name}"'.encode("utf-8"),
+            b"Content-Type: text/csv",
+            b"",
+            file_data,
+            f"--{boundary}--".encode("utf-8"),
+            b""
+        ])
+
+        payload_bytes = b"\r\n".join(body)
+        req = urllib.request.Request(
+            url,
+            data=payload_bytes,
+            headers={"Content-Type": f"multipart/form-data; boundary={boundary}"}
+        )
+        try:
+            with urllib.request.urlopen(req, timeout=60) as resp:
+                return json.loads(resp.read().decode("utf-8"))
+        except Exception as e:
+            return {"ok": False, "error": str(e)}
+
     def get_updates(self, offset: int = 0, timeout: int = 25) -> List[Dict[str, Any]]:
         if not self.is_configured():
             return []
