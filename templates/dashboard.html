@@ -190,13 +190,13 @@
       </div>
 
       <nav class="nav-links flex flex-row items-center gap-1">
-        <button type="button" class="nav-link active" data-hub="spotlight" onclick="switchExecutiveHub('spotlight')">🌟 Spotlight</button>
-        <button type="button" class="nav-link" data-hub="ytstudio" onclick="switchExecutiveHub('ytstudio')">🎬 YouTube Studio</button>
-        <button type="button" class="nav-link" data-hub="socialhub" onclick="switchExecutiveHub('socialhub')">🌐 Sosyal Medya</button>
-        <button type="button" class="nav-link" data-hub="academics" onclick="switchExecutiveHub('academics')">🏛️ Akademi & Tercih</button>
-        <button type="button" class="nav-link" data-hub="crmops" onclick="switchExecutiveHub('crmops')">👥 CRM & Operasyon</button>
-        <button type="button" class="nav-link" data-hub="creativestudio" onclick="switchExecutiveHub('creativestudio')">🎨 Yaratıcı Stüdyo</button>
-        <button type="button" class="nav-link" data-hub="systemops" onclick="switchExecutiveHub('systemops')">⚙️ Sistem & Analitik</button>
+        <button type="button" class="nav-link active" data-hub="spotlight" onclick="switchExecutiveHub('spotlight')">Genel Bakış</button>
+        <button type="button" class="nav-link" data-hub="socialhub" onclick="switchExecutiveHub('socialhub')">Sosyal Medya</button>
+        <button type="button" class="nav-link" data-hub="ytstudio" onclick="switchExecutiveHub('ytstudio')">YouTube</button>
+        <button type="button" class="nav-link" data-hub="academics" onclick="switchExecutiveHub('academics')">Üniversiteler</button>
+        <button type="button" class="nav-link" data-hub="crmops" onclick="switchExecutiveHub('crmops')">Öğrenciler</button>
+        <button type="button" class="nav-link" data-hub="creativestudio" onclick="switchExecutiveHub('creativestudio')">İçerik Stüdyosu</button>
+        <button type="button" class="nav-link" data-hub="systemops" onclick="switchExecutiveHub('systemops')">Ayarlar</button>
       </nav>
 
       <div class="nav-actions flex items-center gap-2">
@@ -250,31 +250,27 @@
               <span>🎯 Günün Viral Kancası</span>
             </div>
 
-            <h1 class="text-2xl md:text-3xl font-bold text-white tracking-tight leading-snug" id="hero-title">
+            <h1 class="text-xl md:text-2xl font-bold text-white tracking-tight leading-snug" id="hero-title">
               Turkiyada imtihonsiz qabul: Attestat bahosi yetarli! 🇹🇷
             </h1>
 
-            <p class="text-sm text-slate-300 leading-relaxed max-w-2xl" id="hero-desc">
-              Türkiye devlet üniversitelerine sınavsız giriş hakkı ve %25 - %100 harç bursları hakkında detaylı video. Lise diploması notuyla doğrudan üniversite öğrencisi olun!
+            <p class="text-xs text-slate-400 leading-relaxed max-w-xl" id="hero-desc">
+              Devlat universitetlariga imtihonsiz kirish tartibi va grant imkoniyatlari.
             </p>
 
             <!-- Minimal Linear Actions -->
-            <div class="flex flex-wrap items-center gap-3 pt-3">
-              <button type="button" class="btn-clean-primary px-5 py-2.5 text-xs flex items-center gap-2" onclick="openHeroVideoModal()">
-                <i class="fa-solid fa-play text-slate-900"></i>
-                <span>Önizle ve Oynat</span>
+            <div class="flex flex-wrap items-center gap-2.5 pt-2">
+              <button type="button" class="btn-clean-primary px-4 py-2 text-xs flex items-center gap-2 cursor-pointer" onclick="openHeroVideoModal()">
+                <i class="fa-solid fa-play text-slate-900 text-[11px]"></i>
+                <span>İzle</span>
               </button>
-              <button type="button" class="btn-clean-secondary px-4 py-2.5 text-xs flex items-center gap-2 text-rose-400 hover:text-rose-300" onclick="uploadHeroVideoNow()">
+              <button type="button" class="btn-clean-secondary px-3.5 py-2 text-xs flex items-center gap-1.5 text-rose-400 hover:text-rose-300" onclick="uploadHeroVideoNow()">
                 <i class="fa-brands fa-youtube"></i>
                 <span>YouTube'a Yükle</span>
               </button>
-              <button type="button" class="btn-clean-secondary px-4 py-2.5 text-xs flex items-center gap-2 text-slate-300" onclick="switchExecutiveHub('socialhub')">
+              <button type="button" class="btn-clean-secondary px-3.5 py-2 text-xs flex items-center gap-1.5 text-slate-300" onclick="switchExecutiveHub('socialhub')">
                 <i class="fa-solid fa-share-nodes text-cyan-400"></i>
-                <span>Kanallara Dağıt</span>
-              </button>
-              <button type="button" class="btn-clean-secondary px-3 py-2.5 text-xs flex items-center gap-2 text-slate-400" onclick="switchSection('contenthub')">
-                <i class="fa-brands fa-telegram text-sky-400"></i>
-                <span>Hazır Metinler (134)</span>
+                <span>Paylaş</span>
               </button>
             </div>
           </div>
@@ -443,31 +439,23 @@
     </section>
 
     <!-- ============================================================== -->
-    <!-- SECTION 3.5: 🌐 7-IN-1 OMNICHANNEL SOSYAL MEDYA KOMUTA MERKEZİ -->
+    <!-- SECTION 3.5: 🌐 SOSYAL MEDYA -->
     <!-- ============================================================== -->
     <section class="gece-section" id="section-socialmatrix">
-      <!-- Section Header -->
-      <div class="flex flex-wrap items-center justify-between gap-4 mb-6 pb-2 border-b border-white/5">
-        <div>
-          <div class="flex items-center gap-2 mb-1">
-            <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
-            <span class="text-xs font-semibold text-cyan-400 uppercase tracking-wider">Omnichannel Social Hub</span>
-          </div>
-          <h2 class="text-xl font-bold text-white tracking-tight">
-            Sosyal Medya Komuta Merkezi & Otomasyon
-          </h2>
-          <p class="text-xs text-slate-400 mt-0.5">Twitter/X, YouTube, Telegram, TikTok, Instagram, Facebook ve WhatsApp tek ekranda.</p>
+      <!-- Minimal Header -->
+      <div class="flex items-center justify-between gap-4 mb-5 pb-2 border-b border-white/5">
+        <div class="flex items-center gap-3">
+          <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
+          <h2 class="text-base font-semibold text-white tracking-tight">Sosyal Medya Kanalları</h2>
         </div>
-        <div class="flex items-center gap-2">
-          <button type="button" class="btn-clean-secondary px-3 py-1.5 text-xs flex items-center gap-2" onclick="loadOmniSchedulerAssets()">
-            <i class="fa-solid fa-rotate text-slate-400"></i>
-            <span>Varlıkları Yenile</span>
-          </button>
-        </div>
+        <button type="button" class="btn-clean-secondary px-3 py-1.5 text-xs flex items-center gap-1.5" onclick="loadOmniSchedulerAssets()">
+          <i class="fa-solid fa-rotate text-slate-400 text-[11px]"></i>
+          <span>Yenile</span>
+        </button>
       </div>
 
-      <!-- 1. 7 PLATFORM SEÇİCİ MATRİSİ (INTERACTIVE PLATFORM SELECTOR) -->
-      <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3 mb-6 font-mono">
+      <!-- 1. 7 PLATFORM SEÇİCİ MATRİSİ -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2.5 mb-5 font-mono">
         <!-- Twitter / X -->
         <div class="gece-card p-3.5 cursor-pointer transition-all duration-200 hover:border-slate-300 border-cyan/60 bg-cyan/10 omni-platform-card" id="omni-card-twitter" onclick="selectOmniPlatform('twitter')">
           <div class="flex items-center justify-between mb-2">
@@ -572,16 +560,13 @@
         <!-- JS ile seçili platforma göre doldurulacak -->
       </div>
 
-      <!-- 3. ÇOK KANALLI İÇERİK PLANLAMA MASASI & VARLIK MİKSERİ (UNIVERSAL SCHEDULER) -->
+      <!-- 3. İÇERİK PLANLAMA -->
       <div class="gece-card p-6 md:p-8 mb-6 space-y-6">
-        <div class="flex flex-wrap justify-between items-center border-b border-white/5 pb-3 gap-2">
-          <div>
-            <h3 class="text-base font-bold text-white flex items-center gap-2">
-              <i class="fa-solid fa-paper-plane text-cyan"></i>
-              <span>Evrensel İçerik Planlama Masası</span>
-            </h3>
-            <p class="text-xs text-slate-400 mt-0.5">Hazır metin, afiş ve videoları tek tıkla seçtiğiniz tüm kanallara aynı anda zamanlayın.</p>
-          </div>
+        <div class="flex items-center justify-between border-b border-white/5 pb-3">
+          <h3 class="text-base font-semibold text-white flex items-center gap-2">
+            <i class="fa-solid fa-calendar-plus text-cyan-400"></i>
+            <span>Yeni Paylaşım Planla</span>
+          </h3>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
@@ -589,9 +574,9 @@
           <div class="lg:col-span-7 space-y-4 text-xs">
             <!-- Hazır Metin Seçici -->
             <div>
-              <label class="text-slate-400 text-xs block mb-1.5 font-medium">1. Hazır Metin Havuzundan Seç (veya Kendin Yaz):</label>
+              <label class="text-slate-400 text-xs block mb-1.5 font-medium">Hazır Metin Seç:</label>
               <select id="omni-asset-text-select" class="w-full bg-[#0a0f1d] border border-white/10 rounded-xl px-3.5 py-2.5 text-white text-xs focus:border-cyan outline-none" onchange="onOmniTextSelect(this.value)">
-                <option value="">-- Hazır 134 Telegram & 201 Twitter Gönderisinden Seçin --</option>
+                <option value="">-- Hazır Gönderilerden Seçin --</option>
               </select>
             </div>
 
@@ -607,16 +592,16 @@
             <!-- Görsel ve Video Seçiciler -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label class="text-slate-400 text-xs block mb-1.5 font-medium">2. Hazır Afiş / Fotoğraf:</label>
+                <label class="text-slate-400 text-xs block mb-1.5 font-medium">Afiş / Görsel:</label>
                 <select id="omni-asset-photo-select" class="w-full bg-[#0a0f1d] border border-white/10 rounded-xl px-3 py-2 text-white text-xs focus:border-cyan outline-none" onchange="onOmniPhotoSelect(this.value)">
-                  <option value="">-- Afiş Seçilmedi (Fotoğrafsız) --</option>
+                  <option value="">-- Yok --</option>
                 </select>
               </div>
 
               <div>
-                <label class="text-slate-400 text-xs block mb-1.5 font-medium">3. Hazır Dikey Video (Reels/Shorts):</label>
+                <label class="text-slate-400 text-xs block mb-1.5 font-medium">Video (Reels):</label>
                 <select id="omni-asset-video-select" class="w-full bg-[#0a0f1d] border border-white/10 rounded-xl px-3 py-2 text-white text-xs focus:border-cyan outline-none" onchange="onOmniVideoSelect(this.value)">
-                  <option value="">-- Video Seçilmedi (Videosuz) --</option>
+                  <option value="">-- Yok --</option>
                 </select>
               </div>
             </div>

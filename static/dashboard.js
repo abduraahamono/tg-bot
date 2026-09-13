@@ -120,77 +120,77 @@ window.lockAdminSession = lockAdminSession;
 // 2. Executive Navigation Architecture (7 Command Centers & Segmented Sub-Navs)
 const EXECUTIVE_HUBS = {
   spotlight: {
-    label: "🌟 Spotlight",
+    label: "Genel Bakış",
     defaultSection: "spotlight",
     tabs: [
-      { id: "spotlight", label: "🌟 Genel Bakış & Canlı Metrikler", icon: "fa-solid fa-chart-line" }
+      { id: "spotlight", label: "Özet", icon: "fa-solid fa-chart-line" }
     ]
   },
   ytstudio: {
-    label: "🎬 YouTube Studio",
+    label: "YouTube",
     defaultSection: "ytstudio",
     tabs: [
-      { id: "ytstudio", label: "🎬 YouTube Studio & Dağıtım", icon: "fa-brands fa-youtube" },
-      { id: "youtubepower", label: "⚡ YouTube Power SEO & Chapters", icon: "fa-solid fa-bolt" }
+      { id: "ytstudio", label: "Shorts & Videolar", icon: "fa-brands fa-youtube" },
+      { id: "youtubepower", label: "SEO & Etiketler", icon: "fa-solid fa-bolt" }
     ]
   },
   socialhub: {
-    label: "🌐 Sosyal Medya",
+    label: "Sosyal Medya",
     defaultSection: "socialmatrix",
     tabs: [
-      { id: "socialmatrix", label: "🌐 7-in-1 Sosyal Medya Matrisi", icon: "fa-solid fa-layer-group" },
-      { id: "twitterhub", label: "🐦 Twitter / X Feed", icon: "fa-brands fa-x-twitter" },
-      { id: "ytstudio", label: "🎬 YouTube Studio & Dağıtım", icon: "fa-brands fa-youtube" },
-      { id: "contenthub", label: "📢 Telegram (@arkadasuz)", icon: "fa-brands fa-telegram" },
-      { id: "tiktoklab", label: "📱 TikTok & Reels Lab", icon: "fa-brands fa-tiktok" },
-      { id: "instagramhub", label: "📸 Instagram Studio", icon: "fa-brands fa-instagram" },
-      { id: "facebookhub", label: "📘 Facebook Ads Suite", icon: "fa-brands fa-facebook" },
-      { id: "whatsapphub", label: "💬 WhatsApp Pro Hub", icon: "fa-brands fa-whatsapp" },
-      { id: "chatbotai", label: "🤖 AI Gelen Mesaj / Chatbot", icon: "fa-solid fa-robot" }
+      { id: "socialmatrix", label: "Tüm Kanallar", icon: "fa-solid fa-layer-group" },
+      { id: "twitterhub", label: "Twitter", icon: "fa-brands fa-x-twitter" },
+      { id: "ytstudio", label: "YouTube", icon: "fa-brands fa-youtube" },
+      { id: "contenthub", label: "Telegram", icon: "fa-brands fa-telegram" },
+      { id: "tiktoklab", label: "TikTok", icon: "fa-brands fa-tiktok" },
+      { id: "instagramhub", label: "Instagram", icon: "fa-brands fa-instagram" },
+      { id: "facebookhub", label: "Facebook", icon: "fa-brands fa-facebook" },
+      { id: "whatsapphub", label: "WhatsApp", icon: "fa-brands fa-whatsapp" },
+      { id: "chatbotai", label: "AI Asistan", icon: "fa-solid fa-robot" }
     ]
   },
   academics: {
-    label: "🏛️ Akademi & Tercih",
+    label: "Üniversiteler",
     defaultSection: "universities",
     tabs: [
-      { id: "universities", label: "🏛️ Üniversite Kataloğu", icon: "fa-solid fa-building-columns" },
-      { id: "calculator", label: "💰 Bütçe & Yaşam Simülatörü", icon: "fa-solid fa-calculator" },
-      { id: "examprep", label: "📊 TR-YÖS / SAT Sınavı", icon: "fa-solid fa-graduation-cap" },
-      { id: "dormitories", label: "🏢 Yurtlar & Konaklama", icon: "fa-solid fa-hotel" },
-      { id: "denklik", label: "⚖️ Denklik Rehberi (YÖK)", icon: "fa-solid fa-scale-balanced" }
+      { id: "universities", label: "Katalog", icon: "fa-solid fa-building-columns" },
+      { id: "calculator", label: "Maliyet Hesapla", icon: "fa-solid fa-calculator" },
+      { id: "examprep", label: "TR-YÖS / SAT", icon: "fa-solid fa-graduation-cap" },
+      { id: "dormitories", label: "Yurtlar", icon: "fa-solid fa-hotel" },
+      { id: "denklik", label: "Denklik (YÖK)", icon: "fa-solid fa-scale-balanced" }
     ]
   },
   crmops: {
-    label: "👥 CRM & Operasyon",
+    label: "Öğrenciler",
     defaultSection: "crm",
     tabs: [
-      { id: "crm", label: "👥 Öğrenci CRM (Kanban & Tablo)", icon: "fa-solid fa-users" },
-      { id: "contractgen", label: "📜 Resmi Sözleşme Üretici", icon: "fa-solid fa-file-signature" },
-      { id: "checklist", label: "📋 12 Adım Vize Takip", icon: "fa-solid fa-list-check" },
-      { id: "documents", label: "📄 Resmi Evrak & Tercüme", icon: "fa-solid fa-file-contract" },
-      { id: "airport", label: "✈️ VIP Karşılama", icon: "fa-solid fa-plane-arrival" },
-      { id: "visadefense", label: "🛡️ Vize Savunması & İtiraz", icon: "fa-solid fa-shield-halved" }
+      { id: "crm", label: "CRM Tablosu", icon: "fa-solid fa-users" },
+      { id: "contractgen", label: "Sözleşmeler", icon: "fa-solid fa-file-signature" },
+      { id: "checklist", label: "Vize Takip", icon: "fa-solid fa-list-check" },
+      { id: "documents", label: "Tercüme & Evrak", icon: "fa-solid fa-file-contract" },
+      { id: "airport", label: "Karşılama", icon: "fa-solid fa-plane-arrival" },
+      { id: "visadefense", label: "Vize İtiraz", icon: "fa-solid fa-shield-halved" }
     ]
   },
   creativestudio: {
-    label: "🎨 Yaratıcı Stüdyo",
+    label: "İçerik Stüdyosu",
     defaultSection: "aicopilot",
     tabs: [
-      { id: "aicopilot", label: "🤖 AI Metin Stüdyosu", icon: "fa-solid fa-wand-magic-sparkles" },
-      { id: "reelsstudio", label: "🎬 Reels Video Stüdyosu", icon: "fa-solid fa-film" },
-      { id: "audiostudio", label: "🎙️ Seslendirme & Dublaj", icon: "fa-solid fa-microphone" },
-      { id: "marketingstudio", label: "🎨 Banner & Afiş Stüdyosu", icon: "fa-solid fa-palette" },
-      { id: "counselors", label: "👥 Danışman & Prim", icon: "fa-solid fa-user-tie" }
+      { id: "aicopilot", label: "Metin Yazarı", icon: "fa-solid fa-wand-magic-sparkles" },
+      { id: "reelsstudio", label: "Reels Üretici", icon: "fa-solid fa-film" },
+      { id: "audiostudio", label: "Ses & Dublaj", icon: "fa-solid fa-microphone" },
+      { id: "marketingstudio", label: "Afiş Tasarım", icon: "fa-solid fa-palette" },
+      { id: "counselors", label: "Danışmanlar", icon: "fa-solid fa-user-tie" }
     ]
   },
   systemops: {
-    label: "⚙️ Sistem & Analitik",
+    label: "Ayarlar",
     defaultSection: "analytics",
     tabs: [
-      { id: "analytics", label: "📈 Yönetici Analitik", icon: "fa-solid fa-chart-pie" },
-      { id: "competitor", label: "🎯 Rakip Analizi & USP", icon: "fa-solid fa-crosshairs" },
-      { id: "quickreplies", label: "💬 WhatsApp Bot Yanıtları", icon: "fa-solid fa-comments" },
-      { id: "settings", label: "⚙️ Otopilot Ayarları", icon: "fa-solid fa-gear" }
+      { id: "analytics", label: "Raporlar", icon: "fa-solid fa-chart-pie" },
+      { id: "competitor", label: "Rakipler", icon: "fa-solid fa-crosshairs" },
+      { id: "quickreplies", label: "Hızlı Yanıtlar", icon: "fa-solid fa-comments" },
+      { id: "settings", label: "Otopilot", icon: "fa-solid fa-gear" }
     ]
   }
 };
@@ -2686,119 +2686,119 @@ const OMNI_PLATFORM_CONFIG = {
   twitter: {
     name: "Twitter / X",
     handle: "@arkadasuz",
-    badge: "201 Tweet Planlı • 100% Otomatik Huni",
+    badge: "201 Tweet",
     icon: "fa-brands fa-x-twitter text-white",
     accentColor: "cyan",
-    desc: "Öğrenci ve velileri 280 karakterlik vurucu tweetler ve zincirleme flood'larla bilgilendirin. Her tweetin altına eklenen otomatik huni yanıtı doğrudan Telegram kanalına abone ve WhatsApp'a müşteri çeker.",
+    desc: "Kısa bilgilendirici tweetler ve başlık zincirleri.",
     capabilities: [
-      { title: "201 Tweetlik Viral Kütüphane", desc: "TÖMER, harçlar, vize, denklik ve tıp alanlarında 201 hazır mikro-içerik.", icon: "fa-solid fa-list-ol" },
-      { title: "Otomatik Huni Yanıtı (Auto-Reply)", desc: "Her tweet altına anında sabit @arkadasuz yönlendirmesi eklenir.", icon: "fa-solid fa-reply-all" },
-      { title: "Zincirleme Flood (Thread) Mimarisi", desc: "3-5 tweetlik derinlemesine rehber zincirleri ile etkileşim patlaması.", icon: "fa-solid fa-link" },
-      { title: "Zamanlayıcı & Takvim Kuyruğu", desc: "Günde 3 slot (Sabah, Öğle, Akşam) otopilot ile tam zamanında yayın.", icon: "fa-solid fa-clock" }
+      { title: "201 Hazır Tweet", desc: "Harçlar, vize ve sınavsız kabul hap bilgileri.", icon: "fa-solid fa-list-ol" },
+      { title: "Otomatik Yanıt", desc: "Her tweet altına Telegram linki eklenir.", icon: "fa-solid fa-reply-all" },
+      { title: "Flood Dizisi", desc: "Adım adım başvuru zinciri.", icon: "fa-solid fa-link" },
+      { title: "Zamanlayıcı", desc: "Sabah, öğle ve akşam otomatik paylaşım.", icon: "fa-solid fa-clock" }
     ],
-    sampleSnippet: "Turkiya davlat OTMlarida yillik kontrakt narxlari:\n💰 Davlat universitetlari: $300 - $800 / yiliga.\nO'zbekistondagi to'lovlardan ancha arzon, ammo diplomi Yevropada 100% tan olinadi.\n\nBatafsil ma'lumot: @arkadasuzz 🇹🇷",
-    autoReplySample: "📌 Turkiyada o'qish, kontrakt narxlari va grant kvotalari haqidagi barcha rasmiy ma'lumotlar bosh kanalda e'lon qilinadi:\n👉 https://t.me/arkadasuz",
+    sampleSnippet: "Turkiya davlat OTMlarida yillik kontrakt narxlari:\n💰 Davlat universitetlari: $300 - $800 / yiliga.\nDiplom Yevropada 100% tan olinadi.\n\nBatafsil: @arkadasuzz 🇹🇷",
+    autoReplySample: "👉 https://t.me/arkadasuz",
     jumpTab: "twitterhub"
   },
   youtube: {
-    name: "YouTube Studio & Shorts",
+    name: "YouTube",
     handle: "@arkadaşuz",
-    badge: "50 Shorts Videosu • Data API v3 Aktif",
+    badge: "50 Shorts",
     icon: "fa-brands fa-youtube text-red-500",
     accentColor: "red-500",
-    desc: "4K kalitesinde dikey Shorts videoları ve yatay stüdyo yayınları. Google Data API v3 üzerinden tek tıkla doğrudan YouTube kanalına yükleme, otomatik etiket ve sabitlenen huni yorumu.",
+    desc: "Dikey Shorts videoları ve stüdyo kayıtları.",
     capabilities: [
-      { title: "50 Dikey Shorts Videosu", desc: "Müzikli, altyazılı ve kapak resimli 50 adet hazır dikey video havuzu.", icon: "fa-solid fa-mobile-screen" },
-      { title: "Doğrudan API ile Video Yükleme", desc: "Tarayıcıdan çıkmadan Google OAuth 2.0 ile anında resmi kanala aktarım.", icon: "fa-solid fa-cloud-arrow-up" },
-      { title: "Power SEO & Video Chapters", desc: "Zaman damgalı bölümler (00:00, 01:30) ve viral etiket mimarisi.", icon: "fa-solid fa-bolt" },
-      { title: "Sabit Yorum Hunisi", desc: "Her Shorts altına @arkadasuz Telegram linkiyle otomatik yorum sabitlenir.", icon: "fa-solid fa-thumbtack" }
+      { title: "50 Dikey Video", desc: "Altyazılı hazır reels/shorts arşivi.", icon: "fa-solid fa-mobile-screen" },
+      { title: "Doğrudan Yükleme", desc: "Google API ile kanala aktarım.", icon: "fa-solid fa-cloud-arrow-up" },
+      { title: "SEO ve Etiketler", desc: "Keşfete düşüren hazır etiketler.", icon: "fa-solid fa-bolt" },
+      { title: "Sabit Yorum", desc: "Açıklama ve sabit huni yorumu.", icon: "fa-solid fa-thumbtack" }
     ],
-    sampleSnippet: "Turkiyada imtihonsiz qabul: Attestat bahosi yetarli! 🇹🇷\nDavlat universitetlariga imtihonsiz kirish tartibi, yotoqxona va stipendiyalar.",
-    autoReplySample: "📌 Barcha rasmiy qabul xatlari va bepul konsultatsiya: https://t.me/arkadasuz",
+    sampleSnippet: "Turkiyada imtihonsiz qabul: Attestat bahosi yetarli! 🇹🇷\nDavlat universitetlariga imtihonsiz kirish tartibi.",
+    autoReplySample: "📌 Bepul konsultatsiya: https://t.me/arkadasuz",
     jumpTab: "ytstudio"
   },
   telegram: {
-    name: "Telegram Ultra",
-    handle: "@arkadasuz & @ArkadasAdminBot",
-    badge: "134 Formatlı Post • Bot Bağlı",
+    name: "Telegram",
+    handle: "@arkadasuz",
+    badge: "134 Gönderi",
     icon: "fa-brands fa-telegram text-sky-400",
     accentColor: "sky-400",
-    desc: "Ajansın ana dönüşüm omurgası. 134 zengin metinli, emojili eğitim postu, interaktif anketler, inline butonlar ve anında tek tıkla resmi kanala yayınlama.",
+    desc: "Resmi duyurular ve zengin metinli içerikler.",
     capabilities: [
-      { title: "134 Tam Formatlı Post", desc: "Özbekçe, emojili, fiyat ve üniversite detaylı zengin içerikler.", icon: "fa-solid fa-file-lines" },
-      { title: "1-Tık Resmi Kanala Yayın", desc: "Post metnini veya görseli anında @arkadasuz kanalına fırlatın.", icon: "fa-solid fa-paper-plane" },
-      { title: "İnteraktif Butonlar & Anket", desc: "Inline butonlarla öğrencileri doğrudan bota veya web sitesine çekin.", icon: "fa-solid fa-square-poll-vertical" },
-      { title: "Otopilot Arka Plan Daemon", desc: "Günde 2 kez belirlenen saatlerde el değmeden otopilot gönderimi.", icon: "fa-solid fa-robot" }
+      { title: "134 Hazır Post", desc: "Özbekçe, emojili tam formatlı metinler.", icon: "fa-solid fa-file-lines" },
+      { title: "1-Tık Gönderim", desc: "Kanala anında tek tıkla iletme.", icon: "fa-solid fa-paper-plane" },
+      { title: "Anket ve Buton", desc: "Öğrencileri yönlendiren butonlar.", icon: "fa-solid fa-square-poll-vertical" },
+      { title: "Otopilot", desc: "Günde 2 kez otomatik gönderim.", icon: "fa-solid fa-robot" }
     ],
-    sampleSnippet: "🇹🇷 TURKIYADA TIBBIYOT VA STOMATOLOGIYA: 2026 QABUL MAVSUMI 🎓\n✅ Imtihonsiz grant va stipendiyalar\n✅ O'zbekistonda 100% tan olinadigan diplom\n👉 @arkadasuz",
-    autoReplySample: "📲 Murojaat uchun: @arkadasuzz",
+    sampleSnippet: "🇹🇷 TURKIYADA TIBBIYOT VA STOMATOLOGIYA: 2026 QABUL MAVSUMI 🎓\n✅ Imtihonsiz grant va stipendiyalar\n👉 @arkadasuz",
+    autoReplySample: "📲 Murojaat: @arkadasuzz",
     jumpTab: "contenthub"
   },
   tiktok: {
-    name: "TikTok Studio",
-    handle: "@mila.travels & @madina_in_istanbul",
-    badge: "Viral Kanca Lab • 2 Persona",
+    name: "TikTok",
+    handle: "@mila.travels",
+    badge: "Viral Kancalar",
     icon: "fa-brands fa-tiktok text-rose-400",
     accentColor: "rose-400",
-    desc: "Genç kitleyi ilk 3 saniyede yakalayan güçlü kancalar ve Mila/Madina karakterlerinin hikaye anlatımı. Dikey 9:16 trend kurguları ve viral ses entegrasyonu.",
+    desc: "Gençlere yönelik hızlı kancalı kısa videolar.",
     capabilities: [
-      { title: "Viral Kanca (Hook) Kütüphanesi", desc: "İzlenme oranını %400 artıran 15+ psikolojik kanca cümlesi.", icon: "fa-solid fa-magnet" },
-      { title: "Mila & Madina Karakterleri", desc: "Biri enerjik ve modern, diğeri samimi ve güven veren 2 dijital elçi.", icon: "fa-solid fa-user-group" },
-      { title: "B-Roll & Kampüs Sahneleri", desc: "İstanbul Boğazı, Galata ve modern kampüs sahnelerinden dikey video montajı.", icon: "fa-solid fa-clapperboard" },
-      { title: "Trend Müzik & Sesler", desc: "TikTok algoritmasında öne çıkan fon müzikleriyle senkronizasyon.", icon: "fa-solid fa-music" }
+      { title: "Kanca Cümleleri", desc: "İlk 3 saniye dikkat çeken sözler.", icon: "fa-solid fa-magnet" },
+      { title: "Mila & Madina", desc: "Öğrenci elçisi anlatımları.", icon: "fa-solid fa-user-group" },
+      { title: "Kampüs Çekimleri", desc: "İstanbul ve üniversite b-roll görüntüleri.", icon: "fa-solid fa-clapperboard" },
+      { title: "Trend Müzikler", desc: "Öne çıkan fon sesleri.", icon: "fa-solid fa-music" }
     ],
-    sampleSnippet: "Hey do'stlar! Mila bilan Istanbul sayohatiga tayyormisiz? Turkiyada o'qish uchun yillab repetitorga qatnash shart emas! ✨🇹🇷",
+    sampleSnippet: "Turkiyada o'qish uchun yillab repetitorga qatnash shart emas! ✨🇹🇷",
     autoReplySample: "👉 Profil linkidan Telegram'ga o'ting: @arkadasuz",
     jumpTab: "tiktoklab"
   },
   instagram: {
-    name: "Instagram Studio",
+    name: "Instagram",
     handle: "@arkadas.uz",
-    badge: "10-Slayt Carousel • Reels",
+    badge: "Carousel & Reels",
     icon: "fa-brands fa-instagram text-pink-500",
     accentColor: "pink-500",
-    desc: "Estetik 10 slaytlık kaydırmalı (carousel) eğitim rehberleri, günlük hikaye anketleri ve profil bio link optimizasyonu.",
+    desc: "Kaydırmalı rehberler ve hikayeler.",
     capabilities: [
-      { title: "10 Slaytlık Kaydırmalı Carousel", desc: "Adım adım üniversiteye başvuru, harçlar ve vizeyi anlatan infografikler.", icon: "fa-solid fa-images" },
-      { title: "Günlük Hikaye & Çıkartmalar", desc: "Soru-cevap kutusu, geri sayım ve öğrencileri DM'e çeken etiketler.", icon: "fa-solid fa-circle-notch" },
-      { title: "Reels Önizleme & Paylaşım", desc: "9:16 dikey formatlı Reels videolarının Instagram algoritmasına uyarlanması.", icon: "fa-solid fa-video" },
-      { title: "Bio Link & Dönüşüm Hunisi", desc: "Biyografi linkinden WhatsApp ve Telegram'a doğrudan yönlendirme.", icon: "fa-solid fa-arrow-up-right-from-square" }
+      { title: "Kaydırmalı Slayt", desc: "Görsel adımlarla başvuru rehberi.", icon: "fa-solid fa-images" },
+      { title: "Günlük Hikaye", desc: "Soru-cevap ve anket çıkartmaları.", icon: "fa-solid fa-circle-notch" },
+      { title: "Reels Videoları", desc: "Dikey format reels paylaşımları.", icon: "fa-solid fa-video" },
+      { title: "Bio Yönlendirme", desc: "DM ve profil linki.", icon: "fa-solid fa-arrow-up-right-from-square" }
     ],
-    sampleSnippet: "1️⃣ Turkiyada imtihonsiz qabul bormi?\n2️⃣ Attestat baholari yetarlimi?\n3️⃣ Qancha kontrakt to'lanadi?\nBarcha javoblar slaydda! 👉 Kaydırın!",
+    sampleSnippet: "1️⃣ Turkiyada imtihonsiz qabul bormi?\n2️⃣ Attestat baholari yetarlimi?\nBarcha javoblar slaydda! 👉",
     autoReplySample: "📲 Bepul konsultatsiya: Link bioda!",
     jumpTab: "instagramhub"
   },
   facebook: {
-    name: "Facebook Ads Suite",
-    handle: "Arkadaş Consulting MChJ",
-    badge: "Meta Ads Kurguları • Veli Odağı",
+    name: "Facebook",
+    handle: "Arkadaş Danışmanlık",
+    badge: "Veli Odaklı",
     icon: "fa-brands fa-facebook text-blue-500",
     accentColor: "blue-500",
-    desc: "Özbekistan'daki 40-55 yaş velilere yönelik güven odaklı Meta reklam kampanyaları ve eğitim grupları için topluluk paylaşımları.",
+    desc: "Velilere güven veren kurumsal bilgilendirmeler.",
     capabilities: [
-      { title: "Veli Odaklı Güven Kampanyaları", desc: "'0$ Risk, Masrafsız ve 99% Kabul' garantili ikna metinleri.", icon: "fa-solid fa-shield-heart" },
-      { title: "Meta Ads Hedef Kitle (Audience)", desc: "Taşkent, Semerkant, Fergana 17-25 yaş gençler ve 40-55 yaş veliler.", icon: "fa-solid fa-crosshairs" },
-      { title: "Topluluk & Grup Gönderileri", desc: "Özbekistan eğitim ve veli gruplarında organik etkileşim içerikleri.", icon: "fa-solid fa-users-rectangle" },
-      { title: "Lead Form Entegrasyonu", desc: "Form dolduran veli adaylarının anında CRM sistemine aktarılması.", icon: "fa-solid fa-address-card" }
+      { title: "Veli İletişimi", desc: "0$ risk ve garantili kabul açıklamaları.", icon: "fa-solid fa-shield-heart" },
+      { title: "Hedef Kitle", desc: "Özbekistan veli grupları.", icon: "fa-solid fa-crosshairs" },
+      { title: "Grup Paylaşımları", desc: "Topluluk ve soru cevap postları.", icon: "fa-solid fa-users-rectangle" },
+      { title: "Başvuru Formu", desc: "Doğrudan CRM'e veri akışı.", icon: "fa-solid fa-address-card" }
     ],
-    sampleSnippet: "Hurmatli ota-onalar! Farzandingiz xalqaro diplomga ega bo'lishini xohlaysizmi? Turkiya davlat OTMlariga oldindan to'lovsiz, 100% kafolatli qabul boshlandi! 🇹🇷",
-    autoReplySample: "📞 Batafsil: +998 90 000 00 00",
+    sampleSnippet: "Hurmatli ota-onalar! Farzandingiz xalqaro diplomga ega bo'lishini xohlaysizmi? 🇹🇷",
+    autoReplySample: "📞 Aloqa: @arkadasuzz",
     jumpTab: "facebookhub"
   },
   whatsapp: {
-    name: "WhatsApp Pro Hub",
-    handle: "+90 534... (Resmi Hat)",
-    badge: "1-Tık Doğrudan Sohbet • Katalog",
+    name: "WhatsApp",
+    handle: "Danışman Hattı",
+    badge: "1-Tık İletişim",
     icon: "fa-brands fa-whatsapp text-emerald",
     accentColor: "emerald",
-    desc: "Öğrenci veya veliye tek tıkla hazır teklifli wa.me bağlantısı gönderme, paket kataloğu ve hızlı yanıt kütüphanesi.",
+    desc: "Öğrenci ve veliyle doğrudan mesajlaşma.",
     capabilities: [
-      { title: "1-Tık Doğrudan Mesaj Gönderici", desc: "Numara girildiğinde hazır kişiselleştirilmiş resmi teklif linki üretir.", icon: "fa-solid fa-comment-sms" },
-      { title: "Paket & Fiyat Kataloğu", desc: "Asosiy ($500), O'rta ($800), Katta ($1100) ve Burs paket kartları.", icon: "fa-solid fa-box-open" },
-      { title: "Otomatik Karşılama Yanıtı", desc: "Gelen adayı sıcak karşılayıp hedef üniversite ve bölümünü soran bot mesajı.", icon: "fa-solid fa-hand-wave" },
-      { title: "Hızlı Yanıt Kütüphanesi", desc: "Sıkça sorulan sorulara tek tıkla kopyalanıp yapıştırılabilen şablonlar.", icon: "fa-solid fa-bolt-lightning" }
+      { title: "1-Tık Sohbet", desc: "Kişiselleştirilmiş bağlantı açma.", icon: "fa-solid fa-comment-sms" },
+      { title: "Fiyat Listesi", desc: "Paket ve burs kartları.", icon: "fa-solid fa-box-open" },
+      { title: "Otomatik Yanıt", desc: "Bölüm ve üniversite soran karşılama.", icon: "fa-solid fa-hand-wave" },
+      { title: "Hazır Şablonlar", desc: "Sıkça sorulan sorulara hızlı cevap.", icon: "fa-solid fa-bolt-lightning" }
     ],
-    sampleSnippet: "Assalomu alaykum! Arkadaş Consulting ta'lim agentligidan siz tanlagan O'rta VIP Paket ($800) tafsilotlari: Universitetga qabul, aeroport kutib olish, sug'urta va ikamet...",
+    sampleSnippet: "Assalomu alaykum! Arkadaş Consulting ta'lim xizmatlari tafsilotlari...",
     autoReplySample: "📲 Bog'lanish: @arkadasuzz",
     jumpTab: "whatsapphub"
   }
@@ -2827,27 +2827,27 @@ function selectOmniPlatform(key) {
   consoleBox.innerHTML = `
     <div class="space-y-6">
       <!-- Başlık ve Durum -->
-      <div class="flex flex-wrap items-center justify-between gap-3 border-b border-white/5 pb-4">
+      <div class="flex flex-wrap items-center justify-between gap-3 border-b border-white/5 pb-3">
         <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-lg text-white">
+          <div class="w-9 h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-base text-white">
             <i class="${cfg.icon}"></i>
           </div>
           <div>
             <div class="flex items-center gap-2">
-              <h3 class="text-base font-bold text-white tracking-tight">${cfg.name}</h3>
-              <span class="text-[11px] px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-400 font-medium">${cfg.badge}</span>
+              <h3 class="text-sm font-bold text-white tracking-tight">${cfg.name}</h3>
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-400 font-medium">${cfg.badge}</span>
             </div>
-            <p class="text-xs text-slate-400 mt-0.5">${cfg.handle} • ${cfg.desc}</p>
+            <p class="text-xs text-slate-400">${cfg.handle} • ${cfg.desc}</p>
           </div>
         </div>
 
         <div class="flex items-center gap-2 text-xs">
           <button type="button" class="btn-clean-secondary px-3 py-1.5 text-xs flex items-center gap-1.5" onclick="populateOmniTextToScheduler('${cfg.sampleSnippet.replace(/'/g, "\\'").replace(/\n/g, "\\n")}')">
             <i class="fa-solid fa-arrow-down text-slate-400"></i>
-            <span>Metni Planlayıcıya Al</span>
+            <span>Metni Al</span>
           </button>
-          <button type="button" class="btn-clean-primary px-3.5 py-1.5 text-xs flex items-center gap-1.5" onclick="switchSection('${cfg.jumpTab}')">
-            <span>Ayrıntılı Sayfaya Git</span>
+          <button type="button" class="btn-clean-primary px-3 py-1.5 text-xs flex items-center gap-1.5" onclick="switchSection('${cfg.jumpTab}')">
+            <span>Sayfaya Git</span>
             <i class="fa-solid fa-arrow-right text-slate-900 text-[10px]"></i>
           </button>
         </div>
@@ -2857,14 +2857,14 @@ function selectOmniPlatform(key) {
         <!-- Neler Yapabilirsiniz? (4 Kart) -->
         <div class="lg:col-span-7 space-y-3 text-xs">
           <h4 class="font-semibold text-white text-xs flex items-center gap-2">
-            <i class="fa-solid fa-wand-magic-sparkles text-cyan-400"></i>
-            <span>Platform Yetenekleri ve Otomasyonlar</span>
+            <i class="fa-solid fa-bolt text-cyan-400"></i>
+            <span>Özellikler</span>
           </h4>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
             ${cfg.capabilities.map(cap => `
-              <div class="p-3.5 rounded-xl bg-white/[0.02] border border-white/5 space-y-1.5 hover:border-white/15 transition">
+              <div class="p-3 rounded-xl bg-white/[0.02] border border-white/5 space-y-1 hover:border-white/15 transition">
                 <div class="flex items-center gap-2 text-slate-200 font-semibold text-xs">
-                  <i class="${cap.icon} text-cyan-400"></i>
+                  <i class="${cap.icon} text-cyan-400 text-[11px]"></i>
                   <span>${cap.title}</span>
                 </div>
                 <p class="text-[11px] text-slate-400 leading-relaxed">${cap.desc}</p>
