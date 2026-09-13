@@ -32,7 +32,7 @@ def get_env_var(key: str, default: str = "") -> str:
                     return line.split("=", 1)[1].strip().strip('"').strip("'")
     return default
 
-BOT_TOKEN = get_env_var("TELEGRAM_BOT_TOKEN", "7850828340:AAEFEeuRZVx6CP5gaD1n_hHv1hiSOPz0ET0")
+BOT_TOKEN = get_env_var("TELEGRAM_BOT_TOKEN", "8855584904:AAGlBVSXCDIfUy8WvMOdmzpQjLb0YIONOyU")
 CHANNEL_ID = get_env_var("TELEGRAM_CHANNEL_ID", "@arkadasuz")
 
 def send_telegram_photo(text: str, photo_path: str) -> bool:

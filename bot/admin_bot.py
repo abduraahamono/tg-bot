@@ -31,7 +31,7 @@ from engine.telegram_scheduler import TelegramScheduler
 
 def load_config():
     default_config = {
-        "bot_token": os.environ.get("TELEGRAM_BOT_TOKEN", "7850828340:AAEFEeuRZVx6CP5gaD1n_hHv1hiSOPz0ET0"),
+        "bot_token": os.environ.get("TELEGRAM_BOT_TOKEN", "8855584904:AAGlBVSXCDIfUy8WvMOdmzpQjLb0YIONOyU"),
         "admin_chat_id": os.environ.get("TELEGRAM_ADMIN_CHAT_ID", "8021468690"),
         "channel_id": os.environ.get("TELEGRAM_CHANNEL_ID", "@arkadasuz")
     }
@@ -626,7 +626,8 @@ class AdminApprovalBot:
             print("[ERROR] Telegram Bot Token kiritilmagan!")
             return
 
-        print(f"[OK] Arkadaş Post & Marketing Bot ishga tushdi! (@uzbekfootybot)")
+        bot_user = self.config.get("bot_username", "@ArkadasAdminBot")
+        print(f"[OK] Arkadaş Post & Marketing Bot ishga tushdi! ({bot_user})")
         print(f"[INFO] Admin ID: {self.config.get('admin_chat_id')} | Kanal: {self.config.get('channel_id')}")
         offset = 0
 
