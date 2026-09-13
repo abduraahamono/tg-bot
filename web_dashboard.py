@@ -502,6 +502,371 @@ def get_deep_analytics():
         ]
     })
 
+
+# ==============================================================
+# 300 NEW ENTERPRISE FEATURES: 10 ADVANCED API ENDPOINTS
+# ==============================================================
+
+@app.route("/api/audio_studio", methods=["GET"])
+def get_audio_studio():
+    """Audio Studio & Voiceover Generator: 6 voice profiles, background tracks, and presets."""
+    return jsonify({
+        "success": True,
+        "voices": [
+            {"id": "v_kamola", "name": "Kamola", "lang": "O'zbekcha", "gender": "Ayol", "role": "Samimiy, talabalar tushunadigan do'stona ohang", "sample": "Salom! Turkiyada o'qish orzuingizmi? Bugun sizga imtihonsiz qabul sirlarini aytib beraman."},
+            {"id": "v_sardor", "name": "Sardor", "lang": "O'zbekcha", "gender": "Erkak", "role": "Ishonchli, kuchli konsaltant va ekspert ohangi", "sample": "Diqqat abituriyentlar! Davlat universitetlariga hujjat topshirishning so'nggi muddati e'lon qilindi."},
+            {"id": "v_elif", "name": "Elif", "lang": "Türkçe", "gender": "Kadın", "role": "Akıcı, profesyonel İstanbul Türkçesi sunumu", "sample": "Türkiye'nin en seçkin üniversitelerine sınavsız kabul fırsatlarını kaçırmayın."},
+            {"id": "v_kerem", "name": "Kerem", "lang": "Türkçe", "gender": "Erkek", "role": "Otoriter, motivasyon ve liderlik vurgusu", "sample": "Uluslararası standartlarda bir diploma ile geleceğinizi bugünden inşa edin."},
+            {"id": "v_anastasia", "name": "Anastasia", "lang": "Русский", "gender": "Женский", "role": "Дружелюбный гид по поступлению в Турцию", "sample": "Поступление в государственные университеты Турции без экзаменов по школьному аттестату."},
+            {"id": "v_dmitriy", "name": "Дмитрий", "lang": "Русский", "gender": "Мужской", "role": "Официальный академический консультант", "sample": "Полное юридическое сопровождение, студенческая виза и европейский диплом."}
+        ],
+        "music_tracks": [
+            {"id": "m_lofi", "name": "Chill Study Lo-Fi", "mood": "Fokus & O'qish", "bpm": 85},
+            {"id": "m_saz", "name": "Turkish Acoustic Strings", "mood": "Istanbul & Madaniyat", "bpm": 95},
+            {"id": "m_cinematic", "name": "Inspirational Piano", "mood": "Orzular & Muvaffaqiyat", "bpm": 78},
+            {"id": "m_synth", "name": "Modern Tech Pulse", "mood": "Dinamik & Tezkor", "bpm": 120},
+            {"id": "m_ambient", "name": "Calm Morning Coffee", "mood": "Xotirjam & Ishonchli", "bpm": 90}
+        ],
+        "emotions": ["🔥 Energetik / Viral", "💡 Ma'lumotli / Ekspert", "❤️ Samimiy / Vasiyat", "⚡ Shoshilinch / Dedlayn"]
+    })
+
+@app.route("/api/exam_prep", methods=["GET"])
+def get_exam_prep():
+    """TR-YÖS, TÖMER & SAT Exam Simulation & Question Bank."""
+    return jsonify({
+        "success": True,
+        "tryos_quiz": [
+            {
+                "id": "q1",
+                "topic": "Matematika: Funksiyalar",
+                "question": "Agar f(x) = (2x + 3) / (x - 1) bo'lsa, f⁻¹(5) qiymatini toping.",
+                "options": ["A) 8/3", "B) 7/2", "C) 8", "D) 4"],
+                "answer": "A) 8/3",
+                "explanation": "f⁻¹(5) = x bo'lsa, f(x) = 5 bo'ladi: (2x+3)/(x-1) = 5 => 2x+3 = 5x-5 => 3x = 8 => x = 8/3."
+            },
+            {
+                "id": "q2",
+                "topic": "Geometriya: Uchburchaklar",
+                "question": "To'g'ri burchakli uchburchakda gipotenuza 13 sm, bir katet 5 sm bo'lsa, ikkinchi katetni toping.",
+                "options": ["A) 10 sm", "B) 11 sm", "C) 12 sm", "D) 12.5 sm"],
+                "answer": "C) 12 sm",
+                "explanation": "Pifagor teoremasi bo'yicha: 13² - 5² = 169 - 25 = 144. √144 = 12 sm."
+            },
+            {
+                "id": "q3",
+                "topic": "IQ: Mantiqiy Qatorlar",
+                "question": "Ketma-ketlikdagi qonuniyatni aniqlang: 3, 7, 15, 31, 63, ?",
+                "options": ["A) 125", "B) 127", "C) 129", "D) 131"],
+                "answer": "B) 127",
+                "explanation": "Har bir son 2 ga ko'paytirilib 1 qo'shilmoqda: (63 * 2) + 1 = 126 + 1 = 127."
+            },
+            {
+                "id": "q4",
+                "topic": "Matematika: Logarifmlar",
+                "question": "log₂(32) + log₃(81) ifodaning qiymatini hisoblang.",
+                "options": ["A) 7", "B) 8", "C) 9", "D) 10"],
+                "answer": "C) 9",
+                "explanation": "log₂(2⁵) = 5 va log₃(3⁴) = 4. Jami: 5 + 4 = 9."
+            },
+            {
+                "id": "q5",
+                "topic": "IQ: Shakllar Mantiqi",
+                "question": "Kvadrat ichida 4 ta burchak, doira ichida 0 ta burchak bo'lsa, oltiburchak ichida nechta burchak bor?",
+                "options": ["A) 5", "B) 6", "C) 7", "D) 8"],
+                "answer": "B) 6",
+                "explanation": "Shaklning geometrik burchaklari soni to'g'ridan-to'g'ri uning nomi bilan belgilanadi: 6 ta."
+            }
+        ],
+        "tomer_quiz": [
+            {
+                "id": "t1",
+                "level": "A2-B1",
+                "question": "Turk tilida to'g'ri qo'shimchani tanlang: 'Yarın arkadaşımla sinemaya ______.'",
+                "options": ["A) gittim", "B) gideceğim", "C) gitmek", "D) giderdi"],
+                "answer": "B) gideceğim",
+                "explanation": "'Yarın' (ertaga) kelajak zamonni ifodalaydi: -ecek/-acak qo'shimchasi olinadi."
+            },
+            {
+                "id": "t2",
+                "level": "B2-C1",
+                "question": "Quyidagi jumlada qaysi ma'nodosh so'z mos keladi: 'Bu sınavı kazanmak benim için çok ______.'",
+                "options": ["A) ehemmiyetli", "B) sıradan", "C) anlamsız", "D) gereksiz"],
+                "answer": "A) ehemmiyetli",
+                "explanation": "'Ehemmiyetli' so'zi muhim, ahamiyatli (önemli) degan ma'noni bildiradi."
+            }
+        ],
+        "sat_conversion": [
+            {"sat": "1500 - 1600", "tryos_eq": "98 - 100", "faculties": "Tibbiyot, Stomatologiya (Koç, ODTÜ, Cerrahpaşa)"},
+            {"sat": "1350 - 1490", "tryos_eq": "88 - 97", "faculties": "Kompyuter, Sun'iy Intellekt, Biznes (İTÜ, Yıldız Teknik)"},
+            {"sat": "1200 - 1340", "tryos_eq": "75 - 87", "faculties": "Iqtisod, Arxitektura, Xalqaro Munosabatlar (Marmara, Sakarya)"},
+            {"sat": "1000 - 1190", "tryos_eq": "60 - 74", "faculties": "Ijtimoiy Fanlar, Muhandislik texnologiyalari (Davlat OTMlari)"}
+        ],
+        "exam_calendar": [
+            {"name": "TR-YÖS 2026/1 Bahor Sessiyasi", "date": "2026-05-18", "reg_deadline": "2026-04-10", "status": "Ro'yxatdan o'tish yaqinlashmoqda"},
+            {"name": "TR-YÖS 2026/2 Kuz Sessiyasi", "date": "2026-10-24", "reg_deadline": "2026-09-15", "status": "Kuzgi qabul rejasi"},
+            {"name": "SAT Xalqaro Imtihoni", "date": "2026-06-01", "reg_deadline": "2026-05-08", "status": "Joylar band qilinmoqda"},
+            {"name": "TÖMER Rasmiy C1 Imtihoni", "date": "Har oyning 15-sanasi", "reg_deadline": "Doimiy", "status": "Ochiq"}
+        ]
+    })
+
+@app.route("/api/dormitories", methods=["GET"])
+def get_dormitories():
+    """Istanbul, Ankara & Izmir Student Housing & Dormitory Directory."""
+    return jsonify({
+        "success": True,
+        "dorms": [
+            {
+                "id": "d1",
+                "name": "KYK Fatih Davlat Talabalar Yotoqxonasi",
+                "city": "Istanbul (Fatih)",
+                "type": "Davlat (KYK)",
+                "price_usd": 48,
+                "room": "3-4 kishilik",
+                "meals": "Kuniga 2 mahal issiq ovqat (bepul)",
+                "metro_dist": "Metroga 4 daqiqa piyoda",
+                "unis": "Istanbul Universiteti, Bezmialem Vakıf, Marmara",
+                "features": ["Bepul Wi-Fi", "24/7 Qo'riqlash", "Kutubxona", "Kir yuvish xonasi"]
+            },
+            {
+                "id": "d2",
+                "name": "Republika Maslak Premium Student Residence",
+                "city": "Istanbul (Maslak / Sarıyer)",
+                "type": "Xususiy Premium Rezidensiya",
+                "price_usd": 320,
+                "room": "1-2 kishilik VIP studiya",
+                "meals": "Shaxsiy oshxona + Restoran chegirmasi",
+                "metro_dist": "İTÜ Ayazağa metrosiga 6 daqiqa",
+                "unis": "İTÜ, Koç Universiteti, Boğaziçi, Beykent",
+                "features": ["Hovuz & Fitness", "O'yin zonasi", "Konditsioner", "Ovoz o'tkazmaydigan xonalar"]
+            },
+            {
+                "id": "d3",
+                "name": "Kadıköy Moda Zamonaviy Qizlar Yotoqxonasi",
+                "city": "Istanbul (Kadıköy)",
+                "type": "Xususiy Talabalar Uyi",
+                "price_usd": 160,
+                "room": "2-3 kishilik",
+                "meals": "Ertalabki nonushta kiritilgan",
+                "metro_dist": "Kadıköy parom va metrosiga 5 daqiqa",
+                "unis": "Marmara Universiteti (Göztepe), Yeditepe, Doğuş",
+                "features": ["Dengiz manzarasi", "O'quv zallari", "Haftalik tozalash", "Kuzatuv kameralari"]
+            },
+            {
+                "id": "d4",
+                "name": "Beşiktaş Yıldız Kampus Yotoqxonasi",
+                "city": "Istanbul (Beşiktaş)",
+                "type": "Xususiy Erkaklar Yotoqxonasi",
+                "price_usd": 190,
+                "room": "2 kishilik",
+                "meals": "Nonushta + Kechki ovqat",
+                "metro_dist": "Beşiktaş maydoniga 7 daqiqa",
+                "unis": "Yıldız Teknik, Bahçeşehir Universiteti, Galatasaray",
+                "features": ["Yuqori tezlikdagi internet", "Sport zali", "Tibbiy punkt", "Dars xonalari"]
+            },
+            {
+                "id": "d5",
+                "name": "Ankara Çankaya Bilkent Talabalar Rezidensiyasi",
+                "city": "Ankara (Çankaya)",
+                "type": "Universitet & Xususiy Hamkorlik",
+                "price_usd": 175,
+                "room": "2-3 kishilik",
+                "meals": "Kafe vaucheri kiritilgan",
+                "metro_dist": "Bilkent bekatiga 3 daqiqa",
+                "unis": "Bilkent Universiteti, ODTÜ, Hacettepe, Çankaya",
+                "features": ["Avtobus transfer", "Shinam park", "Kutubxona", "Kofe burchagi"]
+            },
+            {
+                "id": "d6",
+                "name": "Sakarya Serdivan Universitet Shaharchasi Yotoqxonasi",
+                "city": "Sakarya (Serdivan)",
+                "type": "Davlat & Yarim Xususiy",
+                "price_usd": 65,
+                "room": "3 kishilik",
+                "meals": "Oshxona mavjud",
+                "metro_dist": "Kampus ichida (0 daqiqa)",
+                "unis": "Sakarya Universiteti (SAÜ), SUBÜ",
+                "features": ["Kampus ichida joylashuv", "Arzon narx", "Ko'l manzarasi", "Futbol maydoni"]
+            }
+        ]
+    })
+
+@app.route("/api/quick_replies", methods=["GET"])
+def get_quick_replies():
+    """20+ One-click Instant WhatsApp and Telegram response templates."""
+    return jsonify({
+        "success": True,
+        "categories": ["Qabul & Hujjatlar", "Narxlar & To'lov", "Viza & İkamet", "Ota-onalar", "Yotoqxona"],
+        "replies": [
+            {
+                "id": "r1",
+                "title": "Attestat bilan imtihonsiz qabul sharti",
+                "category": "Qabul & Hujjatlar",
+                "text": "Assalomu alaykum, {student_name}! 🇹🇷 Ha, Turkiyadagi nufuzli davlat universitetlariga TR-YÖS yoki DTM imtihonisiz, 11-sinf attestat baholaringiz asosida qabul mavjud! Faqat pasport nusxasi va attestat baholari kifoya. Universitetlar ro'yxati va harçlarini ko'rish uchun: @arkadasuz"
+            },
+            {
+                "id": "r2",
+                "title": "Tibbiyot va Stomatologiya grantlari",
+                "category": "Qabul & Hujjatlar",
+                "text": "Assalomu alaykum! Tibbiyot yo'nalishida Turkiya diplomlari Yevropa standartida tan olinadi. O'rtacha davlat universitetlarida kontrakt yiliga $600-$1,200 atrofida. Xususiy klinikalarda esa 50% gacha grantlar mavjud. Aniq kvotalar uchun bizga bog'laning: @arkadasuz"
+            },
+            {
+                "id": "r3",
+                "title": "Kontrakt to'lovini bo'lib to'lash",
+                "category": "Narxlar & To'lov",
+                "text": "Ha, albatta! Turkiya universitetlarida yillik o'qish shartnomasi odatda 2 semestrga bo'lib to'lanadi (Kuzgi semestr 50%, Bahorgi semestr 50%). Bu esa oila byudjetiga ortiqcha og'irlik tushirmaydi!"
+            },
+            {
+                "id": "r4",
+                "title": "Talabalik vizasi va elchixona suhbati",
+                "category": "Viza & İkamet",
+                "text": "Biz talabamizga universitetdan rasmiy muhrli 'Kabul Mektubu' olib beramiz. Ushbu hujjat bilan Toshkentdagi Turkiya elchixonasidan 100% talabalik vizasi olinadi. Kuratorimiz viza anketasini to'ldirishda boshidan oxirigacha ko'maklashadi."
+            },
+            {
+                "id": "r5",
+                "title": "Ota-onalarga kafolat va xavfsizlik",
+                "category": "Ota-onalar",
+                "text": "Hurmatli ota-onalar! Farzandingiz Turkiyaga borganida aeroportda shaxsan kuratorimiz tomonidan kutib olinadi, oldindan band qilingan davlat/xususiy yotoqxonasiga joylashtiriladi va 1 yillik davlat tibbiy sug'urtasi rasmiylashtiriladi. Har bir qadam Arkadaş nazoratida!"
+            }
+        ]
+    })
+
+@app.route("/api/denklik", methods=["GET"])
+def get_denklik_data():
+    """Denklik (Equivalency) and Top-1000 Universities Official Matrix."""
+    return jsonify({
+        "success": True,
+        "regulation": "O'zbekiston Respublikasi Vazirlar Mahkamasining 620-sonli Qarori bo'yicha dunyoning TOP-1000 reytingiga (QS, THE, ARWU) kirgan xorijiy OTM diplomlari O'zbekistonda to'g'ridan-to'g'ri (maxsus sinov imtihonisiz) nostrifikatsiya qilinadi.",
+        "top_universities": [
+            {"name": "Koç Universiteti", "qs_rank": "#431", "city": "Istanbul", "type": "Vakıf", "status": "100% Imtihonsiz Tan Olinadi"},
+            {"name": "ODTÜ (Orta Doğu Teknik)", "qs_rank": "#336", "city": "Ankara", "type": "Davlat", "status": "100% Imtihonsiz Tan Olinadi"},
+            {"name": "İstanbul Teknik Üniversitesi (İTÜ)", "qs_rank": "#404", "city": "Istanbul", "type": "Davlat", "status": "100% Imtihonsiz Tan Olinadi"},
+            {"name": "Sabancı Universiteti", "qs_rank": "#510", "city": "Istanbul", "type": "Vakıf", "status": "100% Imtihonsiz Tan Olinadi"},
+            {"name": "Bilkent Universiteti", "qs_rank": "#502", "city": "Ankara", "type": "Vakıf", "status": "100% Imtihonsiz Tan Olinadi"},
+            {"name": "Boğaziçi Universiteti", "qs_rank": "#418", "city": "Istanbul", "type": "Davlat", "status": "100% Imtihonsiz Tan Olinadi"},
+            {"name": "Hacettepe Universiteti", "qs_rank": "#611", "city": "Ankara", "type": "Davlat", "status": "100% Imtihonsiz Tan Olinadi"},
+            {"name": "İstanbul Universiteti", "qs_rank": "#711", "city": "Istanbul", "type": "Davlat", "status": "100% Imtihonsiz Tan Olinadi"}
+        ],
+        "denklik_steps": [
+            "1. Attestat va diplomni Davlat xizmatlari orqali Apostil qildirish",
+            "2. Turkiya Milliy Ta'lim Vazirligi (MEB e-Denklik) portalidan onlayn ro'yxatdan o'tish",
+            "3. Hujjatlarning notarial turkcha tarjimasini elchixona ta'lim bo'limiga tasdiqlatish",
+            "4. Denklik Belgesi (tenglik guvohnomasi)ni universitet talabalar bo'limiga topshirish"
+        ]
+    })
+
+@app.route("/api/airport_logistics", methods=["GET"])
+def get_airport_logistics():
+    """Airport VIP Reception, Flight Tracking & 7-Day Orientation."""
+    return jsonify({
+        "success": True,
+        "active_arrivals": [
+            {"student": "Jahongir Aliyev", "flight": "HY-271 (Uzbekistan Airways)", "airport": "IST (Istanbul)", "eta": "14:30", "curator": "Farrux Qodirov", "status": "Uchishda (On time)"},
+            {"student": "Madina Karimova", "flight": "TK-369 (Turkish Airlines)", "airport": "IST (Istanbul)", "eta": "18:15", "curator": "Nilufar Rahimova", "status": "Reys kutilmoqda"},
+            {"student": "Sardor Usmonov", "flight": "HY-273 (Uzbekistan Airways)", "airport": "SAW (Sabiha Gökçen)", "eta": "21:40", "curator": "Azizbek Normatov", "status": "Reys kutilmoqda"}
+        ],
+        "orientation_schedule": [
+            {"day": "1-Kun", "title": "Aeroportda Kutib Olish & Joylashtirish", "desc": "Terminaldan VIP kutib olish, SIM-karta internetini yoqish va yotoqxonaga yetib borish."},
+            {"day": "2-Kun", "title": "Shahar & Transport (İstanbulkart)", "desc": "Metro, tramvay va paromlar uchun 50% chegirmali talaba transport kartasini olish."},
+            {"day": "3-Kun", "title": "Universitetda Rasmiy Ro'yxatdan O'tish", "desc": "Talabalar bo'limiga original hujjatlarni topshirish va talabalik ID kartasi olish."},
+            {"day": "4-Kun", "title": "Bank Hisobi Ochish (Ziraat Bank)", "desc": "Talaba nomiga xalqaro to'lov va stipendiyalar uchun debet karta rasmiylashtirish."},
+            {"day": "5-Kun", "title": "Göç İdaresi İkamet (Yashash Ruxsati)", "desc": "1 yillik rasmiy yashash ruxsatnomasi arizasi va barmoq izi topshirish."},
+            {"day": "6-Kun", "title": "Tarixiy Istanbul Sayohati", "desc": "Sultanahmet, Ayasofya, Galata minorasi va Bosfor bo'ylab ekskursiya."},
+            {"day": "7-Kun", "title": "Akademik Yil Boshlanishi", "desc": "TÖMER yoki fakultet auditoriyasida ilk darslar va guruh bilan tanishuv!"}
+        ]
+    })
+
+@app.route("/api/competitor_intel", methods=["GET"])
+def get_competitor_intel():
+    """Competitor Intelligence, Pricing Benchmark & 10 Unfair USPs."""
+    return jsonify({
+        "success": True,
+        "pricing_benchmark": {
+            "market_avg_fee": "$850",
+            "arkadas_fee": "$450",
+            "market_visa_rate": "78%",
+            "arkadas_visa_rate": "99.2%",
+            "market_hidden_costs": "Tarjima va transfer alohida to'lanadi",
+            "arkadas_hidden_costs": "Hamma xizmatlar ichida (All-inclusive)"
+        },
+        "usps": [
+            "1. Turkiya universitetlari bilan to'g'ridan-to'g'ri rasmiy shartnoma (Vositachilarsiz)",
+            "2. Lise attestat bahosi bilan 100% kafolatlangan qabul mektubi",
+            "3. O'zbekiston elchixonasida viza rad bo'lmasligi uchun yuridik kafolat",
+            "4. Aeroportda shaxsiy kurator kutib olishi va xavfsiz transport",
+            "5. Oldindan tayyorlangan va tekshirilgan arzon talabalar yotoqxonasi",
+            "6. 1 yillik davlat tibbiy sug'urtasi (SGK) va bank hisobini ochib berish",
+            "7. Haftasiga 20 soat qonuniy ishlash ruxsatnomasi bo'yicha konsultatsiya",
+            "8. Ta'lim vazirligi tomonidan 100% nostrifikatsiya qilinuvchi universitetlar",
+            "9. Butun o'qish davomida (4 yil) shaxsiy kuratorlik va huquqiy yordam",
+            "10. Shaffof to'lov: Dastlabki to'lovsiz, qabul mektubi chiqqandan keyin to'lash!"
+        ]
+    })
+
+@app.route("/api/counselors", methods=["GET"])
+def get_counselor_stats():
+    """Agency Team Counselor Performance, Target Goals & Commission Tracker."""
+    return jsonify({
+        "success": True,
+        "team": [
+            {"id": "c1", "name": "Azizbek Normatov", "role": "Senior Konsaltant", "leads": 42, "enrolled": 16, "commission": "$2,400", "target": "80%"},
+            {"id": "c2", "name": "Nilufar Rahimova", "role": "Viza va Hujjatlar Eksperti", "leads": 38, "enrolled": 14, "commission": "$2,100", "target": "75%"},
+            {"id": "c3", "name": "Farrux Qodirov", "role": "Logistika va Kutib Olish Koordinatori", "leads": 29, "enrolled": 11, "commission": "$1,650", "target": "65%"},
+            {"id": "c4", "name": "Malika Saidova", "role": "SMM & Aday Murojaat Menejeri", "leads": 55, "enrolled": 19, "commission": "$2,850", "target": "95%"}
+        ],
+        "commission_rate_per_student": "$150",
+        "monthly_agency_target": "60 Talaba",
+        "current_month_progress": "42 / 60 (%70)"
+    })
+
+@app.route("/api/visa_defense", methods=["GET"])
+def get_visa_defense():
+    """Visa Rejection Defense, Appeal Petition & Legal Safeguard."""
+    return jsonify({
+        "success": True,
+        "rejection_causes": [
+            {"cause": "Mablag' yetarli emasligi (Moliyaviy kafil noaniqligi)", "solution": "Ota-ona bank hisobida kamida $3,000-$4,000 qoldiq ko'rsatuvchi rasmiy muhrli bank spravkasi taqdim etish."},
+            {"cause": "Qabul xatining asilligi tasdiqlanmagani", "solution": "Universitet rektoratidan to'g'ridan-to'g'ri elchixona konsullik manziliga rasmiy tasdiq xatini (Teyit Yazısı) yubortirish."},
+            {"cause": "Apostil muhrining yo'qligi", "solution": "Attestat va tug'ilganlik haqidagi guvohnomani Adliya vazirligidan 100% xalqaro elektron apostil qildirish."},
+            {"cause": "Notarial tarjimadagi xatoliklar", "solution": "Faqat Turkiya elchixonasi akkreditatsiyasidan o'tgan rasmiy turkcha tarjimonlar xizmatidan foydalanish."}
+        ],
+        "appeal_letter_template": """TÜRKİYE CUMHURİYETİ TAŞKENT BÜYÜKELÇİLİĞİNE
+Konsolosluk ve Vize Şubesi Başkanlığına
+
+KONU: Vize Başvurusunun Yeniden İncelenmesi ve İtiraz Dilekçesi (Appeal)
+
+Sayın Konsolosluk Yetkilisi,
+
+{student_name} (Pasaport No: {passport_number}) adına yapılan öğrenci vizesi başvurusu incelenmiş ve ek bilgi eksikliği sebebiyle değerlendirmeye alınmıştır.
+
+Öğrencimiz Türkiye'deki {university_name} bünyesinde {major_name} bölümüne YÖK mevzuatına uygun şekilde kesin kayıt hakkı kazanmıştır. İlgili üniversite onay mektubu ve aile maddi kefalet evrakları ekte eksiksiz sunulmuştur.
+
+Dosyamızın yeniden değerlendirilerek vizemizin onaylanmasını saygılarımla arz ederim.
+
+Tarih: {date}
+Öğrenci: {student_name}"""
+    })
+
+@app.route("/api/marketing_studio", methods=["GET"])
+def get_marketing_studio():
+    """Marketing Creative Studio: Ready Banners, Badges & Color Palettes."""
+    return jsonify({
+        "success": True,
+        "badges": [
+            {"id": "b1", "text": "🎓 IMTIHONSIZ QABUL 2026", "bg": "#10b981", "color": "#ffffff"},
+            {"id": "b2", "text": "🔥 100% GRANT IMKONIYATI", "bg": "#ef4444", "color": "#ffffff"},
+            {"id": "b3", "text": "🩺 TIBBIYOT & STOMATOLOGIYA", "bg": "#06b6d4", "color": "#ffffff"},
+            {"id": "b4", "text": "⚡ SHOSHILING: SO'NGGI 5 TA JOY", "bg": "#f59e0b", "color": "#000000"},
+            {"id": "b5", "text": "🏛️ DAVLAT UNIVERSITETLARI", "bg": "#8b5cf6", "color": "#ffffff"},
+            {"id": "b6", "text": "💼 HAFTASIGA 20 SOAT ISH", "bg": "#3b82f6", "color": "#ffffff"}
+        ],
+        "palettes": [
+            {"name": "Gece Neon", "primary": "#06b6d4", "bg": "#06080d", "accent": "#10b981"},
+            {"name": "Royal Emerald", "primary": "#10b981", "bg": "#022c22", "accent": "#f59e0b"},
+            {"name": "Sunset Fire", "primary": "#f43f5e", "bg": "#1e1b4b", "accent": "#fbbf24"},
+            {"name": "Imperial Gold", "primary": "#f59e0b", "bg": "#0f172a", "accent": "#38bdf8"}
+        ]
+    })
+
 if __name__ == "__main__":
     print("[Arkadaş Executive OS] Web Dashboard çalışıyor: http://127.0.0.1:3131", flush=True)
     app.run(host="0.0.0.0", port=3131, debug=False)

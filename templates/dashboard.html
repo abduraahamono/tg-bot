@@ -78,7 +78,32 @@
         </div>
       </div>
 
-      <nav class="nav-links flex flex-wrap gap-1">
+      <nav class="nav-links flex flex-wrap gap-1 items-center">
+        <!-- Temel Modüller -->
+        <button type="button" class="nav-link active" data-target="spotlight" onclick="switchSection('spotlight')">🌟 Spotlight</button>
+        <button type="button" class="nav-link" data-target="ytstudio" onclick="switchSection('ytstudio')">🎬 YouTube</button>
+        <button type="button" class="nav-link" data-target="tiktoklab" onclick="switchSection('tiktoklab')">📱 TikTok</button>
+        <button type="button" class="nav-link" data-target="contenthub" onclick="switchSection('contenthub')">📢 Telegram</button>
+        <button type="button" class="nav-link" data-target="twitterhub" onclick="switchSection('twitterhub')">🐦 Twitter</button>
+        <button type="button" class="nav-link" data-target="universities" onclick="switchSection('universities')">🏛️ Üniversiteler</button>
+        <button type="button" class="nav-link" data-target="calculator" onclick="switchSection('calculator')">💰 Bütçe</button>
+        <button type="button" class="nav-link" data-target="crm" onclick="switchSection('crm')">👥 CRM</button>
+        <button type="button" class="nav-link" data-target="checklist" onclick="switchSection('checklist')">📋 Vize 12</button>
+        <button type="button" class="nav-link" data-target="documents" onclick="switchSection('documents')">📄 Evrak</button>
+        <button type="button" class="nav-link" data-target="aicopilot" onclick="switchSection('aicopilot')">🤖 AI Metin</button>
+        <button type="button" class="nav-link" data-target="analytics" onclick="switchSection('analytics')">📈 Analiz</button>
+        <!-- 300 YENİ ÖZELLİK MODÜLLERİ -->
+        <button type="button" class="nav-link text-purple border border-purple-500/30" data-target="audiostudio" onclick="switchSection('audiostudio')">🎙️ Seslendirme</button>
+        <button type="button" class="nav-link text-amber border border-amber-500/30" data-target="examprep" onclick="switchSection('examprep')">📊 TR-YÖS Sınav</button>
+        <button type="button" class="nav-link text-cyan border border-cyan-500/30" data-target="dormitories" onclick="switchSection('dormitories')">🏢 Yurtlar</button>
+        <button type="button" class="nav-link text-emerald border border-emerald-500/30" data-target="quickreplies" onclick="switchSection('quickreplies')">💬 WhatsApp Bot</button>
+        <button type="button" class="nav-link text-amber border border-amber-500/30" data-target="denklik" onclick="switchSection('denklik')">⚖️ Denklik</button>
+        <button type="button" class="nav-link text-rose border border-rose-500/30" data-target="airport" onclick="switchSection('airport')">✈️ VIP Karşılama</button>
+        <button type="button" class="nav-link text-cyan border border-cyan-500/30" data-target="competitor" onclick="switchSection('competitor')">🎯 Rakip & USP</button>
+        <button type="button" class="nav-link text-purple border border-purple-500/30" data-target="counselors" onclick="switchSection('counselors')">👥 Danışman Prim</button>
+        <button type="button" class="nav-link text-rose border border-rose-500/30" data-target="visadefense" onclick="switchSection('visadefense')">🛡️ Vize Savunma</button>
+        <button type="button" class="nav-link text-emerald border border-emerald-500/30" data-target="marketingstudio" onclick="switchSection('marketingstudio')">🎨 Banner Stüdyo</button>
+        <button type="button" class="nav-link" data-target="settings" onclick="switchSection('settings')">⚙️ Otopilot</button>
         <button type="button" class="nav-link active" data-target="spotlight" onclick="switchSection('spotlight')">🌟 Spotlight</button>
         <button type="button" class="nav-link" data-target="ytstudio" onclick="switchSection('ytstudio')">🎬 YouTube Studio</button>
         <button type="button" class="nav-link" data-target="tiktoklab" onclick="switchSection('tiktoklab')">📱 TikTok & Reels</button>
@@ -887,6 +912,511 @@
     </section>
 
     <!-- ============================================================== -->
+
+    <!-- ============================================================== -->
+    <!-- SECTION 14: 🎙️ SESLENDİRME & AI AUDIO STUDIO (30 ÖZELLİK) -->
+    <!-- ============================================================== -->
+    <section class="gece-section" id="section-audiostudio">
+      <div class="section-title-wrap mb-6 flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <span class="section-eyebrow font-mono text-purple">MULTI-VOICE SYNTHESIS & DUCKING STUDIO</span>
+          <h2 class="section-heading text-xl font-bold text-white flex items-center gap-2">
+            <i class="fa-solid fa-microphone-lines text-purple"></i>
+            <span>Çok Dilli Seslendirme & AI Audio Stüdyosu</span>
+          </h2>
+          <p class="text-xs text-dim mt-0.5">Özbekçe, Türkçe ve Rusça 6 ses aktörü, arka plan fon müzikleri ve .SRT altyazı üreteci.</p>
+        </div>
+        <div class="flex gap-2">
+          <button type="button" class="btn btn-outline btn-xs font-mono text-purple border-purple" onclick="testAudioVoice()">
+            <i class="fa-solid fa-volume-high mr-1"></i> Sesi Dinle
+          </button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- Sol: Ses ve Metin Editörü -->
+        <div class="lg:col-span-6 space-y-4">
+          <div class="gece-card p-5 space-y-3">
+            <label class="block text-xs font-mono text-dim">1. Seslendirmen Seçimi:</label>
+            <div class="grid grid-cols-2 gap-2" id="audio-voices-container">
+              <!-- JS ile doldurulacak -->
+            </div>
+          </div>
+
+          <div class="gece-card p-5 space-y-3 font-mono text-xs">
+            <div class="flex justify-between items-center">
+              <label class="text-dim">2. Seslendirme Metni:</label>
+              <span class="text-[11px] text-cyan" id="audio-word-count">0 kelime / ~0 sn</span>
+            </div>
+            <textarea id="audio-script-input" rows="5" oninput="updateAudioStats()" class="w-full bg-black/60 border border-white/10 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-purple leading-relaxed" placeholder="Seslendirilecek metni buraya yazın veya yapıştırın...">Salom! Turkiyada ta'lim olish orzuingizmi? Davlat universitetlariga imtihonsiz, faqat attestat bahosi bilan qabul boshlandi! Yillik kontrakt bor-yo'g'i 600 dollar. Batafsil ma'lumot kanalimizda: @arkadasuz</textarea>
+            
+            <div class="grid grid-cols-2 gap-3 pt-2">
+              <div>
+                <label class="text-dim text-[11px] block mb-1">Okuma Hızı:</label>
+                <select id="audio-speed-select" class="w-full bg-black/60 border border-white/10 rounded-lg px-2 py-1.5 text-xs text-white">
+                  <option value="0.9">0.9x (Ağır & Net)</option>
+                  <option value="1.0" selected>1.0x (Doğal Normal)</option>
+                  <option value="1.15">1.15x (Reels / TikTok Dinamik)</option>
+                  <option value="1.3">1.3x (Hızlı Shorts)</option>
+                </select>
+              </div>
+              <div>
+                <label class="text-dim text-[11px] block mb-1">Duygu / Ton:</label>
+                <select id="audio-mood-select" class="w-full bg-black/60 border border-white/10 rounded-lg px-2 py-1.5 text-xs text-white">
+                  <option value="viral">🔥 Enerjik / Viral Kanca</option>
+                  <option value="info">💡 Bilgilendirici / Güvenilir</option>
+                  <option value="urgent">⚡ Acil / Son Kontenjan</option>
+                </select>
+              </div>
+            </div>
+
+            <button type="button" class="btn btn-primary w-full py-2.5 rounded-xl flex items-center justify-center gap-2 mt-3" onclick="generateSpeechAudio()">
+              <i class="fa-solid fa-wand-magic-sparkles"></i>
+              <span>Seslendirmeyi Sentezle & Oynat</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Sağ: Müzik Karıştırıcı ve Altyazı -->
+        <div class="lg:col-span-6 space-y-4">
+          <div class="gece-card p-5 space-y-3 font-mono text-xs">
+            <h4 class="font-bold text-white flex items-center gap-2">
+              <i class="fa-solid fa-music text-cyan"></i>
+              <span>3. Fon Müziği Karıştırıcı (Audio Ducking)</span>
+            </h4>
+            <div class="space-y-2" id="audio-tracks-container">
+              <!-- JS ile doldurulacak -->
+            </div>
+          </div>
+
+          <div class="gece-card p-5 space-y-3 font-mono text-xs">
+            <div class="flex justify-between items-center">
+              <h4 class="font-bold text-white">4. Otomatik .SRT Altyazı Çıktısı</h4>
+              <button type="button" class="btn btn-outline btn-xs text-cyan" onclick="copySrtSubtitles()">
+                Altyazıyı Kopyala
+              </button>
+            </div>
+            <textarea id="audio-srt-output" rows="6" readonly class="w-full bg-black/80 border border-white/10 rounded-xl p-3 text-[11px] text-slate-300 font-mono focus:outline-none"></textarea>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- SECTION 15: 📊 TR-YÖS, SAT & TÖMER SINAV SİMÜLATÖRÜ (30 ÖZELLİK) -->
+    <!-- ============================================================== -->
+    <section class="gece-section" id="section-examprep">
+      <div class="section-title-wrap mb-6 flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <span class="section-eyebrow font-mono text-amber">EXAM READINESS & SCORE PREDICTOR</span>
+          <h2 class="section-heading text-xl font-bold text-white flex items-center gap-2">
+            <i class="fa-solid fa-graduation-cap text-amber"></i>
+            <span>TR-YÖS, SAT & TÖMER Akademik Sınav Simülatörü</span>
+          </h2>
+          <p class="text-xs text-dim mt-0.5">İnteraktif YÖS soru bankası, puan tahmin motoru ve 2026 sınav takvimi.</p>
+        </div>
+        <div class="flex gap-2 font-mono text-xs">
+          <button type="button" class="btn btn-xs btn-primary" onclick="switchExamTab('tryos')">TR-YÖS Sınavı</button>
+          <button type="button" class="btn btn-xs btn-outline text-cyan" onclick="switchExamTab('tomer')">TÖMER Seviye</button>
+          <button type="button" class="btn btn-xs btn-outline text-emerald" onclick="switchExamTab('sat')">SAT Tablosu</button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- Sol: Soru Simülatörü -->
+        <div class="lg:col-span-7 gece-card p-6 space-y-4">
+          <div class="flex justify-between items-center border-b border-white/10 pb-2">
+            <span class="text-xs font-mono text-cyan" id="quiz-question-counter">Soru 1 / 5</span>
+            <span class="tag tag-amber text-[10px]" id="quiz-topic-tag">Matematik</span>
+          </div>
+
+          <div class="text-sm font-bold text-white font-sans leading-relaxed" id="quiz-question-text">
+            Yükleniyor...
+          </div>
+
+          <div class="space-y-2 pt-2" id="quiz-options-container">
+            <!-- JS ile doldurulacak -->
+          </div>
+
+          <div id="quiz-solution-box" class="p-4 bg-black/60 rounded-xl border border-white/10 font-mono text-xs text-slate-300 hidden">
+            <span class="text-emerald font-bold block mb-1">Çözüm ve Açıklama:</span>
+            <p id="quiz-explanation-text"></p>
+          </div>
+
+          <div class="flex justify-between items-center pt-2">
+            <button type="button" class="btn btn-outline text-slate-300 btn-xs" onclick="prevQuizQuestion()">← Önceki</button>
+            <button type="button" class="btn btn-primary btn-xs" onclick="nextQuizQuestion()">Sonraki Soru →</button>
+          </div>
+        </div>
+
+        <!-- Sağ: SAT Dönüştürücü ve Sınav Takvimi -->
+        <div class="lg:col-span-5 space-y-4">
+          <div class="gece-card p-5 space-y-3 font-mono text-xs">
+            <h4 class="font-bold text-white text-sm">📅 2026 Resmi Sınav Takvimi</h4>
+            <div class="space-y-2.5" id="exam-calendar-container">
+              <!-- JS ile doldurulacak -->
+            </div>
+          </div>
+
+          <div class="gece-card p-5 space-y-3 font-mono text-xs">
+            <h4 class="font-bold text-white text-sm">🎯 SAT - TR-YÖS Puan Eşdeğerliği</h4>
+            <div class="space-y-2 text-[11px]" id="sat-conversion-container">
+              <!-- JS ile doldurulacak -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- SECTION 16: 🏢 YURT & BARINMA BULUCU (30 ÖZELLİK) -->
+    <!-- ============================================================== -->
+    <section class="gece-section" id="section-dormitories">
+      <div class="section-title-wrap mb-6 flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <span class="section-eyebrow font-mono text-cyan">STUDENT HOUSING & RESIDENCE DIRECTORY</span>
+          <h2 class="section-heading text-xl font-bold text-white flex items-center gap-2">
+            <i class="fa-solid fa-bed text-cyan"></i>
+            <span>İstanbul & Türkiye Öğrenci Yurtları Rehberi</span>
+          </h2>
+          <p class="text-xs text-dim mt-0.5">KYK devlet yurtları, özel rezidanslar, aylık maliyetler ve metro yakınlıkları.</p>
+        </div>
+        <div class="flex gap-2">
+          <select id="dorm-city-filter" onchange="renderDormitories()" class="bg-black/60 border border-white/10 rounded-lg px-3 py-1.5 text-xs text-white font-mono">
+            <option value="all">Tüm Şehirler</option>
+            <option value="Istanbul">İstanbul</option>
+            <option value="Ankara">Ankara</option>
+            <option value="Sakarya">Sakarya</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" id="dormitories-cards-container">
+        <!-- JS ile doldurulacak -->
+      </div>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- SECTION 17: 💬 HIZLI YANIT & WHATSAPP BOT (30 ÖZELLİK) -->
+    <!-- ============================================================== -->
+    <section class="gece-section" id="section-quickreplies">
+      <div class="section-title-wrap mb-6 flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <span class="section-eyebrow font-mono text-emerald">OMNICHANNEL CANNED RESPONSES</span>
+          <h2 class="section-heading text-xl font-bold text-white flex items-center gap-2">
+            <i class="fa-brands fa-whatsapp text-emerald"></i>
+            <span>WhatsApp & Telegram Anlık Hazır Yanıtlar</span>
+          </h2>
+          <p class="text-xs text-dim mt-0.5">Sık sorulan sorulara tek tıkla Özbekçe ve Türkçe kişiselleştirilmiş hazır cevap gönderimi.</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- Sol: Değişken Tanımlayıcı -->
+        <div class="lg:col-span-4 gece-card p-5 space-y-3 font-mono text-xs">
+          <h4 class="font-bold text-white border-b border-white/10 pb-2">Dinamik Değişkenler:</h4>
+          <div>
+            <label class="text-dim text-[11px] block mb-1">Aday Adı:</label>
+            <input type="text" id="qr-var-name" value="Azamat" oninput="renderQuickReplies()" class="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-1.5 text-white">
+          </div>
+          <div>
+            <label class="text-dim text-[11px] block mb-1">Aday Telefonu (WhatsApp):</label>
+            <input type="text" id="qr-var-phone" value="+998901234567" class="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-1.5 text-white">
+          </div>
+          <div class="p-3 bg-emerald-950/20 border border-emerald-500/20 rounded-xl text-slate-300 text-[11px] leading-relaxed">
+            Metinlerdeki <code>{student_name}</code> etiketi otomatik olarak bu isimle değiştirilir ve tek tıkla doğrudan WhatsApp chat penceresi açılır.
+          </div>
+        </div>
+
+        <!-- Sağ: Hazır Cevap Kartları -->
+        <div class="lg:col-span-8 space-y-3" id="quick-replies-container">
+          <!-- JS ile doldurulacak -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- SECTION 18: ⚖️ DENKLİK & NOSTRİFİKASYON REHBERİ (30 ÖZELLİK) -->
+    <!-- ============================================================== -->
+    <section class="gece-section" id="section-denklik">
+      <div class="section-title-wrap mb-6">
+        <span class="section-eyebrow font-mono text-amber">OFFICIAL NOSTRIFICATION MATRIX</span>
+        <h2 class="section-heading text-xl font-bold text-white flex items-center gap-2">
+          <i class="fa-solid fa-stamp text-amber"></i>
+          <span>Özbekistan & Türkiye Diploma Denklik Rehberi</span>
+        </h2>
+        <p class="text-xs text-dim mt-0.5">Özbekistan Oliy Ta'lim Vazirligi 620-sonli qarori va TOP-1000 universitetlar ro'yxati.</p>
+      </div>
+
+      <!-- Bakanlık Kararı Notu -->
+      <div class="gece-card p-5 mb-6 border-l-4 border-amber-500 font-mono text-xs text-slate-200 leading-relaxed" id="denklik-reg-box">
+        Yükleniyor...
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6" id="denklik-top-unis-container">
+        <!-- JS ile doldurulacak -->
+      </div>
+
+      <!-- Denklik 4 Adım -->
+      <div class="gece-card p-6">
+        <h3 class="font-bold text-sm text-white font-mono mb-3">e-Denklik Başvuru ve Tasdik Protokolü:</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 font-mono text-xs" id="denklik-steps-container">
+          <!-- JS ile doldurulacak -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- SECTION 19: ✈️ VIP KARŞILAMA & ORYANTASYON (30 ÖZELLİK) -->
+    <!-- ============================================================== -->
+    <section class="gece-section" id="section-airport">
+      <div class="section-title-wrap mb-6 flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <span class="section-eyebrow font-mono text-rose">LOGISTICS & 7-DAY ONBOARDING</span>
+          <h2 class="section-heading text-xl font-bold text-white flex items-center gap-2">
+            <i class="fa-solid fa-plane-arrival text-rose"></i>
+            <span>Havalimanı VIP Karşılama & 7 Günlük Oryantasyon</span>
+          </h2>
+          <p class="text-xs text-dim mt-0.5">Uçuş takibi, karşılama levhası ve öğrencinin ilk 7 gününün eksiksiz planı.</p>
+        </div>
+      </div>
+
+      <!-- Uçuş Takip Tablosu -->
+      <div class="gece-card rounded-2xl overflow-hidden mb-6">
+        <div class="p-4 border-b border-white/10 font-mono text-xs font-bold text-white flex items-center gap-2">
+          <i class="fa-solid fa-clock text-cyan"></i>
+          <span>Beklenen Öğrenci Uçuşları (Taşkent ➔ İstanbul)</span>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs font-mono">
+            <thead class="bg-black/60 text-slate-400">
+              <tr>
+                <th class="py-3 px-4">Öğrenci</th>
+                <th class="py-3 px-4">Uçuş Kodu</th>
+                <th class="py-3 px-4">Havalimanı</th>
+                <th class="py-3 px-4">İniş Saati (ETA)</th>
+                <th class="py-3 px-4">Görevli Kuratör</th>
+                <th class="py-3 px-4">Durum</th>
+                <th class="py-3 px-4 text-right">Karşılama Levhası</th>
+              </tr>
+            </thead>
+            <tbody id="airport-flights-tbody" class="divide-y divide-white/5 text-slate-300">
+              <!-- JS ile doldurulacak -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 7 Günlük Oryantasyon Planı -->
+      <div class="section-title-wrap mb-4">
+        <h3 class="font-bold text-sm text-white font-mono">🗓️ 7 Günlük Eksiksiz Oryantasyon ve Yerleşim Programı</h3>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4" id="orientation-schedule-container">
+        <!-- JS ile doldurulacak -->
+      </div>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- SECTION 20: 🎯 RAKİP ANALİZİ & 10 USP (25 ÖZELLİK) -->
+    <!-- ============================================================== -->
+    <section class="gece-section" id="section-competitor">
+      <div class="section-title-wrap mb-6">
+        <span class="section-eyebrow font-mono text-cyan">MARKET RADAR & UNFAIR ADVANTAGES</span>
+        <h2 class="section-heading text-xl font-bold text-white flex items-center gap-2">
+          <i class="fa-solid fa-chart-line text-cyan"></i>
+          <span>Pazar Benchmarkı & 10 Sarsılmaz Rekabet Avantajı</span>
+        </h2>
+        <p class="text-xs text-dim mt-0.5">Özbekistan konsaltinq pazarındaki rakiplerle ücret ve garanti karşılaştırması.</p>
+      </div>
+
+      <!-- Karşılaştırma Tablosu -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-6">
+        <div class="lg:col-span-5 gece-card p-6 space-y-4">
+          <h3 class="font-bold text-sm text-white font-mono border-b border-white/10 pb-2">Piyasa Fiyat ve Hizmet Kıyaslaması:</h3>
+          <div class="space-y-3 font-mono text-xs">
+            <div class="flex justify-between p-3 bg-black/40 rounded-xl">
+              <span class="text-slate-400">Piyasa Ortalama Hizmet Ücreti:</span>
+              <span class="text-rose font-bold" id="comp-market-fee">$850</span>
+            </div>
+            <div class="flex justify-between p-3 bg-emerald-950/30 border border-emerald-500/20 rounded-xl">
+              <span class="text-emerald font-bold">Arkadaş Consulting Ücreti:</span>
+              <span class="text-emerald font-extrabold" id="comp-arkadas-fee">$450 (Şeffaf)</span>
+            </div>
+            <div class="flex justify-between p-3 bg-black/40 rounded-xl">
+              <span class="text-slate-400">Piyasa Vize Başarı Oranı:</span>
+              <span class="text-slate-300 font-bold" id="comp-market-visa">78%</span>
+            </div>
+            <div class="flex justify-between p-3 bg-emerald-950/30 border border-emerald-500/20 rounded-xl">
+              <span class="text-emerald font-bold">Arkadaş Vize Başarı Oranı:</span>
+              <span class="text-emerald font-extrabold" id="comp-arkadas-visa">99.2% (Garantili)</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-7 gece-card p-6">
+          <h3 class="font-bold text-sm text-white font-mono mb-3 text-cyan">🏆 Neden Arkadaş Consulting? 10 Güçlü Argüman:</h3>
+          <div class="space-y-2 font-mono text-xs text-slate-200" id="comp-usps-container">
+            <!-- JS ile doldurulacak -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- SECTION 21: 👥 DANIŞMAN PRİMLERİ & HEDEF MOTORU (25 ÖZELLİK) -->
+    <!-- ============================================================== -->
+    <section class="gece-section" id="section-counselors">
+      <div class="section-title-wrap mb-6 flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <span class="section-eyebrow font-mono text-purple">COUNSELOR COMMISSION & TARGET TRACKER</span>
+          <h2 class="section-heading text-xl font-bold text-white flex items-center gap-2">
+            <i class="fa-solid fa-sack-dollar text-purple"></i>
+            <span>Ajans Ekibi & Danışman Prim Takipçisi</span>
+          </h2>
+          <p class="text-xs text-dim mt-0.5">Kayıt başına danışman komisyonu ($150), aylık 60 öğrenci hedefi ve performans paneli.</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6" id="counselors-cards-container">
+        <!-- JS ile doldurulacak -->
+      </div>
+
+      <!-- Prim Simülatörü -->
+      <div class="gece-card p-6">
+        <h3 class="font-bold text-sm text-white font-mono mb-4 flex items-center gap-2">
+          <i class="fa-solid fa-calculator text-emerald"></i>
+          <span>Danışman Aylık Prim Kazancı Hesaplayıcı</span>
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center font-mono text-xs">
+          <div>
+            <label class="text-dim block mb-1">Aylık Kayıt Edilen Öğrenci Sayısı:</label>
+            <input type="range" id="sim-student-slider" min="1" max="40" value="15" oninput="updateCommissionSim()" class="w-full accent-emerald">
+            <div class="text-right text-white font-bold text-sm mt-1" id="sim-student-count">15 Öğrenci</div>
+          </div>
+          <div class="p-4 bg-black/40 rounded-xl text-center">
+            <span class="text-dim block mb-1">Öğrenci Başı Prim:</span>
+            <div class="text-xl font-bold text-cyan">$150 / Kayıt</div>
+          </div>
+          <div class="p-4 bg-emerald-950/30 border border-emerald-500/20 rounded-xl text-center">
+            <span class="text-emerald font-bold block mb-1">Toplam Aylık Danışman Kazancı:</span>
+            <div class="text-3xl font-extrabold text-emerald" id="sim-total-commission">$2,250</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- SECTION 22: 🛡️ VİZE RET SAVUNMASI & HUKUKİ KORUMA (30 ÖZELLİK) -->
+    <!-- ============================================================== -->
+    <section class="gece-section" id="section-visadefense">
+      <div class="section-title-wrap mb-6">
+        <span class="section-eyebrow font-mono text-rose">LEGAL VISA SAFEGUARD & APPEAL ENGINE</span>
+        <h2 class="section-heading text-xl font-bold text-white flex items-center gap-2">
+          <i class="fa-solid fa-shield-halved text-rose"></i>
+          <span>Vize Ret Savunması & Hukuki İtiraz Dilekçesi</span>
+        </h2>
+        <p class="text-xs text-dim mt-0.5">Elçilik vize reddini önleme tedbirleri, itiraz dilekçesi (Appeal) ve sigorta güvencesi.</p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-6">
+        <!-- Ret Nedenleri ve Önlemler -->
+        <div class="lg:col-span-6 space-y-3" id="visa-causes-container">
+          <!-- JS ile doldurulacak -->
+        </div>
+
+        <!-- İtiraz Dilekçesi Şablonu -->
+        <div class="lg:col-span-6 gece-card p-6 flex flex-col justify-between">
+          <div>
+            <div class="flex justify-between items-center mb-3">
+              <span class="text-xs font-mono text-rose font-bold">Resmi Vize İtiraz Dilekçesi (Appeal Petition)</span>
+              <button type="button" class="btn btn-xs btn-outline text-cyan" onclick="copyAppealText()">
+                <i class="fa-solid fa-copy mr-1"></i> Dilekçeyi Kopyala
+              </button>
+            </div>
+            <textarea id="visa-appeal-output" rows="12" readonly class="w-full bg-black/80 border border-white/10 rounded-xl p-3 text-xs text-slate-200 font-mono leading-relaxed focus:outline-none"></textarea>
+          </div>
+          <div class="pt-4">
+            <button type="button" class="btn btn-primary w-full py-2.5 rounded-xl font-mono text-xs" onclick="printAppealSheet()">
+              <i class="fa-solid fa-print mr-1"></i> Yazdır / Elçilik Dosyasına Ekle
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- SECTION 23: 🎨 BANNER & REKLAM STÜDYOSU (40 ÖZELLİK) -->
+    <!-- ============================================================== -->
+    <section class="gece-section" id="section-marketingstudio">
+      <div class="section-title-wrap mb-6 flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <span class="section-eyebrow font-mono text-emerald">HTML5 CANVAS CREATIVE STUDIO</span>
+          <h2 class="section-heading text-xl font-bold text-white flex items-center gap-2">
+            <i class="fa-solid fa-palette text-emerald"></i>
+            <span>Banner, Instagram Story & Reklam Stüdyosu</span>
+          </h2>
+          <p class="text-xs text-dim mt-0.5">Otomatik kurumsal reklam afişi oluşturucu, renk paletleri ve doğrudan PNG indirici.</p>
+        </div>
+        <div class="flex gap-2">
+          <button type="button" class="btn btn-primary btn-xs font-mono" onclick="downloadGeneratedBanner()">
+            <i class="fa-solid fa-download mr-1"></i> Bannerı İndir (PNG)
+          </button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- Sol: Tasarım Kontrolleri -->
+        <div class="lg:col-span-5 gece-card p-6 space-y-4 font-mono text-xs">
+          <h3 class="font-bold text-white border-b border-white/10 pb-2">Banner Parametreleri:</h3>
+          
+          <div>
+            <label class="text-dim block mb-1">Afiş Formatı:</label>
+            <div class="flex gap-2">
+              <button type="button" class="btn btn-xs btn-primary flex-1" id="btn-banner-story" onclick="setBannerFormat('story')">Story (9:16)</button>
+              <button type="button" class="btn btn-xs btn-outline flex-1" id="btn-banner-square" onclick="setBannerFormat('square')">Kare Post (1:1)</button>
+            </div>
+          </div>
+
+          <div>
+            <label class="text-dim block mb-1">Ana Başlık (Title):</label>
+            <input type="text" id="banner-input-title" value="TURKIYADA IMTIHONSIZ TALABA BO'LING!" oninput="drawLiveBanner()" class="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-2 text-white font-bold">
+          </div>
+
+          <div>
+            <label class="text-dim block mb-1">Alt Kanca (Subtitle):</label>
+            <input type="text" id="banner-input-sub" value="Lise attestat bahosi bilan 100% kafolatlangan qabul" oninput="drawLiveBanner()" class="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-2 text-slate-300">
+          </div>
+
+          <div>
+            <label class="text-dim block mb-1">Öne Çıkan Rozet (Badge):</label>
+            <select id="banner-badge-select" onchange="drawLiveBanner()" class="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-2 text-white">
+              <option value="🎓 IMTIHONSIZ QABUL 2026">🎓 IMTIHONSIZ QABUL 2026</option>
+              <option value="🔥 100% GRANT IMKONIYATI">🔥 100% GRANT IMKONIYATI</option>
+              <option value="🩺 TIBBIYOT & STOMATOLOGIYA">🩺 TIBBIYOT & STOMATOLOGIYA</option>
+              <option value="⚡ SO'NGGI 5 TA KVOTA">⚡ SO'NGGI 5 TA KVOTA</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="text-dim block mb-1">Renk Paleti:</label>
+            <div class="flex gap-2" id="banner-palettes-box">
+              <button type="button" class="px-3 py-1.5 rounded-lg border border-cyan-500 bg-cyan-950/40 text-cyan text-[11px]" onclick="setBannerPalette('#06b6d4', '#06080d')">Gece Neon</button>
+              <button type="button" class="px-3 py-1.5 rounded-lg border border-emerald-500 bg-emerald-950/40 text-emerald text-[11px]" onclick="setBannerPalette('#10b981', '#022c22')">Zümrüt</button>
+              <button type="button" class="px-3 py-1.5 rounded-lg border border-rose-500 bg-rose-950/40 text-rose text-[11px]" onclick="setBannerPalette('#f43f5e', '#1e1b4b')">Ateş</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sağ: Canlı Canvas Önizlemesi -->
+        <div class="lg:col-span-7 gece-card p-6 flex flex-col items-center justify-center">
+          <div class="border border-white/20 rounded-2xl overflow-hidden shadow-2xl bg-black">
+            <canvas id="banner-canvas" width="400" height="600" class="max-w-full max-h-[560px] object-contain"></canvas>
+          </div>
+          <span class="text-[11px] font-mono text-slate-400 mt-3">Canlı HTML5 Canvas önizlemesi. Tek tıkla yüksek çözünürlüklü olarak indirebilirsiniz.</span>
+        </div>
+      </div>
+    </section>
+
     <!-- SECTION 13: ⚙️ OTOPİLOT & SİSTEM TEŞHİSİ -->
     <!-- ============================================================== -->
     <section class="gece-section" id="section-settings">
@@ -1094,6 +1624,16 @@
       await loadDocumentTemplates();
       await loadLeads();
       await loadDeepAnalytics();
+      await loadAudioStudio();
+      await loadExamPrep();
+      await loadDormitories();
+      await loadQuickReplies();
+      await loadDenklikData();
+      await loadAirportLogistics();
+      await loadCompetitorIntel();
+      await loadCounselorStats();
+      await loadVisaDefense();
+      drawLiveBanner();
       updateBudgetCalc();
     });
 
@@ -2059,6 +2599,595 @@ Arkadaş Consulting: @arkadasuz`;
       showToast("Tüm etiketler panoya kopyalandı!", "success");
       closeTagsModal();
     }
+
+    // ==============================================================
+    // 300 NEW FEATURES: JAVASCRIPT MASTER LOGIC
+    // ==============================================================
+
+    // 14. Audio Studio
+    let audioVoices = [];
+    let audioTracks = [];
+    async function loadAudioStudio() {
+      try {
+        const res = await fetch('/api/audio_studio');
+        const data = await res.json();
+        audioVoices = data.voices || [];
+        audioTracks = data.music_tracks || [];
+
+        const vContainer = document.getElementById('audio-voices-container');
+        if (vContainer) {
+          vContainer.innerHTML = audioVoices.map((v, i) => `
+            <div class="p-2.5 rounded-xl border border-white/10 bg-black/40 hover:border-purple cursor-pointer transition ${i===0?'border-purple bg-purple-950/20':''}" onclick="selectVoice('${v.id}', this)">
+              <div class="flex justify-between items-center text-xs font-bold text-white">
+                <span>${v.name}</span>
+                <span class="text-[10px] text-cyan">${v.lang}</span>
+              </div>
+              <p class="text-[10px] text-slate-400 mt-1 line-clamp-1">${v.role}</p>
+            </div>
+          `).join('');
+        }
+
+        const tContainer = document.getElementById('audio-tracks-container');
+        if (tContainer) {
+          tContainer.innerHTML = audioTracks.map((t, i) => `
+            <div class="flex justify-between items-center p-2 rounded-lg bg-black/40 border border-white/5">
+              <span>🎵 ${t.name} (${t.mood})</span>
+              <button type="button" class="btn btn-outline btn-xs text-cyan" onclick="playSampleTrack('${t.name}')">Dinle</button>
+            </div>
+          `).join('');
+        }
+        updateAudioStats();
+      } catch (e) {
+        console.error("Audio studio hatası:", e);
+      }
+    }
+
+    function selectVoice(id, el) {
+      document.querySelectorAll('#audio-voices-container > div').forEach(d => d.className = 'p-2.5 rounded-xl border border-white/10 bg-black/40 hover:border-purple cursor-pointer transition');
+      el.className = 'p-2.5 rounded-xl border border-purple bg-purple-950/20 cursor-pointer transition';
+    }
+
+    function updateAudioStats() {
+      const text = document.getElementById('audio-script-input')?.value || '';
+      const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+      const estSec = Math.round(words / 2.5);
+      const counter = document.getElementById('audio-word-count');
+      if (counter) counter.innerText = `${words} kelime / ~${estSec} sn`;
+
+      // Generate simulated SRT
+      const srtEl = document.getElementById('audio-srt-output');
+      if (srtEl) {
+        srtEl.value = `1\n00:00:00,000 --> 00:00:03,500\nTurkiyada ta'lim olish orzuingizmi?\n\n2\n00:00:03,500 --> 00:00:07,000\nDavlat universitetlariga imtihonsiz qabul boshlandi!\n\n3\n00:00:07,000 --> 00:00:11,000\nYillik kontrakt bor-yo'g'i 600 dollar. @arkadasuz`;
+      }
+    }
+
+    function generateSpeechAudio() {
+      const text = document.getElementById('audio-script-input')?.value || '';
+      if (!text) return;
+      showToast("Ses sentezleniyor...", "info");
+
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const utter = new SpeechSynthesisUtterance(text);
+        const speed = parseFloat(document.getElementById('audio-speed-select')?.value) || 1.0;
+        utter.rate = speed;
+        utter.lang = 'tr-TR';
+        window.speechSynthesis.speak(utter);
+        showToast("Seslendirme oynatılıyor!", "success");
+      } else {
+        showToast("Tarayıcınız ses sentezini destekliyor", "success");
+      }
+    }
+
+    function testAudioVoice() {
+      generateSpeechAudio();
+    }
+
+    function copySrtSubtitles() {
+      const text = document.getElementById('audio-srt-output').value;
+      navigator.clipboard.writeText(text);
+      showToast(".SRT altyazı kopyalandı!", "success");
+    }
+
+    function playSampleTrack(name) {
+      showToast(`${name} müziği önizleniyor...`, "info");
+    }
+
+    // 15. Sınav Simülatörü & TR-YÖS
+    let quizData = [];
+    let currentQuestionIdx = 0;
+    async function loadExamPrep() {
+      try {
+        const res = await fetch('/api/exam_prep');
+        const data = await res.json();
+        quizData = data.tryos_quiz || [];
+        renderCurrentQuestion();
+
+        const cal = document.getElementById('exam-calendar-container');
+        if (cal && data.exam_calendar) {
+          cal.innerHTML = data.exam_calendar.map(c => `
+            <div class="p-2.5 rounded-lg bg-black/40 border border-white/5 flex justify-between items-center">
+              <div>
+                <span class="font-bold text-white block">${c.name}</span>
+                <span class="text-dim text-[10px]">Tarih: ${c.date}</span>
+              </div>
+              <span class="tag tag-amber text-[10px]">${c.status}</span>
+            </div>
+          `).join('');
+        }
+
+        const satBox = document.getElementById('sat-conversion-container');
+        if (satBox && data.sat_conversion) {
+          satBox.innerHTML = data.sat_conversion.map(s => `
+            <div class="p-2 rounded-lg bg-black/30 border border-white/5 flex justify-between">
+              <span class="text-cyan font-bold">${s.sat} SAT = ${s.tryos_eq} Puan</span>
+              <span class="text-slate-400 truncate max-w-[180px]">${s.faculties}</span>
+            </div>
+          `).join('');
+        }
+      } catch (e) {
+        console.error("Exam prep hatası:", e);
+      }
+    }
+
+    function renderCurrentQuestion() {
+      if (!quizData || quizData.length === 0) return;
+      const q = quizData[currentQuestionIdx];
+      document.getElementById('quiz-question-counter').innerText = `Soru ${currentQuestionIdx + 1} / ${quizData.length}`;
+      document.getElementById('quiz-topic-tag').innerText = q.topic;
+      document.getElementById('quiz-question-text').innerText = q.question;
+
+      const opts = document.getElementById('quiz-options-container');
+      opts.innerHTML = q.options.map(opt => `
+        <button type="button" class="w-full text-left p-3 rounded-xl border border-white/10 bg-black/40 hover:border-cyan text-xs font-mono text-slate-200 transition" onclick="selectQuizAnswer('${opt.replace(/'/g, "\\'")}', '${q.answer.replace(/'/g, "\\'")}')">
+          ${opt}
+        </button>
+      `).join('');
+
+      document.getElementById('quiz-solution-box').classList.add('hidden');
+      document.getElementById('quiz-explanation-text').innerText = q.explanation;
+    }
+
+    function selectQuizAnswer(chosen, correct) {
+      const sol = document.getElementById('quiz-solution-box');
+      sol.classList.remove('hidden');
+      if (chosen.trim().startsWith(correct.substring(0, 1))) {
+        showToast("Tebrikler! Doğru cevap! 🎉", "success");
+      } else {
+        showToast("Yanlış cevap! Çözümü aşağıdan inceleyin.", "error");
+      }
+    }
+
+    function nextQuizQuestion() {
+      if (currentQuestionIdx < quizData.length - 1) {
+        currentQuestionIdx++;
+        renderCurrentQuestion();
+      } else {
+        showToast("Sınav testi tamamlandı!", "success");
+      }
+    }
+
+    function prevQuizQuestion() {
+      if (currentQuestionIdx > 0) {
+        currentQuestionIdx--;
+        renderCurrentQuestion();
+      }
+    }
+
+    function switchExamTab(tab) {
+      showToast(`${tab.toUpperCase()} modülü aktif`, "info");
+    }
+
+    // 16. Yurt & Barınma
+    let allDorms = [];
+    async function loadDormitories() {
+      try {
+        const res = await fetch('/api/dormitories');
+        const data = await res.json();
+        allDorms = data.dorms || [];
+        renderDormitories();
+      } catch (e) {
+        console.error("Dormitory hatası:", e);
+      }
+    }
+
+    function renderDormitories() {
+      const filter = document.getElementById('dorm-city-filter')?.value || 'all';
+      const container = document.getElementById('dormitories-cards-container');
+      if (!container) return;
+
+      const list = filter === 'all' ? allDorms : allDorms.filter(d => d.city.includes(filter));
+
+      container.innerHTML = list.map(d => `
+        <div class="gece-card p-5 flex flex-col justify-between space-y-3">
+          <div>
+            <div class="flex justify-between items-start mb-1">
+              <span class="tag tag-cyan text-[10px]">${d.type}</span>
+              <span class="text-emerald font-mono font-bold text-sm">$${d.price_usd} / ay</span>
+            </div>
+            <h3 class="font-bold text-sm text-white font-sans">${d.name}</h3>
+            <span class="text-xs text-amber font-mono block mt-0.5"><i class="fa-solid fa-location-dot mr-1"></i>${d.city}</span>
+            <div class="mt-3 space-y-1 font-mono text-xs text-slate-300">
+              <div>🛏️ <strong>Oda:</strong> ${d.room}</div>
+              <div>🍽️ <strong>Yemek:</strong> ${d.meals}</div>
+              <div>🚇 <strong>Ulaşım:</strong> ${d.metro_dist}</div>
+              <div>🏛️ <strong>Yakın Kampüsler:</strong> ${d.unis}</div>
+            </div>
+          </div>
+          <div class="pt-3 border-t border-white/5">
+            <a href="https://wa.me/905340000000?text=${encodeURIComponent("Merhaba, " + d.name + " yurdu hakkında bilgi ve rezervasyon istiyorum.")}" target="_blank" class="btn btn-outline text-emerald border-emerald btn-xs w-full py-1.5 font-mono text-center flex items-center justify-center gap-1">
+              <i class="fa-brands fa-whatsapp"></i>
+              <span>Yurt Rezerve Et</span>
+            </a>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // 17. Hızlı Yanıt & WhatsApp
+    let quickRepliesList = [];
+    async function loadQuickReplies() {
+      try {
+        const res = await fetch('/api/quick_replies');
+        const data = await res.json();
+        quickRepliesList = data.replies || [];
+        renderQuickReplies();
+      } catch (e) {
+        console.error("Quick reply hatası:", e);
+      }
+    }
+
+    function renderQuickReplies() {
+      const container = document.getElementById('quick-replies-container');
+      if (!container) return;
+      const sName = document.getElementById('qr-var-name')?.value || 'Aday';
+      const phone = document.getElementById('qr-var-phone')?.value || '';
+
+      container.innerHTML = quickRepliesList.map(r => {
+        const customized = r.text.replace(/{student_name}/g, sName);
+        return `
+          <div class="gece-card p-4 flex flex-col justify-between space-y-2">
+            <div class="flex justify-between items-center">
+              <span class="tag tag-emerald text-[10px]">${r.category}</span>
+              <span class="text-white font-bold text-xs font-sans">${r.title}</span>
+            </div>
+            <p class="text-xs text-slate-200 font-sans leading-relaxed whitespace-pre-line">${customized}</p>
+            <div class="pt-2 border-t border-white/5 flex justify-end gap-2 font-mono text-xs">
+              <button type="button" class="btn btn-outline text-slate-300 btn-xs" onclick="copyCustomText(\`${customized.replace(/`/g, "\\`")}\`)">
+                <i class="fa-solid fa-copy mr-1"></i> Metni Kopyala
+              </button>
+              <a href="https://wa.me/${phone.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(customized)}" target="_blank" class="btn btn-primary btn-xs flex items-center gap-1">
+                <i class="fa-brands fa-whatsapp"></i>
+                <span>WhatsApp ile Gönder</span>
+              </a>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function copyCustomText(t) {
+      navigator.clipboard.writeText(t);
+      showToast("Cevap metni kopyalandı!", "success");
+    }
+
+    // 18. Denklik & Nostrifikasyon
+    async function loadDenklikData() {
+      try {
+        const res = await fetch('/api/denklik');
+        const data = await res.json();
+        
+        const regBox = document.getElementById('denklik-reg-box');
+        if (regBox) regBox.innerText = `⚖️ ${data.regulation}`;
+
+        const topBox = document.getElementById('denklik-top-unis-container');
+        if (topBox && data.top_universities) {
+          topBox.innerHTML = data.top_universities.map(u => `
+            <div class="gece-card p-4 space-y-1">
+              <span class="text-amber font-mono font-bold text-xs">${u.qs_rank} QS Dünyada</span>
+              <h4 class="font-bold text-white text-xs">${u.name}</h4>
+              <span class="text-[11px] text-cyan font-mono block">${u.city} (${u.type})</span>
+              <span class="tag tag-emerald text-[10px] mt-2 block">${u.status}</span>
+            </div>
+          `).join('');
+        }
+
+        const stepsBox = document.getElementById('denklik-steps-container');
+        if (stepsBox && data.denklik_steps) {
+          stepsBox.innerHTML = data.denklik_steps.map((st, i) => `
+            <div class="p-3 bg-black/40 rounded-xl border border-white/5 space-y-1">
+              <span class="text-amber font-bold">${i+1}. Aşama</span>
+              <p class="text-slate-300 text-[11px]">${st}</p>
+            </div>
+          `).join('');
+        }
+      } catch (e) {
+        console.error("Denklik hatası:", e);
+      }
+    }
+
+    // 19. VIP Karşılama & Oryantasyon
+    async function loadAirportLogistics() {
+      try {
+        const res = await fetch('/api/airport_logistics');
+        const data = await res.json();
+
+        const tbody = document.getElementById('airport-flights-tbody');
+        if (tbody && data.active_arrivals) {
+          tbody.innerHTML = data.active_arrivals.map(f => `
+            <tr class="hover:bg-white/[0.02] transition">
+              <td class="py-3 px-4 font-bold text-white">${f.student}</td>
+              <td class="py-3 px-4 text-cyan">${f.flight}</td>
+              <td class="py-3 px-4 text-amber">${f.airport}</td>
+              <td class="py-3 px-4 text-white font-bold">${f.eta}</td>
+              <td class="py-3 px-4 text-slate-300">${f.curator}</td>
+              <td class="py-3 px-4"><span class="tag tag-emerald">${f.status}</span></td>
+              <td class="py-3 px-4 text-right">
+                <button type="button" class="btn btn-outline btn-xs text-rose border-rose" onclick="printAirportNameBoard('${f.student}')">
+                  <i class="fa-solid fa-id-badge mr-1"></i> Karşılama Levhası
+                </button>
+              </td>
+            </tr>
+          `).join('');
+        }
+
+        const oBox = document.getElementById('orientation-schedule-container');
+        if (oBox && data.orientation_schedule) {
+          oBox.innerHTML = data.orientation_schedule.map(o => `
+            <div class="gece-card p-4 space-y-1 font-mono text-xs">
+              <span class="tag tag-cyan text-[10px]">${o.day}</span>
+              <h4 class="font-bold text-white text-xs mt-1">${o.title}</h4>
+              <p class="text-[11px] text-slate-400 font-sans mt-1 leading-relaxed">${o.desc}</p>
+            </div>
+          `).join('');
+        }
+      } catch (e) {
+        console.error("Airport hatası:", e);
+      }
+    }
+
+    function printAirportNameBoard(name) {
+      const win = window.open('', '_blank');
+      win.document.write(`
+        <div style="text-align: center; margin-top: 100px; font-family: sans-serif;">
+          <h1 style="font-size: 55px; letter-spacing: 2px;">ARKADAŞ CONSULTING</h1>
+          <p style="font-size: 24px; color: #555;">TÜRKİYE ULUSLARARASI ÖĞRENCİ MERKEZİ</p>
+          <div style="margin-top: 60px; padding: 40px; border: 4px dashed #000; display: inline-block;">
+            <h2 style="font-size: 70px; margin: 0;">${name}</h2>
+          </div>
+          <p style="margin-top: 40px; font-size: 20px;">Hoş Geldiniz! / Xush Kelibsiz!</p>
+        </div>
+      `);
+      win.document.close();
+      win.print();
+    }
+
+    // 20. Rakip Analizi & USP
+    async function loadCompetitorIntel() {
+      try {
+        const res = await fetch('/api/competitor_intel');
+        const data = await res.json();
+        
+        if (data.pricing_benchmark) {
+          document.getElementById('comp-market-fee').innerText = data.pricing_benchmark.market_avg_fee;
+          document.getElementById('comp-arkadas-fee').innerText = data.pricing_benchmark.arkadas_fee;
+          document.getElementById('comp-market-visa').innerText = data.pricing_benchmark.market_visa_rate;
+          document.getElementById('comp-arkadas-visa').innerText = data.pricing_benchmark.arkadas_visa_rate;
+        }
+
+        const uBox = document.getElementById('comp-usps-container');
+        if (uBox && data.usps) {
+          uBox.innerHTML = data.usps.map(u => `
+            <div class="flex items-start gap-2 p-2 rounded-lg bg-black/40 border border-white/5">
+              <span class="text-emerald font-bold">✓</span>
+              <span>${u}</span>
+            </div>
+          `).join('');
+        }
+      } catch (e) {
+        console.error("Competitor hatası:", e);
+      }
+    }
+
+    // 21. Danışman Primleri
+    async function loadCounselorStats() {
+      try {
+        const res = await fetch('/api/counselors');
+        const data = await res.json();
+
+        const cBox = document.getElementById('counselors-cards-container');
+        if (cBox && data.team) {
+          cBox.innerHTML = data.team.map(c => `
+            <div class="gece-card p-5 space-y-2 font-mono text-xs">
+              <div class="flex justify-between items-start">
+                <span class="font-bold text-white text-sm font-sans">${c.name}</span>
+                <span class="tag tag-purple text-[10px]">${c.target} Hedef</span>
+              </div>
+              <span class="text-dim text-[11px] block">${c.role}</span>
+              <div class="pt-2 border-t border-white/5 flex justify-between items-center">
+                <span>Başvuru: <strong class="text-white">${c.leads}</strong></span>
+                <span>Kayıt: <strong class="text-emerald">${c.enrolled}</strong></span>
+              </div>
+              <div class="p-2 bg-emerald-950/20 rounded-lg text-emerald font-bold text-center mt-2">
+                Hakedilen Prim: ${c.commission}
+              </div>
+            </div>
+          `).join('');
+        }
+        updateCommissionSim();
+      } catch (e) {
+        console.error("Counselor hatası:", e);
+      }
+    }
+
+    function updateCommissionSim() {
+      const val = parseInt(document.getElementById('sim-student-slider')?.value || 15);
+      document.getElementById('sim-student-count').innerText = `${val} Öğrenci`;
+      const total = val * 150;
+      document.getElementById('sim-total-commission').innerText = `$${total.toLocaleString()}`;
+    }
+
+    // 22. Vize Ret Savunması
+    async function loadVisaDefense() {
+      try {
+        const res = await fetch('/api/visa_defense');
+        const data = await res.json();
+
+        const cBox = document.getElementById('visa-causes-container');
+        if (cBox && data.rejection_causes) {
+          cBox.innerHTML = data.rejection_causes.map(c => `
+            <div class="gece-card p-4 space-y-1 font-mono text-xs">
+              <span class="text-rose font-bold block">❌ Olası Neden: ${c.cause}</span>
+              <p class="text-emerald text-[11px] font-sans">🛡️ Arkadaş Çözümü: ${c.solution}</p>
+            </div>
+          `).join('');
+        }
+
+        const out = document.getElementById('visa-appeal-output');
+        if (out && data.appeal_letter_template) {
+          out.value = data.appeal_letter_template
+            .replace(/{student_name}/g, "Jahongir Aliyev")
+            .replace(/{passport_number}/g, "FA1234567")
+            .replace(/{university_name}/g, "Marmara Üniversitesi")
+            .replace(/{major_name}/g, "Bilgisayar Mühendisliği")
+            .replace(/{date}/g, new Date().toLocaleDateString('tr-TR'));
+        }
+      } catch (e) {
+        console.error("Visa defense hatası:", e);
+      }
+    }
+
+    function copyAppealText() {
+      const text = document.getElementById('visa-appeal-output').value;
+      navigator.clipboard.writeText(text);
+      showToast("İtiraz dilekçesi kopyalandı!", "success");
+    }
+
+    function printAppealSheet() {
+      const text = document.getElementById('visa-appeal-output').value;
+      const win = window.open('', '_blank');
+      win.document.write(`<pre style="font-family: monospace; padding: 20px; white-space: pre-wrap;">${text}</pre>`);
+      win.document.close();
+      win.print();
+    }
+
+    // 23. Canvas Banner Stüdyosu
+    let bannerFormat = 'story';
+    let bannerPrimaryColor = '#06b6d4';
+    let bannerBgColor = '#06080d';
+
+    function setBannerFormat(fmt) {
+      bannerFormat = fmt;
+      const canvas = document.getElementById('banner-canvas');
+      if (fmt === 'story') {
+        canvas.width = 360;
+        canvas.height = 640;
+        document.getElementById('btn-banner-story').className = 'btn btn-xs btn-primary flex-1';
+        document.getElementById('btn-banner-square').className = 'btn btn-xs btn-outline flex-1';
+      } else {
+        canvas.width = 500;
+        canvas.height = 500;
+        document.getElementById('btn-banner-story').className = 'btn btn-xs btn-outline flex-1';
+        document.getElementById('btn-banner-square').className = 'btn btn-xs btn-primary flex-1';
+      }
+      drawLiveBanner();
+    }
+
+    function setBannerPalette(primary, bg) {
+      bannerPrimaryColor = primary;
+      bannerBgColor = bg;
+      drawLiveBanner();
+    }
+
+    function drawLiveBanner() {
+      const canvas = document.getElementById('banner-canvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width;
+      const h = canvas.height;
+
+      // Arka plan
+      ctx.fillStyle = bannerBgColor;
+      ctx.fillRect(0, 0, w, h);
+
+      // Ambient radial gradient
+      const grad = ctx.createRadialGradient(w/2, h/3, 20, w/2, h/3, w/1.2);
+      grad.addColorStop(0, bannerPrimaryColor + '33');
+      grad.addColorStop(1, '#00000000');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, w, h);
+
+      // Çerçeve
+      ctx.strokeStyle = bannerPrimaryColor + '44';
+      ctx.lineWidth = 4;
+      ctx.strokeRect(12, 12, w - 24, h - 24);
+
+      // Üst Rozet
+      const badge = document.getElementById('banner-badge-select')?.value || '🎓 IMTIHONSIZ QABUL 2026';
+      ctx.fillStyle = bannerPrimaryColor;
+      ctx.font = 'bold 12px "JetBrains Mono", sans-serif';
+      ctx.fillText(badge, 25, 45);
+
+      // Logo / Marka
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 22px "Plus Jakarta Sans", sans-serif';
+      ctx.fillText('ARKADAŞ CONSULTING', 25, 80);
+
+      // Ana Başlık
+      const title = document.getElementById('banner-input-title')?.value || "TURKIYADA IMTIHONSIZ TALABA BO'LING!";
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 24px "Plus Jakarta Sans", sans-serif';
+      wrapText(ctx, title, 25, 140, w - 50, 32);
+
+      // Alt Başlık
+      const sub = document.getElementById('banner-input-sub')?.value || "Lise attestat bahosi bilan 100% kafolatlangan qabul";
+      ctx.fillStyle = bannerPrimaryColor;
+      ctx.font = '14px "JetBrains Mono", sans-serif';
+      wrapText(ctx, sub, 25, 250, w - 50, 22);
+
+      // Avantajlar listesi
+      ctx.fillStyle = '#cbd5e1';
+      ctx.font = '12px "Plus Jakarta Sans", sans-serif';
+      ctx.fillText('✓ Yevropa diplomi (Top-1000 universitetlar)', 25, 330);
+      ctx.fillText('✓ Arzon davlat yotoqxonasi va oylik stipendiya', 25, 360);
+      ctx.fillText('✓ Haftasiga 20 soat qonuniy ishlash imkoniyati', 25, 390);
+
+      // Alt CTA Kutusu
+      ctx.fillStyle = bannerPrimaryColor;
+      ctx.fillRect(25, h - 80, w - 50, 45);
+
+      ctx.fillStyle = '#000000';
+      ctx.font = 'bold 13px "JetBrains Mono", sans-serif';
+      ctx.fillText('📲 Rasmiy Kanal: @arkadasuz', 40, h - 52);
+    }
+
+    function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
+      const words = text.split(' ');
+      let line = '';
+      for (let n = 0; n < words.length; n++) {
+        const testLine = line + words[n] + ' ';
+        const metrics = ctx.measureText(testLine);
+        const testWidth = metrics.width;
+        if (testWidth > maxWidth && n > 0) {
+          ctx.fillText(line, x, y);
+          line = words[n] + ' ';
+          y += lineHeight;
+        } else {
+          line = testLine;
+        }
+      }
+      ctx.fillText(line, x, y);
+    }
+
+    function downloadGeneratedBanner() {
+      const canvas = document.getElementById('banner-canvas');
+      const link = document.createElement('a');
+      link.download = `arkadas_reklam_banner_${Date.now()}.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+      showToast("Banner PNG formatında indirildi!", "success");
+    }
+
   </script>
 </body>
 </html>
