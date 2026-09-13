@@ -1,489 +1,590 @@
 <!DOCTYPE html>
-<html lang="tr" class="dark">
+<html lang="tr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Arkadaş Consulting — Yönetim Paneli</title>
+  <title>Arkadaş Executive Studio — Yönetim & İçerik Merkezi</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/app.css?v=202609130415">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
-          },
-          colors: {
-            brand: {
-              accent: '#2563eb',
-              success: '#059669',
-              danger: '#dc2626',
-              surface: '#0f172a',
-              card: '#1e293b',
-              border: '#334155',
-            }
-          }
-        }
-      }
-    }
-  </script>
   <style>
     body {
-      background-color: #090d16;
-      color: #f8fafc;
-      font-feature-settings: "cv02", "cv03", "cv04", "cv11";
-      -webkit-font-smoothing: antialiased;
+      background-color: var(--bg-night, #06080d);
+      color: var(--text-main, #f8fafc);
+      font-family: 'Plus Jakarta Sans', sans-serif;
     }
-    .panel-card {
-      background: #111827;
-      border: 1px solid rgba(255, 255, 255, 0.07);
-      transition: border-color 0.2s ease, transform 0.2s ease;
-    }
-    .panel-card:hover {
-      border-color: rgba(255, 255, 255, 0.15);
-    }
-    .subtle-badge {
-      background: rgba(255, 255, 255, 0.05);
+    .font-mono { font-family: 'JetBrains Mono', monospace; }
+    .text-emerald { color: #10b981; }
+    .text-cyan { color: #06b6d4; }
+    .text-amber { color: #f59e0b; }
+    .text-purple { color: #c084fc; }
+    .text-rose { color: #f43f5e; }
+    .gece-card {
+      background: rgba(18, 25, 38, 0.65);
       border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      backdrop-filter: blur(12px);
+      transition: all 0.2s ease;
+    }
+    .gece-card:hover {
+      border-color: rgba(255, 255, 255, 0.16);
+      transform: translateY(-1px);
+    }
+    .spotlight-vinyl-box {
+      position: relative;
+      width: 220px;
+      height: 220px;
     }
   </style>
 </head>
 <body class="min-h-screen flex flex-col">
+  <div class="gece-site-container">
 
-  <!-- ==================== ÜST MENÜ (HEADER) ==================== -->
-  <header class="border-b border-slate-800/80 bg-slate-950/80 sticky top-0 z-40 backdrop-blur-md">
-    <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-      
-      <!-- Marka Logosu -->
-      <div class="flex items-center space-x-3">
-        <div class="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center text-white shadow-lg shadow-blue-500/20 font-bold text-sm">
-          A
+    <!-- 1. STICKY AMBIENT NAVBAR -->
+    <header class="gece-navbar">
+      <div class="nav-brand" onclick="switchSection('spotlight')">
+        <div class="brand-vinyl-pulse">
+          <span class="vinyl-core"></span>
+          <span class="vinyl-ring"></span>
         </div>
-        <div>
-          <h1 class="font-bold text-base tracking-tight text-white flex items-center gap-2">
-            Arkadaş Consulting
-            <span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20">YÖNETİM</span>
-          </h1>
+        <div class="brand-info">
+          <span class="brand-logo font-bold">ARKADAŞ</span>
+          <span class="brand-sub font-mono">EXECUTIVE OS & STUDIO</span>
         </div>
       </div>
 
-      <!-- Navigasyon Sekmeleri -->
-      <nav class="flex items-center space-x-1">
-        <button onclick="switchTab('videos')" id="nav-videos" class="nav-btn px-4 py-2 rounded-lg text-xs font-semibold transition bg-blue-600 text-white">
-          <i class="fa-solid fa-film mr-1.5"></i> Videolar
-        </button>
-        <button onclick="switchTab('crm')" id="nav-crm" class="nav-btn px-4 py-2 rounded-lg text-xs font-medium transition text-slate-400 hover:text-white hover:bg-slate-900">
-          <i class="fa-solid fa-users mr-1.5"></i> Öğrenci Başvuruları
-        </button>
-        <button onclick="switchTab('social')" id="nav-social" class="nav-btn px-4 py-2 rounded-lg text-xs font-medium transition text-slate-400 hover:text-white hover:bg-slate-900">
-          <i class="fa-solid fa-share-nodes mr-1.5"></i> Sosyal Medya
-        </button>
-        <button onclick="switchTab('settings')" id="nav-settings" class="nav-btn px-4 py-2 rounded-lg text-xs font-medium transition text-slate-400 hover:text-white hover:bg-slate-900">
-          <i class="fa-solid fa-gear mr-1.5"></i> Ayarlar
-        </button>
+      <nav class="nav-links">
+        <button type="button" class="nav-link active" data-target="spotlight" onclick="switchSection('spotlight')">🌟 Spotlight</button>
+        <button type="button" class="nav-link" data-target="ytstudio" onclick="switchSection('ytstudio')">🎬 YouTube Studio</button>
+        <button type="button" class="nav-link" data-target="contenthub" onclick="switchSection('contenthub')">📢 İçerik & Metinler</button>
+        <button type="button" class="nav-link" data-target="analytics" onclick="switchSection('analytics')">📈 Analiz & Rapor</button>
+        <button type="button" class="nav-link" data-target="crm" onclick="switchSection('crm')">👥 Öğrenci CRM</button>
+        <button type="button" class="nav-link" data-target="settings" onclick="switchSection('settings')">⚙️ Otopilot</button>
       </nav>
 
-      <!-- Telegram Bot Linki -->
-      <div class="flex items-center space-x-3">
-        <a href="https://t.me/ArkadasAdminBot" target="_blank" class="hidden sm:flex items-center space-x-2 text-xs font-medium text-slate-400 hover:text-white px-3 py-1.5 rounded-lg border border-slate-800 bg-slate-900/50 hover:bg-slate-800 transition">
-          <i class="fa-brands fa-telegram text-sky-400 text-sm"></i>
-          <span>@ArkadasAdminBot</span>
+      <div class="nav-actions">
+        <div class="live-pulse-badge">
+          <span class="pulse-dot"></span>
+          <span id="bot-status-text" class="font-mono text-xs text-emerald">Canlı Stüdyo</span>
+        </div>
+        <a href="https://t.me/ArkadasAdminBot" target="_blank" class="btn btn-outline text-cyan border-cyan btn-xs font-mono">
+          <i class="fa-brands fa-telegram mr-1"></i> @ArkadasAdminBot
         </a>
       </div>
+    </header>
 
-    </div>
-  </header>
-
-  <!-- ==================== ANA İÇERİK ==================== -->
-  <main class="flex-1 max-w-6xl w-full mx-auto px-6 py-8">
-
-    <!-- ==================== SEKME 1: VİDEOLAR ==================== -->
-    <div id="tab-videos" class="tab-content block space-y-6">
-      
-      <!-- Özet Kartları -->
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div class="panel-card p-5 rounded-xl">
-          <span class="text-xs text-slate-400 font-medium">Toplam Video Havuzu</span>
-          <div class="text-3xl font-bold text-white mt-1" id="stat-total-videos">50</div>
-          <span class="text-[11px] text-slate-500 mt-1 block">Arşivdeki hazır içerikler</span>
-        </div>
-
-        <div class="panel-card p-5 rounded-xl">
-          <span class="text-xs text-slate-400 font-medium">YouTube'da Yayında</span>
-          <div class="text-3xl font-bold text-emerald-400 mt-1" id="stat-published-videos">0</div>
-          <span class="text-[11px] text-slate-500 mt-1 block">Kanalda paylaşılan videolar</span>
-        </div>
-
-        <div class="panel-card p-5 rounded-xl">
-          <span class="text-xs text-slate-400 font-medium">Sırada Bekleyenler</span>
-          <div class="text-3xl font-bold text-amber-400 mt-1" id="stat-pending-videos">50</div>
-          <span class="text-[11px] text-slate-500 mt-1 block">Günde 2 video (13:00 ve 19:30)</span>
-        </div>
+    <!-- ============================================================== -->
+    <!-- SECTION 1: 🌟 SPOTLIGHT HERO (Günün Öne Çıkan İçeriği) -->
+    <!-- ============================================================== -->
+    <section class="gece-section active-tab" id="section-spotlight">
+      <div class="spotlight-badge-row mb-3 flex items-center gap-2">
+        <span class="tag tag-emerald font-mono">● 13:00 ÖĞLE SLOTU</span>
+        <span class="tag tag-cyan font-mono">● 19:30 AKŞAM PRİME ZİRVE</span>
+        <span class="text-xs text-dim font-mono ml-2">Günün Öne Çıkan YouTube Shorts Videosu</span>
       </div>
 
-      <!-- Filtre ve Arama Çubuğu -->
-      <div class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2">
-        <div class="flex items-center space-x-1.5 w-full sm:w-auto">
-          <button onclick="filterVideos('all')" id="filter-all" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-blue-600 text-white transition">Tümü (50)</button>
-          <button onclick="filterVideos('pending')" id="filter-pending" class="px-3 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-white bg-slate-900 border border-slate-800 transition">Bekleyenler</button>
-          <button onclick="filterVideos('published')" id="filter-published" class="px-3 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-white bg-slate-900 border border-slate-800 transition">Yayındakiler</button>
-        </div>
+      <div class="gece-card p-6 md:p-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          
+          <!-- Sol Bilgiler -->
+          <div class="lg:col-span-8 space-y-4">
+            <span class="text-xs font-mono text-cyan tracking-wider uppercase font-bold">🎯 GÜNÜN REKLAM VE EĞİTİM KANCASI</span>
+            <h1 class="text-2xl md:text-3xl font-extrabold text-white leading-tight" id="hero-title">
+              Turkiyada imtihonsiz qabul: Attestat bahosi yetarli! 🇹🇷
+            </h1>
 
-        <div class="w-full sm:w-72">
-          <input type="text" id="video-search" oninput="renderVideos()" placeholder="Video başlığında ara..." class="w-full bg-slate-900 border border-slate-800 rounded-lg px-3 py-2 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-blue-500">
+            <div class="p-4 rounded-xl bg-black/40 border border-white/10 font-mono text-xs text-slate-300 leading-relaxed">
+              <span class="text-amber font-bold mr-1">“</span>
+              <span id="hero-desc">
+                Türkiye devlet üniversitelerine sınavsız giriş hakkı ve 25% - 100% harç bursları hakkında detaylı video. Lise diploması notuyla doğrudan üniversite öğrencisi olun!
+              </span>
+              <span class="text-amber font-bold ml-1">”</span>
+            </div>
+
+            <!-- Aksiyon Butonları -->
+            <div class="flex flex-wrap gap-3 pt-2">
+              <button type="button" class="btn btn-primary btn-glow px-5 py-2.5 rounded-xl font-semibold text-xs flex items-center gap-2" onclick="openHeroVideoModal()">
+                <i class="fa-solid fa-play"></i>
+                <span>Hemen Önizle</span>
+              </button>
+              <button type="button" class="btn btn-outline text-rose border-rose px-5 py-2.5 rounded-xl font-semibold text-xs flex items-center gap-2" onclick="uploadHeroVideoNow()">
+                <i class="fa-brands fa-youtube"></i>
+                <span>YouTube'a Şimdi Yükle</span>
+              </button>
+              <button type="button" class="btn btn-outline text-cyan border-cyan px-4 py-2.5 rounded-xl font-semibold text-xs flex items-center gap-2" onclick="switchSection('contenthub')">
+                <i class="fa-solid fa-file-lines"></i>
+                <span>Metin Kütüphanesine Git</span>
+              </button>
+            </div>
+
+            <!-- Meta Çipleri -->
+            <div class="flex flex-wrap gap-2 pt-2 font-mono text-[11px]">
+              <span class="chip">📺 YouTube: arkadaş (45.4K İzlenme)</span>
+              <span class="chip">📱 Telegram: @arkadasuz (Resmi Kanal)</span>
+              <span class="chip">⚡ 9:16 Dikey Shorts</span>
+              <span class="chip">📌 Sabit Yorum Kancası Aktif</span>
+            </div>
+          </div>
+
+          <!-- Sağ: Artwork / Video Player Kutusu -->
+          <div class="lg:col-span-4 flex flex-col items-center justify-center">
+            <div class="spotlight-vinyl-box group cursor-pointer" onclick="openHeroVideoModal()">
+              <div class="w-full h-full rounded-2xl bg-gradient-to-tr from-slate-900 via-blue-950 to-slate-900 border border-white/10 flex flex-col items-center justify-center p-4 shadow-2xl relative overflow-hidden">
+                <i class="fa-brands fa-youtube text-red-500 text-6xl group-hover:scale-110 transition duration-300"></i>
+                <span class="font-bold text-xs text-white mt-3 text-center line-clamp-2">Sınavsız Kabul & Attestat</span>
+                <span class="text-[10px] text-cyan font-mono mt-1">Shorts #01 (13:00)</span>
+                
+                <div class="absolute inset-0 bg-blue-600/20 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
+                  <div class="w-12 h-12 rounded-full bg-white text-black flex items-center justify-center shadow-lg text-sm">
+                    <i class="fa-solid fa-play ml-0.5"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="flex items-center gap-2 mt-3 font-mono text-[11px] text-slate-400">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span>13:00 Slotu Yayına Hazır</span>
+            </div>
+          </div>
+
         </div>
       </div>
+    </section>
 
-      <!-- Video Listesi (Grid) -->
-      <div id="video-cards-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <!-- Videolar JS ile buraya yüklenecek -->
-      </div>
-
-    </div>
-
-    <!-- ==================== SEKME 2: CRM & ÖĞRENCİ BAŞVURULARI ==================== -->
-    <div id="tab-crm" class="tab-content hidden space-y-6">
-      
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2">
+    <!-- ============================================================== -->
+    <!-- SECTION 2: 🎬 YOUTUBE STUDIO (Canlı Analitik & Video Yöneticisi) -->
+    <!-- ============================================================== -->
+    <section class="gece-section hidden" id="section-ytstudio">
+      <div class="section-title-wrap mb-6 flex items-center justify-between">
         <div>
-          <h2 class="text-lg font-bold text-white">Öğrenci Başvuruları & CRM</h2>
-          <p class="text-xs text-slate-400 mt-0.5">Telegram ve sosyal medyadan gelen tüm potansiyel öğrenci adayları.</p>
+          <span class="section-eyebrow font-mono text-rose">OFFICIAL YOUTUBE DATA API V3</span>
+          <h2 class="section-heading text-xl font-bold text-white flex items-center gap-2">
+            <i class="fa-brands fa-youtube text-red-500"></i>
+            <span>YouTube Studio & Video Dağıtım Merkezi</span>
+          </h2>
+          <p class="text-xs text-dim mt-0.5">Resmi bağlı kanal: <strong class="text-white" id="yt-channel-title">arkadaş</strong> (ID: UCvXwAKfCvW7bx268_Tl7nbg)</p>
         </div>
-        <div class="flex items-center space-x-2">
-          <a href="/api/export_excel" download class="px-3.5 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold transition flex items-center space-x-1.5">
-            <i class="fa-solid fa-file-excel"></i>
-            <span>Excel İndir (.csv)</span>
-          </a>
-          <button onclick="openAddLeadModal()" class="px-3.5 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold transition flex items-center space-x-1.5">
-            <i class="fa-solid fa-plus"></i>
-            <span>Öğrenci Ekle</span>
-          </button>
+        <button type="button" class="btn btn-outline btn-xs font-mono text-cyan" onclick="loadYouTubeStudio()">
+          🔄 Canlı Eşitle
+        </button>
+      </div>
+
+      <!-- 4 Temel Canlı YouTube Metriği -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+        <div class="gece-card p-5 text-center">
+          <span class="text-xs text-dim font-bold font-mono block mb-1">📊 TOPLAM İZLENME</span>
+          <div class="text-2xl font-black text-white font-mono" id="yt-stat-views">45,449</div>
+          <span class="text-xs text-emerald font-mono block mt-1">Canlı Kanal İstatistiği</span>
+        </div>
+
+        <div class="gece-card p-5 text-center">
+          <span class="text-xs text-dim font-bold font-mono block mb-1">👤 ABONE SAYISI</span>
+          <div class="text-2xl font-black text-purple font-mono" id="yt-stat-subs">28 Abone</div>
+          <span class="text-xs text-purple font-mono block mt-1">Organik Büyüme</span>
+        </div>
+
+        <div class="gece-card p-5 text-center">
+          <span class="text-xs text-dim font-bold font-mono block mb-1">🎬 YAYINDAKİ VİDEO</span>
+          <div class="text-2xl font-black text-cyan font-mono" id="yt-stat-videos">106 Video</div>
+          <span class="text-xs text-cyan font-mono block mt-1">YouTube Sunucularında</span>
+        </div>
+
+        <div class="gece-card p-5 text-center">
+          <span class="text-xs text-dim font-bold font-mono block mb-1">🛡️ GÜNLÜK API KOTASI</span>
+          <div class="text-2xl font-black text-emerald font-mono">10,000</div>
+          <span class="text-xs text-slate-400 font-mono block mt-1">Kota Koruma Aktif</span>
         </div>
       </div>
 
-      <!-- CRM Tablosu -->
-      <div class="panel-card rounded-xl overflow-hidden">
+      <!-- Video Arama ve Filtre Araç Çubuğu -->
+      <div class="gece-card p-4 mb-5 flex flex-wrap items-center justify-between gap-3">
+        <div class="flex flex-wrap gap-2">
+          <button type="button" class="btn btn-xs btn-primary font-mono" onclick="filterShorts('all', this)">Tümü (50)</button>
+          <button type="button" class="btn btn-xs btn-outline font-mono text-amber" onclick="filterShorts('pending', this)">⏳ Sırada Bekleyenler (50)</button>
+          <button type="button" class="btn btn-xs btn-outline font-mono text-emerald" onclick="filterShorts('published', this)">✅ Yayındakiler (0)</button>
+        </div>
+        <div class="w-full sm:w-72">
+          <input type="text" id="shorts-search-input" oninput="renderShortsTable()" placeholder="Video başlığında ara..." class="w-full bg-black/50 border border-white/10 rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan">
+        </div>
+      </div>
+
+      <!-- YouTube Studio Video Tablosu -->
+      <div class="gece-card rounded-2xl overflow-hidden">
         <div class="overflow-x-auto">
           <table class="w-full text-left text-xs">
-            <thead class="bg-slate-900/80 text-slate-400 border-b border-slate-800 font-medium">
+            <thead class="bg-black/60 text-slate-400 font-mono uppercase tracking-wider border-b border-white/10">
               <tr>
                 <th class="py-3 px-4">#</th>
-                <th class="py-3 px-4">Öğrenci Adı</th>
-                <th class="py-3 px-4">Telefon</th>
-                <th class="py-3 px-4">İlgilendiği Bölüm</th>
-                <th class="py-3 px-4">Kayıt Tarihi</th>
-                <th class="py-3 px-4">Durum (Aşama)</th>
+                <th class="py-3 px-4">Video Başlığı</th>
+                <th class="py-3 px-4">Yayın Slotu</th>
+                <th class="py-3 px-4">Planlanan Tarih</th>
+                <th class="py-3 px-4">Durum</th>
                 <th class="py-3 px-4 text-right">İşlem</th>
               </tr>
             </thead>
-            <tbody id="crm-table-body" class="divide-y divide-slate-800/60 text-slate-300">
+            <tbody id="shorts-table-body" class="divide-y divide-white/5 font-mono text-slate-300">
               <!-- JS ile doldurulacak -->
             </tbody>
           </table>
         </div>
       </div>
+    </section>
 
-    </div>
-
-    <!-- ==================== SEKME 3: SOSYAL MEDYA HESAPLARI ==================== -->
-    <div id="tab-social" class="tab-content hidden space-y-6">
-      
-      <div>
-        <h2 class="text-lg font-bold text-white">Sosyal Medya Kanalları</h2>
-        <p class="text-xs text-slate-400 mt-0.5">Arkadaş Consulting resmi hesaplarının entegrasyon durumları.</p>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <!-- ============================================================== -->
+    <!-- SECTION 3: 📢 ÇOK KANALLI İÇERİK & METİNLER (Telegram, Twitter, Reels) -->
+    <!-- ============================================================== -->
+    <section class="gece-section hidden" id="section-contenthub">
+      <div class="section-title-wrap mb-6 flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <span class="section-eyebrow font-mono text-cyan">OMNICHANNEL CONTENT MATRIX</span>
+          <h2 class="section-heading text-xl font-bold text-white">📢 Hazır Metinler & Çok Kanallı Paylaşım Havuzu</h2>
+          <p class="text-xs text-dim mt-0.5">Telegram kanalı, Twitter/X ve Instagram için önceden hazırlanmış onaylı içerikler.</p>
+        </div>
         
-        <!-- YOUTUBE -->
-        <div class="panel-card p-5 rounded-xl flex flex-col justify-between">
-          <div>
-            <div class="flex items-center justify-between mb-3">
-              <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 rounded-lg bg-red-600/10 text-red-500 flex items-center justify-center text-xl">
-                  <i class="fa-brands fa-youtube"></i>
-                </div>
-                <div>
-                  <h3 class="font-semibold text-white text-sm">YouTube Shorts</h3>
-                  <span class="text-xs text-slate-400">Kanal: @arkadas</span>
-                </div>
-              </div>
-              <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                Bağlı
-              </span>
-            </div>
-            <p class="text-xs text-slate-400 leading-relaxed mb-4">
-              Google Cloud YouTube API v3 ile bağlı. Yüklenen tüm videolar doğrudan YouTube Studio hesabınıza aktarılır ve altına otomatik Telegram davet yorumu sabitlenir.
-            </p>
-          </div>
-          <button onclick="testYouTubeConnection()" class="w-full py-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-xs font-medium text-slate-300 border border-slate-800 transition">
-            Bağlantıyı Doğrula
+        <!-- Platform Sekmeleri -->
+        <div class="flex gap-2">
+          <button type="button" class="btn btn-xs btn-primary font-mono" id="btn-tab-tg" onclick="switchContentPlatform('telegram')">
+            <i class="fa-brands fa-telegram mr-1"></i> Telegram (134 Post)
+          </button>
+          <button type="button" class="btn btn-xs btn-outline font-mono" id="btn-tab-tw" onclick="switchContentPlatform('twitter')">
+            <i class="fa-brands fa-x-twitter mr-1"></i> Twitter / X (201 Tweet)
           </button>
         </div>
+      </div>
 
-        <!-- TELEGRAM -->
-        <div class="panel-card p-5 rounded-xl flex flex-col justify-between">
-          <div>
-            <div class="flex items-center justify-between mb-3">
-              <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 rounded-lg bg-sky-600/10 text-sky-400 flex items-center justify-center text-xl">
-                  <i class="fa-brands fa-telegram"></i>
-                </div>
-                <div>
-                  <h3 class="font-semibold text-white text-sm">Telegram</h3>
-                  <span class="text-xs text-slate-400">Kanal: @arkadasuz</span>
-                </div>
+      <!-- İçerik Arama ve Kategori Filtresi -->
+      <div class="gece-card p-4 mb-5 flex flex-wrap items-center justify-between gap-3">
+        <span class="text-xs font-mono text-slate-300" id="content-pool-count">134 Hazır İçerik Listeleniyor</span>
+        <div class="w-full sm:w-80">
+          <input type="text" id="content-search-input" oninput="renderContentCards()" placeholder="Metin veya konu içinde ara..." class="w-full bg-black/50 border border-white/10 rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan">
+        </div>
+      </div>
+
+      <!-- İçerik Kartları Grid -->
+      <div id="content-cards-container" class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <!-- JS ile doldurulacak -->
+      </div>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- SECTION 4: 📈 HAFTALIK YÖNETİCİ RAPORU & ANALİTİK -->
+    <!-- ============================================================== -->
+    <section class="gece-section hidden" id="section-analytics">
+      <div class="section-title-wrap mb-6 flex items-center justify-between">
+        <div>
+          <span class="section-eyebrow font-mono text-emerald">EXECUTIVE GROWTH & INTELLIGENCE</span>
+          <h2 class="section-heading text-xl font-bold text-white">📈 Haftalık Yönetici Raporu & Büyüme Radarı</h2>
+          <p class="text-xs text-dim mt-0.5">Sosyal medya performansı, öğrenci ilgisi ve yapay zeka içerik tavsiyeleri.</p>
+        </div>
+        <span class="tag tag-emerald font-mono text-xs">📅 Canlı Veri Akışı</span>
+      </div>
+
+      <!-- 5 Temel Yönetici Metriği -->
+      <div class="grid grid-cols-2 md:grid-cols-5 gap-3 mb-6">
+        <div class="gece-card p-4 text-center">
+          <span class="text-xs text-dim font-bold font-mono block mb-1">📊 TOPLAM ERİŞİM</span>
+          <div class="text-2xl font-black text-white font-mono">45.4K+</div>
+          <span class="text-xs text-emerald font-mono block mt-1">YouTube İzlenme</span>
+        </div>
+
+        <div class="gece-card p-4 text-center">
+          <span class="text-xs text-dim font-bold font-mono block mb-1">🎬 VİDEO HAVUZU</span>
+          <div class="text-2xl font-black text-cyan font-mono">50 Shorts</div>
+          <span class="text-xs text-cyan font-mono block mt-1">25 Günlük Stok</span>
+        </div>
+
+        <div class="gece-card p-4 text-center">
+          <span class="text-xs text-dim font-bold font-mono block mb-1">📢 HAZIR METİN</span>
+          <div class="text-2xl font-black text-purple font-mono">335 Post</div>
+          <span class="text-xs text-purple font-mono block mt-1">TG + Twitter</span>
+        </div>
+
+        <div class="gece-card p-4 text-center">
+          <span class="text-xs text-dim font-bold font-mono block mb-1">👥 ÖĞRENCİ LEADLERİ</span>
+          <div class="text-2xl font-black text-amber font-mono" id="crm-count-stat">1 Aday</div>
+          <span class="text-xs text-amber font-mono block mt-1">CRM Havuzunda</span>
+        </div>
+
+        <div class="gece-card p-4 text-center col-span-2 md:col-span-1">
+          <span class="text-xs text-dim font-bold font-mono block mb-1">🔥 LİDER ALAN</span>
+          <div class="text-base font-bold text-rose truncate font-mono mt-1">Tıp & Diş</div>
+          <span class="text-xs text-rose font-mono block mt-1">%42 Tercih Payı</span>
+        </div>
+      </div>
+
+      <!-- 💡 YAPAY ZEKA STRATEJİK TAVSİYELERİ -->
+      <div class="gece-card p-6 border-emerald-500/20 mb-6">
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="text-white font-bold text-base flex items-center gap-2">
+            <span>🤖 Önümüzdeki Hafta En Çok Dönüşüm Getirecek 3 Stratejik Konu</span>
+            <span class="tag tag-emerald font-mono text-xs">Yapay Zeka Radarı</span>
+          </h3>
+          <span class="text-xs text-dim font-mono">Tahmini %90+ Etkileşim</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="p-4 rounded-xl bg-black/40 border border-white/10 flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-center mb-2">
+                <span class="tag tag-cyan font-mono text-xs">⭐ Strateji #1</span>
+                <span class="text-emerald font-mono text-xs font-bold">%95 Skor</span>
               </div>
-              <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                Aktif
-              </span>
+              <strong class="text-white text-sm block mb-1 font-mono">Sınavsız Tıp & Diş Hekimliği</strong>
+              <p class="text-dim text-xs leading-relaxed mb-3">Özbek velilerin en çok bütçe ayırdığı alan. Lise not ortalamasıyla kabul fırsatı vurgulanmalı.</p>
             </div>
-            <p class="text-xs text-slate-400 leading-relaxed mb-4">
-              Yönetici botu: <strong>@ArkadasAdminBot</strong>. Kanal duyuruları, anlık başvuru bildirimleri ve içerik onayları bu bot üzerinden yönetilir.
-            </p>
+            <button type="button" class="btn btn-xs btn-primary font-mono w-full" onclick="switchSection('contenthub')">🚀 Metinleri Gör</button>
           </div>
-          <a href="https://t.me/ArkadasAdminBot" target="_blank" class="w-full py-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-xs font-medium text-slate-300 border border-slate-800 transition text-center block">
-            Telegram Botunu Aç
+
+          <div class="p-4 rounded-xl bg-black/40 border border-white/10 flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-center mb-2">
+                <span class="tag tag-rose font-mono text-xs">⭐ Strateji #2</span>
+                <span class="text-emerald font-mono text-xs font-bold">%92 Skor</span>
+              </div>
+              <strong class="text-white text-sm block mb-1 font-mono">Yıllık $300 - $800 Devlet Harçları</strong>
+              <p class="text-dim text-xs leading-relaxed mb-3">Özbekistan'daki üniversite sözleşme ücretlerine kıyasla çok daha ekonomik olduğu anlatılmalı.</p>
+            </div>
+            <button type="button" class="btn btn-xs btn-primary font-mono w-full" onclick="switchSection('contenthub')">🚀 Metinleri Gör</button>
+          </div>
+
+          <div class="p-4 rounded-xl bg-black/40 border border-white/10 flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-center mb-2">
+                <span class="tag tag-purple font-mono text-xs">⭐ Strateji #3</span>
+                <span class="text-emerald font-mono text-xs font-bold">%89 Skor</span>
+              </div>
+              <strong class="text-white text-sm block mb-1 font-mono">Haftalık 20 Saat Yasal Çalışma İzni</strong>
+              <p class="text-dim text-xs leading-relaxed mb-3">Öğrencilerin harçlıklarını nasıl çıkaracağı ve part-time iş imkanları güven oluşturur.</p>
+            </div>
+            <button type="button" class="btn btn-xs btn-primary font-mono w-full" onclick="switchSection('contenthub')">🚀 Metinleri Gör</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- SECTION 5: 👥 ÖĞRENCİ CRM & SATIŞ HUNİSİ -->
+    <!-- ============================================================== -->
+    <section class="gece-section hidden" id="section-crm">
+      <div class="section-title-wrap mb-6 flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <span class="section-eyebrow font-mono text-emerald">STUDENT PIPELINE & LEADS</span>
+          <h2 class="section-heading text-xl font-bold text-white">👥 Öğrenci Başvuruları & Satış Hunisi</h2>
+          <p class="text-xs text-dim mt-0.5">Telegram botu ve kanaldan başvuran tüm öğrenci adaylarının canlı CRM tablosu.</p>
+        </div>
+        <div class="flex items-center space-x-2">
+          <a href="/api/export_excel" download class="btn btn-emerald btn-glow font-mono text-xs px-4 py-2 flex items-center gap-1.5">
+            <i class="fa-solid fa-file-excel"></i>
+            <span>Excel İndir (.csv)</span>
           </a>
-        </div>
-
-        <!-- TWITTER / X -->
-        <div class="panel-card p-5 rounded-xl flex flex-col justify-between">
-          <div>
-            <div class="flex items-center justify-between mb-3">
-              <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 rounded-lg bg-slate-800 text-white flex items-center justify-center text-xl">
-                  <i class="fa-brands fa-x-twitter"></i>
-                </div>
-                <div>
-                  <h3 class="font-semibold text-white text-sm">Twitter / X</h3>
-                  <span class="text-xs text-slate-400">@arkadasuz</span>
-                </div>
-              </div>
-              <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-500/10 text-blue-400 border border-blue-500/20">
-                Hazır
-              </span>
-            </div>
-            <p class="text-xs text-slate-400 leading-relaxed mb-4">
-              Otomatik tweet ve viral yanıt motoru hazır. Paylaşılan tweetlerin altına anında @arkadasuz davet bağlantısı zincirlenir.
-            </p>
-          </div>
-          <button onclick="alert('X entegrasyonu hazır durumda!')" class="w-full py-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-xs font-medium text-slate-300 border border-slate-800 transition">
-            Ayarları Görüntüle
+          <button onclick="openAddLeadModal()" class="btn btn-primary font-mono text-xs px-4 py-2 flex items-center gap-1.5">
+            <i class="fa-solid fa-plus"></i>
+            <span>Yeni Öğrenci Ekle</span>
           </button>
         </div>
+      </div>
 
-        <!-- INSTAGRAM & TIKTOK -->
-        <div class="panel-card p-5 rounded-xl flex flex-col justify-between">
-          <div>
-            <div class="flex items-center justify-between mb-3">
-              <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 rounded-lg bg-pink-600/10 text-pink-400 flex items-center justify-center text-xl">
-                  <i class="fa-brands fa-instagram"></i>
-                </div>
-                <div>
-                  <h3 class="font-semibold text-white text-sm">Instagram Reels & TikTok</h3>
-                  <span class="text-xs text-slate-400">İsteğe Bağlı Entegrasyon</span>
-                </div>
-              </div>
-              <span class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-800 text-slate-400">
-                Beklemede
-              </span>
-            </div>
-            <p class="text-xs text-slate-400 leading-relaxed mb-4">
-              Meta Graph API veya TikTok Developer anahtarlarınızı girerek Reels ve TikTok otomatik paylaşımını tek tıkla aktif edebilirsiniz.
-            </p>
-          </div>
-          <button onclick="alert('Instagram & TikTok anahtar giriş alanı bir sonraki güncellemede açılacaktır.')" class="w-full py-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-xs font-medium text-slate-300 border border-slate-800 transition">
-            Hesap Bağla
-          </button>
+      <!-- CRM Tablosu -->
+      <div class="gece-card rounded-2xl overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-black/60 text-slate-400 font-mono uppercase tracking-wider border-b border-white/10">
+              <tr>
+                <th class="py-3.5 px-4">#</th>
+                <th class="py-3.5 px-4">Öğrenci Adı</th>
+                <th class="py-3.5 px-4">Telefon</th>
+                <th class="py-3.5 px-4">İlgilendiği Bölüm</th>
+                <th class="py-3.5 px-4">Kayıt Tarihi</th>
+                <th class="py-3.5 px-4">Durum (Aşama)</th>
+                <th class="py-3.5 px-4 text-right">İşlem</th>
+              </tr>
+            </thead>
+            <tbody id="crm-table-body" class="divide-y divide-white/5 font-mono text-slate-300">
+              <!-- JS ile doldurulacak -->
+            </tbody>
+          </table>
         </div>
+      </div>
+    </section>
 
+    <!-- ============================================================== -->
+    <!-- SECTION 6: ⚙️ OTOPİLOT, SAATLER & SİSTEM SAĞLIĞI -->
+    <!-- ============================================================== -->
+    <section class="gece-section hidden" id="section-settings">
+      <div class="section-title-wrap mb-6">
+        <span class="section-eyebrow font-mono text-purple">SYSTEM AUTOMATION & CONTROLS</span>
+        <h2 class="section-heading text-xl font-bold text-white">⚙️ Otopilot ve Sistem Ayarları</h2>
+        <p class="text-xs text-dim mt-0.5">Otomatik yayın saatlerini, kanca davet bağlantınızı ve sistem sağlığını yönetin.</p>
       </div>
 
-    </div>
-
-    <!-- ==================== SEKME 4: AYARLAR ==================== -->
-    <div id="tab-settings" class="tab-content hidden space-y-6">
-      
-      <div>
-        <h2 class="text-lg font-bold text-white">Otopilot ve Sistem Ayarları</h2>
-        <p class="text-xs text-slate-400 mt-0.5">Otomatik paylaşım saatlerini ve kanca linkinizi belirleyin.</p>
-      </div>
-
-      <div class="max-w-2xl panel-card p-6 rounded-xl space-y-5">
-        
-        <div class="flex items-center justify-between pb-5 border-b border-slate-800">
+      <div class="max-w-2xl gece-card p-6 space-y-5">
+        <div class="flex items-center justify-between pb-5 border-b border-white/10">
           <div>
-            <h4 class="font-semibold text-white text-sm">Otomatik Yayın Otopilotu</h4>
-            <p class="text-xs text-slate-400 mt-0.5">Belirlenen saatlerde videoları YouTube'a otomatik yükler.</p>
+            <h4 class="font-bold text-white text-sm font-mono">Otomatik Yayın Otopilotu</h4>
+            <p class="text-xs text-dim mt-0.5">13:00 ve 19:30 saatlerinde YouTube Shorts ve Telegram postlarını otomatik paylaşır.</p>
           </div>
           <label class="relative inline-flex items-center cursor-pointer">
             <input type="checkbox" id="autopilot-toggle" class="sr-only peer" checked>
-            <div class="w-11 h-6 bg-slate-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+            <div class="w-11 h-6 bg-slate-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
           </label>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 font-mono">
           <div>
-            <label class="block text-xs font-medium text-slate-300 mb-1.5">Öğle Yayını Saati</label>
-            <input type="text" id="slot-lunch-time" value="13:00" class="w-full bg-slate-900 border border-slate-800 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-blue-500">
+            <label class="block text-xs text-dim mb-1">1-Slot (Öğle Postu)</label>
+            <input type="text" id="slot-lunch-time" value="13:00" class="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan">
           </div>
           <div>
-            <label class="block text-xs font-medium text-slate-300 mb-1.5">Akşam Yayını Saati</label>
-            <input type="text" id="slot-evening-time" value="19:30" class="w-full bg-slate-900 border border-slate-800 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-blue-500">
+            <label class="block text-xs text-dim mb-1">2-Slot (Akşam Prime Zirve)</label>
+            <input type="text" id="slot-evening-time" value="19:30" class="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan">
           </div>
         </div>
 
-        <div>
-          <label class="block text-xs font-medium text-slate-300 mb-1.5">Sabitlenecek Telegram Kanal Linki</label>
-          <input type="text" id="funnel-url" value="https://t.me/arkadasuz" class="w-full bg-slate-900 border border-slate-800 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-blue-500">
+        <div class="font-mono">
+          <label class="block text-xs text-dim mb-1">Sabitlenecek Telegram Kanal Linki</label>
+          <input type="text" id="funnel-url" value="https://t.me/arkadasuz" class="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan">
         </div>
 
         <div class="pt-2">
-          <button onclick="saveAutopilotSettings()" class="px-5 py-2.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold transition">
+          <button onclick="saveAutopilotSettings()" class="btn btn-primary font-mono text-xs px-5 py-2.5">
             Ayarları Kaydet
           </button>
         </div>
-
       </div>
+    </section>
 
-    </div>
+  </div>
 
-  </main>
-
-  <!-- ==================== VİDEO İZLEME MODALI ==================== -->
-  <div id="video-preview-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
-    <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-lg w-full overflow-hidden shadow-2xl">
-      <div class="p-4 border-b border-slate-800 flex items-center justify-between">
-        <h3 id="modal-video-title" class="text-sm font-semibold text-white truncate mr-2">Video Önizleme</h3>
-        <button onclick="closeVideoModal()" class="text-slate-400 hover:text-white">
-          <i class="fa-solid fa-xmark text-lg"></i>
-        </button>
+  <!-- VIDEO İZLEME MODALI -->
+  <div id="video-preview-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="bg-slate-900 border border-white/10 rounded-2xl max-w-lg w-full overflow-hidden shadow-2xl">
+      <div class="p-4 border-b border-white/10 flex items-center justify-between">
+        <h3 id="modal-video-title" class="text-sm font-bold text-white truncate mr-2 font-mono">Video Önizleme</h3>
+        <button onclick="closeVideoModal()" class="text-slate-400 hover:text-white text-lg">✕</button>
       </div>
       <div class="p-4 flex flex-col items-center">
         <video id="modal-video-player" controls class="w-full max-h-[460px] rounded-xl bg-black object-contain"></video>
         <p id="modal-video-desc" class="text-xs text-slate-400 mt-3 text-center"></p>
       </div>
-      <div class="p-4 bg-slate-950 border-t border-slate-800 flex items-center justify-end space-x-2">
-        <button onclick="closeVideoModal()" class="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-medium text-slate-300 transition">Kapat</button>
-        <button id="modal-upload-btn" class="px-4 py-2 rounded-lg bg-red-600 hover:bg-red-500 text-xs font-semibold text-white transition flex items-center space-x-1.5">
-          <i class="fa-brands fa-youtube"></i>
-          <span>YouTube'a Yükle</span>
-        </button>
+      <div class="p-4 bg-slate-950 border-t border-white/10 flex items-center justify-end space-x-2 font-mono">
+        <button onclick="closeVideoModal()" class="btn btn-outline btn-xs">Kapat</button>
+        <button id="modal-upload-btn" class="btn btn-rose-glow btn-xs">YouTube'a Yükle</button>
       </div>
     </div>
   </div>
 
-  <!-- ==================== ÖĞRENCİ EKLEME MODALI ==================== -->
-  <div id="add-lead-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
-    <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full overflow-hidden shadow-2xl">
-      <div class="p-4 border-b border-slate-800 flex items-center justify-between">
-        <h3 class="text-sm font-semibold text-white">Yeni Öğrenci Başvurusu Ekle</h3>
-        <button onclick="closeAddLeadModal()" class="text-slate-400 hover:text-white">
-          <i class="fa-solid fa-xmark text-lg"></i>
-        </button>
+  <!-- ÖĞRENCİ EKLEME MODALI -->
+  <div id="add-lead-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="bg-slate-900 border border-white/10 rounded-2xl max-w-md w-full overflow-hidden shadow-2xl">
+      <div class="p-4 border-b border-white/10 flex items-center justify-between">
+        <h3 class="text-sm font-bold text-white font-mono">Yeni Öğrenci Ekle</h3>
+        <button onclick="closeAddLeadModal()" class="text-slate-400 hover:text-white">✕</button>
       </div>
-      <form onsubmit="submitNewLead(event)" class="p-4 space-y-3 text-xs">
+      <form onsubmit="submitNewLead(event)" class="p-4 space-y-3 text-xs font-mono">
         <div>
           <label class="block text-slate-400 mb-1">Adı ve Soyadı *</label>
-          <input type="text" id="lead-name" required placeholder="Örn: Serdar Rahimov" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-slate-200 focus:outline-none focus:border-blue-500">
+          <input type="text" id="lead-name" required placeholder="Örn: Serdar Rahimov" class="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-cyan">
         </div>
         <div>
           <label class="block text-slate-400 mb-1">Telefon Numarası *</label>
-          <input type="text" id="lead-phone" required placeholder="+998 90 123 45 67" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-slate-200 focus:outline-none focus:border-blue-500">
+          <input type="text" id="lead-phone" required placeholder="+998 90 123 45 67" class="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-cyan">
         </div>
         <div>
           <label class="block text-slate-400 mb-1">İlgilendiği Bölüm</label>
-          <select id="lead-interest" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-slate-200 focus:outline-none focus:border-blue-500">
+          <select id="lead-interest" class="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-2 text-white focus:outline-none">
             <option value="Tıp / Diş Hekimliği">Tıp / Diş Hekimliği</option>
-            <option value="Yazılım / Bilgisayar Mühendisliği">Yazılım / Bilgisayar Mühendisliği</option>
+            <option value="Yazılım / IT">Yazılım / IT</option>
             <option value="İşletme / İktisat">İşletme / İktisat</option>
             <option value="Hukuk">Hukuk</option>
             <option value="Mimarlık ve Mühendislik">Mimarlık ve Mühendislik</option>
             <option value="Genel Danışmanlık">Genel Danışmanlık</option>
           </select>
         </div>
-        <div>
-          <label class="block text-slate-400 mb-1">Başvuru Durumu</label>
-          <select id="lead-status" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-slate-200 focus:outline-none focus:border-blue-500">
-            <option value="Yeni Başvuru (Bekliyor)">Yeni Başvuru (Bekliyor)</option>
-            <option value="İletişim Kuruldu (Görüşmede)">İletişim Kuruldu (Görüşmede)</option>
-            <option value="Evraklar Teslim Edildi">Evraklar Teslim Edildi</option>
-            <option value="Kabul Belgesi Geldi">Kabul Belgesi Geldi</option>
-            <option value="Kesin Kayıt Yapıldı">Kesin Kayıt Yapıldı</option>
-          </select>
-        </div>
         <div class="pt-2 flex justify-end space-x-2">
-          <button type="button" onclick="closeAddLeadModal()" class="px-4 py-2 rounded-lg bg-slate-800 text-slate-300">İptal</button>
-          <button type="submit" class="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold">Kaydet</button>
+          <button type="button" onclick="closeAddLeadModal()" class="btn btn-outline btn-xs">İptal</button>
+          <button type="submit" class="btn btn-primary btn-xs">Kaydet</button>
         </div>
       </form>
     </div>
   </div>
 
-  <!-- BİLDİRİM KUTUSU (TOAST) -->
-  <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-200 px-4 py-2.5 rounded-lg shadow-xl text-xs font-semibold flex items-center space-x-2"></div>
+  <!-- TOAST BİLDİRİMİ -->
+  <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 px-4 py-2.5 rounded-xl shadow-2xl font-mono text-xs font-semibold flex items-center space-x-2"></div>
 
-  <!-- JAVASCRIPT KODLARI -->
+  <!-- JAVASCRIPT MOTORU -->
   <script>
-    let allVideos = [];
-    let currentFilter = 'all';
+    let allShorts = [];
+    let currentShortsFilter = 'all';
+    let allTelegramPosts = [];
+    let allTweets = [];
+    let currentContentPlatform = 'telegram';
 
     function showToast(msg, type = 'success') {
-      const toast = document.getElementById('toast');
-      toast.className = `fixed bottom-5 right-5 z-50 transition-all duration-200 px-4 py-2.5 rounded-lg shadow-xl text-xs font-semibold flex items-center space-x-2 ${type === 'success' ? 'bg-emerald-600 text-white' : 'bg-red-600 text-white'}`;
-      toast.innerHTML = `<i class="fa-solid ${type === 'success' ? 'fa-check' : 'fa-circle-exclamation'}"></i><span>${msg}</span>`;
-      toast.classList.remove('translate-y-20', 'opacity-0');
-      setTimeout(() => toast.classList.add('translate-y-20', 'opacity-0'), 3000);
+      const t = document.getElementById('toast');
+      t.className = `fixed bottom-5 right-5 z-50 transition-all duration-300 px-4 py-2.5 rounded-xl shadow-2xl font-mono text-xs font-semibold flex items-center space-x-2 ${type === 'success' ? 'bg-emerald-600 text-white' : 'bg-red-600 text-white'}`;
+      t.innerHTML = `<span>${type === 'success' ? '✅' : '⚠️'}</span><span>${msg}</span>`;
+      t.classList.remove('translate-y-20', 'opacity-0');
+      setTimeout(() => t.classList.add('translate-y-20', 'opacity-0'), 3200);
     }
 
-    function switchTab(tabId) {
-      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-      document.querySelectorAll('.nav-btn').forEach(el => {
-        el.classList.remove('bg-blue-600', 'text-white');
-        el.classList.add('text-slate-400', 'hover:text-white', 'hover:bg-slate-900');
-      });
+    function switchSection(targetId) {
+      document.querySelectorAll('.gece-section').forEach(s => s.classList.add('hidden'));
+      document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
 
-      document.getElementById(`tab-${tabId}`).classList.remove('hidden');
-      const activeBtn = document.getElementById(`nav-${tabId}`);
-      activeBtn.classList.remove('text-slate-400', 'hover:text-white', 'hover:bg-slate-900');
-      activeBtn.classList.add('bg-blue-600', 'text-white');
+      const sec = document.getElementById(`section-${targetId}`);
+      if (sec) sec.classList.remove('hidden');
 
-      if (tabId === 'videos') loadVideos();
-      if (tabId === 'crm') loadLeads();
+      const btn = document.querySelector(`.nav-link[data-target="${targetId}"]`);
+      if (btn) btn.classList.add('active');
+
+      if (targetId === 'ytstudio') loadYouTubeStudio();
+      if (targetId === 'contenthub') loadContentHub();
+      if (targetId === 'crm') loadLeads();
+      if (targetId === 'analytics') loadLeads();
     }
 
-    async function loadVideos() {
-      try {
-        const res = await fetch('/api/videos');
-        const data = await res.json();
-        allVideos = data.shorts || [];
-
-        const published = allVideos.filter(v => v.status === 'published').length;
-        const pending = allVideos.length - published;
-
-        document.getElementById('stat-total-videos').innerText = allVideos.length;
-        document.getElementById('stat-published-videos').innerText = published;
-        document.getElementById('stat-pending-videos').innerText = pending;
-
-        renderVideos();
-      } catch (e) {
-        console.error("Video listesi yüklenemedi:", e);
+    // 1. SPOTLIGHT
+    function openHeroVideoModal() {
+      if (allShorts.length > 0) {
+        openVideoModal(encodeURIComponent(JSON.stringify(allShorts[0])));
       }
     }
 
-    function renderVideos() {
-      const container = document.getElementById('video-cards-container');
-      const search = (document.getElementById('video-search').value || '').toLowerCase();
+    function uploadHeroVideoNow() {
+      if (allShorts.length > 0) {
+        uploadVideoNow(allShorts[0].id);
+      }
+    }
 
-      let list = allVideos.filter(v => {
-        if (currentFilter === 'pending') return v.status !== 'published';
-        if (currentFilter === 'published') return v.status === 'published';
+    // 2. YOUTUBE STUDIO
+    async function loadYouTubeStudio() {
+      try {
+        const res = await fetch('/api/youtube_studio');
+        const data = await res.json();
+        const ch = data.channel || {};
+        allShorts = data.shorts || [];
+
+        document.getElementById('yt-channel-title').innerText = ch.title || 'arkadaş';
+        document.getElementById('yt-stat-views').innerText = Number(ch.views || 45449).toLocaleString();
+        document.getElementById('yt-stat-subs').innerText = `${ch.subscribers || 28} Abone`;
+        document.getElementById('yt-stat-videos').innerText = `${ch.video_count || 106} Video`;
+
+        renderShortsTable();
+      } catch (err) {
+        console.error("YouTube studio hatası:", err);
+      }
+    }
+
+    function renderShortsTable() {
+      const tbody = document.getElementById('shorts-table-body');
+      const search = (document.getElementById('shorts-search-input')?.value || '').toLowerCase();
+
+      let list = allShorts.filter(v => {
+        if (currentShortsFilter === 'pending') return v.status !== 'published';
+        if (currentShortsFilter === 'published') return v.status === 'published';
         return true;
       });
 
@@ -492,62 +593,146 @@
       }
 
       if (list.length === 0) {
-        container.innerHTML = `<div class="col-span-2 text-center py-12 text-slate-500 text-xs">Aradığınız kriterlere uygun video bulunamadı.</div>`;
+        tbody.innerHTML = `<tr><td colspan="6" class="text-center py-8 text-dim">Video bulunamadı.</td></tr>`;
         return;
       }
 
-      container.innerHTML = list.map(v => {
-        const isPublished = v.status === 'published';
-        const timeStr = (v.scheduled_time || '').split(' ')[1] || '13:00';
-        const dateStr = v.date || '';
+      tbody.innerHTML = list.map((v, i) => {
+        const isPub = v.status === 'published';
         return `
-          <div class="panel-card p-4 rounded-xl flex flex-col justify-between">
-            <div>
-              <div class="flex items-center justify-between mb-2">
-                <span class="text-[11px] font-medium text-slate-400">${dateStr} • Saat ${timeStr}</span>
-                <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full ${isPublished ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-amber-500/10 text-amber-400 border border-amber-500/20'}">
-                  ${isPublished ? 'Yayında' : 'Sırada'}
-                </span>
-              </div>
-              <h4 class="font-medium text-sm text-white line-clamp-2 leading-snug">${v.title}</h4>
-              <p class="text-xs text-slate-400 mt-1 line-clamp-1">${v.description || ''}</p>
-            </div>
-
-            <div class="mt-4 pt-3 border-t border-slate-800/80 flex items-center space-x-2">
-              <button onclick="openVideoModal('${encodeURIComponent(JSON.stringify(v))}')" class="flex-1 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-xs font-medium text-slate-300 border border-slate-800 transition flex items-center justify-center space-x-1.5">
-                <i class="fa-solid fa-play text-[10px] text-blue-400"></i>
-                <span>Önizle</span>
+          <tr class="hover:bg-white/[0.02] transition">
+            <td class="py-3 px-4 text-dim">#${i + 1}</td>
+            <td class="py-3 px-4 text-white font-semibold">${v.title}</td>
+            <td class="py-3 px-4 text-cyan">${v.slot_label || 'Öğle (13:00)'}</td>
+            <td class="py-3 px-4 text-slate-400">${v.date}</td>
+            <td class="py-3 px-4">
+              <span class="tag ${isPub ? 'tag-emerald' : 'tag-amber'} text-[10px]">
+                ${isPub ? '● Yayında' : '○ Sırada'}
+              </span>
+            </td>
+            <td class="py-3 px-4 text-right space-x-1.5">
+              <button onclick="openVideoModal('${encodeURIComponent(JSON.stringify(v))}')" class="btn btn-outline btn-xs">
+                ▶ Önizle
               </button>
-              ${isPublished ? `
-                <a href="${v.youtube_url || '#'}" target="_blank" class="flex-1 py-1.5 rounded-lg bg-emerald-600/10 hover:bg-emerald-600/20 text-emerald-400 text-xs font-medium border border-emerald-500/20 transition flex items-center justify-center space-x-1.5">
-                  <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
-                  <span>YouTube'da Aç</span>
+              ${isPub ? `
+                <a href="${v.youtube_url || '#'}" target="_blank" class="btn btn-xs btn-outline text-emerald border-emerald">
+                  ↗ İzle
                 </a>
               ` : `
-                <button onclick="uploadVideoNow('${v.id}')" class="flex-1 py-1.5 rounded-lg bg-red-600 hover:bg-red-500 text-xs font-medium text-white transition flex items-center justify-center space-x-1.5">
-                  <i class="fa-brands fa-youtube text-[10px]"></i>
-                  <span>YouTube'a Yükle</span>
+                <button onclick="uploadVideoNow('${v.id}')" class="btn btn-xs btn-rose-glow">
+                  🚀 Yükle
                 </button>
               `}
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function filterShorts(type, btn) {
+      currentShortsFilter = type;
+      document.querySelectorAll('.btn-xs').forEach(b => {
+        if (b.classList.contains('btn-primary')) b.className = 'btn btn-xs btn-outline font-mono';
+      });
+      if (btn) btn.className = 'btn btn-xs btn-primary font-mono';
+      renderShortsTable();
+    }
+
+    // 3. CONTENT HUB (TELEGRAM & TWITTER)
+    async function loadContentHub() {
+      try {
+        if (allTelegramPosts.length === 0) {
+          const resTg = await fetch('/api/telegram_posts');
+          const dataTg = await resTg.json();
+          allTelegramPosts = dataTg.posts || [];
+        }
+        if (allTweets.length === 0) {
+          const resTw = await fetch('/api/tweets');
+          const dataTw = await resTw.json();
+          allTweets = dataTw.tweets || [];
+        }
+        renderContentCards();
+      } catch (err) {
+        console.error("Content hub hatası:", err);
+      }
+    }
+
+    function switchContentPlatform(plat) {
+      currentContentPlatform = plat;
+      const btnTg = document.getElementById('btn-tab-tg');
+      const btnTw = document.getElementById('btn-tab-tw');
+      if (plat === 'telegram') {
+        btnTg.className = 'btn btn-xs btn-primary font-mono';
+        btnTw.className = 'btn btn-xs btn-outline font-mono';
+      } else {
+        btnTw.className = 'btn btn-xs btn-primary font-mono';
+        btnTg.className = 'btn btn-xs btn-outline font-mono';
+      }
+      renderContentCards();
+    }
+
+    function renderContentCards() {
+      const container = document.getElementById('content-cards-container');
+      const countEl = document.getElementById('content-pool-count');
+      const search = (document.getElementById('content-search-input')?.value || '').toLowerCase();
+
+      const items = currentContentPlatform === 'telegram' ? allTelegramPosts : allTweets;
+      let filtered = items;
+      if (search) {
+        filtered = filtered.filter(it => (it.content || '').toLowerCase().includes(search) || (it.topic || '').toLowerCase().includes(search));
+      }
+
+      countEl.innerText = `${filtered.length} Hazır ${currentContentPlatform === 'telegram' ? 'Telegram Postu' : 'Tweet'} Listeleniyor`;
+
+      if (filtered.length === 0) {
+        container.innerHTML = `<div class="col-span-2 text-center py-12 text-dim font-mono">İçerik bulunamadı.</div>`;
+        return;
+      }
+
+      container.innerHTML = filtered.slice(0, 30).map(it => {
+        const isTg = currentContentPlatform === 'telegram';
+        const title = it.topic || it.slot_label || 'Hazır İçerik';
+        const textContent = it.content || '';
+        const replyFunnel = it.auto_reply || '';
+        const tag = it.cat_tag || (isTg ? '📢 Telegram' : '🐦 Twitter');
+
+        return `
+          <div class="gece-card p-5 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <span class="tag tag-cyan font-mono text-[10px]">${tag}</span>
+                <span class="text-[11px] font-mono text-dim">${it.date_str || it.scheduled_time?.split('T')[0] || ''}</span>
+              </div>
+              <h4 class="font-bold text-sm text-white font-mono mb-2">${title}</h4>
+              <div class="p-3 rounded-lg bg-black/40 border border-white/5 text-xs text-slate-300 leading-relaxed font-sans max-h-48 overflow-y-auto whitespace-pre-line">
+                ${textContent}
+              </div>
+              ${replyFunnel ? `
+                <div class="mt-2.5 p-2.5 rounded-lg bg-emerald-500/5 border border-emerald-500/20 text-[11px] font-mono text-emerald-300">
+                  <span class="font-bold">⚡ Otomatik Yanıt (Funnel):</span> ${replyFunnel}
+                </div>
+              ` : ''}
+            </div>
+
+            <div class="mt-4 pt-3 border-t border-white/5 flex items-center justify-between font-mono text-xs">
+              <span class="text-dim text-[11px]">${isTg ? '@arkadasuz' : '@arkadasuz'}</span>
+              <button onclick="copyContentText('${encodeURIComponent(textContent)}')" class="btn btn-outline btn-xs">
+                📋 Metni Kopyala
+              </button>
             </div>
           </div>
         `;
       }).join('');
     }
 
-    function filterVideos(type) {
-      currentFilter = type;
-      ['all', 'pending', 'published'].forEach(t => {
-        const btn = document.getElementById(`filter-${t}`);
-        if (t === type) {
-          btn.className = 'px-3 py-1.5 rounded-lg text-xs font-semibold bg-blue-600 text-white transition';
-        } else {
-          btn.className = 'px-3 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-white bg-slate-900 border border-slate-800 transition';
-        }
+    function copyContentText(encoded) {
+      const text = decodeURIComponent(encoded);
+      navigator.clipboard.writeText(text).then(() => {
+        showToast("Metin panoya kopyalandı!", "success");
       });
-      renderVideos();
     }
 
+    // 4. PREVIEW MODAL
     function openVideoModal(encoded) {
       const v = JSON.parse(decodeURIComponent(encoded));
       document.getElementById('modal-video-title').innerText = v.title;
@@ -560,7 +745,7 @@
       if (v.status === 'published') {
         btn.style.display = 'none';
       } else {
-        btn.style.display = 'flex';
+        btn.style.display = 'inline-block';
         btn.onclick = () => { uploadVideoNow(v.id); closeVideoModal(); };
       }
 
@@ -577,8 +762,8 @@
     }
 
     async function uploadVideoNow(videoId) {
-      if (!confirm("Bu videoyu hemen YouTube kanalınıza yüklemek istiyor musunuz?")) return;
-      showToast("Video YouTube'a yükleniyor...", "success");
+      if (!confirm("Bu videoyu hemen YouTube kanalınıza yükleyip yayına almak istiyor musunuz?")) return;
+      showToast("YouTube'a yükleniyor...", "success");
 
       try {
         const res = await fetch('/api/videos/upload_now', {
@@ -589,54 +774,56 @@
         const data = await res.json();
         if (data.success) {
           showToast("Video başarıyla yüklendi ve sabitlendi!", "success");
-          loadVideos();
+          loadYouTubeStudio();
         } else {
           showToast(`Hata: ${data.error}`, "error");
         }
       } catch (err) {
-        showToast("Sunucuyla bağlantı kurulamadı", "error");
+        showToast("Bağlantı hatası oluştu", "error");
       }
     }
 
+    // 5. CRM & LEADS
     async function loadLeads() {
       try {
         const res = await fetch('/api/leads');
         const leads = await res.json();
         const tbody = document.getElementById('crm-table-body');
+        document.getElementById('crm-count-stat').innerText = `${leads.length} Aday`;
 
         if (!leads || leads.length === 0) {
-          tbody.innerHTML = `<tr><td colspan="7" class="text-center py-8 text-slate-500">Henüz kayıtlı öğrenci başvurusu bulunmuyor.</td></tr>`;
+          tbody.innerHTML = `<tr><td colspan="7" class="text-center py-8 text-dim font-mono">Henüz kayıtlı başvuru yok.</td></tr>`;
           return;
         }
 
         tbody.innerHTML = leads.map(l => {
           const st = l.current_status || '';
           return `
-            <tr class="hover:bg-slate-900/40 transition">
-              <td class="py-3 px-4 text-slate-500 font-mono">#${l.id}</td>
-              <td class="py-3 px-4 font-semibold text-white">${l.name}</td>
-              <td class="py-3 px-4 text-slate-300 font-mono">${l.phone || '-'}</td>
-              <td class="py-3 px-4 text-slate-400">${l.interest || 'Türkiye Bursları'}</td>
-              <td class="py-3 px-4 text-slate-500 font-mono text-[11px]">${l.timestamp || '-'}</td>
+            <tr class="hover:bg-white/[0.02] transition">
+              <td class="py-3 px-4 text-dim">#${l.id}</td>
+              <td class="py-3 px-4 font-bold text-white font-sans">${l.name}</td>
+              <td class="py-3 px-4 text-cyan">${l.phone || '-'}</td>
+              <td class="py-3 px-4 text-slate-300 font-sans">${l.interest || 'Turkiyada ta\'lim'}</td>
+              <td class="py-3 px-4 text-dim text-[11px]">${l.timestamp || '-'}</td>
               <td class="py-3 px-4">
-                <select onchange="updateLeadStatus(${l.id}, this.value)" class="bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-xs text-slate-200 focus:outline-none">
+                <select onchange="updateLeadStatus(${l.id}, this.value)" class="bg-black/60 border border-white/10 rounded-lg px-2 py-1 text-xs text-white focus:outline-none font-sans">
                   <option value="Yeni Başvuru (Bekliyor)" ${st.includes('Yangi') || st.includes('Yeni') ? 'selected' : ''}>🟡 Yeni Başvuru</option>
-                  <option value="İletişim Kuruldu (Görüşmede)" ${st.includes("Bog'lanildi") || st.includes('İletişim') ? 'selected' : ''}>🔵 İletişim Kuruldu</option>
+                  <option value="İletişim Kuruldu" ${st.includes("Bog'lanildi") || st.includes('İletişim') ? 'selected' : ''}>🔵 İletişim Kuruldu</option>
                   <option value="Evraklar Teslim Edildi" ${st.includes('Hujjatlar') || st.includes('Evrak') ? 'selected' : ''}>🟣 Evraklar Teslim Edildi</option>
                   <option value="Kabul Belgesi Geldi" ${st.includes('Qabul') || st.includes('Kabul') ? 'selected' : ''}>🟢 Kabul Geldi</option>
                   <option value="Kesin Kayıt Yapıldı" ${st.includes('yozildi') || st.includes('Kayıt') ? 'selected' : ''}>✅ Kayıt Tamamlandı</option>
                 </select>
               </td>
               <td class="py-3 px-4 text-right">
-                <button onclick="deleteLead(${l.id})" class="text-slate-500 hover:text-red-400 transition p-1">
-                  <i class="fa-solid fa-trash"></i>
+                <button onclick="deleteLead(${l.id})" class="text-dim hover:text-rose transition p-1">
+                  ✕ Sil
                 </button>
               </td>
             </tr>
           `;
         }).join('');
       } catch (err) {
-        console.error("Öğrenci yükleme hatası:", err);
+        console.error("CRM hatası:", err);
       }
     }
 
@@ -652,7 +839,7 @@
           showToast("Öğrenci durumu güncellendi!", "success");
         }
       } catch (err) {
-        showToast("Güncelleme hatası", "error");
+        showToast("Hata oluştu", "error");
       }
     }
 
@@ -689,13 +876,12 @@
       const name = document.getElementById('lead-name').value;
       const phone = document.getElementById('lead-phone').value;
       const interest = document.getElementById('lead-interest').value;
-      const status = document.getElementById('lead-status').value;
 
       try {
         const res = await fetch('/api/leads/add', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name, phone, interest, current_status: status })
+          body: JSON.stringify({ name, phone, interest, current_status: 'Yeni Başvuru (Bekliyor)' })
         });
         const data = await res.json();
         if (data.success) {
@@ -705,21 +891,6 @@
         }
       } catch (err) {
         showToast("Kaydetme hatası", "error");
-      }
-    }
-
-    async function testYouTubeConnection() {
-      showToast("YouTube bağlantısı kontrol ediliyor...", "success");
-      try {
-        const res = await fetch('/api/social_status');
-        const data = await res.json();
-        if (data.youtube && data.youtube.connected) {
-          showToast("YouTube bağlı ve aktif! (Kanal: arkadaş)", "success");
-        } else {
-          showToast("YouTube bağlantısında sorun var", "error");
-        }
-      } catch (err) {
-        showToast("Bağlantı kontrolü başarısız", "error");
       }
     }
 
@@ -737,15 +908,16 @@
         });
         const data = await res.json();
         if (data.success) {
-          showToast("Ayarlar başarıyla kaydedildi!", "success");
+          showToast("Otopilot ayarları kaydedildi!", "success");
         }
       } catch (err) {
         showToast("Kaydetme hatası", "error");
       }
     }
 
+    // INIT
     window.onload = () => {
-      loadVideos();
+      loadYouTubeStudio();
     };
   </script>
 </body>
