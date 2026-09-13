@@ -110,6 +110,39 @@ class CRMLeadManager:
         sync_result = self.sync_to_google_sheets(record)
         return {"lead": record, "google_sheets_synced": sync_result}
 
+    def update_lead_status(self, lead_id: int, new_status: str) -> bool:
+        """Updates the status of a specific lead by id."""
+        leads = self.load_leads()
+        found = False
+        for l in leads:
+            if l.get("id") == lead_id:
+                l["current_status"] = new_status
+                found = True
+                break
+        if found:
+            try:
+                with open(LEADS_JSON_FILE, "w", encoding="utf-8") as f:
+                    json.dump(leads, f, ensure_ascii=False, indent=2)
+                self._export_to_csv(leads)
+                return True
+            except Exception as e:
+                print(f"[CRM Error] Failed to update lead status: {e}", flush=True)
+        return False
+
+    def delete_lead(self, lead_id: int) -> bool:
+        """Deletes a lead by id."""
+        leads = self.load_leads()
+        new_leads = [l for l in leads if l.get("id") != lead_id]
+        if len(new_leads) != len(leads):
+            try:
+                with open(LEADS_JSON_FILE, "w", encoding="utf-8") as f:
+                    json.dump(new_leads, f, ensure_ascii=False, indent=2)
+                self._export_to_csv(new_leads)
+                return True
+            except Exception as e:
+                print(f"[CRM Error] Failed to delete lead: {e}", flush=True)
+        return False
+
     def _export_to_csv(self, leads: List[Dict[str, Any]]):
         """Writes all leads to a UTF-8 BOM CSV compatible with Excel."""
         fieldnames = [

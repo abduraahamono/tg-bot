@@ -46,11 +46,10 @@ def load_config():
 
 MAIN_KEYBOARD = {
     "keyboard": [
-        [{"text": "🗓️ 1 Haftalik Reja & Takvim"}],
-        [{"text": "🎬 25 Kunlik YouTube Shorts"}, {"text": "🌐 Ilovalar Hubi (5 Ta Tarmoq)"}],
-        [{"text": "📱 Telegram Posti"}, {"text": "🖼️ Görsel Post Kartı"}],
-        [{"text": "💡 Maxsus Post Yozish"}, {"text": "🎓 Talabalar Yordamchisi"}],
-        [{"text": "📊 Leadlar & CRM"}, {"text": "📋 Matnlarni Olish"}]
+        [{"text": "🌐 Web Boshqaruv Markazi (localhost:3131)"}],
+        [{"text": "🎬 YouTube Shorts & Video"}, {"text": "📊 Leadlar & CRM"}],
+        [{"text": "📱 Telegram Posti (@arkadasuz)"}, {"text": "🌐 Ijtimoiy Tarmoqlar"}],
+        [{"text": "🗓️ 1 Haftalik Reja & Takvim"}, {"text": "💡 Maxsus AI Post"}]
     ],
     "resize_keyboard": True
 }
@@ -1749,25 +1748,34 @@ class AdminApprovalBot:
                                 )
                                 self.client.send_message(chat_id, cal_text)
 
-                            elif text in ["🎬 25 Kunlik YouTube Shorts", "youtube", "shorts", "/youtube"]:
+                            elif "web" in text.lower() or "3131" in text or text == "🌐 Web Boshqaruv Markazi (localhost:3131)":
+                                web_msg = (
+                                    "🌐 <b>ARKADAŞ EXECUTIVE OS — WEB BOSHQARUV MARKAZI</b>\n"
+                                    "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+                                    "Barcha operatsiyalarni kompyuteringiz brauzerida sichqoncha bilan qulay boshqaring:\n\n"
+                                    "👉 <b>http://localhost:3131</b>\n\n"
+                                    "✨ <b>Web Panel Imkoniyatlari:</b>\n"
+                                    "• 🎬 <b>Shorts & Video:</b> 50 ta videoni brauzerda tomosha qilish va 1 ta bosishda YouTube'ga yuklash\n"
+                                    "• 📱 <b>Ijtimoiy Tarmoqlar:</b> YouTube, Telegram, Instagram, TikTok, X holati\n"
+                                    "• 👥 <b>Talaba CRM:</b> Abituriyentlar holatini o'zgartirish va 1 tugma bilan Excel yuklab olish\n"
+                                    "• ⚙️ <b>Otopilot:</b> Kunlik e'lon soatlarini belgilash (13:00 / 19:30)\n"
+                                )
+                                self.client.send_message(chat_id, web_msg)
+
+                            elif text in ["🎬 YouTube Shorts & Video", "🎬 25 Kunlik YouTube Shorts", "youtube", "shorts", "/youtube"]:
                                 self.show_youtube_shorts_hub(chat_id)
                             elif text in ["📊 Leadlar & CRM", "📊 Lead CRM Ro'yxati", "/leads", "crm"]:
                                 self.show_crm_hub(chat_id)
-                            elif text == "🌐 6 Ta Tarmoq Holati":
+                            elif text in ["🌐 Ijtimoiy Tarmoqlar", "🌐 Ilovalar Hubi (5 Ta Tarmoq)", "🌐 6 Ta Tarmoq Holati"]:
                                 st = self.publisher.get_platforms_status()
-                                txt = "🌐 <b>IJTIMOIY TARMOQLAR INTEGRATSIYASI (6 TA PLATFORMA):</b>\n━━━━━━━━━━━━━━━━━━━━━━\n"
+                                txt = "🌐 <b>IJTIMOIY TARMOQLAR INTEGRATSIYASI:</b>\n━━━━━━━━━━━━━━━━━━━━━━\n"
                                 icons = {"telegram": "📱", "instagram": "📸", "facebook": "👥", "twitter": "🐦", "youtube": "🎥", "tiktok": "🎵"}
                                 for plat, info in st.items():
                                     txt += f"• {icons.get(plat, '🌐')} <b>{plat.upper()}:</b> {info['status_text']}\n"
                                 txt += (
                                     "━━━━━━━━━━━━━━━━━━━━━━\n"
-                                    "💡 <b>Qanday kalitlar kerak?</b>\n"
-                                    "• <b>Telegram:</b> ✅ Bog'langan (@arkadasuz)\n"
-                                    "• <b>Instagram & Facebook:</b> Meta Graph API Token & Page/Account ID\n"
-                                    "• <b>Twitter (X):</b> API Key + Secret + Access Tokens\n"
-                                    "• <b>YouTube:</b> Google Cloud Client ID & Refresh Token\n"
-                                    "• <b>TikTok:</b> TikTok Developers Client Key & Access Token\n\n"
-                                    "Kalitlarni to'g'ridan-to'g'ri <code>social_credentials.json</code> fayliga kiritishingiz mumkin!"
+                                    "💡 <b>Qulay boshqarish uchun Web Panel:</b>\n"
+                                    "👉 <b>http://localhost:3131</b> (Brauzeringizda oching)\n"
                                 )
                                 self.client.send_message(chat_id, txt)
 

@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="tr" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arkadaş Consulting — Yönetim Paneli</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              accent: '#2563eb',
+              success: '#059669',
+              danger: '#dc2626',
+              surface: '#0f172a',
+              card: '#1e293b',
+              border: '#334155',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #090d16;
+      color: #f8fafc;
+      font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+      -webkit-font-smoothing: antialiased;
+    }
+    .panel-card {
+      background: #111827;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+    .panel-card:hover {
+      border-color: rgba(255, 255, 255, 0.15);
+    }
+    .subtle-badge {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+  <!-- ==================== ÜST MENÜ (HEADER) ==================== -->
+  <header class="border-b border-slate-800/80 bg-slate-950/80 sticky top-0 z-40 backdrop-blur-md">
+    <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+      
+      <!-- Marka Logosu -->
+      <div class="flex items-center space-x-3">
+        <div class="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center text-white shadow-lg shadow-blue-500/20 font-bold text-sm">
+          A
+        </div>
+        <div>
+          <h1 class="font-bold text-base tracking-tight text-white flex items-center gap-2">
+            Arkadaş Consulting
+            <span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20">YÖNETİM</span>
+          </h1>
+        </div>
+      </div>
+
+      <!-- Navigasyon Sekmeleri -->
+      <nav class="flex items-center space-x-1">
+        <button onclick="switchTab('videos')" id="nav-videos" class="nav-btn px-4 py-2 rounded-lg text-xs font-semibold transition bg-blue-600 text-white">
+          <i class="fa-solid fa-film mr-1.5"></i> Videolar
+        </button>
+        <button onclick="switchTab('crm')" id="nav-crm" class="nav-btn px-4 py-2 rounded-lg text-xs font-medium transition text-slate-400 hover:text-white hover:bg-slate-900">
+          <i class="fa-solid fa-users mr-1.5"></i> Öğrenci Başvuruları
+        </button>
+        <button onclick="switchTab('social')" id="nav-social" class="nav-btn px-4 py-2 rounded-lg text-xs font-medium transition text-slate-400 hover:text-white hover:bg-slate-900">
+          <i class="fa-solid fa-share-nodes mr-1.5"></i> Sosyal Medya
+        </button>
+        <button onclick="switchTab('settings')" id="nav-settings" class="nav-btn px-4 py-2 rounded-lg text-xs font-medium transition text-slate-400 hover:text-white hover:bg-slate-900">
+          <i class="fa-solid fa-gear mr-1.5"></i> Ayarlar
+        </button>
+      </nav>
+
+      <!-- Telegram Bot Linki -->
+      <div class="flex items-center space-x-3">
+        <a href="https://t.me/ArkadasAdminBot" target="_blank" class="hidden sm:flex items-center space-x-2 text-xs font-medium text-slate-400 hover:text-white px-3 py-1.5 rounded-lg border border-slate-800 bg-slate-900/50 hover:bg-slate-800 transition">
+          <i class="fa-brands fa-telegram text-sky-400 text-sm"></i>
+          <span>@ArkadasAdminBot</span>
+        </a>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ==================== ANA İÇERİK ==================== -->
+  <main class="flex-1 max-w-6xl w-full mx-auto px-6 py-8">
+
+    <!-- ==================== SEKME 1: VİDEOLAR ==================== -->
+    <div id="tab-videos" class="tab-content block space-y-6">
+      
+      <!-- Özet Kartları -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div class="panel-card p-5 rounded-xl">
+          <span class="text-xs text-slate-400 font-medium">Toplam Video Havuzu</span>
+          <div class="text-3xl font-bold text-white mt-1" id="stat-total-videos">50</div>
+          <span class="text-[11px] text-slate-500 mt-1 block">Arşivdeki hazır içerikler</span>
+        </div>
+
+        <div class="panel-card p-5 rounded-xl">
+          <span class="text-xs text-slate-400 font-medium">YouTube'da Yayında</span>
+          <div class="text-3xl font-bold text-emerald-400 mt-1" id="stat-published-videos">0</div>
+          <span class="text-[11px] text-slate-500 mt-1 block">Kanalda paylaşılan videolar</span>
+        </div>
+
+        <div class="panel-card p-5 rounded-xl">
+          <span class="text-xs text-slate-400 font-medium">Sırada Bekleyenler</span>
+          <div class="text-3xl font-bold text-amber-400 mt-1" id="stat-pending-videos">50</div>
+          <span class="text-[11px] text-slate-500 mt-1 block">Günde 2 video (13:00 ve 19:30)</span>
+        </div>
+      </div>
+
+      <!-- Filtre ve Arama Çubuğu -->
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2">
+        <div class="flex items-center space-x-1.5 w-full sm:w-auto">
+          <button onclick="filterVideos('all')" id="filter-all" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-blue-600 text-white transition">Tümü (50)</button>
+          <button onclick="filterVideos('pending')" id="filter-pending" class="px-3 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-white bg-slate-900 border border-slate-800 transition">Bekleyenler</button>
+          <button onclick="filterVideos('published')" id="filter-published" class="px-3 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-white bg-slate-900 border border-slate-800 transition">Yayındakiler</button>
+        </div>
+
+        <div class="w-full sm:w-72">
+          <input type="text" id="video-search" oninput="renderVideos()" placeholder="Video başlığında ara..." class="w-full bg-slate-900 border border-slate-800 rounded-lg px-3 py-2 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-blue-500">
+        </div>
+      </div>
+
+      <!-- Video Listesi (Grid) -->
+      <div id="video-cards-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Videolar JS ile buraya yüklenecek -->
+      </div>
+
+    </div>
+
+    <!-- ==================== SEKME 2: CRM & ÖĞRENCİ BAŞVURULARI ==================== -->
+    <div id="tab-crm" class="tab-content hidden space-y-6">
+      
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2">
+        <div>
+          <h2 class="text-lg font-bold text-white">Öğrenci Başvuruları & CRM</h2>
+          <p class="text-xs text-slate-400 mt-0.5">Telegram ve sosyal medyadan gelen tüm potansiyel öğrenci adayları.</p>
+        </div>
+        <div class="flex items-center space-x-2">
+          <a href="/api/export_excel" download class="px-3.5 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold transition flex items-center space-x-1.5">
+            <i class="fa-solid fa-file-excel"></i>
+            <span>Excel İndir (.csv)</span>
+          </a>
+          <button onclick="openAddLeadModal()" class="px-3.5 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold transition flex items-center space-x-1.5">
+            <i class="fa-solid fa-plus"></i>
+            <span>Öğrenci Ekle</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- CRM Tablosu -->
+      <div class="panel-card rounded-xl overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-900/80 text-slate-400 border-b border-slate-800 font-medium">
+              <tr>
+                <th class="py-3 px-4">#</th>
+                <th class="py-3 px-4">Öğrenci Adı</th>
+                <th class="py-3 px-4">Telefon</th>
+                <th class="py-3 px-4">İlgilendiği Bölüm</th>
+                <th class="py-3 px-4">Kayıt Tarihi</th>
+                <th class="py-3 px-4">Durum (Aşama)</th>
+                <th class="py-3 px-4 text-right">İşlem</th>
+              </tr>
+            </thead>
+            <tbody id="crm-table-body" class="divide-y divide-slate-800/60 text-slate-300">
+              <!-- JS ile doldurulacak -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ==================== SEKME 3: SOSYAL MEDYA HESAPLARI ==================== -->
+    <div id="tab-social" class="tab-content hidden space-y-6">
+      
+      <div>
+        <h2 class="text-lg font-bold text-white">Sosyal Medya Kanalları</h2>
+        <p class="text-xs text-slate-400 mt-0.5">Arkadaş Consulting resmi hesaplarının entegrasyon durumları.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        
+        <!-- YOUTUBE -->
+        <div class="panel-card p-5 rounded-xl flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-lg bg-red-600/10 text-red-500 flex items-center justify-center text-xl">
+                  <i class="fa-brands fa-youtube"></i>
+                </div>
+                <div>
+                  <h3 class="font-semibold text-white text-sm">YouTube Shorts</h3>
+                  <span class="text-xs text-slate-400">Kanal: @arkadas</span>
+                </div>
+              </div>
+              <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                Bağlı
+              </span>
+            </div>
+            <p class="text-xs text-slate-400 leading-relaxed mb-4">
+              Google Cloud YouTube API v3 ile bağlı. Yüklenen tüm videolar doğrudan YouTube Studio hesabınıza aktarılır ve altına otomatik Telegram davet yorumu sabitlenir.
+            </p>
+          </div>
+          <button onclick="testYouTubeConnection()" class="w-full py-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-xs font-medium text-slate-300 border border-slate-800 transition">
+            Bağlantıyı Doğrula
+          </button>
+        </div>
+
+        <!-- TELEGRAM -->
+        <div class="panel-card p-5 rounded-xl flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-lg bg-sky-600/10 text-sky-400 flex items-center justify-center text-xl">
+                  <i class="fa-brands fa-telegram"></i>
+                </div>
+                <div>
+                  <h3 class="font-semibold text-white text-sm">Telegram</h3>
+                  <span class="text-xs text-slate-400">Kanal: @arkadasuz</span>
+                </div>
+              </div>
+              <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                Aktif
+              </span>
+            </div>
+            <p class="text-xs text-slate-400 leading-relaxed mb-4">
+              Yönetici botu: <strong>@ArkadasAdminBot</strong>. Kanal duyuruları, anlık başvuru bildirimleri ve içerik onayları bu bot üzerinden yönetilir.
+            </p>
+          </div>
+          <a href="https://t.me/ArkadasAdminBot" target="_blank" class="w-full py-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-xs font-medium text-slate-300 border border-slate-800 transition text-center block">
+            Telegram Botunu Aç
+          </a>
+        </div>
+
+        <!-- TWITTER / X -->
+        <div class="panel-card p-5 rounded-xl flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-lg bg-slate-800 text-white flex items-center justify-center text-xl">
+                  <i class="fa-brands fa-x-twitter"></i>
+                </div>
+                <div>
+                  <h3 class="font-semibold text-white text-sm">Twitter / X</h3>
+                  <span class="text-xs text-slate-400">@arkadasuz</span>
+                </div>
+              </div>
+              <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-500/10 text-blue-400 border border-blue-500/20">
+                Hazır
+              </span>
+            </div>
+            <p class="text-xs text-slate-400 leading-relaxed mb-4">
+              Otomatik tweet ve viral yanıt motoru hazır. Paylaşılan tweetlerin altına anında @arkadasuz davet bağlantısı zincirlenir.
+            </p>
+          </div>
+          <button onclick="alert('X entegrasyonu hazır durumda!')" class="w-full py-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-xs font-medium text-slate-300 border border-slate-800 transition">
+            Ayarları Görüntüle
+          </button>
+        </div>
+
+        <!-- INSTAGRAM & TIKTOK -->
+        <div class="panel-card p-5 rounded-xl flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-lg bg-pink-600/10 text-pink-400 flex items-center justify-center text-xl">
+                  <i class="fa-brands fa-instagram"></i>
+                </div>
+                <div>
+                  <h3 class="font-semibold text-white text-sm">Instagram Reels & TikTok</h3>
+                  <span class="text-xs text-slate-400">İsteğe Bağlı Entegrasyon</span>
+                </div>
+              </div>
+              <span class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-800 text-slate-400">
+                Beklemede
+              </span>
+            </div>
+            <p class="text-xs text-slate-400 leading-relaxed mb-4">
+              Meta Graph API veya TikTok Developer anahtarlarınızı girerek Reels ve TikTok otomatik paylaşımını tek tıkla aktif edebilirsiniz.
+            </p>
+          </div>
+          <button onclick="alert('Instagram & TikTok anahtar giriş alanı bir sonraki güncellemede açılacaktır.')" class="w-full py-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-xs font-medium text-slate-300 border border-slate-800 transition">
+            Hesap Bağla
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ==================== SEKME 4: AYARLAR ==================== -->
+    <div id="tab-settings" class="tab-content hidden space-y-6">
+      
+      <div>
+        <h2 class="text-lg font-bold text-white">Otopilot ve Sistem Ayarları</h2>
+        <p class="text-xs text-slate-400 mt-0.5">Otomatik paylaşım saatlerini ve kanca linkinizi belirleyin.</p>
+      </div>
+
+      <div class="max-w-2xl panel-card p-6 rounded-xl space-y-5">
+        
+        <div class="flex items-center justify-between pb-5 border-b border-slate-800">
+          <div>
+            <h4 class="font-semibold text-white text-sm">Otomatik Yayın Otopilotu</h4>
+            <p class="text-xs text-slate-400 mt-0.5">Belirlenen saatlerde videoları YouTube'a otomatik yükler.</p>
+          </div>
+          <label class="relative inline-flex items-center cursor-pointer">
+            <input type="checkbox" id="autopilot-toggle" class="sr-only peer" checked>
+            <div class="w-11 h-6 bg-slate-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+          </label>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-medium text-slate-300 mb-1.5">Öğle Yayını Saati</label>
+            <input type="text" id="slot-lunch-time" value="13:00" class="w-full bg-slate-900 border border-slate-800 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-blue-500">
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-slate-300 mb-1.5">Akşam Yayını Saati</label>
+            <input type="text" id="slot-evening-time" value="19:30" class="w-full bg-slate-900 border border-slate-800 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-blue-500">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-medium text-slate-300 mb-1.5">Sabitlenecek Telegram Kanal Linki</label>
+          <input type="text" id="funnel-url" value="https://t.me/arkadasuz" class="w-full bg-slate-900 border border-slate-800 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-blue-500">
+        </div>
+
+        <div class="pt-2">
+          <button onclick="saveAutopilotSettings()" class="px-5 py-2.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold transition">
+            Ayarları Kaydet
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- ==================== VİDEO İZLEME MODALI ==================== -->
+  <div id="video-preview-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-lg w-full overflow-hidden shadow-2xl">
+      <div class="p-4 border-b border-slate-800 flex items-center justify-between">
+        <h3 id="modal-video-title" class="text-sm font-semibold text-white truncate mr-2">Video Önizleme</h3>
+        <button onclick="closeVideoModal()" class="text-slate-400 hover:text-white">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+      <div class="p-4 flex flex-col items-center">
+        <video id="modal-video-player" controls class="w-full max-h-[460px] rounded-xl bg-black object-contain"></video>
+        <p id="modal-video-desc" class="text-xs text-slate-400 mt-3 text-center"></p>
+      </div>
+      <div class="p-4 bg-slate-950 border-t border-slate-800 flex items-center justify-end space-x-2">
+        <button onclick="closeVideoModal()" class="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-medium text-slate-300 transition">Kapat</button>
+        <button id="modal-upload-btn" class="px-4 py-2 rounded-lg bg-red-600 hover:bg-red-500 text-xs font-semibold text-white transition flex items-center space-x-1.5">
+          <i class="fa-brands fa-youtube"></i>
+          <span>YouTube'a Yükle</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== ÖĞRENCİ EKLEME MODALI ==================== -->
+  <div id="add-lead-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full overflow-hidden shadow-2xl">
+      <div class="p-4 border-b border-slate-800 flex items-center justify-between">
+        <h3 class="text-sm font-semibold text-white">Yeni Öğrenci Başvurusu Ekle</h3>
+        <button onclick="closeAddLeadModal()" class="text-slate-400 hover:text-white">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+      <form onsubmit="submitNewLead(event)" class="p-4 space-y-3 text-xs">
+        <div>
+          <label class="block text-slate-400 mb-1">Adı ve Soyadı *</label>
+          <input type="text" id="lead-name" required placeholder="Örn: Serdar Rahimov" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-slate-200 focus:outline-none focus:border-blue-500">
+        </div>
+        <div>
+          <label class="block text-slate-400 mb-1">Telefon Numarası *</label>
+          <input type="text" id="lead-phone" required placeholder="+998 90 123 45 67" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-slate-200 focus:outline-none focus:border-blue-500">
+        </div>
+        <div>
+          <label class="block text-slate-400 mb-1">İlgilendiği Bölüm</label>
+          <select id="lead-interest" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-slate-200 focus:outline-none focus:border-blue-500">
+            <option value="Tıp / Diş Hekimliği">Tıp / Diş Hekimliği</option>
+            <option value="Yazılım / Bilgisayar Mühendisliği">Yazılım / Bilgisayar Mühendisliği</option>
+            <option value="İşletme / İktisat">İşletme / İktisat</option>
+            <option value="Hukuk">Hukuk</option>
+            <option value="Mimarlık ve Mühendislik">Mimarlık ve Mühendislik</option>
+            <option value="Genel Danışmanlık">Genel Danışmanlık</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-slate-400 mb-1">Başvuru Durumu</label>
+          <select id="lead-status" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-slate-200 focus:outline-none focus:border-blue-500">
+            <option value="Yeni Başvuru (Bekliyor)">Yeni Başvuru (Bekliyor)</option>
+            <option value="İletişim Kuruldu (Görüşmede)">İletişim Kuruldu (Görüşmede)</option>
+            <option value="Evraklar Teslim Edildi">Evraklar Teslim Edildi</option>
+            <option value="Kabul Belgesi Geldi">Kabul Belgesi Geldi</option>
+            <option value="Kesin Kayıt Yapıldı">Kesin Kayıt Yapıldı</option>
+          </select>
+        </div>
+        <div class="pt-2 flex justify-end space-x-2">
+          <button type="button" onclick="closeAddLeadModal()" class="px-4 py-2 rounded-lg bg-slate-800 text-slate-300">İptal</button>
+          <button type="submit" class="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold">Kaydet</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- BİLDİRİM KUTUSU (TOAST) -->
+  <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-200 px-4 py-2.5 rounded-lg shadow-xl text-xs font-semibold flex items-center space-x-2"></div>
+
+  <!-- JAVASCRIPT KODLARI -->
+  <script>
+    let allVideos = [];
+    let currentFilter = 'all';
+
+    function showToast(msg, type = 'success') {
+      const toast = document.getElementById('toast');
+      toast.className = `fixed bottom-5 right-5 z-50 transition-all duration-200 px-4 py-2.5 rounded-lg shadow-xl text-xs font-semibold flex items-center space-x-2 ${type === 'success' ? 'bg-emerald-600 text-white' : 'bg-red-600 text-white'}`;
+      toast.innerHTML = `<i class="fa-solid ${type === 'success' ? 'fa-check' : 'fa-circle-exclamation'}"></i><span>${msg}</span>`;
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      setTimeout(() => toast.classList.add('translate-y-20', 'opacity-0'), 3000);
+    }
+
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.nav-btn').forEach(el => {
+        el.classList.remove('bg-blue-600', 'text-white');
+        el.classList.add('text-slate-400', 'hover:text-white', 'hover:bg-slate-900');
+      });
+
+      document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+      const activeBtn = document.getElementById(`nav-${tabId}`);
+      activeBtn.classList.remove('text-slate-400', 'hover:text-white', 'hover:bg-slate-900');
+      activeBtn.classList.add('bg-blue-600', 'text-white');
+
+      if (tabId === 'videos') loadVideos();
+      if (tabId === 'crm') loadLeads();
+    }
+
+    async function loadVideos() {
+      try {
+        const res = await fetch('/api/videos');
+        const data = await res.json();
+        allVideos = data.shorts || [];
+
+        const published = allVideos.filter(v => v.status === 'published').length;
+        const pending = allVideos.length - published;
+
+        document.getElementById('stat-total-videos').innerText = allVideos.length;
+        document.getElementById('stat-published-videos').innerText = published;
+        document.getElementById('stat-pending-videos').innerText = pending;
+
+        renderVideos();
+      } catch (e) {
+        console.error("Video listesi yüklenemedi:", e);
+      }
+    }
+
+    function renderVideos() {
+      const container = document.getElementById('video-cards-container');
+      const search = (document.getElementById('video-search').value || '').toLowerCase();
+
+      let list = allVideos.filter(v => {
+        if (currentFilter === 'pending') return v.status !== 'published';
+        if (currentFilter === 'published') return v.status === 'published';
+        return true;
+      });
+
+      if (search) {
+        list = list.filter(v => (v.title || '').toLowerCase().includes(search));
+      }
+
+      if (list.length === 0) {
+        container.innerHTML = `<div class="col-span-2 text-center py-12 text-slate-500 text-xs">Aradığınız kriterlere uygun video bulunamadı.</div>`;
+        return;
+      }
+
+      container.innerHTML = list.map(v => {
+        const isPublished = v.status === 'published';
+        const timeStr = (v.scheduled_time || '').split(' ')[1] || '13:00';
+        const dateStr = v.date || '';
+        return `
+          <div class="panel-card p-4 rounded-xl flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-[11px] font-medium text-slate-400">${dateStr} • Saat ${timeStr}</span>
+                <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full ${isPublished ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-amber-500/10 text-amber-400 border border-amber-500/20'}">
+                  ${isPublished ? 'Yayında' : 'Sırada'}
+                </span>
+              </div>
+              <h4 class="font-medium text-sm text-white line-clamp-2 leading-snug">${v.title}</h4>
+              <p class="text-xs text-slate-400 mt-1 line-clamp-1">${v.description || ''}</p>
+            </div>
+
+            <div class="mt-4 pt-3 border-t border-slate-800/80 flex items-center space-x-2">
+              <button onclick="openVideoModal('${encodeURIComponent(JSON.stringify(v))}')" class="flex-1 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-xs font-medium text-slate-300 border border-slate-800 transition flex items-center justify-center space-x-1.5">
+                <i class="fa-solid fa-play text-[10px] text-blue-400"></i>
+                <span>Önizle</span>
+              </button>
+              ${isPublished ? `
+                <a href="${v.youtube_url || '#'}" target="_blank" class="flex-1 py-1.5 rounded-lg bg-emerald-600/10 hover:bg-emerald-600/20 text-emerald-400 text-xs font-medium border border-emerald-500/20 transition flex items-center justify-center space-x-1.5">
+                  <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                  <span>YouTube'da Aç</span>
+                </a>
+              ` : `
+                <button onclick="uploadVideoNow('${v.id}')" class="flex-1 py-1.5 rounded-lg bg-red-600 hover:bg-red-500 text-xs font-medium text-white transition flex items-center justify-center space-x-1.5">
+                  <i class="fa-brands fa-youtube text-[10px]"></i>
+                  <span>YouTube'a Yükle</span>
+                </button>
+              `}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function filterVideos(type) {
+      currentFilter = type;
+      ['all', 'pending', 'published'].forEach(t => {
+        const btn = document.getElementById(`filter-${t}`);
+        if (t === type) {
+          btn.className = 'px-3 py-1.5 rounded-lg text-xs font-semibold bg-blue-600 text-white transition';
+        } else {
+          btn.className = 'px-3 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-white bg-slate-900 border border-slate-800 transition';
+        }
+      });
+      renderVideos();
+    }
+
+    function openVideoModal(encoded) {
+      const v = JSON.parse(decodeURIComponent(encoded));
+      document.getElementById('modal-video-title').innerText = v.title;
+      document.getElementById('modal-video-desc').innerText = v.description;
+      const player = document.getElementById('modal-video-player');
+      player.src = `/video_stream/${encodeURIComponent(v.video_path)}`;
+      player.load();
+
+      const btn = document.getElementById('modal-upload-btn');
+      if (v.status === 'published') {
+        btn.style.display = 'none';
+      } else {
+        btn.style.display = 'flex';
+        btn.onclick = () => { uploadVideoNow(v.id); closeVideoModal(); };
+      }
+
+      document.getElementById('video-preview-modal').classList.remove('hidden');
+      document.getElementById('video-preview-modal').classList.add('flex');
+    }
+
+    function closeVideoModal() {
+      const player = document.getElementById('modal-video-player');
+      player.pause();
+      player.src = "";
+      document.getElementById('video-preview-modal').classList.add('hidden');
+      document.getElementById('video-preview-modal').classList.remove('flex');
+    }
+
+    async function uploadVideoNow(videoId) {
+      if (!confirm("Bu videoyu hemen YouTube kanalınıza yüklemek istiyor musunuz?")) return;
+      showToast("Video YouTube'a yükleniyor...", "success");
+
+      try {
+        const res = await fetch('/api/videos/upload_now', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ video_id: videoId })
+        });
+        const data = await res.json();
+        if (data.success) {
+          showToast("Video başarıyla yüklendi ve sabitlendi!", "success");
+          loadVideos();
+        } else {
+          showToast(`Hata: ${data.error}`, "error");
+        }
+      } catch (err) {
+        showToast("Sunucuyla bağlantı kurulamadı", "error");
+      }
+    }
+
+    async function loadLeads() {
+      try {
+        const res = await fetch('/api/leads');
+        const leads = await res.json();
+        const tbody = document.getElementById('crm-table-body');
+
+        if (!leads || leads.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="7" class="text-center py-8 text-slate-500">Henüz kayıtlı öğrenci başvurusu bulunmuyor.</td></tr>`;
+          return;
+        }
+
+        tbody.innerHTML = leads.map(l => {
+          const st = l.current_status || '';
+          return `
+            <tr class="hover:bg-slate-900/40 transition">
+              <td class="py-3 px-4 text-slate-500 font-mono">#${l.id}</td>
+              <td class="py-3 px-4 font-semibold text-white">${l.name}</td>
+              <td class="py-3 px-4 text-slate-300 font-mono">${l.phone || '-'}</td>
+              <td class="py-3 px-4 text-slate-400">${l.interest || 'Türkiye Bursları'}</td>
+              <td class="py-3 px-4 text-slate-500 font-mono text-[11px]">${l.timestamp || '-'}</td>
+              <td class="py-3 px-4">
+                <select onchange="updateLeadStatus(${l.id}, this.value)" class="bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-xs text-slate-200 focus:outline-none">
+                  <option value="Yeni Başvuru (Bekliyor)" ${st.includes('Yangi') || st.includes('Yeni') ? 'selected' : ''}>🟡 Yeni Başvuru</option>
+                  <option value="İletişim Kuruldu (Görüşmede)" ${st.includes("Bog'lanildi") || st.includes('İletişim') ? 'selected' : ''}>🔵 İletişim Kuruldu</option>
+                  <option value="Evraklar Teslim Edildi" ${st.includes('Hujjatlar') || st.includes('Evrak') ? 'selected' : ''}>🟣 Evraklar Teslim Edildi</option>
+                  <option value="Kabul Belgesi Geldi" ${st.includes('Qabul') || st.includes('Kabul') ? 'selected' : ''}>🟢 Kabul Geldi</option>
+                  <option value="Kesin Kayıt Yapıldı" ${st.includes('yozildi') || st.includes('Kayıt') ? 'selected' : ''}>✅ Kayıt Tamamlandı</option>
+                </select>
+              </td>
+              <td class="py-3 px-4 text-right">
+                <button onclick="deleteLead(${l.id})" class="text-slate-500 hover:text-red-400 transition p-1">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+          `;
+        }).join('');
+      } catch (err) {
+        console.error("Öğrenci yükleme hatası:", err);
+      }
+    }
+
+    async function updateLeadStatus(id, newStatus) {
+      try {
+        const res = await fetch('/api/leads/update_status', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id, status: newStatus })
+        });
+        const data = await res.json();
+        if (data.success) {
+          showToast("Öğrenci durumu güncellendi!", "success");
+        }
+      } catch (err) {
+        showToast("Güncelleme hatası", "error");
+      }
+    }
+
+    async function deleteLead(id) {
+      if (!confirm("Bu öğrenci kaydını silmek istediğinize emin misiniz?")) return;
+      try {
+        const res = await fetch('/api/leads/delete', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id })
+        });
+        const data = await res.json();
+        if (data.success) {
+          showToast("Kayıt silindi", "success");
+          loadLeads();
+        }
+      } catch (err) {
+        showToast("Hata oluştu", "error");
+      }
+    }
+
+    function openAddLeadModal() {
+      document.getElementById('add-lead-modal').classList.remove('hidden');
+      document.getElementById('add-lead-modal').classList.add('flex');
+    }
+
+    function closeAddLeadModal() {
+      document.getElementById('add-lead-modal').classList.add('hidden');
+      document.getElementById('add-lead-modal').classList.remove('flex');
+    }
+
+    async function submitNewLead(e) {
+      e.preventDefault();
+      const name = document.getElementById('lead-name').value;
+      const phone = document.getElementById('lead-phone').value;
+      const interest = document.getElementById('lead-interest').value;
+      const status = document.getElementById('lead-status').value;
+
+      try {
+        const res = await fetch('/api/leads/add', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, phone, interest, current_status: status })
+        });
+        const data = await res.json();
+        if (data.success) {
+          showToast("Yeni öğrenci kaydedildi!", "success");
+          closeAddLeadModal();
+          loadLeads();
+        }
+      } catch (err) {
+        showToast("Kaydetme hatası", "error");
+      }
+    }
+
+    async function testYouTubeConnection() {
+      showToast("YouTube bağlantısı kontrol ediliyor...", "success");
+      try {
+        const res = await fetch('/api/social_status');
+        const data = await res.json();
+        if (data.youtube && data.youtube.connected) {
+          showToast("YouTube bağlı ve aktif! (Kanal: arkadaş)", "success");
+        } else {
+          showToast("YouTube bağlantısında sorun var", "error");
+        }
+      } catch (err) {
+        showToast("Bağlantı kontrolü başarısız", "error");
+      }
+    }
+
+    async function saveAutopilotSettings() {
+      const enabled = document.getElementById('autopilot-toggle').checked;
+      const lunchTime = document.getElementById('slot-lunch-time').value;
+      const eveningTime = document.getElementById('slot-evening-time').value;
+      const funnelUrl = document.getElementById('funnel-url').value;
+
+      try {
+        const res = await fetch('/api/settings/autopilot', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ enabled, lunchTime, eveningTime, funnelUrl })
+        });
+        const data = await res.json();
+        if (data.success) {
+          showToast("Ayarlar başarıyla kaydedildi!", "success");
+        }
+      } catch (err) {
+        showToast("Kaydetme hatası", "error");
+      }
+    }
+
+    window.onload = () => {
+      loadVideos();
+    };
+  </script>
+</body>
+</html>
