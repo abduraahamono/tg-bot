@@ -325,45 +325,20 @@ window.sendPostToOfficialTelegram = sendPostToOfficialTelegram;
 
 // 4. Initialization on DOMContentLoaded
 document.addEventListener("DOMContentLoaded", async () => {
-  console.log("[Arkadaş Executive OS] v4.0 Başlatılıyor...");
+  console.log("[Arkadaş Executive OS] 3-Pillar Architecture Başlatılıyor...");
   await checkAdminAuth();
-  switchSection('spotlight');
-  initChecklist();
-
-  // Load all backend APIs in parallel for speed
+  await loadAutopilotSettings();
+  initMasterPillars();
+  
   await Promise.allSettled([
-    loadAutopilotSettings(),
-    loadYouTubeStudio(),
-    loadTelegramPosts(),
-    loadTweets(),
-    loadUniversities(),
-    loadLeads(),
-    loadTikTokLab(),
-    loadDocumentTemplates(),
-    loadDeepAnalytics(),
-    loadAudioStudio(),
-    loadExamPrep(),
-    loadDormitories(),
-    loadQuickReplies(),
-    loadDenklikData(),
-    loadAirportLogistics(),
-    loadCompetitorIntel(),
-    loadCounselorStats(),
-    loadVisaDefense(),
-    loadFacebookSuite(),
-    loadWhatsAppSuite(),
-    loadInstagramSuite(),
-    loadYouTubePower(),
-    loadTelegramUltra(),
-    loadReelsShowcase(),
-    generateContractPreview(),
-    loadOmniSchedulerAssets()
+    loadStockItemsUI(),
+    loadUpcomingQueueUI(),
+    loadAnalyticsMetrics(),
+    loadEditorialCalendar()
   ]);
-
-  updateBudgetCalc();
-  drawLiveBanner();
-  selectOmniPlatform('twitter');
-  console.log("[Arkadaş Executive OS] Tüm modüller başarıyla yüklendi!");
+  
+  selectPublishingPlatform('telegram');
+  console.log("[Arkadaş Executive OS] 3-Pillar Sistemi Hazır!");
 });
 
 // ==============================================================
@@ -3362,5 +3337,700 @@ function filterOmniScheduledTable(platform, btn) {
   }
 }
 window.filterOmniScheduledTable = filterOmniScheduledTable;
+
+
+
+
+// ==============================================================
+// 🌟 3-PILLAR MASTER CONTROLLER (ÜRETİM • PAYLAŞIM • ANALİZ)
+// ==============================================================
+
+window.activePillar = 'production';
+window.activeProdSubTab = 'text';
+window.activePublishingPlatform = 'telegram';
+window.selectedPlanDays = 1;
+window.calendarViewMode = 'week';
+window.allStockData = { texts: [], videos: [], images: [] };
+window.allCalendarEvents = [];
+
+function initMasterPillars() {
+  switchMasterPillar('production');
+  switchProductionSubTab('text');
+  renderPublishingPlatformButtons();
+}
+window.initMasterPillars = initMasterPillars;
+
+// 1. MASTER PILLAR SWITCHER
+function switchMasterPillar(pillar) {
+  window.activePillar = pillar;
+  
+  // Tab buttons
+  ['production', 'publishing', 'analytics'].forEach(p => {
+    const btn = document.getElementById(`btn-pillar-${p}`);
+    const sec = document.getElementById(`pillar-${p}`);
+    if (btn) {
+      if (p === pillar) {
+        btn.classList.add('active');
+      } else {
+        btn.classList.remove('active');
+      }
+    }
+    if (sec) {
+      if (p === pillar) {
+        sec.classList.add('active-pillar');
+      } else {
+        sec.classList.remove('active-pillar');
+      }
+    }
+  });
+
+  // Pillar specific triggers
+  if (pillar === 'production') {
+    loadStockItemsUI();
+  } else if (pillar === 'publishing') {
+    selectPublishingPlatform(window.activePublishingPlatform || 'telegram');
+    loadUpcomingQueueUI();
+  } else if (pillar === 'analytics') {
+    loadAnalyticsMetrics();
+    loadEditorialCalendar();
+  }
+}
+window.switchMasterPillar = switchMasterPillar;
+
+// 2. PRODUCTION SUB-TABS (Metin, Video, Fotoğraf, Stok)
+function switchProductionSubTab(sub) {
+  window.activeProdSubTab = sub;
+  
+  ['text', 'video', 'image', 'stock'].forEach(s => {
+    const pill = document.getElementById(`pill-prod-${s}`);
+    const view = document.getElementById(`subview-prod-${s}`);
+    if (pill) {
+      if (s === sub) {
+        pill.classList.add('active');
+      } else {
+        pill.classList.remove('active');
+      }
+    }
+    if (view) {
+      if (s === sub) {
+        view.classList.remove('hidden');
+      } else {
+        view.classList.add('hidden');
+      }
+    }
+  });
+
+  if (sub === 'stock') {
+    loadStockItemsUI();
+  }
+}
+window.switchProductionSubTab = switchProductionSubTab;
+
+// 2.1 TEXT GENERATION
+async function runTextGeneration() {
+  const format = document.getElementById('prod-text-format')?.value || 'headline_hook';
+  const count = parseInt(document.getElementById('prod-text-count')?.value || '1');
+  const lang = document.getElementById('prod-text-lang')?.value || 'uz';
+
+  showToast(`${count} adet metin üretiliyor...`, "info");
+  try {
+    const res = await fetch('/api/production/generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type: 'text', subType: format, count: count, language: lang, saveToStock: true })
+    });
+    const data = await res.json();
+    if (data.success && data.items) {
+      renderGeneratedTexts(data.items);
+      loadStockItemsUI();
+      showToast(`${data.items.length} adet metin başarıyla üretildi ve stoka eklendi!`, "success");
+    }
+  } catch (err) {
+    showToast("Metin üretimi sırasında hata oluştu", "error");
+  }
+}
+window.runTextGeneration = runTextGeneration;
+
+function renderGeneratedTexts(items) {
+  const container = document.getElementById('prod-text-output-container');
+  if (!container) return;
+
+  container.innerHTML = items.map((item, idx) => `
+    <div class="gece-card p-5 space-y-3 border border-cyan/20 bg-cyan/5">
+      <div class="flex items-center justify-between border-b border-white/5 pb-2">
+        <div class="flex items-center gap-2">
+          <span class="text-xs px-2 py-0.5 rounded bg-cyan/20 text-cyan font-mono font-bold">#${idx + 1} ${item.format}</span>
+          <h4 class="text-sm font-bold text-white">${item.title}</h4>
+        </div>
+        <span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 font-mono">📦 Stokta Hazır</span>
+      </div>
+      <div class="p-3 bg-black/50 rounded-xl font-mono text-xs text-slate-200 leading-relaxed whitespace-pre-line border border-white/5">
+        ${item.content}
+      </div>
+      <div class="flex items-center justify-between pt-1">
+        <span class="text-[10px] text-slate-400 font-mono">Hedef: ${item.topic || 'Genel'} • Dil: ${item.language.toUpperCase()}</span>
+        <button type="button" class="btn-clean-secondary px-3 py-1 text-xs flex items-center gap-1.5" onclick="copyCustomText('${item.content.replace(/'/g, "\'").replace(/\n/g, "\\n")}')">
+          <i class="fa-solid fa-copy text-[11px]"></i>
+          <span>Metni Kopyala</span>
+        </button>
+      </div>
+    </div>
+  `).join('');
+}
+
+// 2.2 VIDEO GENERATION
+async function runVideoGeneration() {
+  const type = document.getElementById('prod-video-type')?.value || 'landscape_broll';
+  const count = parseInt(document.getElementById('prod-video-count')?.value || '1');
+
+  showToast(`${count} adet video işleniyor...`, "info");
+  try {
+    const res = await fetch('/api/production/generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type: 'video', subType: type, count: count, saveToStock: true })
+    });
+    const data = await res.json();
+    if (data.success && data.items) {
+      renderGeneratedVideos(data.items);
+      loadStockItemsUI();
+      showToast(`${data.items.length} video üretildi ve stoka eklendi!`, "success");
+    }
+  } catch (err) {
+    showToast("Video üretimi sırasında hata oluştu", "error");
+  }
+}
+window.runVideoGeneration = runVideoGeneration;
+
+function renderGeneratedVideos(items) {
+  const container = document.getElementById('prod-video-output-container');
+  if (!container) return;
+
+  container.innerHTML = items.map((item, idx) => `
+    <div class="gece-card p-4 space-y-3 border border-purple/20 bg-purple/5">
+      <div class="flex items-center justify-between">
+        <span class="text-[10px] px-2 py-0.5 rounded bg-purple/20 text-purple font-mono font-bold">${item.video_type}</span>
+        <span class="text-[10px] text-emerald-400 font-mono">📦 Stokta</span>
+      </div>
+      <div class="aspect-[9/16] bg-black/60 rounded-xl overflow-hidden relative border border-white/10 flex items-center justify-center">
+        <video src="/${item.file_path}" controls playsinline class="w-full h-full object-cover"></video>
+      </div>
+      <div>
+        <h4 class="text-xs font-bold text-white truncate" title="${item.title}">${item.title}</h4>
+        <span class="text-[10px] text-slate-400 font-mono">${item.format}</span>
+      </div>
+      <div class="flex items-center justify-between pt-1">
+        <a href="/${item.file_path}" download class="btn-clean-secondary px-2.5 py-1 text-xs flex items-center gap-1">
+          <i class="fa-solid fa-download text-[10px]"></i>
+          <span>İndir</span>
+        </a>
+        <button type="button" class="btn-clean-primary px-3 py-1 text-xs" onclick="switchMasterPillar('publishing')">
+          Planla
+        </button>
+      </div>
+    </div>
+  `).join('');
+}
+
+// 2.3 IMAGE GENERATION
+async function runImageGeneration() {
+  const style = document.getElementById('prod-image-style')?.value || 'qa_quiz';
+  const count = parseInt(document.getElementById('prod-image-count')?.value || '1');
+
+  showToast(`${count} adet afiş/görsel çiziliyor...`, "info");
+  try {
+    const res = await fetch('/api/production/generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type: 'image', subType: style, count: count, saveToStock: true })
+    });
+    const data = await res.json();
+    if (data.success && data.items) {
+      renderGeneratedImages(data.items);
+      loadStockItemsUI();
+      showToast(`${data.items.length} adet görsel üretildi ve stoka eklendi!`, "success");
+    }
+  } catch (err) {
+    showToast("Görsel üretimi sırasında hata oluştu", "error");
+  }
+}
+window.runImageGeneration = runImageGeneration;
+
+function renderGeneratedImages(items) {
+  const container = document.getElementById('prod-image-output-container');
+  if (!container) return;
+
+  container.innerHTML = items.map((item) => `
+    <div class="gece-card p-4 space-y-3 border border-emerald/20 bg-emerald/5">
+      <div class="flex items-center justify-between">
+        <span class="text-[10px] px-2 py-0.5 rounded bg-emerald/20 text-emerald font-mono font-bold">${item.format}</span>
+        <span class="text-[10px] text-emerald-400 font-mono">📦 Stokta</span>
+      </div>
+      <div class="aspect-square bg-black/60 rounded-xl overflow-hidden relative border border-white/10 flex items-center justify-center p-2">
+        <img src="/${item.photo_path}" alt="Tasarım" class="w-full h-full object-cover rounded-lg">
+      </div>
+      <div>
+        <h4 class="text-xs font-bold text-white truncate" title="${item.title}">${item.title}</h4>
+      </div>
+      <div class="flex items-center justify-between pt-1">
+        <a href="/${item.photo_path}" download class="btn-clean-secondary px-2.5 py-1 text-xs flex items-center gap-1">
+          <i class="fa-solid fa-download text-[10px]"></i>
+          <span>PNG İndir</span>
+        </a>
+        <button type="button" class="btn-clean-primary px-3 py-1 text-xs" onclick="switchMasterPillar('publishing')">
+          Planla
+        </button>
+      </div>
+    </div>
+  `).join('');
+}
+
+// 2.4 STOCK MANAGEMENT UI
+async function loadStockItemsUI() {
+  try {
+    const res = await fetch('/api/stock/items');
+    const data = await res.json();
+    if (data.success) {
+      window.allStockData = data.stock;
+
+      // Update counters
+      const totalEl = document.getElementById('prod-stock-badge-total');
+      const hdrTexts = document.getElementById('header-stock-texts');
+      const hdrVideos = document.getElementById('header-stock-videos');
+      const hdrImages = document.getElementById('header-stock-images');
+      const cntTexts = document.getElementById('stock-count-texts');
+      const cntVideos = document.getElementById('stock-count-videos');
+      const cntImages = document.getElementById('stock-count-images');
+
+      if (totalEl) totalEl.innerText = data.counts.total;
+      if (hdrTexts) hdrTexts.innerText = data.counts.texts;
+      if (hdrVideos) hdrVideos.innerText = data.counts.videos;
+      if (hdrImages) hdrImages.innerText = data.counts.images;
+      if (cntTexts) cntTexts.innerText = data.counts.texts;
+      if (cntVideos) cntVideos.innerText = data.counts.videos;
+      if (cntImages) cntImages.innerText = data.counts.images;
+
+      renderStockGrid('all');
+    }
+  } catch (err) {
+    console.error("loadStockItemsUI error:", err);
+  }
+}
+window.loadStockItemsUI = loadStockItemsUI;
+
+function filterStockView(cat) {
+  document.querySelectorAll('.stock-filter-btn').forEach(b => b.classList.remove('active'));
+  event?.target?.classList.add('active');
+  renderStockGrid(cat);
+}
+window.filterStockView = filterStockView;
+
+function renderStockGrid(cat) {
+  const container = document.getElementById('stock-items-grid');
+  if (!container) return;
+
+  let list = [];
+  if (cat === 'all' || cat === 'texts') list = list.concat(window.allStockData.texts || []);
+  if (cat === 'all' || cat === 'videos') list = list.concat(window.allStockData.videos || []);
+  if (cat === 'all' || cat === 'images') list = list.concat(window.allStockData.images || []);
+
+  if (list.length === 0) {
+    container.innerHTML = `<div class="col-span-3 text-center py-8 text-slate-500 font-mono text-xs">Bu kategoride henüz stok içeriği yok. Üretim sekmesinden hemen içerik üretebilirsiniz.</div>`;
+    return;
+  }
+
+  container.innerHTML = list.slice(0, 30).map(item => {
+    const isVideo = item.file_path !== undefined;
+    const isImage = item.photo_path !== undefined;
+    const typeLabel = isVideo ? '🎬 Video' : (isImage ? '🎨 Görsel' : '✍️ Metin');
+    const badgeColor = isVideo ? 'purple' : (isImage ? 'emerald' : 'cyan');
+
+    return `
+      <div class="p-3.5 bg-black/40 rounded-xl border border-white/5 space-y-2.5 font-mono text-xs hover:border-white/15 transition">
+        <div class="flex items-center justify-between">
+          <span class="text-[10px] px-2 py-0.5 rounded bg-${badgeColor}/20 text-${badgeColor} font-bold">${typeLabel}</span>
+          <span class="text-[10px] text-slate-500">${item.created_at || 'Bugün'}</span>
+        </div>
+        <h4 class="text-xs font-bold text-white truncate" title="${item.title}">${item.title}</h4>
+        <p class="text-[11px] text-slate-400 line-clamp-2">${item.content || item.format || 'Hazır Stok Varlığı'}</p>
+        <div class="flex items-center justify-between pt-1 border-t border-white/5">
+          <button type="button" class="btn-clean-primary px-2.5 py-1 text-[11px]" onclick="switchMasterPillar('publishing')">
+            Planla
+          </button>
+          <button type="button" class="text-slate-500 hover:text-rose-400 p-1" onclick="deleteStockItem('${item.id}')" title="Stoktan Sil">
+            <i class="fa-solid fa-trash-can text-[11px]"></i>
+          </button>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+async function deleteStockItem(id) {
+  try {
+    const res = await fetch(`/api/stock/delete/${id}`, { method: 'DELETE' });
+    const data = await res.json();
+    if (data.success) {
+      showToast("Öğe stoktan kaldırıldı", "info");
+      loadStockItemsUI();
+    }
+  } catch (err) {
+    showToast("Silme hatası", "error");
+  }
+}
+window.deleteStockItem = deleteStockItem;
+
+// 3. PUBLISHING (7 PLATFORMS & AUTO-SCHEDULER)
+const PUBLISHING_PLATFORMS = [
+  { id: 'telegram', name: 'Telegram', handle: '@arkadasuz', icon: 'fa-brands fa-telegram text-cyan', formats: 'Metin • Foto • Video' },
+  { id: 'youtube', name: 'YouTube Shorts', handle: '@arkadaş', icon: 'fa-brands fa-youtube text-red-500', formats: 'Video • Topluluk' },
+  { id: 'instagram', name: 'Instagram', handle: '@arkadas_consulting', icon: 'fa-brands fa-instagram text-pink-500', formats: 'Foto • Video' },
+  { id: 'tiktok', name: 'TikTok', handle: '@arkadas_edu', icon: 'fa-brands fa-tiktok text-purple', formats: 'Video • Slayt' },
+  { id: 'twitter', name: 'Twitter / X', handle: '@arkadasuz', icon: 'fa-brands fa-x-twitter text-slate-300', formats: 'Thread • Foto • Video' },
+  { id: 'facebook', name: 'Facebook', handle: 'Arkadas Group', icon: 'fa-brands fa-facebook text-blue-500', formats: 'Metin • Foto • Video' },
+  { id: 'whatsapp', name: 'WhatsApp', handle: 'VIP Kanal', icon: 'fa-brands fa-whatsapp text-emerald', formats: 'Metin • Foto • Video' }
+];
+
+function renderPublishingPlatformButtons() {
+  const container = document.getElementById('pub-platform-buttons');
+  if (!container) return;
+
+  container.innerHTML = PUBLISHING_PLATFORMS.map(p => `
+    <div class="gece-card p-3 cursor-pointer transition-all hover:border-white/30 omni-pub-card ${p.id === window.activePublishingPlatform ? 'border-cyan bg-cyan/10' : 'border-white/5'}" id="pub-card-${p.id}" onclick="selectPublishingPlatform('${p.id}')">
+      <div class="flex items-center justify-between mb-1.5">
+        <i class="${p.icon} text-lg"></i>
+        <span class="pulse-dot scale-75"></span>
+      </div>
+      <div class="font-bold text-white text-xs font-sans truncate">${p.name}</div>
+      <div class="text-[10px] text-slate-400 truncate">${p.handle}</div>
+      <div class="mt-1.5 text-[9px] text-slate-500 truncate font-sans">${p.formats}</div>
+    </div>
+  `).join('');
+}
+window.renderPublishingPlatformButtons = renderPublishingPlatformButtons;
+
+async function selectPublishingPlatform(platform) {
+  window.activePublishingPlatform = platform;
+  
+  // Card styles
+  document.querySelectorAll('.omni-pub-card').forEach(c => {
+    c.classList.remove('border-cyan', 'bg-cyan/10');
+    c.classList.add('border-white/5');
+  });
+  const activeCard = document.getElementById(`pub-card-${platform}`);
+  if (activeCard) {
+    activeCard.classList.remove('border-white/5');
+    activeCard.classList.add('border-cyan', 'bg-cyan/10');
+  }
+
+  // Load AI Advisor data
+  try {
+    const res = await fetch(`/api/ai_advisor?platform=${platform}`);
+    const resData = await res.json();
+    if (resData.success && resData.data) {
+      const d = resData.data;
+      const advName = document.getElementById('advisor-name');
+      const advHandle = document.getElementById('advisor-handle');
+      const advBadge = document.getElementById('advisor-badge');
+      const advIcon = document.getElementById('advisor-icon');
+      const statViews = document.getElementById('advisor-stat-views');
+      const statPosts = document.getElementById('advisor-stat-posts');
+      const statSlot = document.getElementById('advisor-stat-slot');
+      const statTopic = document.getElementById('advisor-stat-topic');
+      const txtAnalysis = document.getElementById('advisor-analysis-text');
+      const txtRec = document.getElementById('advisor-recommendation-text');
+
+      if (advName) advName.innerText = `${d.name} AI Danışmanı`;
+      if (advHandle) advHandle.innerText = d.handle;
+      if (advBadge) advBadge.innerText = d.badge;
+      if (advIcon) advIcon.innerHTML = `<i class="${d.icon}"></i>`;
+      if (statViews) statViews.innerText = d.recent_views.toLocaleString();
+      if (statPosts) statPosts.innerText = `${d.posts_last_week} Post`;
+      if (statSlot) statSlot.innerText = d.best_slot;
+      if (statTopic) statTopic.innerText = d.top_topic;
+      if (txtAnalysis) txtAnalysis.innerText = d.ai_analysis;
+      if (txtRec) txtRec.innerText = d.ai_recommendation;
+    }
+  } catch (err) {
+    console.error("selectPublishingPlatform error:", err);
+  }
+}
+window.selectPublishingPlatform = selectPublishingPlatform;
+
+function selectPlanDays(days) {
+  window.selectedPlanDays = days;
+  document.querySelectorAll('.plan-duration-btn').forEach(b => {
+    b.classList.remove('border-cyan', 'bg-cyan/10', 'active');
+  });
+  event?.currentTarget?.classList.add('border-cyan', 'bg-cyan/10', 'active');
+  
+  const lbl = document.getElementById('plan-summary-label');
+  if (lbl) {
+    const totalSlots = days * 2;
+    lbl.innerText = `${days} Gün (${totalSlots} Gönderi Slotu)`;
+  }
+}
+window.selectPlanDays = selectPlanDays;
+
+async function executeAutoPlan() {
+  const days = window.selectedPlanDays || 1;
+  const platform = window.activePublishingPlatform || 'telegram';
+  const incVideo = document.getElementById('plan-include-video')?.checked ?? true;
+  const incImage = document.getElementById('plan-include-image')?.checked ?? true;
+  const incText = document.getElementById('plan-include-text')?.checked ?? true;
+
+  const incTypes = [];
+  if (incVideo) incTypes.push('video');
+  if (incImage) incTypes.push('image');
+  if (incText) incTypes.push('text');
+
+  showToast(`${days} günlük plan stoktan dağıtılıyor...`, "info");
+  try {
+    const res = await fetch('/api/scheduler/auto_plan', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ platform: platform, days: days, slotsPerDay: 2, includeTypes: incTypes })
+    });
+    const data = await res.json();
+    if (data.success) {
+      showToast(data.message, "success");
+      loadUpcomingQueueUI();
+      loadEditorialCalendar();
+    }
+  } catch (err) {
+    showToast("Otomatik planlama sırasında hata", "error");
+  }
+}
+window.executeAutoPlan = executeAutoPlan;
+
+function applyAdvisorRecommendation() {
+  executeAutoPlan();
+}
+window.applyAdvisorRecommendation = applyAdvisorRecommendation;
+
+async function loadUpcomingQueueUI() {
+  try {
+    const res = await fetch('/api/analytics/calendar');
+    const data = await res.json();
+    if (data.success && data.events) {
+      const queueList = document.getElementById('publishing-queue-list');
+      if (!queueList) return;
+
+      const scheduled = data.events.filter(e => e.status === 'scheduled');
+      if (scheduled.length === 0) {
+        queueList.innerHTML = `<div class="text-slate-500 font-mono text-xs text-center py-4">Kuyrukta bekleyen gönderi yok. Stoktan otomatik planlama yapabilirsiniz.</div>`;
+        return;
+      }
+
+      queueList.innerHTML = scheduled.slice(0, 15).map(e => `
+        <div class="flex items-center justify-between p-2.5 rounded-xl bg-black/40 border border-white/5 font-mono text-xs">
+          <div class="flex items-center gap-3">
+            <span class="text-[10px] px-2 py-0.5 rounded bg-cyan/20 text-cyan font-bold">${e.platform.toUpperCase()}</span>
+            <span class="text-white font-bold">${e.date}</span>
+            <span class="text-dim">${e.time}</span>
+            <span class="text-slate-300 font-sans truncate max-w-xs">${e.title}</span>
+          </div>
+          <span class="text-[10px] text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">Zamanlandı</span>
+        </div>
+      `).join('');
+    }
+  } catch (err) {
+    console.error("loadUpcomingQueueUI error:", err);
+  }
+}
+window.loadUpcomingQueueUI = loadUpcomingQueueUI;
+
+// 4. ANALYTICS (CALENDAR & METRICS)
+async function loadAnalyticsMetrics() {
+  try {
+    const res = await fetch('/api/analytics/metrics');
+    const data = await res.json();
+    if (data.success) {
+      const s = data.summary;
+      const vEl = document.getElementById('metric-total-views');
+      const vgEl = document.getElementById('metric-views-growth');
+      const mEl = document.getElementById('metric-total-messages');
+      const mgEl = document.getElementById('metric-messages-growth');
+      const lEl = document.getElementById('metric-total-likes');
+      const lgEl = document.getElementById('metric-likes-growth');
+      const fEl = document.getElementById('metric-net-followers');
+      const fgEl = document.getElementById('metric-followers-growth');
+
+      if (vEl) vEl.innerText = s.total_views.toLocaleString();
+      if (vgEl) vgEl.innerText = s.views_growth;
+      if (mEl) mEl.innerText = s.total_messages.toLocaleString();
+      if (mgEl) mgEl.innerText = s.messages_growth;
+      if (lEl) lEl.innerText = s.total_likes.toLocaleString();
+      if (lgEl) lgEl.innerText = s.likes_growth;
+      if (fEl) fEl.innerText = s.net_followers.toLocaleString();
+      if (fgEl) fgEl.innerText = s.followers_growth;
+
+      // Platform grid
+      const grid = document.getElementById('platform-metrics-grid');
+      if (grid && data.platforms) {
+        grid.innerHTML = data.platforms.map(p => `
+          <div class="p-3.5 bg-black/40 rounded-xl border border-white/5 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-${p.color}">${p.name}</span>
+              <span class="text-[10px] text-slate-500">${p.handle}</span>
+            </div>
+            <div class="grid grid-cols-2 gap-2 text-[11px]">
+              <div>
+                <span class="text-slate-500 block">İzlenme:</span>
+                <span class="text-white font-bold">${p.views.toLocaleString()}</span>
+              </div>
+              <div>
+                <span class="text-slate-500 block">Lead / Mesaj:</span>
+                <span class="text-cyan font-bold">${p.messages}</span>
+              </div>
+              <div>
+                <span class="text-slate-500 block">Beğeni:</span>
+                <span class="text-rose-400 font-bold">${p.likes.toLocaleString()}</span>
+              </div>
+              <div>
+                <span class="text-slate-500 block">Takipçi:</span>
+                <span class="text-emerald font-bold">${p.followers.toLocaleString()}</span>
+              </div>
+            </div>
+          </div>
+        `).join('');
+      }
+    }
+  } catch (err) {
+    console.error("loadAnalyticsMetrics error:", err);
+  }
+}
+window.loadAnalyticsMetrics = loadAnalyticsMetrics;
+
+async function loadEditorialCalendar() {
+  try {
+    const res = await fetch('/api/analytics/calendar');
+    const data = await res.json();
+    if (data.success && data.events) {
+      window.allCalendarEvents = data.events;
+      renderCalendarGrid();
+    }
+  } catch (err) {
+    console.error("loadEditorialCalendar error:", err);
+  }
+}
+window.loadEditorialCalendar = loadEditorialCalendar;
+
+function switchCalendarView(mode) {
+  window.calendarViewMode = mode;
+  document.getElementById('cal-view-week-btn')?.classList.toggle('active', mode === 'week');
+  document.getElementById('cal-view-month-btn')?.classList.toggle('active', mode === 'month');
+  renderCalendarGrid();
+}
+window.switchCalendarView = switchCalendarView;
+
+function renderCalendarGrid() {
+  const container = document.getElementById('calendar-grid-container');
+  if (!container) return;
+
+  const mode = window.calendarViewMode || 'week';
+  const daysToShow = mode === 'week' ? 7 : 21;
+  const events = window.allCalendarEvents || [];
+
+  const platformColors = {
+    telegram: 'cyan', youtube: 'red-500', instagram: 'pink-500',
+    tiktok: 'purple', twitter: 'slate-300', facebook: 'blue-500', whatsapp: 'emerald'
+  };
+
+  const today = new Date();
+  let daysHtml = [];
+
+  for (let i = 0; i < daysToShow; i++) {
+    const d = new Date();
+    d.setDate(today.getDate() - (mode === 'week' ? 2 : 5) + i);
+    const dateStr = d.toISOString().split('T')[0];
+    const dayName = d.toLocaleDateString('tr-TR', { weekday: 'short' });
+    const dayNum = d.getDate();
+
+    const dayEvents = events.filter(e => e.date === dateStr);
+    const isToday = dateStr === today.toISOString().split('T')[0];
+
+    daysHtml.push(`
+      <div class="p-2.5 rounded-xl border ${isToday ? 'border-cyan bg-cyan/10' : 'border-white/5 bg-black/40'} min-h-[140px] flex flex-col justify-between font-mono text-xs">
+        <div>
+          <div class="flex items-center justify-between border-b border-white/5 pb-1 mb-2">
+            <span class="font-bold ${isToday ? 'text-cyan' : 'text-white'}">${dayName}</span>
+            <span class="text-[11px] ${isToday ? 'text-cyan font-extrabold' : 'text-slate-500'}">${dayNum}</span>
+          </div>
+          <div class="space-y-1.5 max-h-24 overflow-y-auto">
+            ${dayEvents.map(e => {
+              const pColor = platformColors[e.platform] || 'cyan';
+              return `
+                <div class="p-1 rounded bg-${pColor}/15 border border-${pColor}/30 text-[10px] truncate cursor-pointer hover:opacity-80" onclick="openCalendarEventModal('${e.id}')" title="${e.title} (${e.time})">
+                  <span class="text-${pColor} font-bold mr-1">●</span>
+                  <span class="text-white">${e.time}</span>
+                  <span class="text-slate-300 ml-1 font-sans">${e.title}</span>
+                </div>
+              `;
+            }).join('')}
+            ${dayEvents.length === 0 ? '<span class="text-[10px] text-slate-600 block text-center py-2">Gönderi yok</span>' : ''}
+          </div>
+        </div>
+        <div class="text-[9px] text-slate-500 text-right pt-1 border-t border-white/5">
+          ${dayEvents.length} Slot
+        </div>
+      </div>
+    `);
+  }
+
+  container.innerHTML = daysHtml.join('');
+}
+
+function openCalendarEventModal(eventId) {
+  const modal = document.getElementById('calendar-event-modal');
+  const body = document.getElementById('cal-modal-body');
+  const title = document.getElementById('cal-modal-title');
+  if (!modal || !body) return;
+
+  const ev = (window.allCalendarEvents || []).find(e => e.id === eventId);
+  if (!ev) return;
+
+  if (title) title.innerText = `${ev.platform.toUpperCase()} Gönderisi (${ev.time})`;
+  body.innerHTML = `
+    <div class="space-y-2 text-xs">
+      <div><span class="text-dim">Tarih / Saat:</span> <strong class="text-white">${ev.date} • ${ev.time}</strong></div>
+      <div><span class="text-dim">Platform:</span> <strong class="text-cyan">${ev.platform.toUpperCase()}</strong></div>
+      <div><span class="text-dim">Başlık:</span> <div class="text-white font-bold mt-0.5">${ev.title}</div></div>
+      <div><span class="text-dim">Durum:</span> <span class="px-2 py-0.5 rounded text-[10px] ${ev.status === 'published' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-cyan-500/20 text-cyan-400'}">${ev.status === 'published' ? 'Yayınlandı' : 'Zamanlandı'}</span></div>
+      ${ev.preview ? `<div><span class="text-dim">Önizleme:</span> <p class="p-2.5 bg-black/50 rounded-lg text-slate-300 mt-1 whitespace-pre-line">${ev.preview}</p></div>` : ''}
+    </div>
+  `;
+  modal.classList.remove('hidden');
+  modal.classList.add('flex');
+}
+window.openCalendarEventModal = openCalendarEventModal;
+
+function closeCalendarModal() {
+  const modal = document.getElementById('calendar-event-modal');
+  if (modal) {
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+  }
+}
+window.closeCalendarModal = closeCalendarModal;
+
+// 5. AGENCY TOOLS MODAL
+function openAgencyToolsModal() {
+  const modal = document.getElementById('agency-tools-modal');
+  if (modal) {
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+  }
+}
+window.openAgencyToolsModal = openAgencyToolsModal;
+
+function closeAgencyToolsModal() {
+  const modal = document.getElementById('agency-tools-modal');
+  if (modal) {
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+  }
+}
+window.closeAgencyToolsModal = closeAgencyToolsModal;
 
 

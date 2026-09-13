@@ -32,6 +32,9 @@ app = Flask(__name__, template_folder="templates", static_folder="static")
 app.secret_key = os.getenv("FLASK_SECRET_KEY", "arkadas_executive_os_master_secret_2026")
 ADMIN_PIN = os.getenv("ADMIN_DASHBOARD_PIN", "arkadas2026")
 
+from engine.three_pillars_api import pillars_bp
+app.register_blueprint(pillars_bp)
+
 AUDIO_DIR = BASE_DIR / "output" / "audio"
 AUDIO_DIR.mkdir(parents=True, exist_ok=True)
 DOCS_DIR = BASE_DIR / "crm" / "documents"

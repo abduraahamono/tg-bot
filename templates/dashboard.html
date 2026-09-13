@@ -1,2491 +1,824 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="tr" class="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Arkadaş Executive OS & Agency Super-Hub</title>
+  <title>Arkadaş Executive OS — Üretim • Paylaşım • Analiz</title>
+  
+  <!-- Modern Inter & JetBrains Mono Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/static/app.css?v=202609130515">
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome 6.5.1 -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            night: "#06080d",
+            card: "#0d111a",
+            cyan: "#06b6d4",
+            emerald: "#10b981",
+            amber: "#f59e0b",
+            rose: "#f43f5e",
+            purple: "#a855f7",
+            dim: "#94a3b8"
+          },
+          fontFamily: {
+            sans: ["Inter", "sans-serif"],
+            mono: ["JetBrains Mono", "monospace"]
+          }
+        }
+      }
+    };
+  </script>
+  
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="/static/app.css">
   <style>
-    :root {
-      --bg-canvas: #090d16;
-      --card-bg: rgba(15, 23, 42, 0.65);
-      --card-border: rgba(255, 255, 255, 0.08);
-      --card-border-hover: rgba(255, 255, 255, 0.18);
-      --accent-cyan: #06b6d4;
-      --accent-emerald: #10b981;
-    }
     body {
-      background-color: var(--bg-canvas);
+      background-color: #06080d;
       color: #f8fafc;
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      letter-spacing: -0.01em;
-      -webkit-font-smoothing: antialiased;
+      font-family: "Inter", sans-serif;
     }
-    .font-mono { font-family: 'JetBrains Mono', monospace; }
-    .text-emerald { color: #10b981; }
-    .text-cyan { color: #06b6d4; }
-    .text-amber { color: #f59e0b; }
-    .text-purple { color: #c084fc; }
-    .text-rose { color: #f43f5e; }
-
-    /* Custom tab navigation styles */
-    .gece-section {
-      display: none !important;
-      width: 100% !important;
-    }
-    .gece-section.active-tab {
-      display: block !important;
-      animation: tabFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-      width: 100% !important;
-    }
-    @keyframes tabFadeIn {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+    .pillar-section { display: none; }
+    .pillar-section.active-pillar { display: block; }
     .gece-card {
-      background: var(--card-bg) !important;
-      border: 1px solid var(--card-border) !important;
-      border-radius: 20px !important;
-      backdrop-filter: blur(20px) !important;
-      -webkit-backdrop-filter: blur(20px) !important;
-      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
-      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5) !important;
+      background-color: #0c1018;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 1rem;
+      transition: all 0.2s ease;
     }
     .gece-card:hover {
-      border-color: var(--card-border-hover) !important;
-      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.6) !important;
+      border-color: rgba(255, 255, 255, 0.12);
     }
-    .spotlight-vinyl-box {
-      position: relative;
-      width: 220px;
-      height: 220px;
-    }
-    .kanban-col {
-      min-width: 260px;
-      background: rgba(10, 15, 26, 0.75);
-      border: 1px solid rgba(255, 255, 255, 0.07);
-      border-radius: 14px;
-    }
-
-    /* Clean Linear-style Navigation Bar */
-    .gece-navbar {
-      background: rgba(9, 13, 22, 0.8) !important;
-      backdrop-filter: blur(24px) !important;
-      -webkit-backdrop-filter: blur(24px) !important;
-      border: 1px solid rgba(255, 255, 255, 0.08) !important;
-      border-radius: 9999px !important;
-      padding: 8px 18px !important;
-      box-shadow: 0 16px 36px rgba(0,0,0,0.5) !important;
-    }
-    .nav-links {
-      background: rgba(255, 255, 255, 0.03) !important;
-      border: 1px solid rgba(255, 255, 255, 0.05) !important;
-      border-radius: 9999px !important;
-      padding: 4px !important;
-      gap: 2px !important;
-    }
-    button.nav-link, a.nav-link, .nav-link {
-      color: #94a3b8 !important;
-      font-size: 12.5px !important;
-      font-weight: 500 !important;
-      padding: 7px 15px !important;
-      border-radius: 9999px !important;
-      transition: all 0.15s ease !important;
-      border: none !important;
-      background: transparent !important;
-      box-shadow: none !important;
-    }
-    button.nav-link:hover, .nav-link:hover {
-      color: #f8fafc !important;
-      background: rgba(255, 255, 255, 0.06) !important;
-    }
-    button.nav-link.active, .nav-link.active {
-      color: #ffffff !important;
-      background: rgba(255, 255, 255, 0.12) !important;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3) !important;
-      font-weight: 600 !important;
-    }
-    /* Linear Button Classes */
     .btn-clean-primary {
-      background: #ffffff !important;
-      color: #090d16 !important;
-      font-weight: 600 !important;
-      border-radius: 12px !important;
-      transition: all 0.15s ease !important;
-      box-shadow: 0 4px 14px rgba(255, 255, 255, 0.15) !important;
+      background: linear-gradient(135deg, #06b6d4, #0891b2);
+      color: #04121a;
+      font-weight: 600;
+      border-radius: 0.75rem;
+      transition: all 0.2s;
     }
     .btn-clean-primary:hover {
-      background: #f1f5f9 !important;
-      transform: translateY(-1px);
+      opacity: 0.92;
+      box-shadow: 0 4px 14px rgba(6, 182, 212, 0.25);
     }
     .btn-clean-secondary {
-      background: rgba(255, 255, 255, 0.06) !important;
-      color: #f8fafc !important;
-      border: 1px solid rgba(255, 255, 255, 0.1) !important;
-      font-weight: 500 !important;
-      border-radius: 12px !important;
-      transition: all 0.15s ease !important;
+      background: rgba(255, 255, 255, 0.05);
+      color: #cbd5e1;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 0.75rem;
+      transition: all 0.2s;
     }
     .btn-clean-secondary:hover {
-      background: rgba(255, 255, 255, 0.1) !important;
-      border-color: rgba(255, 255, 255, 0.18) !important;
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.2);
+      color: #fff;
+    }
+    .master-tab-btn {
+      padding: 0.5rem 1.25rem;
+      border-radius: 0.85rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: all 0.2s;
+      color: #94a3b8;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .master-tab-btn:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.05);
+    }
+    .master-tab-btn.active {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+    .sub-pill-btn {
+      padding: 0.4rem 1rem;
+      border-radius: 0.75rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      transition: all 0.15s;
+      color: #94a3b8;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .sub-pill-btn:hover {
+      color: #fff;
+      border-color: rgba(255, 255, 255, 0.15);
+    }
+    .sub-pill-btn.active {
+      color: #06b6d4;
+      background: rgba(6, 182, 212, 0.1);
+      border-color: rgba(6, 182, 212, 0.3);
     }
   </style>
 </head>
-<body class="min-h-screen flex flex-col">
-  <!-- ============================================================== -->
-  <!-- 0. ADMIN GATEKEEPER (SECURITY LOCK OVERLAY) -->
-  <!-- ============================================================== -->
-  <div id="admin-gatekeeper-overlay" class="fixed inset-0 z-50 flex items-center justify-center bg-[#060911]/95 backdrop-blur-3xl transition-all duration-500">
-    <div class="max-w-sm w-full mx-4 p-8 rounded-3xl bg-[#0d1322] border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.8)] flex flex-col items-center text-center space-y-5">
-      
-      <div class="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-xl text-emerald-400">
-        <i class="fa-solid fa-lock"></i>
-      </div>
+<body class="bg-night text-slate-100 min-h-screen">
 
-      <div class="space-y-1">
-        <h2 class="text-xl font-bold tracking-tight text-white">Yönetici Girişi</h2>
-        <p class="text-xs text-slate-400 leading-relaxed">
-          Arkadaş Danışmanlık Yönetim Paneli
-        </p>
+  <!-- Admin Gatekeeper Auth Overlay -->
+  <div id="admin-gatekeeper-overlay" class="fixed inset-0 bg-black/95 backdrop-blur-xl z-50 flex items-center justify-center p-4 hidden">
+    <div class="gece-card max-w-sm w-full p-8 text-center space-y-5 border border-white/10 shadow-2xl">
+      <div class="w-12 h-12 rounded-2xl bg-cyan/10 border border-cyan/30 text-cyan flex items-center justify-center mx-auto text-xl">
+        <i class="fa-solid fa-shield-halved"></i>
       </div>
-
-      <form onsubmit="handleAdminLogin(event)" class="w-full space-y-3.5">
-        <div class="relative w-full">
-          <input type="password" id="admin-pin-input" placeholder="PIN Kodunu Girin" autocomplete="current-password" autofocus
-            class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-center text-base font-mono text-emerald-400 tracking-widest placeholder:text-slate-500 placeholder:tracking-normal focus:outline-none focus:border-cyan transition">
-        </div>
-        
-        <button type="submit" id="btn-admin-login" class="btn-clean-primary w-full py-3 text-xs flex items-center justify-center gap-2 cursor-pointer">
-          <i class="fa-solid fa-arrow-right text-slate-900 text-xs"></i>
-          <span>Giriş Yap</span>
-        </button>
+      <div>
+        <h3 class="text-base font-bold text-white tracking-tight">Yönetici Girişi</h3>
+        <p class="text-xs text-slate-400 mt-1">Devam etmek için 6 haneli yönetici PIN kodunu girin.</p>
+      </div>
+      <form onsubmit="handleAdminLogin(event)" class="space-y-4">
+        <input type="password" id="admin-pin-input" placeholder="••••••••" maxlength="12" class="w-full text-center text-lg tracking-widest bg-black/60 border border-white/10 rounded-xl px-4 py-2.5 text-white focus:border-cyan outline-none">
+        <button type="submit" class="btn-clean-primary w-full py-2.5 text-xs">Oturumu Aç</button>
       </form>
-
-      <div class="flex items-center gap-1.5 text-[11px] text-slate-500">
-        <span>Yalnızca yetkili kurum yöneticileri içindir</span>
-      </div>
     </div>
   </div>
 
-  <div class="gece-site-container max-w-[1520px] mx-auto px-4 w-full">
+  <div class="max-w-7xl mx-auto px-4 py-3 sm:px-6">
 
-    <!-- ============================================================== -->
-    <!-- 1. STICKY AMBIENT NAVBAR WITH 13 POWER MODULES -->
-    <!-- ============================================================== -->
-    <header class="gece-navbar mb-6 sticky top-2 z-40">
-      <div class="nav-brand cursor-pointer flex items-center gap-2.5" onclick="switchSection('spotlight')">
-        <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-emerald-500 to-cyan-500 flex items-center justify-center text-slate-950 font-black text-sm">
+    <!-- MASTER TOP NAVBAR -->
+    <header class="gece-card px-4 py-3 mb-6 sticky top-2 z-40 backdrop-blur-2xl bg-[#090d16]/90 flex flex-wrap items-center justify-between gap-4 border border-white/10 shadow-2xl">
+      <!-- Logo -->
+      <div class="flex items-center gap-3 cursor-pointer" onclick="switchMasterPillar('production')">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-500 to-emerald-500 flex items-center justify-center text-slate-950 font-black text-sm shadow-md">
           A
         </div>
-        <div class="brand-info">
-          <span class="brand-logo font-bold tracking-tight text-white text-sm">ARKADAŞ</span>
-          <span class="brand-sub font-mono text-[10px] text-slate-400 block -mt-1">Danışmanlık</span>
+        <div>
+          <span class="font-bold tracking-tight text-white text-sm block">ARKADAŞ</span>
+          <span class="font-mono text-[10px] text-cyan-400 block -mt-1">Executive OS</span>
         </div>
       </div>
 
-      <nav class="nav-links flex flex-row items-center gap-1">
-        <button type="button" class="nav-link active" data-hub="spotlight" onclick="switchExecutiveHub('spotlight')">Genel Bakış</button>
-        <button type="button" class="nav-link" data-hub="socialhub" onclick="switchExecutiveHub('socialhub')">Sosyal Medya</button>
-        <button type="button" class="nav-link" data-hub="ytstudio" onclick="switchExecutiveHub('ytstudio')">YouTube</button>
-        <button type="button" class="nav-link" data-hub="academics" onclick="switchExecutiveHub('academics')">Üniversiteler</button>
-        <button type="button" class="nav-link" data-hub="crmops" onclick="switchExecutiveHub('crmops')">Öğrenciler</button>
-        <button type="button" class="nav-link" data-hub="creativestudio" onclick="switchExecutiveHub('creativestudio')">İçerik Stüdyosu</button>
-        <button type="button" class="nav-link" data-hub="systemops" onclick="switchExecutiveHub('systemops')">Ayarlar</button>
+      <!-- 3 MASTER PILLAR TABS -->
+      <nav class="flex items-center gap-1.5 p-1 bg-black/40 rounded-2xl border border-white/5">
+        <button type="button" class="master-tab-btn active" id="btn-pillar-production" onclick="switchMasterPillar('production')">
+          <i class="fa-solid fa-wand-magic-sparkles text-cyan text-sm"></i>
+          <span>1. ÜRETİM</span>
+        </button>
+        <button type="button" class="master-tab-btn" id="btn-pillar-publishing" onclick="switchMasterPillar('publishing')">
+          <i class="fa-solid fa-paper-plane text-purple text-sm"></i>
+          <span>2. PAYLAŞIM</span>
+        </button>
+        <button type="button" class="master-tab-btn" id="btn-pillar-analytics" onclick="switchMasterPillar('analytics')">
+          <i class="fa-solid fa-chart-line text-emerald text-sm"></i>
+          <span>3. ANALİZ</span>
+        </button>
       </nav>
 
-      <div class="nav-actions flex items-center gap-2">
-        <button type="button" id="nav-autopilot-btn" onclick="toggleAutopilotGlobal()" class="btn-clean-secondary px-2.5 py-1 text-xs flex items-center gap-1.5 cursor-pointer" title="Otopilotu Aç / Kapat">
+      <!-- RIGHT ACTIONS -->
+      <div class="flex items-center gap-2">
+        <!-- Otopilot Toggle -->
+        <button type="button" id="nav-autopilot-btn" onclick="toggleAutopilotGlobal()" class="btn-clean-secondary px-3 py-1.5 text-xs flex items-center gap-2 cursor-pointer" title="Otopilotu Aç / Kapat">
           <span id="nav-autopilot-dot" class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
           <span id="nav-autopilot-label" class="text-emerald-300 font-medium">Otopilot: Açık</span>
         </button>
-        <button type="button" onclick="runHealthCheck()" class="btn-clean-secondary px-2.5 py-1 text-xs text-emerald-400 flex items-center gap-1.5 cursor-pointer" title="Sistem Teşhisi">
-          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-          <span>Test</span>
+
+        <!-- Anında Tetikle -->
+        <button type="button" onclick="triggerAutopilotNow()" class="btn-clean-secondary px-2.5 py-1.5 text-xs text-cyan-400 hover:text-cyan flex items-center gap-1.5 cursor-pointer" title="Zamanı beklemeden sıradaki hazır içeriği hemen kanala ve servislere gönderir">
+          <i class="fa-solid fa-bolt text-cyan-400"></i>
+          <span class="hidden sm:inline">Şimdi Paylaş</span>
         </button>
-        <a href="https://t.me/ArkadasAdminBot" target="_blank" class="btn-clean-secondary px-2.5 py-1 text-xs text-cyan-400 flex items-center gap-1.5">
-          <i class="fa-brands fa-telegram"></i>
-          <span>Bot</span>
-        </a>
-        <button type="button" onclick="lockAdminSession()" class="btn-clean-secondary px-2.5 py-1 text-xs text-slate-400 hover:text-rose-400 flex items-center gap-1 cursor-pointer" title="Oturumu Kilitle">
-          <i class="fa-solid fa-lock text-[10px]"></i>
-          <span>Kilitle</span>
+
+        <!-- Ajans Araçları / Ayarlar -->
+        <button type="button" onclick="openAgencyToolsModal()" class="btn-clean-secondary px-2.5 py-1.5 text-xs text-slate-300 hover:text-white flex items-center gap-1.5 cursor-pointer" title="CRM, Üniversiteler ve Sözleşmeler">
+          <i class="fa-solid fa-sliders text-xs"></i>
+          <span class="hidden sm:inline">Ayarlar</span>
+        </button>
+
+        <!-- Kilit -->
+        <button type="button" onclick="lockAdminSession()" class="btn-clean-secondary px-2 py-1.5 text-xs text-slate-400 hover:text-rose-400 cursor-pointer" title="Oturumu Kilitle">
+          <i class="fa-solid fa-lock text-[11px]"></i>
         </button>
       </div>
     </header>
 
     <!-- ============================================================== -->
-    <!-- EXECUTIVE SUB-NAVIGATION BAR (Segmented Pill Controls) -->
+    <!-- SÜTUN 1: 🏭 ÜRETİM (METİN • VİDEO • FOTOĞRAF • STOK)           -->
     <!-- ============================================================== -->
-    <div id="executive-subnav-container" class="w-full -mt-2 mb-6 sticky top-20 z-30 transition-all duration-200 hidden">
-      <div id="executive-subnav-pills" class="flex flex-wrap items-center justify-center gap-2 p-2 bg-[#090d16]/90 border border-white/10 rounded-2xl backdrop-blur-xl shadow-2xl">
-        <!-- Injected dynamically by switchExecutiveHub() -->
-      </div>
-    </div>
-
-    <!-- ============================================================== -->
-    <!-- SECTION 1: 🌟 SPOTLIGHT & EXECUTIVE OVERVIEW -->
-    <!-- ============================================================== -->
-    <section class="gece-section active-tab" id="section-spotlight">
-      <!-- Minimalist Top Context -->
-      <div class="flex items-center justify-between mb-6 pb-2 border-b border-white/5">
-        <div class="flex items-center gap-3">
-          <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-          <h2 class="text-base font-semibold text-white tracking-tight">Günün Öne Çıkan Kampanyası</h2>
-          <span class="text-xs text-slate-500 font-mono hidden sm:inline">• 13:00 & 19:30 Slotları</span>
-        </div>
+    <section id="pillar-production" class="pillar-section active-pillar space-y-6">
+      
+      <!-- Sub-Nav Pills & Stok Göstergesi -->
+      <div class="flex flex-wrap items-center justify-between gap-4 pb-2 border-b border-white/5">
         <div class="flex items-center gap-2">
-          <button type="button" onclick="triggerAutopilotNow()" class="btn-clean-secondary px-2.5 py-1 text-xs text-cyan-400 flex items-center gap-1.5 cursor-pointer hover:border-cyan/50" title="Sıradaki içeriği zamanı beklemeden hemen yayınlar">
-            <i class="fa-solid fa-bolt text-cyan-400"></i>
-            <span>Şimdi Paylaş</span>
+          <button type="button" class="sub-pill-btn active" id="pill-prod-text" onclick="switchProductionSubTab('text')">
+            <i class="fa-solid fa-pen-nib mr-1.5"></i>Metin
           </button>
-          <div id="spotlight-autopilot-badge" class="text-xs font-mono text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/20 flex items-center gap-1.5 cursor-pointer" onclick="toggleAutopilotGlobal()" title="Tıklayarak otopilotu açıp kapatabilirsiniz">
-            <span id="spotlight-autopilot-dot" class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-            <span id="spotlight-autopilot-text">Otopilot: Aktif (13:00 & 19:30)</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Clean Hero Card -->
-      <div class="gece-card p-6 md:p-8 mb-8 relative overflow-hidden">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-          <div class="lg:col-span-8 space-y-4">
-            <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-cyan-500/10 text-cyan-400 text-xs font-medium tracking-wide">
-              <span>🎯 Günün Viral Kancası</span>
-            </div>
-
-            <h1 class="text-xl md:text-2xl font-bold text-white tracking-tight leading-snug" id="hero-title">
-              Turkiyada imtihonsiz qabul: Attestat bahosi yetarli! 🇹🇷
-            </h1>
-
-            <p class="text-xs text-slate-400 leading-relaxed max-w-xl" id="hero-desc">
-              Devlat universitetlariga imtihonsiz kirish tartibi va grant imkoniyatlari.
-            </p>
-
-            <!-- Minimal Linear Actions -->
-            <div class="flex flex-wrap items-center gap-2.5 pt-2">
-              <button type="button" class="btn-clean-primary px-4 py-2 text-xs flex items-center gap-2 cursor-pointer" onclick="openHeroVideoModal()">
-                <i class="fa-solid fa-play text-slate-900 text-[11px]"></i>
-                <span>İzle</span>
-              </button>
-              <button type="button" class="btn-clean-secondary px-3.5 py-2 text-xs flex items-center gap-1.5 text-rose-400 hover:text-rose-300" onclick="uploadHeroVideoNow()">
-                <i class="fa-brands fa-youtube"></i>
-                <span>YouTube'a Yükle</span>
-              </button>
-              <button type="button" class="btn-clean-secondary px-3.5 py-2 text-xs flex items-center gap-1.5 text-slate-300" onclick="switchExecutiveHub('socialhub')">
-                <i class="fa-solid fa-share-nodes text-cyan-400"></i>
-                <span>Paylaş</span>
-              </button>
-            </div>
-          </div>
-
-          <div class="lg:col-span-4 flex flex-col items-center justify-center">
-            <div class="w-full max-w-[240px] aspect-[9/16] rounded-2xl bg-gradient-to-b from-slate-800 to-slate-950 border border-white/10 flex flex-col items-center justify-center p-4 shadow-2xl relative overflow-hidden group cursor-pointer hover:border-cyan-500/50 transition duration-300" onclick="openHeroVideoModal()">
-              <div class="w-14 h-14 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center text-white group-hover:scale-110 group-hover:bg-white group-hover:text-black transition duration-200">
-                <i class="fa-solid fa-play ml-0.5 text-lg"></i>
-              </div>
-              <span class="text-xs font-semibold text-white mt-4 text-center line-clamp-2 px-2">Sınavsız Kabul & Attestat</span>
-              <span class="text-[11px] text-slate-400 font-mono mt-1">Shorts #01 • 13:00</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 4 Temiz Metrik Kartı (Linear Style) -->
-      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <div class="gece-card p-5 cursor-pointer" onclick="switchSection('ytstudio')">
-          <div class="flex items-center justify-between text-slate-400 mb-3">
-            <span class="text-xs font-medium">YouTube İzlenme</span>
-            <i class="fa-brands fa-youtube text-rose-500"></i>
-          </div>
-          <div class="text-2xl font-bold text-white tracking-tight">45,449</div>
-          <div class="text-xs text-emerald-400 font-medium mt-1.5 flex items-center gap-1">
-            <i class="fa-solid fa-arrow-up text-[10px]"></i>
-            <span>+12.4% bu ay</span>
-          </div>
-        </div>
-
-        <div class="gece-card p-5 cursor-pointer" onclick="switchSection('contenthub')">
-          <div class="flex items-center justify-between text-slate-400 mb-3">
-            <span class="text-xs font-medium">Telegram Arşivi</span>
-            <i class="fa-brands fa-telegram text-sky-400"></i>
-          </div>
-          <div class="text-2xl font-bold text-white tracking-tight">134 Gönderi</div>
-          <div class="text-xs text-slate-400 mt-1.5">Özbekçe & Emojili</div>
-        </div>
-
-        <div class="gece-card p-5 cursor-pointer" onclick="switchSection('crm')">
-          <div class="flex items-center justify-between text-slate-400 mb-3">
-            <span class="text-xs font-medium">Öğrenci CRM Adayları</span>
-            <i class="fa-solid fa-user-graduate text-purple-400"></i>
-          </div>
-          <div class="text-2xl font-bold text-white tracking-tight" id="spotlight-leads-count">--</div>
-          <div class="text-xs text-purple-400 mt-1.5">İletişim bekleyen</div>
-        </div>
-
-        <div class="gece-card p-5 cursor-pointer" onclick="switchSection('universities')">
-          <div class="flex items-center justify-between text-slate-400 mb-3">
-            <span class="text-xs font-medium">Üniversite Portföyü</span>
-            <i class="fa-solid fa-building-columns text-amber-400"></i>
-          </div>
-          <div class="text-2xl font-bold text-white tracking-tight">40+ Kampüs</div>
-          <div class="text-xs text-amber-400 mt-1.5">Devlet & Özel Anlaşmalı</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================================== -->
-    <!-- SECTION 2: 🎬 YOUTUBE STUDIO & VIDEO LAB -->
-    <!-- ============================================================== -->
-    <section class="gece-section" id="section-ytstudio">
-      <div class="flex items-center justify-between gap-4 mb-5 pb-2 border-b border-white/5">
-        <h2 class="text-base font-semibold text-white flex items-center gap-2">
-          <i class="fa-brands fa-youtube text-red-500"></i>
-          <span>YouTube Videoları</span>
-        </h2>
-        <div class="flex gap-2">
-          <button type="button" class="btn btn-outline btn-xs font-mono text-cyan" onclick="loadYouTubeStudio()">
-            🔄 Canlı Eşitle
+          <button type="button" class="sub-pill-btn" id="pill-prod-video" onclick="switchProductionSubTab('video')">
+            <i class="fa-solid fa-video mr-1.5"></i>Video
           </button>
-          <button type="button" class="btn btn-outline btn-xs font-mono text-emerald" onclick="openTagsHelperModal()">
-            🏷️ SEO Etiket Üreteci
+          <button type="button" class="sub-pill-btn" id="pill-prod-image" onclick="switchProductionSubTab('image')">
+            <i class="fa-solid fa-image mr-1.5"></i>Fotoğraf / Görsel
           </button>
-          <a href="https://studio.youtube.com" target="_blank" class="btn btn-outline btn-xs font-mono text-rose border-rose">
-            <i class="fa-solid fa-arrow-up-right-from-square mr-1"></i> YouTube Studio Web
-          </a>
+          <button type="button" class="sub-pill-btn" id="pill-prod-stock" onclick="switchProductionSubTab('stock')">
+            <i class="fa-solid fa-boxes-stacked mr-1.5 text-amber"></i>Stok Havuzu (<span id="prod-stock-badge-total">0</span>)
+          </button>
+        </div>
+
+        <div class="text-xs font-mono text-slate-400 flex items-center gap-3">
+          <span>Stok Durumu:</span>
+          <span class="px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-white"><span id="header-stock-texts" class="text-cyan font-bold">0</span> Metin</span>
+          <span class="px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-white"><span id="header-stock-videos" class="text-purple font-bold">0</span> Video</span>
+          <span class="px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-white"><span id="header-stock-images" class="text-emerald font-bold">0</span> Görsel</span>
         </div>
       </div>
 
-      <!-- 4 Temel Canlı YouTube Metriği -->
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-        <div class="gece-card p-5 text-center">
-          <span class="text-xs text-dim font-bold font-mono block mb-1">📊 TOPLAM İZLENME</span>
-          <div class="text-2xl font-black text-white font-mono" id="yt-stat-views">45,449</div>
-          <span class="text-xs text-emerald font-mono block mt-1">Canlı YouTube Verisi</span>
-        </div>
-
-        <div class="gece-card p-5 text-center">
-          <span class="text-xs text-dim font-bold font-mono block mb-1">👤 ABONE SAYISI</span>
-          <div class="text-2xl font-black text-purple font-mono" id="yt-stat-subs">28 Abone</div>
-          <span class="text-xs text-purple font-mono block mt-1">Organik Takipçi</span>
-        </div>
-
-        <div class="gece-card p-5 text-center">
-          <span class="text-xs text-dim font-bold font-mono block mb-1">🎬 YAYINDAKİ VİDEO</span>
-          <div class="text-2xl font-black text-cyan font-mono" id="yt-stat-videos">106 Video</div>
-          <span class="text-xs text-cyan font-mono block mt-1">YouTube Sunucularında</span>
-        </div>
-
-        <div class="gece-card p-5 text-center">
-          <span class="text-xs text-dim font-bold font-mono block mb-1">🛡️ GÜNLÜK API KOTASI</span>
-          <div class="text-2xl font-black text-emerald font-mono">10,000</div>
-          <span class="text-xs text-slate-400 font-mono block mt-1">Kota Koruma Devrede</span>
-        </div>
-      </div>
-
-      <!-- Video Arama ve Filtre Araç Çubuğu -->
-      <div class="gece-card p-4 mb-5 flex flex-wrap items-center justify-between gap-3">
-        <div class="flex flex-wrap gap-2">
-          <button type="button" class="btn btn-xs btn-primary font-mono" id="yt-filter-all" onclick="filterShorts('all', this)">Tümü (50)</button>
-          <button type="button" class="btn btn-xs btn-outline font-mono text-amber" id="yt-filter-pending" onclick="filterShorts('pending', this)">⏳ Sırada Bekleyenler (50)</button>
-          <button type="button" class="btn btn-xs btn-outline font-mono text-emerald" id="yt-filter-published" onclick="filterShorts('published', this)">✅ Yayındakiler (0)</button>
-        </div>
-        <div class="w-full sm:w-72">
-          <input type="text" id="shorts-search-input" oninput="renderShortsTable()" placeholder="Video başlığında ara..." class="w-full bg-black/50 border border-white/10 rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan font-mono">
-        </div>
-      </div>
-
-      <!-- YouTube Studio Video Tablosu -->
-      <div class="gece-card rounded-2xl overflow-hidden">
-        <div class="overflow-x-auto">
-          <table class="w-full text-left text-xs">
-            <thead class="bg-black/60 text-slate-400 font-mono uppercase tracking-wider border-b border-white/10">
-              <tr>
-                <th class="py-3 px-4">#</th>
-                <th class="py-3 px-4">Video Başlığı</th>
-                <th class="py-3 px-4">Yayın Slotu</th>
-                <th class="py-3 px-4">Planlanan Tarih</th>
-                <th class="py-3 px-4">Durum</th>
-                <th class="py-3 px-4 text-right">İşlem</th>
-              </tr>
-            </thead>
-            <tbody id="shorts-table-body" class="divide-y divide-white/5 font-mono text-slate-300">
-              <!-- JS ile doldurulacak -->
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================================== -->
-    <!-- SECTION 3: 📱 TIKTOK & INSTAGRAM REELS VIRAL LAB -->
-    <!-- ============================================================== -->
-    <section class="gece-section" id="section-tiktoklab">
-      <div class="flex items-center justify-between gap-4 mb-5 pb-2 border-b border-white/5">
-        <h2 class="text-base font-semibold text-white flex items-center gap-2">
-          <i class="fa-brands fa-tiktok text-purple"></i>
-          <span>TikTok & Reels</span>
-        </h2>
-      </div>
-
-      <!-- Viral Senaryolar Grid -->
-      <div id="tiktok-scripts-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-        <!-- JS ile doldurulacak -->
-      </div>
-    </section>
-
-    <!-- ============================================================== -->
-    <!-- SECTION 3.5: 🌐 SOSYAL MEDYA -->
-    <!-- ============================================================== -->
-    <section class="gece-section" id="section-socialmatrix">
-      <!-- Minimal Header -->
-      <div class="flex items-center justify-between gap-4 mb-5 pb-2 border-b border-white/5">
-        <div class="flex items-center gap-3">
-          <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
-          <h2 class="text-base font-semibold text-white tracking-tight">Sosyal Medya Kanalları</h2>
-        </div>
-        <button type="button" class="btn-clean-secondary px-3 py-1.5 text-xs flex items-center gap-1.5" onclick="loadOmniSchedulerAssets()">
-          <i class="fa-solid fa-rotate text-slate-400 text-[11px]"></i>
-          <span>Yenile</span>
-        </button>
-      </div>
-
-      <!-- 1. 7 PLATFORM SEÇİCİ MATRİSİ -->
-      <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2.5 mb-5 font-mono">
-        <!-- Twitter / X -->
-        <div class="gece-card p-3.5 cursor-pointer transition-all duration-200 hover:border-slate-300 border-cyan/60 bg-cyan/10 omni-platform-card" id="omni-card-twitter" onclick="selectOmniPlatform('twitter')">
-          <div class="flex items-center justify-between mb-2">
-            <i class="fa-brands fa-x-twitter text-white text-base"></i>
-            <span class="text-[10px] px-1.5 py-0.5 rounded bg-white/10 text-slate-300 font-sans">201 Tweet</span>
+      <!-- 1.1 METİN ÜRETİMİ -->
+      <div id="subview-prod-text" class="space-y-5">
+        <div class="gece-card p-6">
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="text-sm font-semibold text-white flex items-center gap-2">
+              <i class="fa-solid fa-pen-nib text-cyan"></i>
+              <span>Metin Üretim Stüdyosu</span>
+            </h2>
+            <span class="text-xs text-slate-400">Tek tek veya 20 adede kadar toplu üretim</span>
           </div>
-          <div class="font-bold text-white text-xs font-sans">Twitter / X</div>
-          <div class="text-[11px] text-slate-400 truncate">@arkadasuz</div>
-          <div class="mt-2 text-[10px] text-cyan flex items-center gap-1 font-sans">
-            <span class="pulse-dot scale-75"></span>
-            <span>Aktif</span>
-          </div>
-        </div>
 
-        <!-- YouTube Studio -->
-        <div class="gece-card p-3.5 cursor-pointer transition-all duration-200 hover:border-red-500/80 border-white/5 omni-platform-card" id="omni-card-youtube" onclick="selectOmniPlatform('youtube')">
-          <div class="flex items-center justify-between mb-2">
-            <i class="fa-brands fa-youtube text-red-500 text-base"></i>
-            <span class="text-[10px] px-1.5 py-0.5 rounded bg-red-500/20 text-red-300 font-sans">50 Shorts</span>
-          </div>
-          <div class="font-bold text-white text-xs font-sans">YouTube</div>
-          <div class="text-[11px] text-slate-400 truncate">@arkadaşuz</div>
-          <div class="mt-2 text-[10px] text-emerald flex items-center gap-1 font-sans">
-            <span class="pulse-dot scale-75"></span>
-            <span>Data API v3</span>
-          </div>
-        </div>
-
-        <!-- Telegram Ultra -->
-        <div class="gece-card p-3.5 cursor-pointer transition-all duration-200 hover:border-sky-400/80 border-white/5 omni-platform-card" id="omni-card-telegram" onclick="selectOmniPlatform('telegram')">
-          <div class="flex items-center justify-between mb-2">
-            <i class="fa-brands fa-telegram text-sky-400 text-base"></i>
-            <span class="text-[10px] px-1.5 py-0.5 rounded bg-sky-500/20 text-sky-300 font-sans">134 Post</span>
-          </div>
-          <div class="font-bold text-white text-xs font-sans">Telegram</div>
-          <div class="text-[11px] text-slate-400 truncate">@arkadasuz</div>
-          <div class="mt-2 text-[10px] text-sky-400 flex items-center gap-1 font-sans">
-            <span class="pulse-dot scale-75"></span>
-            <span>Bot Bağlı</span>
-          </div>
-        </div>
-
-        <!-- TikTok Studio -->
-        <div class="gece-card p-3.5 cursor-pointer transition-all duration-200 hover:border-rose-400/80 border-white/5 omni-platform-card" id="omni-card-tiktok" onclick="selectOmniPlatform('tiktok')">
-          <div class="flex items-center justify-between mb-2">
-            <i class="fa-brands fa-tiktok text-rose-400 text-base"></i>
-            <span class="text-[10px] px-1.5 py-0.5 rounded bg-rose-500/20 text-rose-300 font-sans">Viral Lab</span>
-          </div>
-          <div class="font-bold text-white text-xs font-sans">TikTok</div>
-          <div class="text-[11px] text-slate-400 truncate">@mila.travels</div>
-          <div class="mt-2 text-[10px] text-rose-400 flex items-center gap-1 font-sans">
-            <span class="pulse-dot scale-75"></span>
-            <span>Kancalar Hazır</span>
-          </div>
-        </div>
-
-        <!-- Instagram Studio -->
-        <div class="gece-card p-3.5 cursor-pointer transition-all duration-200 hover:border-pink-500/80 border-white/5 omni-platform-card" id="omni-card-instagram" onclick="selectOmniPlatform('instagram')">
-          <div class="flex items-center justify-between mb-2">
-            <i class="fa-brands fa-instagram text-pink-500 text-base"></i>
-            <span class="text-[10px] px-1.5 py-0.5 rounded bg-pink-500/20 text-pink-300 font-sans">Carousel</span>
-          </div>
-          <div class="font-bold text-white text-xs font-sans">Instagram</div>
-          <div class="text-[11px] text-slate-400 truncate">@arkadas.uz</div>
-          <div class="mt-2 text-[10px] text-pink-400 flex items-center gap-1 font-sans">
-            <span class="pulse-dot scale-75"></span>
-            <span>10 Slayt</span>
-          </div>
-        </div>
-
-        <!-- Facebook Ads -->
-        <div class="gece-card p-3.5 cursor-pointer transition-all duration-200 hover:border-blue-500/80 border-white/5 omni-platform-card" id="omni-card-facebook" onclick="selectOmniPlatform('facebook')">
-          <div class="flex items-center justify-between mb-2">
-            <i class="fa-brands fa-facebook text-blue-500 text-base"></i>
-            <span class="text-[10px] px-1.5 py-0.5 rounded bg-blue-500/20 text-blue-300 font-sans">Meta Ads</span>
-          </div>
-          <div class="font-bold text-white text-xs font-sans">Facebook</div>
-          <div class="text-[11px] text-slate-400 truncate">Arkadaş MChJ</div>
-          <div class="mt-2 text-[10px] text-blue-400 flex items-center gap-1 font-sans">
-            <span class="pulse-dot scale-75"></span>
-            <span>Veli Kurguları</span>
-          </div>
-        </div>
-
-        <!-- WhatsApp Pro -->
-        <div class="gece-card p-3.5 cursor-pointer transition-all duration-200 hover:border-emerald-500/80 border-white/5 omni-platform-card" id="omni-card-whatsapp" onclick="selectOmniPlatform('whatsapp')">
-          <div class="flex items-center justify-between mb-2">
-            <i class="fa-brands fa-whatsapp text-emerald text-base"></i>
-            <span class="text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-sans">1-Tık Chat</span>
-          </div>
-          <div class="font-bold text-white text-xs font-sans">WhatsApp</div>
-          <div class="text-[11px] text-slate-400 truncate">+90 534...</div>
-          <div class="mt-2 text-[10px] text-emerald flex items-center gap-1 font-sans">
-            <span class="pulse-dot scale-75"></span>
-            <span>Katalog Aktif</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- 2. SEÇİLİ PLATFORMA ÖZEL GÜÇ KONSOLU (NELER YAPABİLİRSİNİZ?) -->
-      <div class="gece-card p-6 mb-6" id="omni-platform-console">
-        <!-- JS ile seçili platforma göre doldurulacak -->
-      </div>
-
-      <!-- 3. İÇERİK PLANLAMA -->
-      <div class="gece-card p-6 md:p-8 mb-6 space-y-6">
-        <div class="flex items-center justify-between border-b border-white/5 pb-3">
-          <h3 class="text-base font-semibold text-white flex items-center gap-2">
-            <i class="fa-solid fa-calendar-plus text-cyan-400"></i>
-            <span>Yeni Paylaşım Planla</span>
-          </h3>
-        </div>
-
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          <!-- Sol: Varlık Seçimi & Düzenleme -->
-          <div class="lg:col-span-7 space-y-4 text-xs">
-            <!-- Hazır Metin Seçici -->
+          <!-- Metin Seçenekleri Barı -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-4">
             <div>
-              <label class="text-slate-400 text-xs block mb-1.5 font-medium">Hazır Metin Seç:</label>
-              <select id="omni-asset-text-select" class="w-full bg-[#0a0f1d] border border-white/10 rounded-xl px-3.5 py-2.5 text-white text-xs focus:border-cyan outline-none" onchange="onOmniTextSelect(this.value)">
-                <option value="">-- Hazır Gönderilerden Seçin --</option>
+              <label class="text-[11px] text-slate-400 block mb-1">Metin Formatı:</label>
+              <select id="prod-text-format" class="w-full bg-black/60 border border-white/10 rounded-xl px-3 py-2 text-xs text-white outline-none">
+                <option value="headline_hook">🔥 Başlık & Viral Kanca (Hook)</option>
+                <option value="ad_copy">🎯 İkna Edici Reklam Kampanyası</option>
+                <option value="tg_post" selected>📢 Telegram Tam Format Post (Emojili)</option>
+                <option value="cta_faq">❓ SSS & Eyleme Çağrı (CTA)</option>
               </select>
             </div>
 
-            <!-- Metin Alanı -->
             <div>
-              <div class="flex justify-between items-center mb-1.5">
-                <span class="text-slate-400 text-xs font-medium">Yayın Metni & Başlık:</span>
-                <span class="text-[11px] text-slate-500 font-mono" id="omni-text-char-count">0 karakter</span>
-              </div>
-              <textarea id="omni-schedule-text" rows="4" placeholder="Paylaşılacak metni buraya yazın veya yukarıdaki hazır havuzdan seçin..." class="w-full bg-[#0a0f1d] border border-white/10 rounded-xl p-3.5 text-white text-xs leading-relaxed focus:border-cyan outline-none resize-none"></textarea>
-            </div>
-
-            <!-- Görsel ve Video Seçiciler -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div>
-                <label class="text-slate-400 text-xs block mb-1.5 font-medium">Afiş / Görsel:</label>
-                <select id="omni-asset-photo-select" class="w-full bg-[#0a0f1d] border border-white/10 rounded-xl px-3 py-2 text-white text-xs focus:border-cyan outline-none" onchange="onOmniPhotoSelect(this.value)">
-                  <option value="">-- Yok --</option>
-                </select>
-              </div>
-
-              <div>
-                <label class="text-slate-400 text-xs block mb-1.5 font-medium">Video (Reels):</label>
-                <select id="omni-asset-video-select" class="w-full bg-[#0a0f1d] border border-white/10 rounded-xl px-3 py-2 text-white text-xs focus:border-cyan outline-none" onchange="onOmniVideoSelect(this.value)">
-                  <option value="">-- Yok --</option>
-                </select>
-              </div>
-            </div>
-
-            <!-- Canlı Medya Önizleme Bandı -->
-            <div id="omni-media-preview-box" class="p-3 bg-white/5 rounded-xl border border-white/10 flex items-center gap-3 hidden">
-              <img id="omni-preview-img" class="w-12 h-12 object-cover rounded-lg border border-white/10 hidden" alt="Seçili Görsel">
-              <div id="omni-preview-video-tag" class="w-12 h-12 bg-black rounded-lg border border-white/10 flex items-center justify-center text-cyan hidden">
-                <i class="fa-solid fa-film"></i>
-              </div>
-              <div class="min-w-0 flex-1">
-                <span class="text-white text-xs font-semibold block truncate" id="omni-preview-filename">-</span>
-                <span class="text-slate-400 text-[11px]" id="omni-preview-type">Medya Dosyası</span>
-              </div>
-              <button type="button" class="btn-clean-secondary px-2.5 py-1 text-xs text-rose-400 hover:text-rose-300" onclick="clearOmniSelectedMedia()">✕ Kaldır</button>
-            </div>
-          </div>
-
-          <!-- Sağ: Hedef Platformlar & Zamanlama -->
-          <div class="lg:col-span-5 space-y-4 text-xs">
-            <div class="p-5 bg-white/[0.02] rounded-2xl border border-white/10 space-y-4">
-              <label class="text-white font-semibold block border-b border-white/5 pb-2.5 text-xs">Hedef Platformlar:</label>
-              <div class="grid grid-cols-2 gap-2 font-mono">
-                <label class="flex items-center gap-2 p-2.5 rounded-xl bg-white/[0.03] border border-white/5 cursor-pointer hover:border-white/20 transition">
-                  <input type="checkbox" id="omni-target-twitter" checked class="rounded accent-cyan-400 w-4 h-4">
-                  <span class="text-slate-200 text-xs font-sans flex items-center gap-1.5"><i class="fa-brands fa-x-twitter"></i> Twitter/X</span>
-                </label>
-                <label class="flex items-center gap-2 p-2.5 rounded-xl bg-white/[0.03] border border-white/5 cursor-pointer hover:border-white/20 transition">
-                  <input type="checkbox" id="omni-target-youtube" checked class="rounded accent-red-500 w-4 h-4">
-                  <span class="text-slate-200 text-xs font-sans flex items-center gap-1.5"><i class="fa-brands fa-youtube text-red-500"></i> YouTube</span>
-                </label>
-                <label class="flex items-center gap-2 p-2.5 rounded-xl bg-white/[0.03] border border-white/5 cursor-pointer hover:border-white/20 transition">
-                  <input type="checkbox" id="omni-target-telegram" checked class="rounded accent-sky-400 w-4 h-4">
-                  <span class="text-slate-200 text-xs font-sans flex items-center gap-1.5"><i class="fa-brands fa-telegram text-sky-400"></i> Telegram</span>
-                </label>
-                <label class="flex items-center gap-2 p-2.5 rounded-xl bg-white/[0.03] border border-white/5 cursor-pointer hover:border-white/20 transition">
-                  <input type="checkbox" id="omni-target-instagram" class="rounded accent-pink-500 w-4 h-4">
-                  <span class="text-slate-200 text-xs font-sans flex items-center gap-1.5"><i class="fa-brands fa-instagram text-pink-500"></i> Instagram</span>
-                </label>
-                <label class="flex items-center gap-2 p-2.5 rounded-xl bg-white/[0.03] border border-white/5 cursor-pointer hover:border-white/20 transition">
-                  <input type="checkbox" id="omni-target-tiktok" class="rounded accent-rose-400 w-4 h-4">
-                  <span class="text-slate-200 text-xs font-sans flex items-center gap-1.5"><i class="fa-brands fa-tiktok text-rose-400"></i> TikTok</span>
-                </label>
-                <label class="flex items-center gap-2 p-2.5 rounded-xl bg-white/[0.03] border border-white/5 cursor-pointer hover:border-white/20 transition">
-                  <input type="checkbox" id="omni-target-facebook" class="rounded accent-blue-500 w-4 h-4">
-                  <span class="text-slate-200 text-xs font-sans flex items-center gap-1.5"><i class="fa-brands fa-facebook text-blue-500"></i> Facebook</span>
-                </label>
-              </div>
-
-              <!-- Zamanlama Slotları -->
-              <div class="space-y-3 pt-3 border-t border-white/5">
-                <div class="grid grid-cols-2 gap-2.5">
-                  <div>
-                    <label class="text-slate-400 text-[11px] block mb-1 font-medium">Yayın Tarihi:</label>
-                    <input type="date" id="omni-schedule-date" class="w-full bg-[#0a0f1d] border border-white/10 rounded-xl px-3 py-2 text-white text-xs outline-none focus:border-cyan">
-                  </div>
-                  <div>
-                    <label class="text-slate-400 text-[11px] block mb-1 font-medium">Yayın Saati / Slot:</label>
-                    <select id="omni-schedule-slot" class="w-full bg-[#0a0f1d] border border-white/10 rounded-xl px-3 py-2 text-white text-xs outline-none focus:border-cyan">
-                      <option value="10:00|🌅 Sabah Posti (10:00)">🌅 Sabah (10:00)</option>
-                      <option value="13:00|☀️ Tushlik Posti (13:00)" selected>☀️ Öğle (13:00)</option>
-                      <option value="19:30|🌆 Kechki Prime (19:30)">🌆 Akşam Prime (19:30)</option>
-                      <option value="22:00|🌙 Tungi Post (22:00)">🌙 Gece (22:00)</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div>
-                  <label class="text-slate-400 text-[11px] block mb-1 font-medium">Sabit Huni Yanıtı (Yorum):</label>
-                  <input type="text" id="omni-auto-reply" value="📌 Rasmiy kanalimiz: https://t.me/arkadasuz | Aloqa: @arkadasuzz" class="w-full bg-[#0a0f1d] border border-white/10 rounded-xl px-3 py-2 text-slate-300 text-xs outline-none focus:border-cyan">
-                </div>
-              </div>
-
-              <!-- Planla Butonu (Clean Primary Action) -->
-              <button type="button" class="btn-clean-primary w-full py-3 text-xs flex items-center justify-center gap-2 mt-2 cursor-pointer" onclick="submitOmniCrossPostSchedule()">
-                <i class="fa-solid fa-paper-plane text-slate-900"></i>
-                <span>Tüm Seçili Kanallara Planla</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 4. CANLI ÇOK KANALLI PLANLANMIŞ İÇERİK TAKVİMİ & KUYRUĞU -->
-      <div class="gece-card p-6 border border-white/10 space-y-4">
-        <div class="flex flex-wrap justify-between items-center border-b border-white/5 pb-3 gap-3">
-          <div class="flex items-center gap-2 text-xs">
-            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-            <span class="font-bold text-white text-sm">Planlanmış Yayın Akışı</span>
-            <span class="text-slate-400 text-xs font-mono" id="omni-scheduled-count-badge">(Yükleniyor...)</span>
-          </div>
-          <div class="flex gap-1.5 text-xs">
-            <button type="button" class="btn-clean-secondary px-3 py-1 text-xs" onclick="filterOmniScheduledTable('all', this)">Tümü</button>
-            <button type="button" class="btn-clean-secondary px-3 py-1 text-xs" onclick="filterOmniScheduledTable('twitter', this)">Twitter</button>
-            <button type="button" class="btn-clean-secondary px-3 py-1 text-xs" onclick="filterOmniScheduledTable('youtube', this)">YouTube</button>
-            <button type="button" class="btn-clean-secondary px-3 py-1 text-xs" onclick="filterOmniScheduledTable('telegram', this)">Telegram</button>
-          </div>
-        </div>
-
-        <div class="overflow-x-auto">
-          <table class="w-full text-left text-xs">
-            <thead class="text-slate-400 border-b border-white/5 text-[11px] bg-white/[0.02]">
-              <tr>
-                <th class="py-3 px-3.5 font-medium">Tarih & Saat</th>
-                <th class="py-3 px-3.5 font-medium">Slot / Tür</th>
-                <th class="py-3 px-3.5 font-medium">Hedef Kanallar</th>
-                <th class="py-3 px-3.5 font-medium">İçerik Özeti</th>
-                <th class="py-3 px-3.5 font-medium">Medya</th>
-                <th class="py-3 px-3.5 font-medium">Durum</th>
-                <th class="py-3 px-3.5 font-medium text-right">Eylem</th>
-              </tr>
-            </thead>
-            <tbody id="omni-scheduled-tbody" class="divide-y divide-white/5 text-slate-300">
-              <tr>
-                <td colspan="7" class="py-6 text-center text-slate-500">Planlanmış gönderiler yükleniyor...</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================================== -->
-    <!-- SECTION 4: 📢 TELEGRAM KANALI SUPER-MERKEZİ (@arkadasuz) -->
-    <!-- ============================================================== -->
-    <section class="gece-section" id="section-contenthub">
-      <div class="flex items-center justify-between gap-4 mb-5 pb-2 border-b border-white/5">
-        <h2 class="text-base font-semibold text-white flex items-center gap-2">
-          <i class="fa-brands fa-telegram text-cyan"></i>
-          <span>Telegram Gönderileri</span>
-        </h2>
-        <div class="flex gap-2">
-          <button type="button" class="btn btn-xs btn-primary font-mono" onclick="filterTgCategory('all')">
-            Tümü (134)
-          </button>
-          <button type="button" class="btn btn-xs btn-outline font-mono text-emerald border-emerald" onclick="switchSection('aicopilot')">
-            <i class="fa-solid fa-wand-magic-sparkles mr-1"></i> AI Yeni Post Yaz
-          </button>
-        </div>
-      </div>
-
-      <!-- Kategori Filtre Butonları -->
-      <div class="flex flex-wrap gap-2 mb-4 font-mono text-xs">
-        <button type="button" class="chip cursor-pointer hover:border-cyan" onclick="filterTgCategory('Tibbiyot')">🩺 Tibbiyot & Stom</button>
-        <button type="button" class="chip cursor-pointer hover:border-cyan" onclick="filterTgCategory('Universitet')">🏛️ Universitetlar</button>
-        <button type="button" class="chip cursor-pointer hover:border-cyan" onclick="filterTgCategory('Kontrakt')">💰 Kontrakt & Narx</button>
-        <button type="button" class="chip cursor-pointer hover:border-cyan" onclick="filterTgCategory('Viza')">📑 Viza & İkamet</button>
-        <button type="button" class="chip cursor-pointer hover:border-cyan" onclick="filterTgCategory('YÖS')">🎯 TR-YÖS / Attestat</button>
-      </div>
-
-      <!-- İçerik Arama -->
-      <div class="gece-card p-4 mb-5 flex flex-wrap items-center justify-between gap-3">
-        <span class="text-xs font-mono text-slate-300" id="content-pool-count">134 Hazır Telegram Postu Listeleniyor</span>
-        <div class="w-full sm:w-80">
-          <input type="text" id="content-search-input" oninput="renderContentCards()" placeholder="Post metni veya etiket ara..." class="w-full bg-black/50 border border-white/10 rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan font-mono">
-        </div>
-      </div>
-
-      <!-- İçerik Kartları Grid -->
-      <div id="content-cards-container" class="grid grid-cols-1 md:grid-cols-2 gap-5">
-        <!-- JS ile doldurulacak -->
-      </div>
-    </section>
-
-    <!-- ============================================================== -->
-    <!-- SECTION 5: 🐦 TWITTER / X VIRAL MOTORU -->
-    <!-- ============================================================== -->
-    <section class="gece-section" id="section-twitterhub">
-      <div class="flex items-center justify-between gap-4 mb-5 pb-2 border-b border-white/5">
-        <h2 class="text-base font-semibold text-white flex items-center gap-2">
-          <i class="fa-brands fa-x-twitter text-slate-300"></i>
-          <span>Twitter Paylaşımları</span>
-        </h2>
-        <div class="w-full sm:w-72">
-          <input type="text" id="tweet-search-input" oninput="renderTweetsList()" placeholder="Tweet ara..." class="w-full bg-black/50 border border-white/10 rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan font-mono">
-        </div>
-      </div>
-
-      <div id="tweets-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-        <!-- JS ile doldurulacak -->
-      </div>
-    </section>
-
-    <!-- ============================================================== -->
-    <!-- SECTION 6: 🏛️ ÜNİVERSİTELER & BÖLÜM VERİTABANI -->
-    <!-- ============================================================== -->
-    <section class="gece-section" id="section-universities">
-      <div class="flex items-center justify-between gap-4 mb-5 pb-2 border-b border-white/5">
-        <h2 class="text-base font-semibold text-white flex items-center gap-2">
-          <i class="fa-solid fa-graduation-cap text-amber"></i>
-          <span>Üniversiteler</span>
-        </h2>
-        <div class="w-full sm:w-64">
-          <input type="text" id="uni-search-input" oninput="renderUniversities()" placeholder="Üniversite veya bölüm ara..." class="w-full bg-black/50 border border-white/10 rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber font-mono">
-        </div>
-      </div>
-
-      <!-- Üniversite Filtreleri -->
-      <div class="flex flex-wrap gap-2 mb-5 font-mono text-xs">
-        <button type="button" class="btn btn-xs btn-primary" onclick="filterUniType('all')">Tüm Üniversiteler (40+)</button>
-        <button type="button" class="btn btn-xs btn-outline text-cyan border-cyan" onclick="filterUniType('Davlat')">🏛️ Devlet Üniversiteleri</button>
-        <button type="button" class="btn btn-xs btn-outline text-purple border-purple" onclick="filterUniType('Xususiy')">🏢 Vakıf / Özel</button>
-        <button type="button" class="btn btn-xs btn-outline text-emerald border-emerald" onclick="filterUniType('Istanbul')">📍 İstanbul Kampüsleri</button>
-        <button type="button" class="btn btn-xs btn-outline text-amber border-amber" onclick="filterUniType('Ankara')">📍 Ankara Kampüsleri</button>
-      </div>
-
-      <div id="universities-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-        <!-- JS ile doldurulacak -->
-      </div>
-    </section>
-
-    <!-- ============================================================== -->
-    <!-- SECTION 7: 💰 BÜTÇE & YAŞAM MALİYETİ HESAPLAYICI -->
-    <!-- ============================================================== -->
-    <section class="gece-section" id="section-calculator">
-      <div class="flex items-center justify-between gap-4 mb-5 pb-2 border-b border-white/5">
-        <h2 class="text-base font-semibold text-white flex items-center gap-2">
-          <i class="fa-solid fa-calculator text-emerald"></i>
-          <span>Maliyet Simülatörü</span>
-        </h2>
-      </div>
-
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        <!-- Sol: Parametre Formu -->
-        <div class="lg:col-span-7 gece-card p-6 space-y-4">
-          <h3 class="text-sm font-bold text-white font-mono border-b border-white/10 pb-2">
-            1. Maliyet Kalemleri ve Tercihler
-          </h3>
-
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label class="block text-xs font-mono text-dim mb-1">Yıllık Harç / Kontrakt ($ USD)</label>
-              <input type="number" id="calc-tuition" value="600" oninput="updateBudgetCalc()" class="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-2 text-sm text-white font-mono focus:outline-none focus:border-emerald">
-              <span class="text-[11px] text-dim">Devlet: $300-$800 / Özel: $2,000-$5,000</span>
+              <label class="text-[11px] text-slate-400 block mb-1">Üretim Adedi:</label>
+              <select id="prod-text-count" class="w-full bg-black/60 border border-white/10 rounded-xl px-3 py-2 text-xs text-white outline-none font-mono">
+                <option value="1">1 Adet (Tekil Üretim)</option>
+                <option value="5" selected>5 Adet (Haftalık Paket)</option>
+                <option value="10">10 Adet (Toplu Üretim)</option>
+                <option value="20">20 Adet (Aylık Stok Havuzu)</option>
+              </select>
             </div>
 
             <div>
-              <label class="block text-xs font-mono text-dim mb-1">Aylık Yurt / Konaklama ($ USD)</label>
-              <input type="number" id="calc-dorm" value="180" oninput="updateBudgetCalc()" class="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-2 text-sm text-white font-mono focus:outline-none focus:border-emerald">
-              <span class="text-[11px] text-dim">KYK Devlet: $45-$60 / Özel Yurt: $180-$250</span>
+              <label class="text-[11px] text-slate-400 block mb-1">İçerik Dili:</label>
+              <select id="prod-text-lang" class="w-full bg-black/60 border border-white/10 rounded-xl px-3 py-2 text-xs text-white outline-none">
+                <option value="uz" selected>🇺🇿 O'zbekcha (Lotin)</option>
+                <option value="ru">🇷🇺 Русский</option>
+                <option value="tr">🇹🇷 Türkçe</option>
+                <option value="kk">Karakalpaksha</option>
+              </select>
             </div>
 
-            <div>
-              <label class="block text-xs font-mono text-dim mb-1">Aylık Yeme-İçme ($ USD)</label>
-              <input type="number" id="calc-food" value="150" oninput="updateBudgetCalc()" class="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-2 text-sm text-white font-mono focus:outline-none focus:border-emerald">
-              <span class="text-[11px] text-dim">Üniversite yemekhanesi + pazar alışverişi</span>
-            </div>
-
-            <div>
-              <label class="block text-xs font-mono text-dim mb-1">Aylık Ulaşım ($ USD)</label>
-              <input type="number" id="calc-transport" value="15" oninput="updateBudgetCalc()" class="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-2 text-sm text-white font-mono focus:outline-none focus:border-emerald">
-              <span class="text-[11px] text-dim">İndirimli Öğrenci İstanbulkart</span>
-            </div>
-
-            <div>
-              <label class="block text-xs font-mono text-dim mb-1">Yıllık Sağlık Sigortası & İkamet Harcı ($)</label>
-              <input type="number" id="calc-insurance" value="120" oninput="updateBudgetCalc()" class="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-2 text-sm text-white font-mono focus:outline-none focus:border-emerald">
-            </div>
-
-            <div class="flex items-center pt-5">
-              <label class="flex items-center gap-2 cursor-pointer font-mono text-xs text-slate-200">
-                <input type="checkbox" id="calc-tomer" onchange="updateBudgetCalc()" class="w-4 h-4 rounded text-emerald focus:ring-0">
-                <span>1 Yıl TÖMER Dil Hazırlığı Ekle (+$800)</span>
-              </label>
-            </div>
-          </div>
-
-          <!-- Yasal Çalışma Geliri Ofseti -->
-          <div class="p-4 rounded-xl bg-emerald-950/20 border border-emerald-500/20 font-mono text-xs">
-            <div class="flex justify-between items-center mb-1">
-              <span class="text-emerald font-bold">💼 Yasal Çalışma Gelir Ofseti (Haftada 20 Saat)</span>
-              <span class="text-white font-bold" id="calc-work-offset">-$2,000 / yıl</span>
-            </div>
-            <p class="text-slate-400 text-[11px]">Öğrencinin part-time çalışarak kazanabileceği ve ailesinin yükünü azaltacağı tahmini bütçe.</p>
-          </div>
-        </div>
-
-        <!-- Sağ: Finansal Rapor Kartı -->
-        <div class="lg:col-span-5 gece-card p-6 flex flex-col justify-between">
-          <div>
-            <span class="text-xs font-mono text-dim block mb-1">TOPLAM YILLIK MALİYET TAHMİNİ</span>
-            <div class="text-4xl font-extrabold text-emerald font-mono mb-2" id="calc-res-usd">$4,220</div>
-            <div class="text-lg font-bold text-cyan font-mono" id="calc-res-uzs">54,227,000 so'm</div>
-            <div class="text-xs text-slate-400 font-mono mt-1" id="calc-res-try">~144,324 TRY (Döviz Kuru: $1 = 34.2 TRY)</div>
-
-            <div class="mt-6 space-y-2 text-xs font-mono">
-              <div class="flex justify-between py-1 border-b border-white/5">
-                <span class="text-slate-400">Üniversite Harcı (Yıllık):</span>
-                <span class="text-white font-bold" id="calc-row-tuition">$600</span>
-              </div>
-              <div class="flex justify-between py-1 border-b border-white/5">
-                <span class="text-slate-400">Barınma (10 Ay):</span>
-                <span class="text-white font-bold" id="calc-row-dorm">$1,800</span>
-              </div>
-              <div class="flex justify-between py-1 border-b border-white/5">
-                <span class="text-slate-400">Yemek & Yaşam (10 Ay):</span>
-                <span class="text-white font-bold" id="calc-row-food">$1,500</span>
-              </div>
-              <div class="flex justify-between py-1 border-b border-white/5">
-                <span class="text-slate-400">Ulaşım & Sigorta & İkamet:</span>
-                <span class="text-white font-bold" id="calc-row-other">$270</span>
-              </div>
-              <div class="flex justify-between py-1 border-b border-white/5" id="calc-row-tomer-box">
-                <span class="text-slate-400">TÖMER Dil Kursu:</span>
-                <span class="text-white font-bold" id="calc-row-tomer">$0</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="pt-6 space-y-2">
-            <button type="button" class="btn btn-primary w-full py-2.5 rounded-xl font-mono text-xs flex items-center justify-center gap-2" onclick="copyParentProposal()">
-              <i class="fa-solid fa-copy"></i>
-              <span>Ota-Onaga Taklif Metnini Nusxalash</span>
-            </button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================================== -->
-    <!-- SECTION 8: 👥 ÖĞRENCİ CRM & PIPELINE (KANBAN & TABLE) -->
-    <!-- ============================================================== -->
-    <section class="gece-section" id="section-crm">
-      <div class="flex items-center justify-between gap-4 mb-5 pb-2 border-b border-white/5">
-        <h2 class="text-base font-semibold text-white flex items-center gap-2">
-          <i class="fa-solid fa-users text-purple"></i>
-          <span>Öğrenci CRM</span>
-        </h2>
-        <div class="flex gap-2">
-          <button type="button" class="btn btn-xs btn-primary font-mono" onclick="toggleCrmView('kanban')">
-            <i class="fa-solid fa-table-columns mr-1"></i> Kanban Panosu
-          </button>
-          <button type="button" class="btn btn-xs btn-outline font-mono text-slate-300" onclick="toggleCrmView('table')">
-            <i class="fa-solid fa-list mr-1"></i> Veri Tablosu
-          </button>
-          <button type="button" class="btn btn-xs btn-outline font-mono text-emerald border-emerald" onclick="openAddLeadModal()">
-            <i class="fa-solid fa-user-plus mr-1"></i> Yeni Başvuru
-          </button>
-          <a href="/api/export_excel" class="btn btn-xs btn-outline font-mono text-cyan border-cyan">
-            <i class="fa-solid fa-file-excel mr-1"></i> Excel (.csv) İndir
-          </a>
-        </div>
-      </div>
-
-      <!-- Metrik Kartları -->
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-        <div class="gece-card p-4 text-center">
-          <span class="text-xs text-dim font-mono">TOPLAM ADAY</span>
-          <div class="text-xl font-bold text-white font-mono mt-1" id="crm-stat-total">--</div>
-        </div>
-        <div class="gece-card p-4 text-center">
-          <span class="text-xs text-amber font-mono">🟡 YENİ BAŞVURU</span>
-          <div class="text-xl font-bold text-amber font-mono mt-1" id="crm-stat-new">--</div>
-        </div>
-        <div class="gece-card p-4 text-center">
-          <span class="text-xs text-cyan font-mono">🔵 İŞLEMDE / EVRAK</span>
-          <div class="text-xl font-bold text-cyan font-mono mt-1" id="crm-stat-pending">--</div>
-        </div>
-        <div class="gece-card p-4 text-center">
-          <span class="text-xs text-emerald font-mono">🟢 KABUL / KAYIT</span>
-          <div class="text-xl font-bold text-emerald font-mono mt-1" id="crm-stat-done">--</div>
-        </div>
-      </div>
-
-      <!-- KANBAN GÖRÜNÜMÜ -->
-      <div id="crm-kanban-view" class="overflow-x-auto pb-4">
-        <div class="flex gap-4 min-w-[1200px]" id="kanban-board-container">
-          <!-- 6 Kanban sütunu JS ile doldurulur -->
-        </div>
-      </div>
-
-      <!-- TABLO GÖRÜNÜMÜ -->
-      <div id="crm-table-view" class="gece-card rounded-2xl overflow-hidden hidden">
-        <div class="overflow-x-auto">
-          <table class="w-full text-left text-xs">
-            <thead class="bg-black/60 text-slate-400 font-mono uppercase tracking-wider border-b border-white/10">
-              <tr>
-                <th class="py-3 px-4">#ID</th>
-                <th class="py-3 px-4">Öğrenci Adı</th>
-                <th class="py-3 px-4">Telefon</th>
-                <th class="py-3 px-4">Hedef Bölüm</th>
-                <th class="py-3 px-4">Kayıt Tarihi</th>
-                <th class="py-3 px-4">Durum</th>
-                <th class="py-3 px-4 text-right">Aksiyon</th>
-              </tr>
-            </thead>
-            <tbody id="crm-table-body" class="divide-y divide-white/5 font-mono text-slate-300">
-              <!-- JS ile doldurulacak -->
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================================== -->
-    <!-- SECTION 9: 📋 12 ADIMLI VİZE & İKAMET TAKİPÇİSİ -->
-    <!-- ============================================================== -->
-    <section class="gece-section" id="section-checklist">
-      <div class="flex items-center justify-between gap-4 mb-5 pb-2 border-b border-white/5">
-        <h2 class="text-base font-semibold text-white flex items-center gap-2">
-          <i class="fa-solid fa-list-check text-cyan"></i>
-          <span>Vize Süreç Takibi</span>
-        </h2>
-        <div class="flex items-center gap-3">
-          <div class="text-xs font-mono text-slate-300">
-            Tamamlanma: <strong class="text-emerald font-bold" id="checklist-progress-pct">0%</strong>
-          </div>
-          <button type="button" class="btn btn-outline btn-xs font-mono text-rose" onclick="resetChecklist()">
-            Sıfırla
-          </button>
-        </div>
-      </div>
-
-      <!-- İlerleme Çubuğu -->
-      <div class="w-full bg-black/50 h-2.5 rounded-full overflow-hidden mb-6 border border-white/10">
-        <div id="checklist-progress-bar" class="bg-gradient-to-r from-cyan to-emerald h-full transition-all duration-300" style="width: 0%"></div>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="checklist-steps-container">
-        <!-- 12 Adım JS ile dinamik çizilir -->
-      </div>
-    </section>
-
-    <!-- ============================================================== -->
-    <!-- SECTION 10: 📄 RESMİ EVRAK & BELGE FABRİKASI -->
-    <!-- ============================================================== -->
-    <section class="gece-section" id="section-documents">
-      <div class="flex items-center justify-between gap-4 mb-5 pb-2 border-b border-white/5">
-        <h2 class="text-base font-semibold text-white flex items-center gap-2">
-          <i class="fa-solid fa-folder-open text-amber"></i>
-          <span>Evrak & Tercüme</span>
-        </h2>
-      </div>
-
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        <!-- Sol: Belge Seçici ve Form -->
-        <div class="lg:col-span-5 space-y-4">
-          <div class="gece-card p-5">
-            <label class="block text-xs font-mono text-dim mb-2">Üretilecek Belge Türü:</label>
-            <select id="doc-type-select" onchange="loadDocTemplate()" class="w-full bg-black/60 border border-white/10 rounded-xl px-3 py-2 text-xs text-white font-mono focus:outline-none focus:border-amber">
-              <option value="offer_proposal">📄 Rasmiy Universitet Qabul Taklifnomasi</option>
-              <option value="agency_contract">📑 Agentlik Xizmat Ko'rsatish Shartnomasi</option>
-              <option value="motivation_letter">✉️ Niyet Mektubu (Motivation Letter)</option>
-              <option value="sponsor_letter">🏦 Elchixona Moliyaviy Kafil Xati</option>
-              <option value="minor_consent">👨‍👩‍👦 18 Yoshga To'lmaganlar Rozilik Xati</option>
-              <option value="pickup_voucher">🚗 VIP Aeroport Kutib Olish Voucheri</option>
-            </select>
-          </div>
-
-          <div class="gece-card p-5 space-y-3 font-mono text-xs">
-            <h4 class="font-bold text-white mb-2">Öğrenci Bilgileri:</h4>
-            <div>
-              <label class="text-dim text-[11px] block mb-1">Aday Adı Soyadı:</label>
-              <input type="text" id="doc-student-name" value="Jahongir Aliyev" oninput="renderGeneratedDoc()" class="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-1.5 text-xs text-white">
-            </div>
-            <div>
-              <label class="text-dim text-[11px] block mb-1">Pasport Seriya & Raqami:</label>
-              <input type="text" id="doc-passport" value="FA1234567" oninput="renderGeneratedDoc()" class="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-1.5 text-xs text-white">
-            </div>
-            <div>
-              <label class="text-dim text-[11px] block mb-1">Universitet:</label>
-              <input type="text" id="doc-university" value="Marmara Universiteti" oninput="renderGeneratedDoc()" class="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-1.5 text-xs text-white">
-            </div>
-            <div>
-              <label class="text-dim text-[11px] block mb-1">Fakultet / Bölüm:</label>
-              <input type="text" id="doc-major" value="Kompyuter Muhandisligi" oninput="renderGeneratedDoc()" class="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-1.5 text-xs text-white">
-            </div>
-          </div>
-        </div>
-
-        <!-- Sağ: Belge Canlı Önizleme ve İndirme -->
-        <div class="lg:col-span-7 gece-card p-6 flex flex-col justify-between">
-          <div>
-            <div class="flex justify-between items-center mb-3">
-              <span class="text-xs font-mono text-amber font-bold" id="doc-title-preview">Belge Önizlemesi</span>
-              <button type="button" class="btn btn-xs btn-outline font-mono text-cyan" onclick="copyDocumentText()">
-                <i class="fa-solid fa-copy mr-1"></i> Metni Nusxalash
-              </button>
-            </div>
-            <textarea id="doc-output-text" readonly class="w-full h-96 bg-black/80 border border-white/10 rounded-xl p-4 font-mono text-xs text-slate-200 leading-relaxed focus:outline-none resize-none"></textarea>
-          </div>
-
-          <div class="pt-4 flex gap-3">
-            <button type="button" class="btn btn-primary flex-1 py-2.5 rounded-xl font-mono text-xs flex items-center justify-center gap-2" onclick="printDocSheet()">
-              <i class="fa-solid fa-print"></i>
-              <span>Yazdır / PDF Olarak Kaydet</span>
-            </button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================================== -->
-    <!-- SECTION 11: 🤖 AI METİN & PAZARLAMA ASİSTANI -->
-    <!-- ============================================================== -->
-    <section class="gece-section" id="section-aicopilot">
-      <div class="flex items-center justify-between gap-4 mb-5 pb-2 border-b border-white/5">
-        <h2 class="text-base font-semibold text-white flex items-center gap-2">
-          <i class="fa-solid fa-wand-magic-sparkles text-emerald"></i>
-          <span>AI Metin Üretici</span>
-        </h2>
-      </div>
-
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        <div class="lg:col-span-5 space-y-4">
-          <div class="gece-card p-5 space-y-3">
-            <label class="block text-xs font-mono text-dim">1. Şablon & Kategori Seçimi:</label>
-            <div class="grid grid-cols-2 gap-1.5 font-mono text-xs">
-              <button type="button" class="btn btn-xs btn-primary text-left" onclick="selectAITopic('tibbiyot', this)">🩺 Tıp & Diş</button>
-              <button type="button" class="btn btn-xs btn-outline text-left" onclick="selectAITopic('narxlar', this)">💰 Harç & Bütçe</button>
-              <button type="button" class="btn btn-xs btn-outline text-left" onclick="selectAITopic('ish', this)">💼 20 Saat İş</button>
-              <button type="button" class="btn btn-xs btn-outline text-left" onclick="selectAITopic('viza', this)">📑 100% Vize</button>
-              <button type="button" class="btn btn-xs btn-outline text-left" onclick="selectAITopic('tomer', this)">🇹🇷 TÖMER Hazırlık</button>
-              <button type="button" class="btn btn-xs btn-outline text-left" onclick="selectAITopic('qa', this)">❓ Soru & Cevap</button>
-              <button type="button" class="btn btn-xs btn-outline text-left" onclick="selectAITopic('riddle', this)">💡 Topishmoq (Etkileşim)</button>
-              <button type="button" class="btn btn-xs btn-outline text-left" onclick="selectAITopic('custom', this)">✨ Özel Konu</button>
-            </div>
-
-            <div class="grid grid-cols-2 gap-2 pt-2 font-mono text-xs">
-              <div>
-                <label class="block text-[11px] text-dim mb-1">🌍 Dil Seçimi:</label>
-                <select id="ai-lang-select" class="w-full bg-black/60 border border-white/10 rounded-xl px-2.5 py-1.5 text-xs text-white">
-                  <option value="uz" selected>🇺🇿 O'zbekcha (Lotin)</option>
-                  <option value="kaa">🏴󠁵󠁺󠁱󠁲󠁿 Qaraqalpaqsha</option>
-                  <option value="ru">🇷🇺 Русский</option>
-                  <option value="tr">🇹🇷 Türkçe</option>
-                </select>
-              </div>
-              <div>
-                <label class="block text-[11px] text-dim mb-1">🎭 Persona / Elçi:</label>
-                <select id="ai-persona-select" class="w-full bg-black/60 border border-white/10 rounded-xl px-2.5 py-1.5 text-xs text-white">
-                  <option value="corporate" selected>🏛️ Kurumsal Arkadaş</option>
-                  <option value="mila">✨ Mila (@mila.travels)</option>
-                  <option value="madina">❤️ Madina Karimova</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="pt-2 space-y-1">
-              <label class="block text-[11px] font-mono text-dim">2. Özel Konu / Anahtar Kelime (Opsiyonel):</label>
-              <input type="text" id="ai-custom-keyword" placeholder="Örn: Sakarya IT, Hacettepe Tıp, Burslar..." class="w-full bg-black/60 border border-white/10 rounded-xl px-3 py-2 text-xs text-white font-mono placeholder:text-slate-600 focus:outline-none focus:border-emerald-500">
-            </div>
-
-            <div class="pt-2">
-              <button type="button" class="btn btn-primary w-full py-2.5 rounded-xl font-mono text-xs flex items-center justify-center gap-2" onclick="triggerAIGeneration()">
+            <div class="flex items-end">
+              <button type="button" class="btn-clean-primary w-full py-2 text-xs flex items-center justify-center gap-2" onclick="runTextGeneration()">
                 <i class="fa-solid fa-wand-magic-sparkles"></i>
-                <span>Dinamik AI ile Metni Üret</span>
+                <span>Metinleri Üret & Stoka Ekle</span>
               </button>
             </div>
           </div>
 
-          <!-- Veli İtirazları Çözücü -->
-          <div class="gece-card p-5 font-mono text-xs space-y-3">
-            <span class="text-amber font-bold block">💡 Veli İtirazlarını Çözücü (Buster):</span>
-            <div class="p-3 bg-black/40 rounded-lg border border-white/5 space-y-1">
-              <span class="text-rose font-bold">İtiraz: "Diplom O'zbekistonda o'tadimi?"</span>
-              <p class="text-slate-300 text-[11px]">Cevap: Ha! Ta'lim vazirligi nizomiga ko'ra dunyo top-1000 ligiga kirgan universitetlar to'g'ridan-to'g'ri nostrifikatsiyasiz tan olinadi.</p>
-            </div>
-            <div class="p-3 bg-black/40 rounded-lg border border-white/5 space-y-1">
-              <span class="text-rose font-bold">İtiraz: "Turkiyada yashash qimmat emasmi?"</span>
-              <p class="text-slate-300 text-[11px]">Cevap: Davlat yotoqxonasida turgan talabaga oyiga $250 yetadi. Toshkentdagi ijara narxlaridan ancha arzonroq!</p>
-            </div>
+          <div class="text-[11px] text-slate-500 font-mono flex items-center gap-2">
+            <span class="w-1.5 h-1.5 rounded-full bg-cyan"></span>
+            <span>Üretilen tüm metinler doğrudan ortak Stok Havuzuna eklenir ve Paylaşım takviminde hemen kullanılabilir hale gelir.</span>
           </div>
         </div>
 
-        <div class="lg:col-span-7 gece-card p-6 flex flex-col justify-between">
-          <div>
-            <div class="flex justify-between items-center mb-3">
-              <span class="text-xs font-mono text-emerald font-bold" id="ai-status-tag">Hazır Metin</span>
-              <span class="text-xs font-mono text-dim">Format: Telegram / Instagram</span>
-            </div>
-            <textarea id="ai-generated-output" class="w-full h-80 bg-black/80 border border-white/10 rounded-xl p-4 font-mono text-xs text-slate-200 leading-relaxed focus:outline-none resize-none"></textarea>
-          </div>
-
-          <div class="pt-4 flex gap-3 font-mono text-xs">
-            <button type="button" class="btn btn-outline text-cyan border-cyan flex-1 py-2.5 rounded-xl" onclick="copyAIText()">
-              <i class="fa-solid fa-copy mr-1"></i> Metni Kopyala
-            </button>
-            <button type="button" class="btn btn-primary flex-1 py-2.5 rounded-xl flex items-center justify-center gap-2" onclick="sendAITextToTelegram()">
-              <i class="fa-brands fa-telegram"></i>
-              <span>@arkadasuz Kanalına Paylaş</span>
-            </button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================================== -->
-    <!-- SECTION 12: 📈 YÖNETİCİ ANALİZ & BÜYÜME RAPORU -->
-    <!-- ============================================================== -->
-    <section class="gece-section" id="section-analytics">
-      <div class="flex items-center justify-between gap-4 mb-5 pb-2 border-b border-white/5">
-        <h2 class="text-base font-semibold text-white flex items-center gap-2">
-          <i class="fa-solid fa-chart-line text-purple"></i>
-          <span>Analitik & Raporlar</span>
-        </h2>
-        <button type="button" class="btn btn-outline btn-xs font-mono text-cyan" onclick="loadDeepAnalytics()">
-          🔄 Raporu Güncelle
-        </button>
-      </div>
-
-      <!-- Funnel ve Metrikler -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-6">
-        <!-- Dönüşüm Hunisi -->
-        <div class="lg:col-span-6 gece-card p-6">
-          <h3 class="text-sm font-bold text-white font-mono mb-4 flex items-center gap-2">
-            <i class="fa-solid fa-filter text-cyan"></i>
-            <span>Uçtan Uca Aday Dönüşüm Hunisi</span>
-          </h3>
-          <div class="space-y-3" id="analytics-funnel-container">
-            <!-- JS ile doldurulacak -->
-          </div>
-        </div>
-
-        <!-- En Çok Talep Gören Bölümler -->
-        <div class="lg:col-span-6 gece-card p-6">
-          <h3 class="text-sm font-bold text-white font-mono mb-4 flex items-center gap-2">
-            <i class="fa-solid fa-chart-column text-amber"></i>
-            <span>En Çok Talep Gören Bölümler & İlgiler</span>
-          </h3>
-          <div class="space-y-3" id="analytics-majors-container">
-            <!-- JS ile doldurulacak -->
-          </div>
-        </div>
-      </div>
-
-      <!-- 3 Stratejik Büyüme Tavsiyesi -->
-      <div class="gece-card p-6">
-        <h3 class="text-sm font-bold text-white font-mono mb-3 flex items-center gap-2">
-          <i class="fa-solid fa-lightbulb text-amber"></i>
-          <span>Yapay Zeka Destekli Stratejik Büyüme Önerileri</span>
-        </h3>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 font-mono text-xs">
-          <div class="p-4 rounded-xl bg-blue-950/20 border border-blue-500/20 space-y-1">
-            <span class="text-cyan font-bold block">1. 19:30 Prime Slotuna Yüklenin</span>
-            <p class="text-slate-400 text-[11px]">Özbekistan saatine göre abituriyentlerin ve velilerin YouTube ve Telegram'da en aktif olduğu aralık 19:30 - 21:00 arasıdır.</p>
-          </div>
-          <div class="p-4 rounded-xl bg-purple-950/20 border border-purple-500/20 space-y-1">
-            <span class="text-purple font-bold block">2. Tıp İçeriği Dönüşümü 3x Artırıyor</span>
-            <p class="text-slate-400 text-[11px]">Gelen başvuruların %42'si tıp ve diş hekimliği odaklı. Sınavsız kabul kancasını bu hafta 4 videoda daha kullanın.</p>
-          </div>
-          <div class="p-4 rounded-xl bg-emerald-950/20 border border-emerald-500/20 space-y-1">
-            <span class="text-emerald font-bold block">3. Veli Güven Belgesi Paylaşımı</span>
-            <p class="text-slate-400 text-[11px]">Kabul mektubu (Kabul Mektubu) alan öğrencilerin başarı görsellerini haftada en az 2 kez @arkadasuz kanalına atın.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================================== -->
-
-    <!-- ============================================================== -->
-    <!-- SECTION 14: 🎙️ SESLENDİRME & AI AUDIO STUDIO (30 ÖZELLİK) -->
-    <!-- ============================================================== -->
-    <section class="gece-section" id="section-audiostudio">
-      <div class="flex items-center justify-between gap-4 mb-5 pb-2 border-b border-white/5">
-        <h2 class="text-base font-semibold text-white flex items-center gap-2">
-          <i class="fa-solid fa-microphone-lines text-purple"></i>
-          <span>Seslendirme</span>
-        </h2>
-        <div class="flex gap-2">
-          <button type="button" class="btn btn-outline btn-xs font-mono text-purple border-purple" onclick="testAudioVoice()">
-            <i class="fa-solid fa-volume-high mr-1"></i> Sesi Dinle
-          </button>
-        </div>
-      </div>
-
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        <!-- Sol: Ses ve Metin Editörü -->
-        <div class="lg:col-span-6 space-y-4">
-          <div class="gece-card p-5 space-y-3">
-            <label class="block text-xs font-mono text-dim">1. Seslendirmen Seçimi:</label>
-            <div class="grid grid-cols-2 gap-2" id="audio-voices-container">
-              <!-- JS ile doldurulacak -->
-            </div>
-          </div>
-
-          <div class="gece-card p-5 space-y-3 font-mono text-xs">
-            <div class="flex justify-between items-center">
-              <label class="text-dim">2. Seslendirme Metni:</label>
-              <span class="text-[11px] text-cyan" id="audio-word-count">0 kelime / ~0 sn</span>
-            </div>
-            <textarea id="audio-script-input" rows="5" oninput="updateAudioStats()" class="w-full bg-black/60 border border-white/10 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-purple leading-relaxed" placeholder="Seslendirilecek metni buraya yazın veya yapıştırın...">Salom! Turkiyada ta'lim olish orzuingizmi? Davlat universitetlariga imtihonsiz, faqat attestat bahosi bilan qabul boshlandi! Yillik kontrakt bor-yo'g'i 600 dollar. Batafsil ma'lumot kanalimizda: @arkadasuz</textarea>
-            
-            <div class="grid grid-cols-2 gap-3 pt-2">
-              <div>
-                <label class="text-dim text-[11px] block mb-1">Okuma Hızı:</label>
-                <select id="audio-speed-select" class="w-full bg-black/60 border border-white/10 rounded-lg px-2 py-1.5 text-xs text-white">
-                  <option value="0.9">0.9x (Ağır & Net)</option>
-                  <option value="1.0" selected>1.0x (Doğal Normal)</option>
-                  <option value="1.15">1.15x (Reels / TikTok Dinamik)</option>
-                  <option value="1.3">1.3x (Hızlı Shorts)</option>
-                </select>
-              </div>
-              <div>
-                <label class="text-dim text-[11px] block mb-1">Duygu / Ton:</label>
-                <select id="audio-mood-select" class="w-full bg-black/60 border border-white/10 rounded-lg px-2 py-1.5 text-xs text-white">
-                  <option value="viral">🔥 Enerjik / Viral Kanca</option>
-                  <option value="info">💡 Bilgilendirici / Güvenilir</option>
-                  <option value="urgent">⚡ Acil / Son Kontenjan</option>
-                </select>
-              </div>
-            </div>
-
-            <button type="button" class="btn btn-primary w-full py-2.5 rounded-xl flex items-center justify-center gap-2 mt-3" onclick="generateSpeechAudio()">
-              <i class="fa-solid fa-wand-magic-sparkles"></i>
-              <span>Neural AI ile Seslendir (Edge-TTS)</span>
-            </button>
-
-            <!-- Canlı Neural MP3 Oynatıcı & İndirme Kartı -->
-            <div id="audio-result-box" class="hidden p-3.5 rounded-xl bg-black/80 border border-purple-500/30 space-y-2 mt-3">
-              <div class="flex items-center justify-between">
-                <span class="text-xs text-purple-300 font-mono font-bold flex items-center gap-1.5">
-                  <span class="pulse-dot"></span>
-                  <span id="neural-voice-badge">Neural MP3 Hazır</span>
-                </span>
-                <a id="btn-download-mp3" href="#" download="seslendirme.mp3" class="btn btn-xs btn-outline font-mono text-emerald border-emerald flex items-center gap-1">
-                  <i class="fa-solid fa-download"></i>
-                  <span>MP3 İndir</span>
-                </a>
-              </div>
-              <audio id="neural-audio-player" controls class="w-full h-8 rounded-lg outline-none"></audio>
-            </div>
-          </div>
-        </div>
-
-        <!-- Sağ: Müzik Karıştırıcı ve Altyazı -->
-        <div class="lg:col-span-6 space-y-4">
-          <div class="gece-card p-5 space-y-3 font-mono text-xs">
-            <h4 class="font-bold text-white flex items-center gap-2">
-              <i class="fa-solid fa-music text-cyan"></i>
-              <span>3. Fon Müziği Karıştırıcı (Audio Ducking)</span>
-            </h4>
-            <div class="space-y-2" id="audio-tracks-container">
-              <!-- JS ile doldurulacak -->
-            </div>
-          </div>
-
-          <div class="gece-card p-5 space-y-3 font-mono text-xs">
-            <div class="flex justify-between items-center">
-              <h4 class="font-bold text-white">4. Otomatik .SRT Altyazı Çıktısı</h4>
-              <button type="button" class="btn btn-outline btn-xs text-cyan" onclick="copySrtSubtitles()">
-                Altyazıyı Kopyala
-              </button>
-            </div>
-            <textarea id="audio-srt-output" rows="6" readonly class="w-full bg-black/80 border border-white/10 rounded-xl p-3 text-[11px] text-slate-300 font-mono focus:outline-none"></textarea>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================================== -->
-    <!-- SECTION 15: 📊 TR-YÖS, SAT & TÖMER SINAV SİMÜLATÖRÜ (30 ÖZELLİK) -->
-    <!-- ============================================================== -->
-    <section class="gece-section" id="section-examprep">
-      <div class="flex items-center justify-between gap-4 mb-5 pb-2 border-b border-white/5">
-        <h2 class="text-base font-semibold text-white flex items-center gap-2">
-          <i class="fa-solid fa-book-open-reader text-amber"></i>
-          <span>Sınav Hazırlık</span>
-        </h2>
-        <div class="flex gap-2 font-mono text-xs">
-          <button type="button" class="btn btn-xs btn-primary" onclick="switchExamTab('tryos')">TR-YÖS Sınavı</button>
-          <button type="button" class="btn btn-xs btn-outline text-cyan" onclick="switchExamTab('tomer')">TÖMER Seviye</button>
-          <button type="button" class="btn btn-xs btn-outline text-emerald" onclick="switchExamTab('sat')">SAT Tablosu</button>
-        </div>
-      </div>
-
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        <!-- Sol: Soru Simülatörü -->
-        <div class="lg:col-span-7 gece-card p-6 space-y-4">
-          <div class="flex justify-between items-center border-b border-white/10 pb-2">
-            <span class="text-xs font-mono text-cyan" id="quiz-question-counter">Soru 1 / 5</span>
-            <span class="tag tag-amber text-[10px]" id="quiz-topic-tag">Matematik</span>
-          </div>
-
-          <div class="text-sm font-bold text-white font-sans leading-relaxed" id="quiz-question-text">
-            Yükleniyor...
-          </div>
-
-          <div class="space-y-2 pt-2" id="quiz-options-container">
-            <!-- JS ile doldurulacak -->
-          </div>
-
-          <div id="quiz-solution-box" class="p-4 bg-black/60 rounded-xl border border-white/10 font-mono text-xs text-slate-300 hidden">
-            <span class="text-emerald font-bold block mb-1">Çözüm ve Açıklama:</span>
-            <p id="quiz-explanation-text"></p>
-          </div>
-
-          <div class="flex justify-between items-center pt-2">
-            <button type="button" class="btn btn-outline text-slate-300 btn-xs" onclick="prevQuizQuestion()">← Önceki</button>
-            <button type="button" class="btn btn-primary btn-xs" onclick="nextQuizQuestion()">Sonraki Soru →</button>
-          </div>
-        </div>
-
-        <!-- Sağ: SAT Dönüştürücü ve Sınav Takvimi -->
-        <div class="lg:col-span-5 space-y-4">
-          <div class="gece-card p-5 space-y-3 font-mono text-xs">
-            <h4 class="font-bold text-white text-sm">📅 2026 Resmi Sınav Takvimi</h4>
-            <div class="space-y-2.5" id="exam-calendar-container">
-              <!-- JS ile doldurulacak -->
-            </div>
-          </div>
-
-          <div class="gece-card p-5 space-y-3 font-mono text-xs">
-            <h4 class="font-bold text-white text-sm">🎯 SAT - TR-YÖS Puan Eşdeğerliği</h4>
-            <div class="space-y-2 text-[11px]" id="sat-conversion-container">
-              <!-- JS ile doldurulacak -->
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================================== -->
-    <!-- SECTION 16: 🏢 YURT & BARINMA BULUCU (30 ÖZELLİK) -->
-    <!-- ============================================================== -->
-    <section class="gece-section" id="section-dormitories">
-      <div class="flex items-center justify-between gap-4 mb-5 pb-2 border-b border-white/5">
-        <h2 class="text-base font-semibold text-white flex items-center gap-2">
-          <i class="fa-solid fa-bed text-cyan"></i>
-          <span>Yurtlar & Konaklama</span>
-        </h2>
-        <div class="flex gap-2">
-          <select id="dorm-city-filter" onchange="renderDormitories()" class="bg-black/60 border border-white/10 rounded-lg px-3 py-1.5 text-xs text-white font-mono">
-            <option value="all">Tüm Şehirler</option>
-            <option value="Istanbul">İstanbul</option>
-            <option value="Ankara">Ankara</option>
-            <option value="Sakarya">Sakarya</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" id="dormitories-cards-container">
-        <!-- JS ile doldurulacak -->
-      </div>
-    </section>
-
-    <!-- ============================================================== -->
-    <!-- SECTION 17: 💬 HIZLI YANIT & WHATSAPP BOT (30 ÖZELLİK) -->
-    <!-- ============================================================== -->
-    <section class="gece-section" id="section-quickreplies">
-      <div class="flex items-center justify-between gap-4 mb-5 pb-2 border-b border-white/5">
-        <h2 class="text-base font-semibold text-white flex items-center gap-2">
-          <i class="fa-brands fa-whatsapp text-emerald"></i>
-          <span>Hızlı Yanıtlar</span>
-        </h2>
-      </div>
-
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        <!-- Sol: Değişken Tanımlayıcı -->
-        <div class="lg:col-span-4 gece-card p-5 space-y-3 font-mono text-xs">
-          <h4 class="font-bold text-white border-b border-white/10 pb-2">Dinamik Değişkenler:</h4>
-          <div>
-            <label class="text-dim text-[11px] block mb-1">Aday Adı:</label>
-            <input type="text" id="qr-var-name" value="Azamat" oninput="renderQuickReplies()" class="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-1.5 text-white">
-          </div>
-          <div>
-            <label class="text-dim text-[11px] block mb-1">Aday Telefonu (WhatsApp):</label>
-            <input type="text" id="qr-var-phone" value="+998901234567" class="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-1.5 text-white">
-          </div>
-          <div class="p-3 bg-emerald-950/20 border border-emerald-500/20 rounded-xl text-slate-300 text-[11px] leading-relaxed">
-            Metinlerdeki <code>{student_name}</code> etiketi otomatik olarak bu isimle değiştirilir ve tek tıkla doğrudan WhatsApp chat penceresi açılır.
-          </div>
-        </div>
-
-        <!-- Sağ: Hazır Cevap Kartları -->
-        <div class="lg:col-span-8 space-y-3" id="quick-replies-container">
+        <!-- Üretilen Metinler Çıktı Alanı -->
+        <div id="prod-text-output-container" class="space-y-3">
           <!-- JS ile doldurulacak -->
         </div>
       </div>
-    </section>
 
-    <!-- ============================================================== -->
-    <!-- SECTION 18: ⚖️ DENKLİK & NOSTRİFİKASYON REHBERİ (30 ÖZELLİK) -->
-    <!-- ============================================================== -->
-    <section class="gece-section" id="section-denklik">
-      <div class="flex items-center justify-between gap-4 mb-5 pb-2 border-b border-white/5">
-        <h2 class="text-base font-semibold text-white flex items-center gap-2">
-          <i class="fa-solid fa-stamp text-amber"></i>
-          <span>Denklik Kılavuzu</span>
-        </h2>
-      </div>
-
-      <!-- Bakanlık Kararı Notu -->
-      <div class="gece-card p-5 mb-6 border-l-4 border-amber-500 font-mono text-xs text-slate-200 leading-relaxed" id="denklik-reg-box">
-        Yükleniyor...
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6" id="denklik-top-unis-container">
-        <!-- JS ile doldurulacak -->
-      </div>
-
-      <!-- Denklik 4 Adım -->
-      <div class="gece-card p-6">
-        <h3 class="font-bold text-sm text-white font-mono mb-3">e-Denklik Başvuru ve Tasdik Protokolü:</h3>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 font-mono text-xs" id="denklik-steps-container">
-          <!-- JS ile doldurulacak -->
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================================== -->
-    <!-- SECTION 19: ✈️ VIP KARŞILAMA & ORYANTASYON (30 ÖZELLİK) -->
-    <!-- ============================================================== -->
-    <section class="gece-section" id="section-airport">
-      <div class="flex items-center justify-between gap-4 mb-5 pb-2 border-b border-white/5">
-        <h2 class="text-base font-semibold text-white flex items-center gap-2">
-          <i class="fa-solid fa-plane-arrival text-rose"></i>
-          <span>Havalimanı Karşılama</span>
-        </h2>
-      </div>
-
-      <!-- Uçuş Takip Tablosu -->
-      <div class="gece-card rounded-2xl overflow-hidden mb-6">
-        <div class="p-4 border-b border-white/10 font-mono text-xs font-bold text-white flex items-center gap-2">
-          <i class="fa-solid fa-clock text-cyan"></i>
-          <span>Beklenen Öğrenci Uçuşları (Taşkent ➔ İstanbul)</span>
-        </div>
-        <div class="overflow-x-auto">
-          <table class="w-full text-left text-xs font-mono">
-            <thead class="bg-black/60 text-slate-400">
-              <tr>
-                <th class="py-3 px-4">Öğrenci</th>
-                <th class="py-3 px-4">Uçuş Kodu</th>
-                <th class="py-3 px-4">Havalimanı</th>
-                <th class="py-3 px-4">İniş Saati (ETA)</th>
-                <th class="py-3 px-4">Görevli Kuratör</th>
-                <th class="py-3 px-4">Durum</th>
-                <th class="py-3 px-4 text-right">Karşılama Levhası</th>
-              </tr>
-            </thead>
-            <tbody id="airport-flights-tbody" class="divide-y divide-white/5 text-slate-300">
-              <!-- JS ile doldurulacak -->
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- 7 Günlük Oryantasyon Planı -->
-      <div class="section-title-wrap mb-4">
-        <h3 class="font-bold text-sm text-white font-mono">🗓️ 7 Günlük Eksiksiz Oryantasyon ve Yerleşim Programı</h3>
-      </div>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4" id="orientation-schedule-container">
-        <!-- JS ile doldurulacak -->
-      </div>
-    </section>
-
-    <!-- ============================================================== -->
-    <!-- SECTION 20: 🎯 RAKİP ANALİZİ & 10 USP (25 ÖZELLİK) -->
-    <!-- ============================================================== -->
-    <section class="gece-section" id="section-competitor">
-      <div class="flex items-center justify-between gap-4 mb-5 pb-2 border-b border-white/5">
-        <h2 class="text-base font-semibold text-white flex items-center gap-2">
-          <i class="fa-solid fa-shield-halved text-cyan"></i>
-          <span>Rakip Analizi</span>
-        </h2>
-      </div>
-
-      <!-- Karşılaştırma Tablosu -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-6">
-        <div class="lg:col-span-5 gece-card p-6 space-y-4">
-          <h3 class="font-bold text-sm text-white font-mono border-b border-white/10 pb-2">Piyasa Fiyat ve Hizmet Kıyaslaması:</h3>
-          <div class="space-y-3 font-mono text-xs">
-            <div class="flex justify-between p-3 bg-black/40 rounded-xl">
-              <span class="text-slate-400">Piyasa Ortalama Hizmet Ücreti:</span>
-              <span class="text-rose font-bold" id="comp-market-fee">$850</span>
-            </div>
-            <div class="flex justify-between p-3 bg-emerald-950/30 border border-emerald-500/20 rounded-xl">
-              <span class="text-emerald font-bold">Arkadaş Consulting Ücreti:</span>
-              <span class="text-emerald font-extrabold" id="comp-arkadas-fee">$450 (Şeffaf)</span>
-            </div>
-            <div class="flex justify-between p-3 bg-black/40 rounded-xl">
-              <span class="text-slate-400">Piyasa Vize Başarı Oranı:</span>
-              <span class="text-slate-300 font-bold" id="comp-market-visa">78%</span>
-            </div>
-            <div class="flex justify-between p-3 bg-emerald-950/30 border border-emerald-500/20 rounded-xl">
-              <span class="text-emerald font-bold">Arkadaş Vize Başarı Oranı:</span>
-              <span class="text-emerald font-extrabold" id="comp-arkadas-visa">99.2% (Garantili)</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="lg:col-span-7 gece-card p-6">
-          <h3 class="font-bold text-sm text-white font-mono mb-3 text-cyan">🏆 Neden Arkadaş Consulting? 10 Güçlü Argüman:</h3>
-          <div class="space-y-2 font-mono text-xs text-slate-200" id="comp-usps-container">
-            <!-- JS ile doldurulacak -->
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================================== -->
-    <!-- SECTION 21: 👥 DANIŞMAN PRİMLERİ & HEDEF MOTORU (25 ÖZELLİK) -->
-    <!-- ============================================================== -->
-    <section class="gece-section" id="section-counselors">
-      <div class="flex items-center justify-between gap-4 mb-5 pb-2 border-b border-white/5">
-        <h2 class="text-base font-semibold text-white flex items-center gap-2">
-          <i class="fa-solid fa-sack-dollar text-purple"></i>
-          <span>Danışman Primleri</span>
-        </h2>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6" id="counselors-cards-container">
-        <!-- JS ile doldurulacak -->
-      </div>
-
-      <!-- Prim Simülatörü -->
-      <div class="gece-card p-6">
-        <h3 class="font-bold text-sm text-white font-mono mb-4 flex items-center gap-2">
-          <i class="fa-solid fa-calculator text-emerald"></i>
-          <span>Danışman Aylık Prim Kazancı Hesaplayıcı</span>
-        </h3>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center font-mono text-xs">
-          <div>
-            <label class="text-dim block mb-1">Aylık Kayıt Edilen Öğrenci Sayısı:</label>
-            <input type="range" id="sim-student-slider" min="1" max="40" value="15" oninput="updateCommissionSim()" class="w-full accent-emerald">
-            <div class="text-right text-white font-bold text-sm mt-1" id="sim-student-count">15 Öğrenci</div>
-          </div>
-          <div class="p-4 bg-black/40 rounded-xl text-center">
-            <span class="text-dim block mb-1">Öğrenci Başı Prim:</span>
-            <div class="text-xl font-bold text-cyan">$150 / Kayıt</div>
-          </div>
-          <div class="p-4 bg-emerald-950/30 border border-emerald-500/20 rounded-xl text-center">
-            <span class="text-emerald font-bold block mb-1">Toplam Aylık Danışman Kazancı:</span>
-            <div class="text-3xl font-extrabold text-emerald" id="sim-total-commission">$2,250</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================================== -->
-    <!-- SECTION 22: 🛡️ VİZE RET SAVUNMASI & HUKUKİ KORUMA (30 ÖZELLİK) -->
-    <!-- ============================================================== -->
-    <section class="gece-section" id="section-visadefense">
-      <div class="flex items-center justify-between gap-4 mb-5 pb-2 border-b border-white/5">
-        <h2 class="text-base font-semibold text-white flex items-center gap-2">
-          <i class="fa-solid fa-passport text-rose"></i>
-          <span>Vize İtiraz Dosyası</span>
-        </h2>
-      </div>
-
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-6">
-        <!-- Ret Nedenleri ve Önlemler -->
-        <div class="lg:col-span-6 space-y-3" id="visa-causes-container">
-          <!-- JS ile doldurulacak -->
-        </div>
-
-        <!-- İtiraz Dilekçesi Şablonu -->
-        <div class="lg:col-span-6 gece-card p-6 flex flex-col justify-between">
-          <div>
-            <div class="flex justify-between items-center mb-3">
-              <span class="text-xs font-mono text-rose font-bold">Resmi Vize İtiraz Dilekçesi (Appeal Petition)</span>
-              <button type="button" class="btn btn-xs btn-outline text-cyan" onclick="copyAppealText()">
-                <i class="fa-solid fa-copy mr-1"></i> Dilekçeyi Kopyala
-              </button>
-            </div>
-            <textarea id="visa-appeal-output" rows="12" readonly class="w-full bg-black/80 border border-white/10 rounded-xl p-3 text-xs text-slate-200 font-mono leading-relaxed focus:outline-none"></textarea>
-          </div>
-          <div class="pt-4">
-            <button type="button" class="btn btn-primary w-full py-2.5 rounded-xl font-mono text-xs" onclick="printAppealSheet()">
-              <i class="fa-solid fa-print mr-1"></i> Yazdır / Elçilik Dosyasına Ekle
-            </button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================================== -->
-
-    <!-- ============================================================== -->
-    <!-- SECTION 24: 📘 FACEBOOK & META ADS COMMAND HUB -->
-    <!-- ============================================================== -->
-    <section class="gece-section" id="section-facebookhub">
-      <div class="flex items-center justify-between gap-4 mb-5 pb-2 border-b border-white/5">
-        <h2 class="text-base font-semibold text-white flex items-center gap-2">
-          <i class="fa-brands fa-facebook text-blue-500"></i>
-          <span>Facebook Reklamları</span>
-        </h2>
-      </div>
-
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-6">
-        <!-- Reklam Metinleri -->
-        <div class="lg:col-span-7 space-y-4" id="fb-campaigns-container">
-          <!-- JS ile doldurulacak -->
-        </div>
-
-        <!-- Hedef Kitle Kurgusu ve Topluluk -->
-        <div class="lg:col-span-5 space-y-4">
-          <div class="gece-card p-5 space-y-3 font-mono text-xs">
-            <h4 class="font-bold text-white text-sm flex items-center gap-2">
-              <i class="fa-solid fa-crosshairs text-cyan"></i>
-              <span>Meta Ads Hedef Kitle (Audience Persona)</span>
-            </h4>
-            <div class="space-y-2.5" id="fb-audiences-container">
-              <!-- JS ile doldurulacak -->
-            </div>
+      <!-- 1.2 VİDEO ÜRETİMİ -->
+      <div id="subview-prod-video" class="space-y-5 hidden">
+        <div class="gece-card p-6">
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="text-sm font-semibold text-white flex items-center gap-2">
+              <i class="fa-solid fa-video text-purple"></i>
+              <span>Dikey Video Stüdyosu (Reels & Shorts)</span>
+            </h2>
+            <span class="text-xs text-slate-400">3 Farklı Video Formatı</span>
           </div>
 
-          <div class="gece-card p-5 space-y-3 font-mono text-xs">
-            <h4 class="font-bold text-white text-sm flex items-center gap-2">
-              <i class="fa-solid fa-users text-amber"></i>
-              <span>Facebook Topluluk & Grup Paylaşımları</span>
-            </h4>
-            <div class="space-y-2" id="fb-community-container">
-              <!-- JS ile doldurulacak -->
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================================== -->
-    <!-- SECTION 25: 💬 WHATSAPP BUSINESS SUPER-CENTER -->
-    <!-- ============================================================== -->
-    <section class="gece-section" id="section-whatsapphub">
-      <div class="flex items-center justify-between gap-4 mb-5 pb-2 border-b border-white/5">
-        <h2 class="text-base font-semibold text-white flex items-center gap-2">
-          <i class="fa-brands fa-whatsapp text-emerald"></i>
-          <span>WhatsApp Sohbetleri</span>
-        </h2>
-      </div>
-
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-6">
-        <!-- WhatsApp Katalog Kartları -->
-        <div class="lg:col-span-8 space-y-4">
-          <h3 class="font-bold text-sm text-white font-mono">📦 WhatsApp Ürün / Paket Kataloğu:</h3>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" id="wa-catalog-container">
-            <!-- JS ile doldurulacak -->
-          </div>
-        </div>
-
-        <!-- QR Kod ve Buton Simülatörü -->
-        <div class="lg:col-span-4 space-y-4">
-          <div class="gece-card p-5 text-center space-y-3 font-mono text-xs">
-            <h4 class="font-bold text-white">📲 WhatsApp Doğrudan Sohbet QR Kodu</h4>
-            <div class="w-44 h-44 mx-auto bg-white p-2 rounded-2xl flex items-center justify-center shadow-lg">
-              <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https://wa.me/905340000000?text=Assalomu%20alaykum!%20Turkiyada%20talim%20haqida%20malumot%20olmoqchiman." alt="WhatsApp QR" class="w-full h-full">
-            </div>
-            <p class="text-slate-400 text-[11px]">Adaylar veya veliler telefon kamerasıyla taratarak doğrudan sohbete başlar.</p>
-          </div>
-
-          <div class="gece-card p-5 space-y-2 font-mono text-xs">
-            <h4 class="font-bold text-white">🤖 Otomatik Karşılama Mesajı:</h4>
-            <div class="p-3 bg-black/40 rounded-xl border border-white/5 text-slate-300 text-[11px] leading-relaxed" id="wa-welcome-text">
-              Yükleniyor...
-            </div>
-          </div>
-
-          <!-- 1-Click Doğrudan Mesaj Gönderici -->
-          <div class="gece-card p-5 space-y-3 font-mono text-xs border border-emerald-500/20">
-            <h4 class="font-bold text-emerald flex items-center gap-2">
-              <i class="fa-solid fa-paper-plane"></i>
-              <span>1-Tıkla Öğrenciye WhatsApp Gönder</span>
-            </h4>
+          <!-- Video Seçenekleri Barı -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
             <div>
-              <label class="text-dim text-[11px] block mb-1">Öğrenci Telefon No:</label>
-              <input type="text" id="wa-direct-phone" placeholder="+998901234567" class="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-2 text-white">
-            </div>
-            <div>
-              <label class="text-dim text-[11px] block mb-1">Öğrenci Adı:</label>
-              <input type="text" id="wa-direct-name" placeholder="Örn: Azizbek" class="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-2 text-white">
-            </div>
-            <div>
-              <label class="text-dim text-[11px] block mb-1">Teklif Paketi:</label>
-              <select id="wa-direct-package" class="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-2 text-white text-xs">
-                <option value="asosiy">Asosiy Paket ($500)</option>
-                <option value="orta" selected>O'rta VIP Paket ($800)</option>
-                <option value="katta">Katta Paket ($1100)</option>
-                <option value="burs">Türkiye Bursları Davlat Granti</option>
+              <label class="text-[11px] text-slate-400 block mb-1">Video Türü:</label>
+              <select id="prod-video-type" class="w-full bg-black/60 border border-white/10 rounded-xl px-3 py-2 text-xs text-white outline-none">
+                <option value="landscape_broll" selected>🌊 1. Manzaralı & Yazılı Video (B-Roll)</option>
+                <option value="avatar_talking">👩 2. Yüzlü / Danışman Video (Mila / Madina)</option>
+                <option value="trendy_music">🎵 3. Şarkılı & Trend Müzikli Video</option>
               </select>
             </div>
-            <button type="button" class="btn btn-primary w-full py-2.5 rounded-xl text-xs flex items-center justify-center gap-2" onclick="sendDirectWhatsApp()">
-              <i class="fa-brands fa-whatsapp text-slate-950 font-bold"></i>
-              <span>WhatsApp'ta Aç (wa.me)</span>
-            </button>
+
+            <div>
+              <label class="text-[11px] text-slate-400 block mb-1">Üretim Adedi:</label>
+              <select id="prod-video-count" class="w-full bg-black/60 border border-white/10 rounded-xl px-3 py-2 text-xs text-white outline-none font-mono">
+                <option value="1">1 Video (Tekil)</option>
+                <option value="3" selected>3 Video (Haftalık Seri)</option>
+                <option value="5">5 Video (Toplu Dağıtım)</option>
+              </select>
+            </div>
+
+            <div class="flex items-end">
+              <button type="button" class="btn-clean-primary w-full py-2 text-xs flex items-center justify-center gap-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white" onclick="runVideoGeneration()">
+                <i class="fa-solid fa-clapperboard"></i>
+                <span>Videoları Üret & Stoka Ekle</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- 3 Format Bilgi Kartları -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs font-mono">
+            <div class="p-3 bg-black/40 rounded-xl border border-white/5">
+              <div class="text-purple font-bold mb-1">🌊 Manzaralı / B-Roll</div>
+              <div class="text-slate-400 text-[11px]">Boğaz, tramvay, kampüs ve İstanbul sinematik çekimleri üzerine dinamik yazı kancaları.</div>
+            </div>
+            <div class="p-3 bg-black/40 rounded-xl border border-white/5">
+              <div class="text-cyan font-bold mb-1">👩 Yüzlü / Avatar</div>
+              <div class="text-slate-400 text-[11px]">Mila (Özbekçe) ve Madina (Türkçe) birebir konuşarak maliyet ve kayıt süreçlerini açıklar.</div>
+            </div>
+            <div class="p-3 bg-black/40 rounded-xl border border-white/5">
+              <div class="text-emerald font-bold mb-1">🎵 Şarkılı / Trend</div>
+              <div class="text-slate-400 text-[11px]">Gençlere hitap eden ritmik müzikler, hızlı kesitler ve soru-cevap formatı.</div>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
 
-    <!-- ============================================================== -->
-    <!-- SECTION 26: 📸 INSTAGRAM CREATOR STUDIO & CAROUSEL BUILDER -->
-    <!-- ============================================================== -->
-    <section class="gece-section" id="section-instagramhub">
-      <div class="flex items-center justify-between gap-4 mb-5 pb-2 border-b border-white/5">
-        <h2 class="text-base font-semibold text-white flex items-center gap-2">
-          <i class="fa-brands fa-instagram text-pink-500"></i>
-          <span>Instagram Gönderileri</span>
-        </h2>
+        <!-- Üretilen Videolar Çıktı Listesi -->
+        <div id="prod-video-output-container" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <!-- JS ile doldurulacak -->
+        </div>
       </div>
 
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-6">
-        <!-- 10 Slaytlık Carousel Mimarı -->
-        <div class="lg:col-span-8 gece-card p-6 space-y-4">
-          <div class="flex justify-between items-center border-b border-white/10 pb-2">
-            <h3 class="font-bold text-sm text-white font-mono">📑 10-Slaytlık Viral Carousel Akışı:</h3>
-            <button type="button" class="btn btn-outline btn-xs font-mono text-pink-400" onclick="copyAllCarouselSlides()">
-              Tüm Slaytları Kopyala
-            </button>
+      <!-- 1.3 FOTOĞRAF / GÖRSEL ÜRETİMİ -->
+      <div id="subview-prod-image" class="space-y-5 hidden">
+        <div class="gece-card p-6">
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="text-sm font-semibold text-white flex items-center gap-2">
+              <i class="fa-solid fa-palette text-emerald"></i>
+              <span>Fotoğraf & Görsel Afiş Stüdyosu</span>
+            </h2>
+            <span class="text-xs text-slate-400">Belirlenen 4 Kurumsal Tarz</span>
           </div>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="insta-carousel-container">
+
+          <!-- Görsel Seçenekleri -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
+            <div>
+              <label class="text-[11px] text-slate-400 block mb-1">Görsel Tarzı:</label>
+              <select id="prod-image-style" class="w-full bg-black/60 border border-white/10 rounded-xl px-3 py-2 text-xs text-white outline-none">
+                <option value="qa_quiz" selected>❓ 1. Soru-Cevap / Quiz Kartı</option>
+                <option value="riddle">🔍 2. Bilmece / İpuçlu Tasarım</option>
+                <option value="checklist">📋 3. Kontrol Listesi / Checklist</option>
+                <option value="modern_ad">📣 4. Modern Reklam / Banner</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="text-[11px] text-slate-400 block mb-1">Üretim Seçeneği:</label>
+              <select id="prod-image-count" class="w-full bg-black/60 border border-white/10 rounded-xl px-3 py-2 text-xs text-white outline-none font-mono">
+                <option value="1">1 Adet (Tekil Görsel)</option>
+                <option value="4" selected>4 Tarz Paketi (Her Tarzdan 1'er Adet)</option>
+                <option value="8">8 Adet (Toplu Seri)</option>
+              </select>
+            </div>
+
+            <div class="flex items-end">
+              <button type="button" class="btn-clean-primary w-full py-2 text-xs flex items-center justify-center gap-2 bg-gradient-to-r from-emerald-500 to-teal-500 text-slate-950 font-bold" onclick="runImageGeneration()">
+                <i class="fa-solid fa-paintbrush"></i>
+                <span>Görselleri Çiz & Stoka Ekle</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- 4 Tarz Kartları -->
+          <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 text-xs font-mono">
+            <div class="p-3 bg-black/40 rounded-xl border border-white/5">
+              <div class="text-cyan font-bold mb-1">❓ 1. Soru-Cevap</div>
+              <div class="text-slate-400 text-[11px]">Tıp mı Mühendislik mi? Hangi bölüm daha avantajlı?</div>
+            </div>
+            <div class="p-3 bg-black/40 rounded-xl border border-white/5">
+              <div class="text-purple font-bold mb-1">🔍 2. Bilmece</div>
+              <div class="text-slate-400 text-[11px]">3 İpucu ile üniversiteyi tahmin edin (Semerkant / İstanbul).</div>
+            </div>
+            <div class="p-3 bg-black/40 rounded-xl border border-white/5">
+              <div class="text-amber font-bold mb-1">📋 3. Checklist</div>
+              <div class="text-slate-400 text-[11px]">Vize ve kayıt için gereken 5 altın evrak listesi.</div>
+            </div>
+            <div class="p-3 bg-black/40 rounded-xl border border-white/5">
+              <div class="text-emerald font-bold mb-1">📣 4. Modern Reklam</div>
+              <div class="text-slate-400 text-[11px]">Erken kayıt, burs garantisi ve resmi MChJ sözleşmesi.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Üretilen Görseller Çıktı Listesi -->
+        <div id="prod-image-output-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <!-- JS ile doldurulacak -->
+        </div>
+      </div>
+
+      <!-- 1.4 STOK HAVUZU (ENVANTER) -->
+      <div id="subview-prod-stock" class="space-y-5 hidden">
+        <div class="gece-card p-6">
+          <div class="flex flex-wrap items-center justify-between gap-4 mb-4 pb-3 border-b border-white/5">
+            <div>
+              <h2 class="text-sm font-semibold text-white flex items-center gap-2">
+                <i class="fa-solid fa-boxes-stacked text-amber"></i>
+                <span>Hazır İçerik Stok Havuzu</span>
+              </h2>
+              <p class="text-xs text-slate-400 mt-0.5">Üretilen tüm metin, video ve görseller burada depolanır ve Paylaşım takvimine otomatik dağıtılır.</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <button type="button" class="btn-clean-secondary px-3 py-1.5 text-xs flex items-center gap-1.5" onclick="loadStockItemsUI()">
+                <i class="fa-solid fa-rotate text-[11px]"></i>
+                <span>Yenile</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Filtreleme Butonları -->
+          <div class="flex items-center gap-2 mb-4 font-mono text-xs">
+            <button type="button" class="stock-filter-btn active sub-pill-btn" onclick="filterStockView('all')">Tümü</button>
+            <button type="button" class="stock-filter-btn sub-pill-btn" onclick="filterStockView('texts')">Metinler (<span id="stock-count-texts">0</span>)</button>
+            <button type="button" class="stock-filter-btn sub-pill-btn" onclick="filterStockView('videos')">Videolar (<span id="stock-count-videos">0</span>)</button>
+            <button type="button" class="stock-filter-btn sub-pill-btn" onclick="filterStockView('images')">Fotoğraflar (<span id="stock-count-images">0</span>)</button>
+          </div>
+
+          <!-- Stok Öğeleri Izgarası -->
+          <div id="stock-items-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 max-h-[600px] overflow-y-auto pr-1">
             <!-- JS ile doldurulacak -->
           </div>
         </div>
-
-        <!-- Bio Link Ağacı ve Çıkartmalar -->
-        <div class="lg:col-span-4 space-y-4">
-          <div class="gece-card p-5 space-y-3 font-mono text-xs">
-            <h4 class="font-bold text-white flex items-center gap-2">
-              <i class="fa-solid fa-link text-cyan"></i>
-              <span>Instagram Bio Link Ağacı (Link-in-Bio)</span>
-            </h4>
-            <div class="space-y-2" id="insta-bio-container">
-              <!-- JS ile doldurulacak -->
-            </div>
-          </div>
-
-          <div class="gece-card p-5 space-y-3 font-mono text-xs">
-            <h4 class="font-bold text-white flex items-center gap-2">
-              <i class="fa-solid fa-circle-question text-amber"></i>
-              <span>Hikaye (Stories) Anket & Çıkartma Bankası</span>
-            </h4>
-            <div class="space-y-2" id="insta-stickers-container">
-              <!-- JS ile doldurulacak -->
-            </div>
-          </div>
-        </div>
       </div>
+
     </section>
 
     <!-- ============================================================== -->
-    <!-- SECTION 27: 🎬 YOUTUBE POWER-TOOLS (CHAPTERS & SEO SCORE) -->
+    <!-- SÜTUN 2: 🚀 PAYLAŞIM (7 SOSYAL MEDYA & OTO-PLANLAYICI)         -->
     <!-- ============================================================== -->
-    <section class="gece-section" id="section-youtubepower">
-      <div class="flex items-center justify-between gap-4 mb-5 pb-2 border-b border-white/5">
-        <h2 class="text-base font-semibold text-white flex items-center gap-2">
-          <i class="fa-brands fa-youtube text-red-500"></i>
-          <span>YouTube SEO</span>
-        </h2>
+    <section id="pillar-publishing" class="pillar-section space-y-6">
+      
+      <!-- 7 Platform Seçici Barı -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2.5 font-mono" id="pub-platform-buttons">
+        <!-- JS ile 7 platform kartı doldurulacak -->
       </div>
 
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-6">
-        <!-- SEO Kontrol Listesi -->
-        <div class="lg:col-span-6 gece-card p-6 space-y-4 font-mono text-xs">
-          <div class="flex justify-between items-center border-b border-white/10 pb-2">
-            <h3 class="font-bold text-white text-sm">🎯 YouTube Shorts SEO Skoru:</h3>
-            <span class="text-lg font-black text-emerald font-mono">95 / 100</span>
-          </div>
-          <div class="space-y-2.5" id="yt-seo-rules-container">
-            <!-- JS ile doldurulacak -->
-          </div>
-        </div>
-
-        <!-- Video Bölümleri (Timestamps / Chapters) -->
-        <div class="lg:col-span-6 gece-card p-6 flex flex-col justify-between">
-          <div>
-            <div class="flex justify-between items-center mb-3">
-              <span class="font-bold text-white text-sm font-mono">⏱️ Video Zaman Damgaları (Chapters):</span>
-              <button type="button" class="btn btn-outline btn-xs font-mono text-red-400" onclick="copyYtChapters()">
-                Kopyala
-              </button>
-            </div>
-            <textarea id="yt-chapters-output" rows="10" readonly class="w-full bg-black/80 border border-white/10 rounded-xl p-3 text-xs text-slate-200 font-mono leading-relaxed focus:outline-none"></textarea>
-          </div>
-          <p class="text-[11px] font-mono text-slate-400 mt-2">Bu zaman damgalarını YouTube video açıklamasına yapıştırdığınızda video otomatik olarak bölümlere ayrılır.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================================== -->
-    <!-- SECTION 28: 📢 TELEGRAM ULTRA-CENTER & BOT INLINE KEYBOARD -->
-    <!-- ============================================================== -->
-    <section class="gece-section" id="section-telegramultra">
-      <div class="flex items-center justify-between gap-4 mb-5 pb-2 border-b border-white/5">
-        <h2 class="text-base font-semibold text-white flex items-center gap-2">
-          <i class="fa-brands fa-telegram text-cyan"></i>
-          <span>Telegram Butonları</span>
-        </h2>
-      </div>
-
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-6">
-        <!-- Canlı Buton Önizlemesi -->
-        <div class="lg:col-span-6 gece-card p-6 space-y-4">
-          <h3 class="font-bold text-sm text-white font-mono border-b border-white/10 pb-2">
-            📱 Telegram Botu İnteraktif Buton Menüsü:
-          </h3>
-          <div class="p-6 bg-[#17212b] rounded-2xl border border-white/10 space-y-3 font-sans max-w-sm mx-auto shadow-2xl">
-            <div class="text-xs text-slate-200 bg-[#242f3d] p-3 rounded-xl leading-relaxed">
-              Assalomu alaykum! 🇹🇷 Arkadaş Consulting rasmiy botiga xush kelibsiz. Qaysi xizmat turini tanlaysiz?
-            </div>
-            <div class="space-y-2">
-              <button type="button" class="w-full py-2 bg-[#2b5278] hover:bg-[#34608c] text-white rounded-lg text-xs font-semibold transition text-center block">
-                🚀 Bepul Konsultatsiya Olish
-              </button>
-              <div class="grid grid-cols-2 gap-2">
-                <button type="button" class="py-2 bg-[#2b5278] hover:bg-[#34608c] text-white rounded-lg text-xs font-semibold transition text-center">
-                  🏛️ Universitetlar
-                </button>
-                <button type="button" class="py-2 bg-[#2b5278] hover:bg-[#34608c] text-white rounded-lg text-xs font-semibold transition text-center">
-                  💰 Harç Narxlari
-                </button>
+      <!-- Seçilen Platform Detayı: Sol AI Danışmanı / Sağ Stoktan Planlayıcı -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
+        <!-- Sol: Platform AI Strateji Danışmanı (5 Kolon) -->
+        <div class="lg:col-span-5 gece-card p-6 space-y-4">
+          <div class="flex items-center justify-between border-b border-white/5 pb-3">
+            <div class="flex items-center gap-2.5">
+              <div class="w-8 h-8 rounded-xl bg-white/5 flex items-center justify-center text-lg" id="advisor-icon">
+                <i class="fa-brands fa-telegram text-cyan"></i>
               </div>
-              <button type="button" class="w-full py-2 bg-[#242f3d] hover:bg-[#2c3a4b] text-cyan-300 border border-cyan-500/30 rounded-lg text-xs font-semibold transition text-center block">
-                📞 Telefon: +90 534 000 0000
-              </button>
+              <div>
+                <h3 class="text-sm font-bold text-white tracking-tight" id="advisor-name">Telegram AI Danışmanı</h3>
+                <span class="text-[11px] text-slate-400 font-mono" id="advisor-handle">@arkadasuz</span>
+              </div>
             </div>
-          </div>
-        </div>
-
-        <!-- Kanal Anketi ve JSON Kod -->
-        <div class="lg:col-span-6 space-y-4">
-          <div class="gece-card p-5 space-y-3 font-mono text-xs">
-            <div class="flex justify-between items-center">
-              <h4 class="font-bold text-white">📊 @arkadasuz Kanal Anketi Formatı:</h4>
-              <button type="button" class="btn btn-outline btn-xs text-cyan" onclick="copyTgPollText()">Anketi Kopyala</button>
-            </div>
-            <div class="p-3 bg-black/50 rounded-xl border border-white/5 text-slate-300 space-y-1.5" id="tg-poll-container">
-              <div class="text-white font-bold mb-2">🎓 Qaysi yo'nalishda Turkiyada talaba bo'lishni xohlaysiz?</div>
-              <div class="p-1.5 bg-black/40 rounded">🔘 🩺 Tibbiyot va Stomatologiya</div>
-              <div class="p-1.5 bg-black/40 rounded">🔘 💻 Kompyuter va IT Muhandisligi</div>
-              <div class="p-1.5 bg-black/40 rounded">🔘 📊 Biznes va Iqtisodiyot</div>
-              <div class="p-1.5 bg-black/40 rounded">🔘 ⚖️ Huquq va Xalqaro Munosabatlar</div>
-            </div>
+            <span class="text-[10px] px-2 py-0.5 rounded-full bg-cyan/10 text-cyan font-mono" id="advisor-badge">Aktif Kanal</span>
           </div>
 
-          <div class="gece-card p-5 space-y-2 font-mono text-xs">
-            <h4 class="font-bold text-white">🛠️ Bot API JSON Çıktısı (InlineKeyboardMarkup):</h4>
-            <textarea id="tg-json-output" rows="4" readonly class="w-full bg-black/80 border border-white/10 rounded-xl p-3 text-[11px] text-emerald font-mono focus:outline-none"></textarea>
+          <!-- 4 Temel Canlı Metrik -->
+          <div class="grid grid-cols-2 gap-2 text-xs font-mono">
+            <div class="p-2.5 bg-black/40 rounded-xl border border-white/5">
+              <span class="text-[10px] text-slate-400 block">Haftalık İzlenme:</span>
+              <div class="text-sm font-bold text-white mt-0.5" id="advisor-stat-views">8,450</div>
+            </div>
+            <div class="p-2.5 bg-black/40 rounded-xl border border-white/5">
+              <span class="text-[10px] text-slate-400 block">Haftalık Gönderi:</span>
+              <div class="text-sm font-bold text-cyan mt-0.5" id="advisor-stat-posts">14 Post</div>
+            </div>
+            <div class="p-2.5 bg-black/40 rounded-xl border border-white/5">
+              <span class="text-[10px] text-slate-400 block">En İyi Yayın Saati:</span>
+              <div class="text-sm font-bold text-emerald mt-0.5" id="advisor-stat-slot">19:30 Prime</div>
+            </div>
+            <div class="p-2.5 bg-black/40 rounded-xl border border-white/5">
+              <span class="text-[10px] text-slate-400 block">En Çok Etkileşim:</span>
+              <div class="text-xs font-bold text-purple truncate mt-0.5" id="advisor-stat-topic">Tıp & Burs</div>
+            </div>
           </div>
-        </div>
-      </div>
-    </section>
 
-    <!-- SECTION 23: 🎨 BANNER & REKLAM STÜDYOSU (40 ÖZELLİK) -->
-    <!-- ============================================================== -->
-    <section class="gece-section" id="section-marketingstudio">
-      <div class="flex items-center justify-between gap-4 mb-5 pb-2 border-b border-white/5">
-        <h2 class="text-base font-semibold text-white flex items-center gap-2">
-          <i class="fa-solid fa-palette text-emerald"></i>
-          <span>Görsel Tasarım</span>
-        </h2>
-        <div class="flex gap-2">
-          <button type="button" class="btn btn-primary btn-xs font-mono" onclick="downloadGeneratedBanner()">
-            <i class="fa-solid fa-download mr-1"></i> Bannerı İndir (PNG)
+          <!-- AI Analiz ve Tavsiye Balonları -->
+          <div class="space-y-3 font-sans text-xs">
+            <div class="p-3 rounded-xl bg-white/5 border border-white/10 space-y-1">
+              <span class="text-[11px] font-bold text-cyan flex items-center gap-1.5">
+                <i class="fa-solid fa-chart-simple"></i>
+                <span>Son 1 Hafta Performans Özeti:</span>
+              </span>
+              <p class="text-slate-300 leading-relaxed text-[11px]" id="advisor-analysis-text">
+                Yükleniyor...
+              </p>
+            </div>
+
+            <div class="p-3 rounded-xl bg-cyan-950/20 border border-cyan-500/20 space-y-1">
+              <span class="text-[11px] font-bold text-emerald-400 flex items-center gap-1.5">
+                <i class="fa-solid fa-lightbulb"></i>
+                <span>Yapay Zeka Strateji Önerisi:</span>
+              </span>
+              <p class="text-slate-200 leading-relaxed text-[11px]" id="advisor-recommendation-text">
+                Yükleniyor...
+              </p>
+            </div>
+          </div>
+
+          <!-- AI Önerisini Tek Tıkla Uygula -->
+          <button type="button" class="btn-clean-primary w-full py-2.5 text-xs flex items-center justify-center gap-2" onclick="applyAdvisorRecommendation()">
+            <i class="fa-solid fa-sparkles"></i>
+            <span>AI Strateji Önerisini Otomatik Planla</span>
           </button>
         </div>
-      </div>
 
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        <!-- Sol: Tasarım Kontrolleri -->
-        <div class="lg:col-span-5 gece-card p-6 space-y-4 font-mono text-xs">
-          <h3 class="font-bold text-white border-b border-white/10 pb-2">Banner Parametreleri:</h3>
-          
+        <!-- Sağ: Stoktan Akıllı Planlama Motoru (7 Kolon) -->
+        <div class="lg:col-span-7 gece-card p-6 space-y-5">
+          <div class="flex items-center justify-between border-b border-white/5 pb-3">
+            <div>
+              <h3 class="text-sm font-bold text-white tracking-tight flex items-center gap-2">
+                <i class="fa-solid fa-calendar-check text-emerald"></i>
+                <span>Stoktan Akıllı Otomatik Planlama</span>
+              </h3>
+              <p class="text-xs text-slate-400 mt-0.5">Üretimdeki hazır video, görsel ve metinleri günün slotlarına otomatik dağıtır.</p>
+            </div>
+            <span class="text-xs font-mono text-cyan bg-cyan/10 px-2.5 py-1 rounded-full border border-cyan/20">Stok Destekli</span>
+          </div>
+
+          <!-- Planlama Süresi Butonları (1 Günlük, 5G, 20G, 30G) -->
           <div>
-            <label class="text-dim block mb-1">Afiş Formatı:</label>
-            <div class="flex gap-2">
-              <button type="button" class="btn btn-xs btn-primary flex-1" id="btn-banner-story" onclick="setBannerFormat('story')">Story (9:16)</button>
-              <button type="button" class="btn btn-xs btn-outline flex-1" id="btn-banner-square" onclick="setBannerFormat('square')">Kare Post (1:1)</button>
+            <label class="text-xs font-bold text-white block mb-2">1. Planlanacak Süreyi Seçin:</label>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 font-mono text-xs">
+              <button type="button" class="plan-duration-btn p-3 rounded-xl border border-white/10 bg-black/40 hover:border-cyan text-center cursor-pointer active" data-days="1" onclick="selectPlanDays(1)">
+                <span class="block text-sm font-bold text-white">1 Günlük</span>
+                <span class="text-[10px] text-slate-400">2 Slot (Bugün/Yarın)</span>
+              </button>
+              <button type="button" class="plan-duration-btn p-3 rounded-xl border border-white/10 bg-black/40 hover:border-cyan text-center cursor-pointer" data-days="5" onclick="selectPlanDays(5)">
+                <span class="block text-sm font-bold text-cyan">5 Günlük</span>
+                <span class="text-[10px] text-slate-400">10 Slot (Hafta İçi)</span>
+              </button>
+              <button type="button" class="plan-duration-btn p-3 rounded-xl border border-white/10 bg-black/40 hover:border-cyan text-center cursor-pointer" data-days="20" onclick="selectPlanDays(20)">
+                <span class="block text-sm font-bold text-purple">20 Günlük</span>
+                <span class="text-[10px] text-slate-400">40 Slot (Büyük Kampanya)</span>
+              </button>
+              <button type="button" class="plan-duration-btn p-3 rounded-xl border border-white/10 bg-black/40 hover:border-cyan text-center cursor-pointer" data-days="30" onclick="selectPlanDays(30)">
+                <span class="block text-sm font-bold text-emerald">1 Aylık</span>
+                <span class="text-[10px] text-slate-400">60 Slot (Tam Otopilot)</span>
+              </button>
             </div>
           </div>
 
+          <!-- Dahil Edilecek İçerik Türleri -->
           <div>
-            <label class="text-dim block mb-1">Ana Başlık (Title):</label>
-            <input type="text" id="banner-input-title" value="TURKIYADA IMTIHONSIZ TALABA BO'LING!" oninput="drawLiveBanner()" class="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-2 text-white font-bold">
-          </div>
-
-          <div>
-            <label class="text-dim block mb-1">Alt Kanca (Subtitle):</label>
-            <input type="text" id="banner-input-sub" value="Lise attestat bahosi bilan 100% kafolatlangan qabul" oninput="drawLiveBanner()" class="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-2 text-slate-300">
-          </div>
-
-          <div>
-            <label class="text-dim block mb-1">Öne Çıkan Rozet (Badge):</label>
-            <select id="banner-badge-select" onchange="drawLiveBanner()" class="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-2 text-white">
-              <option value="🎓 IMTIHONSIZ QABUL 2026">🎓 IMTIHONSIZ QABUL 2026</option>
-              <option value="🔥 100% GRANT IMKONIYATI">🔥 100% GRANT IMKONIYATI</option>
-              <option value="🩺 TIBBIYOT & STOMATOLOGIYA">🩺 TIBBIYOT & STOMATOLOGIYA</option>
-              <option value="⚡ SO'NGGI 5 TA KVOTA">⚡ SO'NGGI 5 TA KVOTA</option>
-            </select>
-          </div>
-
-          <div>
-            <label class="text-dim block mb-1">Renk Paleti:</label>
-            <div class="flex gap-2" id="banner-palettes-box">
-              <button type="button" class="px-3 py-1.5 rounded-lg border border-cyan-500 bg-cyan-950/40 text-cyan text-[11px]" onclick="setBannerPalette('#06b6d4', '#06080d')">Gece Neon</button>
-              <button type="button" class="px-3 py-1.5 rounded-lg border border-emerald-500 bg-emerald-950/40 text-emerald text-[11px]" onclick="setBannerPalette('#10b981', '#022c22')">Zümrüt</button>
-              <button type="button" class="px-3 py-1.5 rounded-lg border border-rose-500 bg-rose-950/40 text-rose text-[11px]" onclick="setBannerPalette('#f43f5e', '#1e1b4b')">Ateş</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Sağ: Canlı Canvas Önizlemesi -->
-        <div class="lg:col-span-7 gece-card p-6 flex flex-col items-center justify-center">
-          <div class="border border-white/20 rounded-2xl overflow-hidden shadow-2xl bg-black">
-            <canvas id="banner-canvas" width="400" height="600" class="max-w-full max-h-[560px] object-contain"></canvas>
-          </div>
-          <span class="text-[11px] font-mono text-slate-400 mt-3">Canlı HTML5 Canvas önizlemesi. Tek tıkla yüksek çözünürlüklü olarak indirebilirsiniz.</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- SECTION 13: ⚙️ OTOPİLOT & SİSTEM TEŞHİSİ -->
-    <!-- ============================================================== -->
-    <section class="gece-section" id="section-settings">
-      <div class="flex items-center justify-between gap-4 mb-5 pb-2 border-b border-white/5">
-        <h2 class="text-base font-semibold text-white flex items-center gap-2">
-          <i class="fa-solid fa-sliders text-cyan"></i>
-          <span>Otopilot Ayarları</span>
-        </h2>
-      </div>
-
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        <!-- Sol: Ayarlar Formu -->
-        <div class="lg:col-span-6 gece-card p-6 space-y-4">
-          <h3 class="text-sm font-bold text-white font-mono border-b border-white/10 pb-2 flex items-center justify-between">
-            <span>1. Yayın & Otopilot Parametreleri</span>
-            <span id="cfg-autopilot-status-badge" class="text-[11px] text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">AKTİF</span>
-          </h3>
-
-          <div class="space-y-3 font-mono text-xs">
-            <div class="flex items-center justify-between p-3 bg-white/5 rounded-xl border border-white/10">
-              <div>
-                <span class="text-white font-bold block">Otomatik Yayın (Otopilot)</span>
-                <span class="text-[11px] text-slate-400 font-sans">Belirlenen saatlerde içerikleri otomatik paylaşır</span>
-              </div>
-              <label class="relative inline-flex items-center cursor-pointer">
-                <input type="checkbox" id="cfg-autopilot-toggle" checked onchange="toggleAutopilotFromSettings()" class="sr-only peer">
-                <div class="w-9 h-5 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-emerald-500"></div>
+            <label class="text-xs font-bold text-white block mb-2">2. Stoktan Çekilecek Varlık Türleri:</label>
+            <div class="grid grid-cols-3 gap-2 text-xs font-mono">
+              <label class="flex items-center gap-2 p-2.5 rounded-xl bg-black/40 border border-white/10 cursor-pointer hover:border-white/20">
+                <input type="checkbox" id="plan-include-video" checked class="accent-cyan w-4 h-4">
+                <span>🎬 Video / Reels</span>
+              </label>
+              <label class="flex items-center gap-2 p-2.5 rounded-xl bg-black/40 border border-white/10 cursor-pointer hover:border-white/20">
+                <input type="checkbox" id="plan-include-image" checked class="accent-emerald w-4 h-4">
+                <span>🎨 Fotoğraf / Afiş</span>
+              </label>
+              <label class="flex items-center gap-2 p-2.5 rounded-xl bg-black/40 border border-white/10 cursor-pointer hover:border-white/20">
+                <input type="checkbox" id="plan-include-text" checked class="accent-purple w-4 h-4">
+                <span>✍️ Metin Postları</span>
               </label>
             </div>
+          </div>
 
+          <!-- Yayın Slot Saatleri Bilgisi -->
+          <div class="p-3 bg-white/5 rounded-xl border border-white/5 flex items-center justify-between text-xs font-mono">
             <div>
-              <label class="text-dim block mb-1">Öğle Yayın Saati:</label>
-              <input type="text" id="cfg-lunch-time" value="13:00" class="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-2 text-white">
+              <span class="text-slate-400 block text-[11px]">Otomatik Slot Saatleri:</span>
+              <span class="text-white font-bold">13:00 (Öğle) • 19:30 (Akşam Prime)</span>
             </div>
-
-            <div>
-              <label class="text-dim block mb-1">Akşam Prime Yayın Saati:</label>
-              <input type="text" id="cfg-evening-time" value="19:30" class="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-2 text-white">
-            </div>
-
-            <div>
-              <label class="text-dim block mb-1">Sabit Yorum / Huni Yönlendirme Linki:</label>
-              <input type="text" id="cfg-funnel-url" value="https://t.me/arkadasuz" class="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-2 text-white">
-            </div>
-
-            <div class="pt-3">
-              <button type="button" class="btn btn-primary py-2.5 px-6 rounded-xl font-mono text-xs" onclick="saveAutopilotSettings()">
-                Ayarları Kaydet
-              </button>
+            <div class="text-right">
+              <span class="text-slate-400 block text-[11px]">Seçili Süre:</span>
+              <span class="text-cyan font-bold" id="plan-summary-label">1 Gün (2 Gönderi)</span>
             </div>
           </div>
+
+          <!-- Dağıt ve Planla Butonu -->
+          <button type="button" class="btn-clean-primary w-full py-3 text-xs flex items-center justify-center gap-2 bg-gradient-to-r from-cyan-500 to-emerald-500 text-slate-950 font-bold" onclick="executeAutoPlan()">
+            <i class="fa-solid fa-bolt text-slate-950"></i>
+            <span>Stoktan Otomatik Dağıt ve Yayın Hattına Ekle</span>
+          </button>
         </div>
 
-        <!-- Sağ: Teşhis Raporu -->
-        <div class="lg:col-span-6 gece-card p-6 space-y-4">
-          <div class="flex justify-between items-center border-b border-white/10 pb-2">
-            <h3 class="text-sm font-bold text-white font-mono">2. Anlık Sistem Sağlık Durumu</h3>
-            <button type="button" class="btn btn-outline btn-xs font-mono text-emerald" onclick="runHealthCheck()">
-              Yeniden Test Et
-            </button>
-          </div>
+      </div>
 
-          <div class="space-y-3 font-mono text-xs">
-            <div class="flex justify-between items-center p-3 rounded-xl bg-black/40 border border-white/5">
-              <span>Google YouTube Data API v3:</span>
-              <span class="text-emerald font-bold" id="diag-yt">● BAĞLI (OK)</span>
-            </div>
-            <div class="flex justify-between items-center p-3 rounded-xl bg-black/40 border border-white/5">
-              <span>Telegram Bot API (@ArkadasAdminBot):</span>
-              <span class="text-emerald font-bold" id="diag-tg">● AKTİF (OK)</span>
-            </div>
-            <div class="flex justify-between items-center p-3 rounded-xl bg-black/40 border border-white/5">
-              <span>CRM Veritabanı & JSON Memory:</span>
-              <span class="text-emerald font-bold" id="diag-crm">● SAĞLIKLI</span>
-            </div>
-            <div class="flex justify-between items-center p-3 rounded-xl bg-black/40 border border-white/5">
-              <span>Shorts Video Havuzu:</span>
-              <span class="text-cyan font-bold" id="diag-inventory">50 Video Hazır</span>
-            </div>
-          </div>
+      <!-- Canlı Zamanlanmış Yayın Kuyruğu -->
+      <div class="gece-card p-6">
+        <div class="flex items-center justify-between mb-4 pb-2 border-b border-white/5">
+          <h3 class="text-sm font-bold text-white flex items-center gap-2">
+            <i class="fa-solid fa-clock-rotate-left text-cyan"></i>
+            <span>Yayın Hattındaki Gönderiler (Otomatik Kuyruk)</span>
+          </h3>
+          <button type="button" class="btn-clean-secondary px-3 py-1 text-xs" onclick="loadUpcomingQueueUI()">
+            Yenile
+          </button>
+        </div>
+        <div id="publishing-queue-list" class="space-y-2 max-h-64 overflow-y-auto pr-1">
+          <!-- JS ile doldurulacak -->
         </div>
       </div>
+
     </section>
 
     <!-- ============================================================== -->
-    <!-- SECTION 29: 🎬 REELS & DİKEY VİDEO OYNATICI STÜDYOSU -->
+    <!-- SÜTUN 3: 📊 ANALİZ (TAKVİM & METRİKLER)                        -->
     <!-- ============================================================== -->
-    <section class="gece-section" id="section-reelsstudio">
-      <div class="flex items-center justify-between gap-4 mb-5 pb-2 border-b border-white/5">
-        <h2 class="text-base font-semibold text-white flex items-center gap-2">
-          <i class="fa-solid fa-film text-cyan"></i>
-          <span>Reels & Video</span>
-        </h2>
-        <button type="button" class="btn btn-outline btn-xs font-mono text-cyan" onclick="loadReelsShowcase()">
-          <i class="fa-solid fa-rotate mr-1"></i> Videoları Yenile
-        </button>
-      </div>
-
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-6">
-        <!-- Sol: Aktif Video Oynatıcı -->
-        <div class="lg:col-span-5 space-y-4">
-          <div class="gece-card p-5 space-y-4 flex flex-col items-center">
-            <div class="w-full flex justify-between items-center border-b border-white/10 pb-2">
-              <span class="text-xs font-mono font-bold text-white" id="reels-player-title">Mila Özbekçe Reels</span>
-              <span class="text-[11px] font-mono text-emerald" id="reels-player-badge">Reels</span>
-            </div>
-            
-            <div class="w-[270px] h-[480px] bg-black rounded-2xl overflow-hidden border border-white/10 shadow-2xl flex items-center justify-center">
-              <video id="reels-studio-player" controls playsinline class="w-full h-full object-contain" src="/output/mila_ozbekcha_reel_final.mp4"></video>
-            </div>
-
-            <div class="w-full space-y-2 font-mono text-xs">
-              <div class="flex justify-between items-center text-dim text-[11px]">
-                <span>Persona: <b class="text-white" id="reels-player-persona">Mila (@mila.travels)</b></span>
-                <span>Dil: <b class="text-white" id="reels-player-lang">O'zbekcha 🇺🇿</b></span>
-              </div>
-              <div class="flex gap-2 pt-1">
-                <a id="reels-download-btn" href="/output/mila_ozbekcha_reel_final.mp4" download class="btn btn-primary btn-xs flex-1 text-center py-2 flex items-center justify-center gap-1.5">
-                  <i class="fa-solid fa-download"></i>
-                  <span>MP4 İndir</span>
-                </a>
-                <button type="button" class="btn btn-outline btn-xs flex-1 py-2 text-cyan border-cyan/50" onclick="copyReelsShareLink()">
-                  <i class="fa-solid fa-share-nodes"></i>
-                  <span>Linki Kopyala</span>
-                </button>
-              </div>
-            </div>
+    <section id="pillar-analytics" class="pillar-section space-y-6">
+      
+      <!-- 4 Temel Büyük KPI Kartı -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 font-mono">
+        <!-- 1. Görüntülenme -->
+        <div class="gece-card p-5 space-y-2">
+          <div class="flex items-center justify-between text-slate-400 text-xs font-sans">
+            <span>Toplam Görüntülenme</span>
+            <i class="fa-solid fa-eye text-cyan"></i>
+          </div>
+          <div class="text-2xl font-extrabold text-white" id="metric-total-views">148,500</div>
+          <div class="text-[11px] text-emerald flex items-center gap-1 font-sans">
+            <i class="fa-solid fa-arrow-trend-up"></i>
+            <span id="metric-views-growth">+22.4% bu hafta</span>
           </div>
         </div>
 
-        <!-- Sağ: Video Havuzu Galerisi -->
-        <div class="lg:col-span-7 space-y-4">
-          <div class="gece-card p-5 space-y-3 font-mono text-xs">
-            <div class="flex justify-between items-center">
-              <h4 class="font-bold text-white text-sm flex items-center gap-2">
-                <i class="fa-solid fa-list-check text-emerald"></i>
-                <span>Hazır Üretilmiş Video Galerisi (<span id="reels-count-badge">0</span> Video)</span>
-              </h4>
-              <div class="flex gap-1">
-                <button type="button" class="btn btn-xs btn-outline" onclick="filterReelsGallery('all', this)">Tümü</button>
-                <button type="button" class="btn btn-xs btn-outline" onclick="filterReelsGallery('mila', this)">Mila</button>
-                <button type="button" class="btn btn-xs btn-outline" onclick="filterReelsGallery('madina', this)">Madina</button>
-                <button type="button" class="btn btn-xs btn-outline" onclick="filterReelsGallery('ru', this)">Rusça</button>
-              </div>
-            </div>
+        <!-- 2. Mesaj & Başvuru -->
+        <div class="gece-card p-5 space-y-2">
+          <div class="flex items-center justify-between text-slate-400 text-xs font-sans">
+            <span>Gelen Mesaj & Lead</span>
+            <i class="fa-solid fa-comments text-purple"></i>
+          </div>
+          <div class="text-2xl font-extrabold text-white" id="metric-total-messages">428</div>
+          <div class="text-[11px] text-emerald flex items-center gap-1 font-sans">
+            <i class="fa-solid fa-arrow-trend-up"></i>
+            <span id="metric-messages-growth">+42 yeni öğrenci</span>
+          </div>
+        </div>
 
-            <div class="space-y-2 max-h-[560px] overflow-y-auto pr-1" id="reels-gallery-list">
-              <!-- JS ile dinamik doldurulacak -->
-            </div>
+        <!-- 3. Beğeni & Reaksiyon -->
+        <div class="gece-card p-5 space-y-2">
+          <div class="flex items-center justify-between text-slate-400 text-xs font-sans">
+            <span>Beğeni & Reaksiyon</span>
+            <i class="fa-solid fa-heart text-rose"></i>
+          </div>
+          <div class="text-2xl font-extrabold text-white" id="metric-total-likes">14,320</div>
+          <div class="text-[11px] text-emerald flex items-center gap-1 font-sans">
+            <i class="fa-solid fa-arrow-trend-up"></i>
+            <span id="metric-likes-growth">+1.4k bu hafta</span>
+          </div>
+        </div>
+
+        <!-- 4. Takipçi Kazanımı -->
+        <div class="gece-card p-5 space-y-2">
+          <div class="flex items-center justify-between text-slate-400 text-xs font-sans">
+            <span>Toplam Net Takipçi</span>
+            <i class="fa-solid fa-user-plus text-emerald"></i>
+          </div>
+          <div class="text-2xl font-extrabold text-white" id="metric-net-followers">18,940</div>
+          <div class="text-[11px] text-emerald flex items-center gap-1 font-sans">
+            <i class="fa-solid fa-arrow-trend-up"></i>
+            <span id="metric-followers-growth">+610 yeni abone</span>
           </div>
         </div>
       </div>
+
+      <!-- ORTAK YAYIN TAKVİMİ (HAFTALIK & AYLIK) -->
+      <div class="gece-card p-6 space-y-4">
+        <div class="flex flex-wrap items-center justify-between gap-4 pb-2 border-b border-white/5">
+          <div class="flex items-center gap-3">
+            <h3 class="text-sm font-bold text-white flex items-center gap-2">
+              <i class="fa-solid fa-calendar-days text-cyan"></i>
+              <span>Çok Kanallı Yayın Takvimi</span>
+            </h3>
+            <span class="text-xs text-slate-400 font-mono hidden sm:inline">• Tüm Platformlar Bir Arada</span>
+          </div>
+
+          <div class="flex items-center gap-2 font-mono text-xs">
+            <button type="button" class="sub-pill-btn active" id="cal-view-week-btn" onclick="switchCalendarView('week')">Haftalık</button>
+            <button type="button" class="sub-pill-btn" id="cal-view-month-btn" onclick="switchCalendarView('month')">Aylık (30 Gün)</button>
+          </div>
+        </div>
+
+        <!-- Takvim Platform Renk Lejantı -->
+        <div class="flex flex-wrap items-center gap-3 text-[11px] font-mono text-slate-400">
+          <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-cyan"></span>Telegram</span>
+          <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-red-500"></span>YouTube</span>
+          <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-pink-500"></span>Instagram</span>
+          <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-purple"></span>TikTok</span>
+          <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-slate-300"></span>Twitter</span>
+          <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-blue-500"></span>Facebook</span>
+          <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald"></span>WhatsApp</span>
+        </div>
+
+        <!-- İnteraktif Takvim Izgarası -->
+        <div id="calendar-grid-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-7 gap-3">
+          <!-- JS ile doldurulacak -->
+        </div>
+      </div>
+
+      <!-- 7 PLATFORM METRİK KARŞILAŞTIRMA MATRİSİ -->
+      <div class="gece-card p-6 space-y-4">
+        <h3 class="text-sm font-bold text-white flex items-center gap-2 pb-2 border-b border-white/5">
+          <i class="fa-solid fa-chart-pie text-purple"></i>
+          <span>7 Platform Performans Dağılımı</span>
+        </h3>
+
+        <div id="platform-metrics-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 font-mono text-xs">
+          <!-- JS ile doldurulacak -->
+        </div>
+      </div>
+
     </section>
 
     <!-- ============================================================== -->
-    <!-- SECTION 30: 🤖 AKILLI ÖĞRENCİ CHATBOT & LEAD SİMÜLATÖRÜ -->
+    <!-- AJANS ARAÇLARI & AYARLAR MODAL (CRM, ÜNİVERSİTE, SÖZLEŞME)    -->
     <!-- ============================================================== -->
-    <section class="gece-section" id="section-chatbotai">
-      <div class="flex items-center justify-between gap-4 mb-5 pb-2 border-b border-white/5">
-        <h2 class="text-base font-semibold text-white flex items-center gap-2">
-          <i class="fa-solid fa-robot text-emerald"></i>
-          <span>AI Yanıtlayıcı</span>
-        </h2>
-      </div>
-
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-6">
-        <!-- Sol: Soru Giriş ve Simülasyon -->
-        <div class="lg:col-span-5 space-y-4">
-          <div class="gece-card p-5 space-y-3 font-mono text-xs">
-            <h4 class="font-bold text-white text-sm">1. Öğrenci Murojaatını Girin:</h4>
-            
-            <div class="space-y-2">
-              <div>
-                <label class="text-dim text-[11px] block mb-1">Aday Adı & Soyadı:</label>
-                <input type="text" id="bot-sim-name" value="Sardor Alimov" class="w-full bg-black/60 border border-white/10 rounded-xl px-3 py-2 text-white text-xs">
-              </div>
-              <div>
-                <label class="text-dim text-[11px] block mb-1">Telefon / Telegram (@):</label>
-                <input type="text" id="bot-sim-phone" value="+998 90 555 44 33" class="w-full bg-black/60 border border-white/10 rounded-xl px-3 py-2 text-white text-xs">
-              </div>
-              <div>
-                <label class="text-dim text-[11px] block mb-1">Öğrencinin Sorusu / Mesajı:</label>
-                <textarea id="bot-sim-message" rows="3" placeholder="Örn: Turkiyada tibbiyotga grant bormi? Yoki attestat bilan qabul qilasizlarmi?" class="w-full bg-black/60 border border-white/10 rounded-xl p-3 text-white text-xs leading-relaxed focus:outline-none focus:border-emerald-500"></textarea>
-              </div>
-            </div>
-
-            <!-- Hazır Hızlı Test Soruları -->
-            <div>
-              <span class="text-dim text-[11px] block mb-1.5">⚡ Hızlı Test Kalıpları:</span>
-              <div class="flex flex-wrap gap-1.5">
-                <button type="button" class="btn btn-outline btn-xs text-[11px]" onclick="setBotSimMsg('Turkiyada tibbiyotga imtihonsiz grant bormi?')">🩺 Tıp Granti</button>
-                <button type="button" class="btn btn-outline btn-xs text-[11px]" onclick="setBotSimMsg('Kontrakt narxlari qancha va oldindan to\'lov bormi?')">💰 Harç & 0$ Risk</button>
-                <button type="button" class="btn btn-outline btn-xs text-[11px]" onclick="setBotSimMsg('Yotoqxona sharoiti qanday, xavfsizmi?')">🏢 Yurt & Güvenlik</button>
-                <button type="button" class="btn btn-outline btn-xs text-[11px]" onclick="setBotSimMsg('Сколько стоит обучение в Стамбуле?')">🇷🇺 Rusça Fiyat</button>
-                <button type="button" class="btn btn-outline btn-xs text-[11px]" onclick="setBotSimMsg('Qaraqalpaqstanlı jaslar ushın qanday jeńillikler bar?')">🏴󠁵󠁺󠁱󠁲󠁿 Qaraqalpaq</button>
-              </div>
-            </div>
-
-            <button type="button" class="btn btn-primary w-full py-2.5 rounded-xl text-xs flex items-center justify-center gap-2 mt-2" onclick="sendChatbotQuery()">
-              <i class="fa-solid fa-paper-plane"></i>
-              <span>Danışman Yanıtını Üret</span>
-            </button>
-          </div>
+    <div id="agency-tools-modal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 hidden items-center justify-center p-4">
+      <div class="gece-card max-w-2xl w-full p-6 space-y-5 max-h-[90vh] overflow-y-auto">
+        <div class="flex items-center justify-between border-b border-white/10 pb-3">
+          <h3 class="text-sm font-bold text-white font-mono flex items-center gap-2">
+            <i class="fa-solid fa-sliders text-cyan"></i>
+            <span>Ajans Yönetim Araçları & Ayarlar</span>
+          </h3>
+          <button type="button" class="text-slate-400 hover:text-white" onclick="closeAgencyToolsModal()">✕</button>
         </div>
 
-        <!-- Sağ: Canlı Yanıt ve CRM'e Ekleme Kartı -->
-        <div class="lg:col-span-7 space-y-4">
-          <div class="gece-card p-5 space-y-4 font-mono text-xs flex flex-col justify-between">
-            <div class="space-y-3">
-              <div class="flex justify-between items-center border-b border-white/10 pb-2">
-                <div class="flex items-center gap-2">
-                  <span class="pulse-dot"></span>
-                  <span class="font-bold text-white">Arkadaş AI Sanal Danışman Yanıtı</span>
-                </div>
-                <span class="text-emerald text-[11px]" id="bot-match-badge">Eşleşme: Bekleniyor...</span>
-              </div>
-
-              <!-- Mesaj Balonları -->
-              <div class="space-y-3 min-h-[220px] bg-black/40 p-4 rounded-2xl border border-white/5">
-                <div class="text-right">
-                  <div class="inline-block bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 p-3 rounded-2xl rounded-tr-none text-left max-w-[85%]" id="bot-user-bubble">
-                    💬 Bir soru yazıp "Danışman Yanıtını Üret" butonuna basın...
-                  </div>
-                </div>
-
-                <div class="text-left">
-                  <div class="inline-block bg-white/[0.04] text-slate-200 border border-white/10 p-3.5 rounded-2xl rounded-tl-none max-w-[90%] leading-relaxed" id="bot-agent-bubble">
-                    🤖 Arkadaş Consulting AI asistanı hazır. Öğrencinin sorusuna göre 20 Soru-Cevap bankasından resmi yanıt oluşturulacaktır.
-                  </div>
-                </div>
-              </div>
-
-              <!-- Takip Soruları -->
-              <div id="bot-followups-container" class="space-y-1 hidden">
-                <span class="text-dim text-[11px]">Önerilen Takip Soruları:</span>
-                <div class="flex flex-wrap gap-1.5" id="bot-followups-pills"></div>
-              </div>
+        <!-- Otopilot Saat Ayarları -->
+        <div class="p-4 bg-black/40 rounded-xl border border-white/10 space-y-3 font-mono text-xs">
+          <h4 class="text-xs font-bold text-white border-b border-white/5 pb-1 flex items-center justify-between">
+            <span>Otopilot Yayın Saatleri:</span>
+            <span id="modal-autopilot-badge" class="text-emerald text-[10px]">AKTİF</span>
+          </h4>
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="text-dim block mb-1">Öğle Slotu:</label>
+              <input type="text" id="cfg-lunch-time" value="13:00" class="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-1.5 text-white">
             </div>
-
-            <!-- Alt Aksiyon Barı -->
-            <div class="pt-3 border-t border-white/10 flex flex-wrap gap-2">
-              <button type="button" class="btn btn-primary btn-xs py-2 px-4 flex-1 flex items-center justify-center gap-1.5" onclick="saveChatbotLeadToCRM()">
-                <i class="fa-solid fa-user-plus"></i>
-                <span>➕ Tek Tıkla CRM'e Lead Olarak Ekle</span>
-              </button>
-              <button type="button" class="btn btn-outline btn-xs py-2 px-3 text-cyan" onclick="copyBotResponse()">
-                <i class="fa-solid fa-copy"></i>
-                <span>Yanıtı Kopyala</span>
-              </button>
+            <div>
+              <label class="text-dim block mb-1">Akşam Prime Slotu:</label>
+              <input type="text" id="cfg-evening-time" value="19:30" class="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-1.5 text-white">
             </div>
           </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================================== -->
-    <!-- SECTION 31: 📜 RESMİ ÖĞRENCİ SÖZLEŞMESİ & TEKLİF ÜRETİCİ -->
-    <!-- ============================================================== -->
-    <section class="gece-section" id="section-contractgen">
-      <div class="flex items-center justify-between gap-4 mb-5 pb-2 border-b border-white/5">
-        <h2 class="text-base font-semibold text-white flex items-center gap-2">
-          <i class="fa-solid fa-file-signature text-amber"></i>
-          <span>Resmi Sözleşmeler</span>
-        </h2>
-        <button type="button" class="btn btn-primary btn-xs font-mono" onclick="printOfficialContract()">
-          <i class="fa-solid fa-print mr-1"></i> Sözleşmeyi Yazdır / PDF Kaydet
-        </button>
-      </div>
-
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-6">
-        <!-- Sol: Form -->
-        <div class="lg:col-span-4 space-y-4">
-          <div class="gece-card p-5 space-y-3 font-mono text-xs">
-            <h4 class="font-bold text-white text-sm">Sözleşme Bilgileri:</h4>
-            <div>
-              <label class="text-dim text-[11px] block mb-1">Öğrenci Adı ve Soyadı:</label>
-              <input type="text" id="contract-name" value="Azizbek Rahimov" class="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-2 text-white">
-            </div>
-            <div>
-              <label class="text-dim text-[11px] block mb-1">Pasaport Serisi ve No:</label>
-              <input type="text" id="contract-passport" value="FA 3491827" class="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-2 text-white">
-            </div>
-            <div>
-              <label class="text-dim text-[11px] block mb-1">Telefon Numarası:</label>
-              <input type="text" id="contract-phone" value="+998 90 123 45 67" class="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-2 text-white">
-            </div>
-            <div>
-              <label class="text-dim text-[11px] block mb-1">Hedef Üniversite:</label>
-              <input type="text" id="contract-uni" value="İstanbul Davlat Universiteti" class="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-2 text-white">
-            </div>
-            <div>
-              <label class="text-dim text-[11px] block mb-1">Bölüm / Mutaxassislik:</label>
-              <input type="text" id="contract-faculty" value="Xalqaro Iqtisodiyot va Moliya" class="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-2 text-white">
-            </div>
-            <div>
-              <label class="text-dim text-[11px] block mb-1">Hizmet Paketi Seçimi:</label>
-              <select id="contract-package" class="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-2 text-white text-xs">
-                <option value="asosiy">Asosiy Paket ($500 - Qabul, Denklik, Tarjima)</option>
-                <option value="orta" selected>O'rta VIP Paket ($800 - Asosiy + Aeroport, Sug'urta, İkamet)</option>
-                <option value="katta">Katta Paket ($1100 - O'rta + TÖMER va 75% Grant)</option>
-                <option value="burs">Türkiye Bursları Davlat Granti ($300 Depozit - 50% Qaytarish Kafolati)</option>
-              </select>
-            </div>
-            <button type="button" class="btn btn-primary w-full py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 mt-2" onclick="generateContractPreview()">
-              <i class="fa-solid fa-file-contract"></i>
-              <span>Sözleşmeyi Oluştur</span>
-            </button>
+          <div>
+            <label class="text-dim block mb-1">Sabit Huni Linki:</label>
+            <input type="text" id="cfg-funnel-url" value="https://t.me/arkadasuz" class="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-1.5 text-white">
           </div>
+          <button type="button" class="btn-clean-primary w-full py-2 text-xs" onclick="saveAutopilotSettings()">
+            Ayarları Kaydet
+          </button>
         </div>
 
-        <!-- Sağ: Canlı Yazdırılabilir Önizleme -->
-        <div class="lg:col-span-8">
-          <div class="gece-card p-6 min-h-[500px] overflow-x-auto bg-white rounded-2xl shadow-2xl" id="contract-preview-box">
-            <!-- JS ile dinamik doldurulacak -->
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================================== -->
-    <!-- MODALS & OVERLAYS -->
-    <!-- ============================================================== -->
-
-    <!-- 1. Video Player Modal -->
-    <div id="video-preview-modal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 hidden items-center justify-center p-4">
-      <div class="gece-card max-w-sm w-full p-4 relative flex flex-col items-center">
-        <button type="button" class="absolute top-3 right-3 text-slate-400 hover:text-white text-xl" onclick="closeVideoPreviewModal()">✕</button>
-        <h4 class="font-bold text-white text-xs font-mono mb-3 text-center" id="modal-video-title">Video Önizleme</h4>
-        <div class="w-[270px] h-[480px] bg-black rounded-xl overflow-hidden border border-white/10 flex items-center justify-center">
-          <video id="modal-video-player" controls class="w-full h-full object-contain" playsinline preload="metadata"></video>
+        <!-- Hızlı Erişim Butonları -->
+        <div class="grid grid-cols-2 gap-3 font-mono text-xs">
+          <button type="button" onclick="runHealthCheck()" class="p-3 bg-white/5 rounded-xl border border-white/10 hover:border-emerald text-left flex items-center gap-2.5">
+            <i class="fa-solid fa-heart-pulse text-emerald"></i>
+            <div>
+              <span class="block font-bold text-white">Sistem Teşhisi</span>
+              <span class="text-[10px] text-slate-400">Canlı API & Bot testi</span>
+            </div>
+          </button>
+          <a href="https://t.me/ArkadasAdminBot" target="_blank" class="p-3 bg-white/5 rounded-xl border border-white/10 hover:border-cyan text-left flex items-center gap-2.5">
+            <i class="fa-brands fa-telegram text-cyan"></i>
+            <div>
+              <span class="block font-bold text-white">Admin Botu</span>
+              <span class="text-[10px] text-slate-400">Telegram kontrol paneli</span>
+            </div>
+          </a>
         </div>
       </div>
     </div>
 
-    <!-- 2. Live YouTube Upload Progress Modal -->
-    <div id="upload-progress-modal" class="fixed inset-0 bg-black/95 backdrop-blur-lg z-50 hidden items-center justify-center p-4">
-      <div class="gece-card max-w-md w-full p-6 text-center space-y-4">
-        <div class="w-16 h-16 rounded-full bg-red-500/20 border border-red-500/40 text-red-500 flex items-center justify-center mx-auto text-2xl animate-pulse">
-          <i class="fa-brands fa-youtube"></i>
+    <!-- Takvim Detay Modalı -->
+    <div id="calendar-event-modal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 hidden items-center justify-center p-4">
+      <div class="gece-card max-w-md w-full p-6 space-y-4">
+        <div class="flex items-center justify-between border-b border-white/10 pb-2">
+          <h3 class="text-sm font-bold text-white font-mono" id="cal-modal-title">Gönderi Detayı</h3>
+          <button type="button" class="text-slate-400 hover:text-white" onclick="closeCalendarModal()">✕</button>
         </div>
-        <h3 class="text-lg font-bold text-white font-mono" id="upload-progress-title">YouTube Sunucularına Yükleniyor</h3>
-        <p class="text-xs text-slate-300 font-mono" id="upload-progress-sub">Google Data API v3 yetkilendiriliyor...</p>
-
-        <div class="w-full bg-black/80 h-3 rounded-full overflow-hidden border border-white/10">
-          <div id="upload-progress-bar" class="bg-gradient-to-r from-red-600 to-amber-500 h-full transition-all duration-300" style="width: 15%"></div>
-        </div>
-
-        <div class="text-[11px] font-mono text-slate-400 space-y-1 text-left bg-black/40 p-3 rounded-xl border border-white/5" id="upload-steps-log">
-          <div class="text-emerald" id="step-auth">✓ Google OAuth 2.0 Token doğrulandı</div>
-          <div class="text-cyan animate-pulse" id="step-stream">● Video parçacıkları YouTube'a akıtılıyor (1080x1920)...</div>
-          <div class="text-slate-500" id="step-pin">○ Otomatik sabitlenen huni yorumu ekleniyor (@arkadasuz)...</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 3. Edit Video Metadata Modal -->
-    <div id="video-edit-modal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 hidden items-center justify-center p-4">
-      <div class="gece-card max-w-lg w-full p-6 space-y-4">
-        <div class="flex justify-between items-center border-b border-white/10 pb-2">
-          <h3 class="text-sm font-bold text-white font-mono">Video Bilgilerini Düzenle</h3>
-          <button type="button" class="text-slate-400 hover:text-white" onclick="closeEditVideoModal()">✕</button>
-        </div>
-        <input type="hidden" id="edit-video-id">
-        <div>
-          <label class="block text-xs font-mono text-dim mb-1">Video Başlığı (Title):</label>
-          <input type="text" id="edit-video-title" class="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-2 text-xs text-white font-mono">
-        </div>
-        <div>
-          <label class="block text-xs font-mono text-dim mb-1">Açıklama (Description):</label>
-          <textarea id="edit-video-desc" rows="5" class="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-2 text-xs text-white font-mono"></textarea>
+        <div class="space-y-2 font-mono text-xs" id="cal-modal-body">
+          <!-- JS ile doldurulacak -->
         </div>
         <div class="flex justify-end gap-2 pt-2">
-          <button type="button" class="btn btn-outline text-slate-300 btn-xs" onclick="closeEditVideoModal()">İptal</button>
-          <button type="button" class="btn btn-primary btn-xs" onclick="saveVideoMeta()">Kaydet</button>
+          <button type="button" class="btn-clean-secondary px-3 py-1.5 text-xs" onclick="closeCalendarModal()">Kapat</button>
         </div>
       </div>
     </div>
 
-    <!-- 4. Add Lead Modal -->
-    <div id="add-lead-modal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 hidden items-center justify-center p-4">
-      <div class="gece-card max-w-md w-full p-6 space-y-4">
-        <div class="flex justify-between items-center border-b border-white/10 pb-2">
-          <h3 class="text-sm font-bold text-white font-mono">Yeni Öğrenci Adayı Ekle</h3>
-          <button type="button" class="text-slate-400 hover:text-white" onclick="closeAddLeadModal()">✕</button>
-        </div>
-        <div class="space-y-3 font-mono text-xs">
-          <div>
-            <label class="text-dim block mb-1">Öğrenci Adı Soyadı:</label>
-            <input type="text" id="lead-new-name" placeholder="Örn: Azamat Rahimov" class="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-2 text-white">
-          </div>
-          <div>
-            <label class="text-dim block mb-1">Telefon Numarası:</label>
-            <input type="text" id="lead-new-phone" placeholder="+998 90 123 45 67" class="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-2 text-white">
-          </div>
-          <div>
-            <label class="text-dim block mb-1">İlgilendiği Bölüm / Üniversite:</label>
-            <input type="text" id="lead-new-interest" placeholder="Tıp Fakültesi / İstanbul" class="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-2 text-white">
-          </div>
-        </div>
-        <div class="flex justify-end gap-2 pt-3">
-          <button type="button" class="btn btn-outline text-slate-300 btn-xs" onclick="closeAddLeadModal()">Vazgeç</button>
-          <button type="button" class="btn btn-primary btn-xs" onclick="saveNewLead()">Kaydet</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- 5. SEO Tags Generator Modal -->
-    <div id="tags-helper-modal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 hidden items-center justify-center p-4">
-      <div class="gece-card max-w-lg w-full p-6 space-y-4">
-        <div class="flex justify-between items-center border-b border-white/10 pb-2">
-          <h3 class="text-sm font-bold text-white font-mono">🏷️ Trend Türkiye Eğitim SEO Etiketleri</h3>
-          <button type="button" class="text-slate-400 hover:text-white" onclick="closeTagsModal()">✕</button>
-        </div>
-        <p class="text-xs text-slate-300 font-mono">YouTube Shorts ve Telegram algoritmalarında en çok keşfete düşüren etiketler:</p>
-        <div class="p-3 bg-black/50 border border-white/10 rounded-xl font-mono text-xs text-cyan flex flex-wrap gap-2" id="tags-box">
-          #TurkiyadaTalim #Shorts #Istanbul #Burs #Talabalik #AttestatQabul #Tibbiyot #Marmara #YildizTeknik #ArkadasConsulting #OzbekistonTalabalari #YOS2026 #TurkTili
-        </div>
-        <button type="button" class="btn btn-primary btn-xs w-full py-2 font-mono" onclick="copyTagsToClipboard()">
-          Tüm Etiketleri Kopyala
-        </button>
-      </div>
-    </div>
-
-    <!-- 5.5. Student Documents Modal (Passport, Diploma, Transcript) -->
-    <div id="lead-docs-modal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 hidden items-center justify-center p-4">
-      <div class="gece-card max-w-lg w-full p-6 space-y-4">
-        <div class="flex justify-between items-center border-b border-white/10 pb-2">
-          <div>
-            <h3 class="text-sm font-bold text-white font-mono flex items-center gap-2">
-              <i class="fa-solid fa-folder-open text-amber"></i>
-              <span id="lead-docs-modal-title">Öğrenci Evrak & Dosya Havuzu</span>
-            </h3>
-            <span class="text-[11px] text-dim font-mono" id="lead-docs-modal-subtitle">Resmi belgeleri yükle ve arşivle</span>
-          </div>
-          <button type="button" class="text-slate-400 hover:text-white" onclick="closeLeadDocsModal()">✕</button>
-        </div>
-
-        <!-- Evrak Yükleme Alanı -->
-        <form onsubmit="handleLeadDocUpload(event)" class="p-4 bg-black/50 rounded-2xl border border-white/10 space-y-3 font-mono text-xs">
-          <input type="hidden" id="lead-doc-target-id">
-          <div class="grid grid-cols-2 gap-2">
-            <div>
-              <label class="text-dim block mb-1 text-[11px]">Evrak Türü:</label>
-              <select id="lead-doc-type" class="w-full bg-black/60 border border-white/10 rounded-lg px-2 py-1.5 text-xs text-white">
-                <option value="Pasport">🛂 Pasport Nusxasi</option>
-                <option value="Diplom">📜 Diplom / Attestat</option>
-                <option value="Transkript">📑 Transkript Baholar</option>
-                <option value="Viza">✈️ Viza / Kabul Mektubu</option>
-                <option value="Boshqa">📎 Boshqa Hujjat</option>
-              </select>
-            </div>
-            <div>
-              <label class="text-dim block mb-1 text-[11px]">Dosya Seç (PDF / Resim):</label>
-              <input type="file" id="lead-doc-file" required class="w-full text-xs text-slate-300 file:mr-2 file:py-1 file:px-2 file:rounded-md file:border-0 file:text-xs file:bg-white/10 file:text-white hover:file:bg-white/20">
-            </div>
-          </div>
-          <button type="submit" class="btn btn-primary btn-xs w-full py-2 flex items-center justify-center gap-1.5">
-            <i class="fa-solid fa-cloud-arrow-up"></i>
-            <span>Evrakı Öğrenci Dosyasına Ekle</span>
-          </button>
-        </form>
-
-        <!-- Yüklü Belgeler Listesi -->
-        <div class="space-y-2">
-          <label class="text-dim text-xs font-mono block">Arşivdeki Belgeler:</label>
-          <div id="lead-docs-list-container" class="space-y-1.5 font-mono text-xs max-h-48 overflow-y-auto pr-1">
-            <!-- JS ile doldurulacak -->
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 6. Toast Notification -->
+    <!-- Toast Notification -->
     <div id="toast-notify" class="fixed bottom-6 right-6 px-4 py-2.5 rounded-xl text-xs font-mono border backdrop-blur-lg shadow-2xl z-50 hidden transition-all duration-300">
       <span id="toast-message">Bildirim</span>
     </div>
 
   </div>
 
-  <!-- ============================================================== -->
-  <!-- JAVASCRIPT MASTER CONTROLLER (EXTERNAL VALIDATED MODULE) -->
-  <!-- ============================================================== -->
-  <script src="/static/dashboard.js?v=202609130900"></script>
+  <script src="/static/dashboard.js?v=20260913_pillars"></script>
 </body>
 </html>
