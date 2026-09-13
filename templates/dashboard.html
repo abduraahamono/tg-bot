@@ -827,6 +827,26 @@
               <button type="button" class="btn btn-xs btn-outline text-left" onclick="selectAITopic('custom', this)">✨ Özel Konu</button>
             </div>
 
+            <div class="grid grid-cols-2 gap-2 pt-2 font-mono text-xs">
+              <div>
+                <label class="block text-[11px] text-dim mb-1">🌍 Dil Seçimi:</label>
+                <select id="ai-lang-select" class="w-full bg-black/60 border border-white/10 rounded-xl px-2.5 py-1.5 text-xs text-white">
+                  <option value="uz" selected>🇺🇿 O'zbekcha (Lotin)</option>
+                  <option value="kaa">🏴󠁵󠁺󠁱󠁲󠁿 Qaraqalpaqsha</option>
+                  <option value="ru">🇷🇺 Русский</option>
+                  <option value="tr">🇹🇷 Türkçe</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-[11px] text-dim mb-1">🎭 Persona / Elçi:</label>
+                <select id="ai-persona-select" class="w-full bg-black/60 border border-white/10 rounded-xl px-2.5 py-1.5 text-xs text-white">
+                  <option value="corporate" selected>🏛️ Kurumsal Arkadaş</option>
+                  <option value="mila">✨ Mila (@mila.travels)</option>
+                  <option value="madina">❤️ Madina Karimova</option>
+                </select>
+              </div>
+            </div>
+
             <div class="pt-2 space-y-1">
               <label class="block text-[11px] font-mono text-dim">2. Özel Konu / Anahtar Kelime (Opsiyonel):</label>
               <input type="text" id="ai-custom-keyword" placeholder="Örn: Sakarya IT, Hacettepe Tıp, Burslar..." class="w-full bg-black/60 border border-white/10 rounded-xl px-3 py-2 text-xs text-white font-mono placeholder:text-slate-600 focus:outline-none focus:border-emerald-500">
@@ -1478,6 +1498,35 @@
               Yükleniyor...
             </div>
           </div>
+
+          <!-- 1-Click Doğrudan Mesaj Gönderici -->
+          <div class="gece-card p-5 space-y-3 font-mono text-xs border border-emerald-500/20">
+            <h4 class="font-bold text-emerald flex items-center gap-2">
+              <i class="fa-solid fa-paper-plane"></i>
+              <span>1-Tıkla Öğrenciye WhatsApp Gönder</span>
+            </h4>
+            <div>
+              <label class="text-dim text-[11px] block mb-1">Öğrenci Telefon No:</label>
+              <input type="text" id="wa-direct-phone" placeholder="+998901234567" class="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-2 text-white">
+            </div>
+            <div>
+              <label class="text-dim text-[11px] block mb-1">Öğrenci Adı:</label>
+              <input type="text" id="wa-direct-name" placeholder="Örn: Azizbek" class="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-2 text-white">
+            </div>
+            <div>
+              <label class="text-dim text-[11px] block mb-1">Teklif Paketi:</label>
+              <select id="wa-direct-package" class="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-2 text-white text-xs">
+                <option value="asosiy">Asosiy Paket ($500)</option>
+                <option value="orta" selected>O'rta VIP Paket ($800)</option>
+                <option value="katta">Katta Paket ($1100)</option>
+                <option value="burs">Türkiye Bursları Davlat Granti</option>
+              </select>
+            </div>
+            <button type="button" class="btn btn-primary w-full py-2.5 rounded-xl text-xs flex items-center justify-center gap-2" onclick="sendDirectWhatsApp()">
+              <i class="fa-brands fa-whatsapp text-slate-950 font-bold"></i>
+              <span>WhatsApp'ta Aç (wa.me)</span>
+            </button>
+          </div>
         </div>
       </div>
     </section>
@@ -1788,6 +1837,253 @@
               <span>Shorts Video Havuzu:</span>
               <span class="text-cyan font-bold" id="diag-inventory">50 Video Hazır</span>
             </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- SECTION 29: 🎬 REELS & DİKEY VİDEO OYNATICI STÜDYOSU -->
+    <!-- ============================================================== -->
+    <section class="gece-section" id="section-reelsstudio">
+      <div class="section-title-wrap mb-6 flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <span class="section-eyebrow font-mono text-cyan">VERTICAL VIDEO ENGINE & SHOWCASE</span>
+          <h2 class="section-heading text-xl font-bold text-white flex items-center gap-2">
+            <i class="fa-solid fa-film text-cyan"></i>
+            <span>Reels, Shorts & Video Oynatıcı Stüdyosu</span>
+          </h2>
+          <p class="text-xs text-dim mt-0.5">Üretilen tüm dikey Reels videolarını (Mila Özbekçe, Madina Türkçe, Rusça TikTok, Sinematik B-Roll) önizleyin, oynatın ve indirin.</p>
+        </div>
+        <button type="button" class="btn btn-outline btn-xs font-mono text-cyan" onclick="loadReelsShowcase()">
+          <i class="fa-solid fa-rotate mr-1"></i> Videoları Yenile
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-6">
+        <!-- Sol: Aktif Video Oynatıcı -->
+        <div class="lg:col-span-5 space-y-4">
+          <div class="gece-card p-5 space-y-4 flex flex-col items-center">
+            <div class="w-full flex justify-between items-center border-b border-white/10 pb-2">
+              <span class="text-xs font-mono font-bold text-white" id="reels-player-title">Mila Özbekçe Reels</span>
+              <span class="text-[11px] font-mono text-emerald" id="reels-player-badge">Reels</span>
+            </div>
+            
+            <div class="w-[270px] h-[480px] bg-black rounded-2xl overflow-hidden border border-white/10 shadow-2xl flex items-center justify-center">
+              <video id="reels-studio-player" controls playsinline class="w-full h-full object-contain" src="/output/mila_ozbekcha_reel_final.mp4"></video>
+            </div>
+
+            <div class="w-full space-y-2 font-mono text-xs">
+              <div class="flex justify-between items-center text-dim text-[11px]">
+                <span>Persona: <b class="text-white" id="reels-player-persona">Mila (@mila.travels)</b></span>
+                <span>Dil: <b class="text-white" id="reels-player-lang">O'zbekcha 🇺🇿</b></span>
+              </div>
+              <div class="flex gap-2 pt-1">
+                <a id="reels-download-btn" href="/output/mila_ozbekcha_reel_final.mp4" download class="btn btn-primary btn-xs flex-1 text-center py-2 flex items-center justify-center gap-1.5">
+                  <i class="fa-solid fa-download"></i>
+                  <span>MP4 İndir</span>
+                </a>
+                <button type="button" class="btn btn-outline btn-xs flex-1 py-2 text-cyan border-cyan/50" onclick="copyReelsShareLink()">
+                  <i class="fa-solid fa-share-nodes"></i>
+                  <span>Linki Kopyala</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sağ: Video Havuzu Galerisi -->
+        <div class="lg:col-span-7 space-y-4">
+          <div class="gece-card p-5 space-y-3 font-mono text-xs">
+            <div class="flex justify-between items-center">
+              <h4 class="font-bold text-white text-sm flex items-center gap-2">
+                <i class="fa-solid fa-list-check text-emerald"></i>
+                <span>Hazır Üretilmiş Video Galerisi (<span id="reels-count-badge">0</span> Video)</span>
+              </h4>
+              <div class="flex gap-1">
+                <button type="button" class="btn btn-xs btn-outline" onclick="filterReelsGallery('all', this)">Tümü</button>
+                <button type="button" class="btn btn-xs btn-outline" onclick="filterReelsGallery('mila', this)">Mila</button>
+                <button type="button" class="btn btn-xs btn-outline" onclick="filterReelsGallery('madina', this)">Madina</button>
+                <button type="button" class="btn btn-xs btn-outline" onclick="filterReelsGallery('ru', this)">Rusça</button>
+              </div>
+            </div>
+
+            <div class="space-y-2 max-h-[560px] overflow-y-auto pr-1" id="reels-gallery-list">
+              <!-- JS ile dinamik doldurulacak -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- SECTION 30: 🤖 AKILLI ÖĞRENCİ CHATBOT & LEAD SİMÜLATÖRÜ -->
+    <!-- ============================================================== -->
+    <section class="gece-section" id="section-chatbotai">
+      <div class="section-title-wrap mb-6 flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <span class="section-eyebrow font-mono text-emerald">INBOUND AI CONVERSION & LEAD CAPTURE</span>
+          <h2 class="section-heading text-xl font-bold text-white flex items-center gap-2">
+            <i class="fa-solid fa-robot text-emerald"></i>
+            <span>Akıllı Öğrenci Danışman Chatbotu (Inbound Responder)</span>
+          </h2>
+          <p class="text-xs text-dim mt-0.5">Öğrenci sorularını (Özbekçe, Karakalpakça, Rusça, Türkçe) bilgi tabanıyla eşleştirin, canlı yanıt üretin ve tek tıkla CRM'e aktarın.</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-6">
+        <!-- Sol: Soru Giriş ve Simülasyon -->
+        <div class="lg:col-span-5 space-y-4">
+          <div class="gece-card p-5 space-y-3 font-mono text-xs">
+            <h4 class="font-bold text-white text-sm">1. Öğrenci Murojaatını Girin:</h4>
+            
+            <div class="space-y-2">
+              <div>
+                <label class="text-dim text-[11px] block mb-1">Aday Adı & Soyadı:</label>
+                <input type="text" id="bot-sim-name" value="Sardor Alimov" class="w-full bg-black/60 border border-white/10 rounded-xl px-3 py-2 text-white text-xs">
+              </div>
+              <div>
+                <label class="text-dim text-[11px] block mb-1">Telefon / Telegram (@):</label>
+                <input type="text" id="bot-sim-phone" value="+998 90 555 44 33" class="w-full bg-black/60 border border-white/10 rounded-xl px-3 py-2 text-white text-xs">
+              </div>
+              <div>
+                <label class="text-dim text-[11px] block mb-1">Öğrencinin Sorusu / Mesajı:</label>
+                <textarea id="bot-sim-message" rows="3" placeholder="Örn: Turkiyada tibbiyotga grant bormi? Yoki attestat bilan qabul qilasizlarmi?" class="w-full bg-black/60 border border-white/10 rounded-xl p-3 text-white text-xs leading-relaxed focus:outline-none focus:border-emerald-500"></textarea>
+              </div>
+            </div>
+
+            <!-- Hazır Hızlı Test Soruları -->
+            <div>
+              <span class="text-dim text-[11px] block mb-1.5">⚡ Hızlı Test Kalıpları:</span>
+              <div class="flex flex-wrap gap-1.5">
+                <button type="button" class="btn btn-outline btn-xs text-[11px]" onclick="setBotSimMsg('Turkiyada tibbiyotga imtihonsiz grant bormi?')">🩺 Tıp Granti</button>
+                <button type="button" class="btn btn-outline btn-xs text-[11px]" onclick="setBotSimMsg('Kontrakt narxlari qancha va oldindan to\'lov bormi?')">💰 Harç & 0$ Risk</button>
+                <button type="button" class="btn btn-outline btn-xs text-[11px]" onclick="setBotSimMsg('Yotoqxona sharoiti qanday, xavfsizmi?')">🏢 Yurt & Güvenlik</button>
+                <button type="button" class="btn btn-outline btn-xs text-[11px]" onclick="setBotSimMsg('Сколько стоит обучение в Стамбуле?')">🇷🇺 Rusça Fiyat</button>
+                <button type="button" class="btn btn-outline btn-xs text-[11px]" onclick="setBotSimMsg('Qaraqalpaqstanlı jaslar ushın qanday jeńillikler bar?')">🏴󠁵󠁺󠁱󠁲󠁿 Qaraqalpaq</button>
+              </div>
+            </div>
+
+            <button type="button" class="btn btn-primary w-full py-2.5 rounded-xl text-xs flex items-center justify-center gap-2 mt-2" onclick="sendChatbotQuery()">
+              <i class="fa-solid fa-paper-plane"></i>
+              <span>Danışman Yanıtını Üret</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Sağ: Canlı Yanıt ve CRM'e Ekleme Kartı -->
+        <div class="lg:col-span-7 space-y-4">
+          <div class="gece-card p-5 space-y-4 font-mono text-xs flex flex-col justify-between">
+            <div class="space-y-3">
+              <div class="flex justify-between items-center border-b border-white/10 pb-2">
+                <div class="flex items-center gap-2">
+                  <span class="pulse-dot"></span>
+                  <span class="font-bold text-white">Arkadaş AI Sanal Danışman Yanıtı</span>
+                </div>
+                <span class="text-emerald text-[11px]" id="bot-match-badge">Eşleşme: Bekleniyor...</span>
+              </div>
+
+              <!-- Mesaj Balonları -->
+              <div class="space-y-3 min-h-[220px] bg-black/40 p-4 rounded-2xl border border-white/5">
+                <div class="text-right">
+                  <div class="inline-block bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 p-3 rounded-2xl rounded-tr-none text-left max-w-[85%]" id="bot-user-bubble">
+                    💬 Bir soru yazıp "Danışman Yanıtını Üret" butonuna basın...
+                  </div>
+                </div>
+
+                <div class="text-left">
+                  <div class="inline-block bg-white/[0.04] text-slate-200 border border-white/10 p-3.5 rounded-2xl rounded-tl-none max-w-[90%] leading-relaxed" id="bot-agent-bubble">
+                    🤖 Arkadaş Consulting AI asistanı hazır. Öğrencinin sorusuna göre 20 Soru-Cevap bankasından resmi yanıt oluşturulacaktır.
+                  </div>
+                </div>
+              </div>
+
+              <!-- Takip Soruları -->
+              <div id="bot-followups-container" class="space-y-1 hidden">
+                <span class="text-dim text-[11px]">Önerilen Takip Soruları:</span>
+                <div class="flex flex-wrap gap-1.5" id="bot-followups-pills"></div>
+              </div>
+            </div>
+
+            <!-- Alt Aksiyon Barı -->
+            <div class="pt-3 border-t border-white/10 flex flex-wrap gap-2">
+              <button type="button" class="btn btn-primary btn-xs py-2 px-4 flex-1 flex items-center justify-center gap-1.5" onclick="saveChatbotLeadToCRM()">
+                <i class="fa-solid fa-user-plus"></i>
+                <span>➕ Tek Tıkla CRM'e Lead Olarak Ekle</span>
+              </button>
+              <button type="button" class="btn btn-outline btn-xs py-2 px-3 text-cyan" onclick="copyBotResponse()">
+                <i class="fa-solid fa-copy"></i>
+                <span>Yanıtı Kopyala</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- SECTION 31: 📜 RESMİ ÖĞRENCİ SÖZLEŞMESİ & TEKLİF ÜRETİCİ -->
+    <!-- ============================================================== -->
+    <section class="gece-section" id="section-contractgen">
+      <div class="section-title-wrap mb-6 flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <span class="section-eyebrow font-mono text-amber">OFFICIAL LEGAL CONTRACT GENERATOR</span>
+          <h2 class="section-heading text-xl font-bold text-white flex items-center gap-2">
+            <i class="fa-solid fa-file-signature text-amber"></i>
+            <span>Resmi Öğrenci Sözleşmesi & Teklif Üretici</span>
+          </h2>
+          <p class="text-xs text-dim mt-0.5">Arkadaş Consulting resmi MChJ sözleşmesini ($500, $800, $1100, Burs Garantisi) öğrenci bilgileriyle anında üretin ve yazdırın.</p>
+        </div>
+        <button type="button" class="btn btn-primary btn-xs font-mono" onclick="printOfficialContract()">
+          <i class="fa-solid fa-print mr-1"></i> Sözleşmeyi Yazdır / PDF Kaydet
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-6">
+        <!-- Sol: Form -->
+        <div class="lg:col-span-4 space-y-4">
+          <div class="gece-card p-5 space-y-3 font-mono text-xs">
+            <h4 class="font-bold text-white text-sm">Sözleşme Bilgileri:</h4>
+            <div>
+              <label class="text-dim text-[11px] block mb-1">Öğrenci Adı ve Soyadı:</label>
+              <input type="text" id="contract-name" value="Azizbek Rahimov" class="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-2 text-white">
+            </div>
+            <div>
+              <label class="text-dim text-[11px] block mb-1">Pasaport Serisi ve No:</label>
+              <input type="text" id="contract-passport" value="FA 3491827" class="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-2 text-white">
+            </div>
+            <div>
+              <label class="text-dim text-[11px] block mb-1">Telefon Numarası:</label>
+              <input type="text" id="contract-phone" value="+998 90 123 45 67" class="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-2 text-white">
+            </div>
+            <div>
+              <label class="text-dim text-[11px] block mb-1">Hedef Üniversite:</label>
+              <input type="text" id="contract-uni" value="İstanbul Davlat Universiteti" class="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-2 text-white">
+            </div>
+            <div>
+              <label class="text-dim text-[11px] block mb-1">Bölüm / Mutaxassislik:</label>
+              <input type="text" id="contract-faculty" value="Xalqaro Iqtisodiyot va Moliya" class="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-2 text-white">
+            </div>
+            <div>
+              <label class="text-dim text-[11px] block mb-1">Hizmet Paketi Seçimi:</label>
+              <select id="contract-package" class="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-2 text-white text-xs">
+                <option value="asosiy">Asosiy Paket ($500 - Qabul, Denklik, Tarjima)</option>
+                <option value="orta" selected>O'rta VIP Paket ($800 - Asosiy + Aeroport, Sug'urta, İkamet)</option>
+                <option value="katta">Katta Paket ($1100 - O'rta + TÖMER va 75% Grant)</option>
+                <option value="burs">Türkiye Bursları Davlat Granti ($300 Depozit - 50% Qaytarish Kafolati)</option>
+              </select>
+            </div>
+            <button type="button" class="btn btn-primary w-full py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 mt-2" onclick="generateContractPreview()">
+              <i class="fa-solid fa-file-contract"></i>
+              <span>Sözleşmeyi Oluştur</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Sağ: Canlı Yazdırılabilir Önizleme -->
+        <div class="lg:col-span-8">
+          <div class="gece-card p-6 min-h-[500px] overflow-x-auto bg-white rounded-2xl shadow-2xl" id="contract-preview-box">
+            <!-- JS ile dinamik doldurulacak -->
           </div>
         </div>
       </div>

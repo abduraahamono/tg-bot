@@ -416,12 +416,115 @@ def send_telegram_post():
 
 @app.route("/api/generate_ai_post", methods=["POST"])
 def generate_ai_post():
-    """Generates dynamic high-converting educational content using ContentGenerator and dynamic engines."""
+    """Generates dynamic high-converting educational content supporting multiple languages and influencer personas."""
     payload = request.get_json() or {}
     topic = payload.get("topic", "tibbiyot")
     custom_keyword = payload.get("keyword", "").strip()
+    lang = payload.get("lang", "uz").lower()  # uz, kaa, ru, tr
+    persona = payload.get("persona", "corporate").lower()  # mila, madina, corporate
     
     try:
+        # Karakalpak Language Support
+        if lang == "kaa":
+            topic_kaa = {
+                "tibbiyot": ("Meditsina hám Stomatologiya", "🩺", "Imtixansız qabıllaw hám 50-100% grantlar", "Xalıqaralıq klinikalarda ámeliyat"),
+                "ish": ("Studentler ushın Rásmiy Jumıs", "💼", "Háptege 20 saat nızamlı islew imkániyatı", "Saatbay jaqsı dáramat"),
+                "viza": ("Studentlik Vizası hám İkamet", "📑", "100% kepillengen qabıllaw", "Göç İdaresinde tolıq yuridikalıq járdem"),
+                "tomer": ("TÖMER Túrk Tili Kursları", "🇹🇷", "Til bilmey turıp universitetke kiriw", "1 jıl til úyrenip fakultetke ótiw"),
+                "narxlar": ("Kontrakt Bahaları hám Qárejetler", "💰", "Mámleketlik universitetlerde arzan kontraktlar", "Yataqxona hám arzan transport")
+            }
+            name, emoji, highlight, subtext = topic_kaa.get(topic, (custom_keyword or "Túrkiyada Oqıw", "🎓", "Kepillengen qabıllaw", "Ózbekstanda 100% tán alınatuǵın Yevropa diplomı"))
+            content = f"{emoji} <b>TÚRKIYADA {name.upper()}: 2026-2027 QABILLAW MÁWSIMI</b> 🇹🇷🎓\n\n" \
+                      f"Ássalamu áleykum húrmetli jaslar hám ata-analar!\n" \
+                      f"Túrkiyada hesh qanday qıyın imtixansız, tek mektep yamasa kolledj attestat bahalarıńız benen nufuzlı mámleketlik universitetlerge oqıwǵa kiriw múmkin!\n\n" \
+                      f"📌 <b>Tiykarǵı Múmkinshilikler:</b>\n" \
+                      f"✅ {highlight}\n" \
+                      f"✅ {subtext}\n" \
+                      f"✅ Qolaylı mámleketlik yataqxana hám 50% jeńillikli student transport kartası\n\n" \
+                      f"⚠️ <b>Oldınnan tólem joq — 0$ qáwip!</b> Dáslep qabıllaw xatınız shıǵadı, keyin tólem qılasız.\n\n" \
+                      f"📲 <i>Qaraqalpaqstanlı jaslar ushın biypul másláhát:</i>\n" \
+                      f"👉 @arkadasuzz | Telegram kanal: @arkadasuz\n\n" \
+                      f"#TurkiyadaTalim #Qaraqalpaqstan #Nukus #ArkadasConsulting #Talaba2026"
+            title = f"{emoji} [Qaraqalpaqsha] {name} Qabıllaw E'lanı"
+            return jsonify({"success": True, "post": {"title": title, "content": content}})
+
+        # Russian Language Support
+        if lang == "ru":
+            topic_ru = {
+                "tibbiyot": ("Медицина и Стоматология", "🩺", "Поступление без экзаменов и гранты до 100%", "Практика в ведущих европейских клиниках"),
+                "ish": ("Официальная Работа для Студентов", "💼", "20 часов в неделю официальной работы", "Возможность покрывать расходы во время учебы"),
+                "viza": ("Студенческая Виза и ВНЖ (Икамет)", "📑", "100% гарантия зачисления и оформления", "Полное юридическое сопровождение в миграционной службе"),
+                "tomer": ("Курсы турецкого языка TÖMER", "🇹🇷", "Поступление без знания языка", "Год языковой подготовки и переход на специальность"),
+                "narxlar": ("Стоимость обучения и проживания", "💰", "Доступные государственные вузы от $250 в год", "Льготное общежитие и студенческий проездной")
+            }
+            name, emoji, highlight, subtext = topic_ru.get(topic, (custom_keyword or "Обучение в Турции", "🎓", "Гарантия зачисления", "100% нострификация диплома в Узбекистане"))
+            content = f"{emoji} <b>ОБУЧЕНИЕ В ТУРЦИИ: {name.upper()} 2026-2027</b> 🇹🇷🎓\n\n" \
+                      f"Здравствуйте, уважаемые абитуриенты и родители!\n" \
+                      f"Поступление в ведущие государственные и частные вузы Турции БЕЗ вступительных экзаменов — на основании школьного аттестата!\n\n" \
+                      f"📌 <b>Главные преимущества:</b>\n" \
+                      f"✅ {highlight}\n" \
+                      f"✅ {subtext}\n" \
+                      f"✅ Официальное признание диплома в Узбекистане и странах ЕС (Bologna Process)\n" \
+                      f"✅ Встреча в аэропорту Стамбула, заселение в общежитие, сим-карта и банковский счет\n\n" \
+                      f"🛡️ <b>БЕЗ ПРЕДОПЛАТЫ — 0% РИСКА!</b> Оплата услуг агентства производится строго ПОСЛЕ получения официального приказа о зачислении (Acceptance Letter).\n\n" \
+                      f"📲 <i>Забронируйте место прямо сейчас (квоты ограничены):</i>\n" \
+                      f"👉 Консультант: @arkadasuzz | Канал: @arkadasuz\n\n" \
+                      f"#УчебавТурции #ОбразованиеВТурции #Ташкент #Талаба2026 #ArkadasConsulting"
+            title = f"{emoji} [Русский] {name} - Прием 2026"
+            return jsonify({"success": True, "post": {"title": title, "content": content}})
+
+        # Turkish Language Support
+        if lang == "tr":
+            topic_tr = {
+                "tibbiyot": ("Tıp ve Diş Hekimliği", "🩺", "YÖS Şartı Olmadan Kabul", "Uluslararası akredite üniversite hastaneleri"),
+                "ish": ("Öğrenciler İçin Yasal Çalışma", "💼", "Haftalık 20 saat part-time çalışma izni", "Eğitim alırken bütçeyi karşılama fırsatı"),
+                "viza": ("Öğrenci Vizesi ve İkamet İzni", "📑", "Garantili kabul ve göç idaresi işlemleri", "Eksiksiz resmi danışmanlık"),
+                "tomer": ("TÖMER Türkçe Dil Eğitimi", "🇹🇷", "Hazırlık sınıfı ile doğrudan lisans geçişi", "C1 seviyesi sertifika programı"),
+                "narxlar": ("Harç Ücretleri ve Yaşam Maliyeti", "💰", "Devlet üniversitelerinde uygun harçlar", "KYK yurtları ve indirimli İstanbulkart")
+            }
+            name, emoji, highlight, subtext = topic_tr.get(topic, (custom_keyword or "Türkiye'de Üniversite", "🎓", "Garantili Kabul", "YÖK onaylı ve uluslararası geçerli diploma"))
+            content = f"{emoji} <b>TÜRKİYE'DE EĞİTİM: {name.upper()} 2026-2027</b> 🇹🇷🎓\n\n" \
+                      f"Özbekistan ve Orta Asyalı öğrenciler için Türkiye'nin en seçkin devlet ve vakıf üniversitelerinde kontenjanlar açıldı!\n\n" \
+                      f"📌 <b>Fırsatlar:</b>\n" \
+                      f"✅ {highlight}\n" \
+                      f"✅ {subtext}\n" \
+                      f"✅ Havalimanı karşılama, yurt yerleştirme ve ikamet danışmanlığı\n\n" \
+                      f"🛡️ <b>Ön ödeme yok — Sıfır risk!</b> Resmi kabul belgeniz geldikten sonra ödeme yapılır.\n\n" \
+                      f"📲 <i>Detaylı Bilgi ve Başvuru:</i>\n" \
+                      f"👉 @arkadasuzz | Kanal: @arkadasuz"
+            title = f"{emoji} [Türkçe] {name} Başvuru Rehberi"
+            return jsonify({"success": True, "post": {"title": title, "content": content}})
+
+        # Uzbek Language Support with Persona options (Mila, Madina, Corporate)
+        if persona == "mila":
+            content = f"Hey do'stlar! Mila bilan Istanbul sayohatiga va talabalik drayviga tayyormisiz? ✨🇹🇷\n\n" \
+                      f"Bugun sizlarga bir ajoyib yangilik: Turkiyada Yevropa darajasidagi universitetda o'qish uchun yillab repetitorga qatnash yoki qiyin imtihon topshirish umuman shart emas!\n\n" \
+                      f"Maktab yoki kollej attestat baholaringiz bilan Arkadaş Consulting orqali to'g'ridan-to'g'ri nufuzli universitetga qabul qilinishingiz va 100% gacha grant yutishingiz mumkin! 🎓🔥\n\n" \
+                      f"✨ <b>Mila nima uchun aynan Arkadaş'ni tavsiya qiladi?</b>\n" \
+                      f"✅ Oldindan 1 tiyin ham to'lov olinmaydi (0$ xavf!)\n" \
+                      f"✅ Aeroportda kutib olishadi, chiroyli yotoqxonaga joylashadi\n" \
+                      f"✅ Viza, sug'urta va ikamet ishlarini professional jamoa hal qiladi\n\n" \
+                      f"Qani, Istanbulning eng estetik kafelarida birga kofe ichamizmi? ☕️ Joyingizni hoziroq band qiling:\n" \
+                      f"👉 @arkadasuzz ga yozing!\n\n" \
+                      f"#IstanbulTalabasi #MilaTravels #ArkadasVibe #Talaba2026 #TurkiyadaOqish"
+            title = "✨ [Mila Persona] Istanbul Talabalik Vibe & Grantlar"
+            return jsonify({"success": True, "post": {"title": title, "content": content}})
+
+        if persona == "madina":
+            content = f"Salom do'stlar! Har bir yoshning eng katta orzusi — sifatli ta'lim, xalqaro diplom va yorqin kelajak, to'g'rimi? 🇹🇷❤️\n\n" \
+                      f"O'tgan yili men ham xuddi sizdek ikkilanib turgan edim. Ota-onam xavotir olishgandi. Lekin Arkadaş Consulting jamoasi barcha hujjatlarimni tayyorlab, Marmara Universitetiga 100% grant bilan kirishimga yordam berdi!\n\n" \
+                      f"📌 <b>Bilib qo'yishingiz kerak bo'lgan muhim faktlar:</b>\n" \
+                      f"✅ Turkiyada yotoqxonalar 24/7 qo'riqlanadi va juda xavfsiz\n" \
+                      f"✅ Taomlari mazali va hamyonbop, talaba transporti deyarli bepul\n" \
+                      f"✅ Ota-onangiz xotirjam bo'lishi uchun hamma xizmatlar rasmiy shartnoma bilan amalga oshiriladi\n" \
+                      f"✅ Dastlab rasmiy qabul xatingiz chiqadi, keyin esa to'lov qilasiz!\n\n" \
+                      f"Siz faqat qaror qabul qiling, qolganini Arkadaş hal qiladi 😊\n" \
+                      f"📲 Bepul konsultatsiya: @arkadasuzz\n\n" \
+                      f"#MadinaInIstanbul #ArkadasConsulting #TalabalikHayoti #TurkiyadaTalim"
+            title = "❤️ [Madina Persona] Samimiy Talabalik Maslahati"
+            return jsonify({"success": True, "post": {"title": title, "content": content}})
+
+        # Default Corporate Uzbek
         if topic == "qa":
             result = content_gen.generate_qa_post(question=custom_keyword if custom_keyword else None)
             content = result.get("caption") if isinstance(result, dict) else str(result)
@@ -434,6 +537,16 @@ def generate_ai_post():
             result = content_gen.generate_service_checklist_post()
             content = result.get("caption") if isinstance(result, dict) else str(result)
             title = "💰 Kontrakt Narxlari va 10 Oylik Xarajatlar Smetasi"
+        elif topic == "burs":
+            content = "🇹🇷 <b>TÜRKİYE BURSLARI DAVLAT GRANTLARI — 100% BEPUL TA'LIM!</b> 🎓\n\n" \
+                      "Turkiya hukumati tomonidan beriladigan eng nufuzli stipendiya dasturi imkoniyatlari:\n" \
+                      "✅ To'liq bepul o'qish (kontrakt to'lovi 0$)\n" \
+                      "✅ Bepul davlat yotoqxonasi va oylik stipendiya\n" \
+                      "✅ Aviachipta va bepul tibbiy sug'urta\n\n" \
+                      "Arkadaş Consulting orqali professional motivatsion xat, tavsiyanomalar va mukammal ariza topshiring!\n" \
+                      "🛡️ <b>Kafolat:</b> Agar grant chiqmasa, to'lovning 50% qaytariladi YOKI $500 lik Asosiy Paketimiz bepul beriladi!\n\n" \
+                      "📲 Joylar juda kam! Hozirdan ariza topshiring: @arkadasuzz"
+            title = "🏛️ Türkiye Bursları Davlat Granti E'loni"
         else:
             topic_names = {
                 "tibbiyot": ("Tibbiyot va Stomatologiya", "🩺", "Imtihonsiz grant va stipendiyalar", "Meditsina fakultetlarida xalqaro klinikalarda amaliyot"),
@@ -463,7 +576,7 @@ def generate_ai_post():
                 content += f"🏛️ <b>Ushbu yo'nalish bo'yicha eng yaxshi universitetlar:</b>\n{uni_lines}\n\n"
                 
             content += f"⚡️ <i>Kvotalar soni chegaralangan! Qabul arizangizni hozirdan yuboring:</i>\n" \
-                       f"👉 @arkadasuz | Bepul konsultatsiya\n\n" \
+                       f"👉 @arkadasuzz | Bepul konsultatsiya\n\n" \
                        f"#TurkiyadaTalim #{name.replace(' ', '')} #ArkadasConsulting #Talaba2026"
             title = f"{emoji} {name} Bo'yicha Qabul E'loni"
             
@@ -474,7 +587,7 @@ def generate_ai_post():
             "success": True,
             "post": {
                 "title": "🎓 Turkiyada O'qish Imkoniyatlari",
-                "content": f"🎓 Turkiyada oliy ta'lim olish bo'yicha eng so'nggi yangiliklar va grantlar!\n\n👉 Batafsil: @arkadasuz"
+                "content": f"🎓 Turkiyada oliy ta'lim olish bo'yicha eng so'nggi yangiliklar va grantlar!\n\n👉 Batafsil: @arkadasuzz"
             }
         })
 
@@ -1243,6 +1356,328 @@ def get_telegram_ultra():
             ],
             "is_anonymous": True
         }
+    })
+
+# ==============================================================
+# REAL REELS VIDEO SHOWCASE & PLAYER
+# ==============================================================
+
+@app.route("/api/reels_showcase", methods=["GET"])
+def get_reels_showcase():
+    """Returns all generated mp4 video reels with metadata, stream url and download link."""
+    output_dir = BASE_DIR / "output"
+    videos = []
+    if output_dir.exists():
+        for p in sorted(output_dir.glob("*.mp4"), key=lambda x: x.stat().st_mtime, reverse=True):
+            if p.stat().st_size == 0:
+                continue
+            name = p.name
+            size_mb = round(p.stat().st_size / (1024 * 1024), 2)
+            
+            persona = "Arkadaş Stüdyo"
+            lang = "O'zbekcha 🇺🇿"
+            badge = "Reels"
+            
+            if "mila" in name:
+                persona = "Mila (@mila.travels)"
+                badge = "Influencer Reel"
+            elif "madina" in name:
+                persona = "Madina Karimova"
+                badge = "Story Reel"
+            elif "cinematic" in name:
+                persona = "Sinematik B-Roll"
+                badge = "4K B-Roll"
+            elif "faceless" in name:
+                persona = "Yuzsiz / Estetik Trend"
+                badge = "Faceless AI"
+            elif "ugc" in name:
+                persona = "UGC Talaba Vlogger"
+                badge = "UGC Video"
+            elif "fastlane" in name:
+                persona = "Fastlane Dynamic"
+                badge = "Pro Motion"
+
+            if "_ru_" in name or "ru" in name:
+                lang = "Ruscha 🇷🇺"
+            elif "turkish" in name or "_tr_" in name:
+                lang = "Turkcha 🇹🇷"
+            elif "ozbek" in name or "_uz_" in name:
+                lang = "O'zbekcha 🇺🇿"
+
+            clean_title = name.replace(".mp4", "").replace("_", " ").title()
+            videos.append({
+                "filename": name,
+                "title": clean_title,
+                "persona": persona,
+                "badge": badge,
+                "language": lang,
+                "size_mb": size_mb,
+                "stream_url": f"/output/{name}",
+                "download_url": f"/output/{name}"
+            })
+    return jsonify({"success": True, "count": len(videos), "videos": videos})
+
+# ==============================================================
+# INBOUND AI STUDENT CHATBOT & FAQ MATCHER
+# ==============================================================
+
+@app.route("/api/chatbot/query", methods=["POST"])
+def query_chatbot():
+    """Matches incoming student query against 20 FAQ categories and returns authentic response + CRM lead draft."""
+    payload = request.get_json() or {}
+    message = payload.get("message", "").strip()
+    student_name = payload.get("name", "").strip() or "Talaba (Murojaat)"
+    student_phone = payload.get("phone", "").strip() or "+998 90 000 00 00"
+    
+    if not message:
+        return jsonify({"success": False, "error": "Bo'sh xabar yuborildi."}), 400
+        
+    faqs = load_json(FAQ_FILE, [])
+    msg_lower = message.lower()
+    
+    best_match = None
+    max_score = 0
+    
+    keywords_map = {
+        "grant": ["grant", "burs", "stipendiya", "tekinga", "bepul", "скидка", "стипендия"],
+        "narx": ["narx", "kontrakt", "qancha", "tolov", "necha pul", "xarajat", "стоимость", "цена", "harç"],
+        "imtihon": ["imtihon", "yos", "sat", "attestat", "baholar", "экзамен", "аттестат", "kirish"],
+        "yotoqxona": ["yotoqxona", "yotoq", "obshijit", "yashash", "kvartira", "общежитие", "prozhivaniye"],
+        "tibbiyot": ["tibbiyot", "stomatologiya", "vrach", "doktor", "farmatsiya", "медицина", "врач"],
+        "ish": ["ish", "ishlash", "part time", "daromad", "pul topish", "работа", "заработок"],
+        "viza": ["viza", "ikamet", "ruxsatnoma", "elchixona", "hujjat", "виза", "паспорт", "документы"],
+        "nostrifikatsiya": ["nostrifikatsiya", "tan olinadimi", "diplom", "yevropa", "bologna", "диплом", "нострификация"],
+        "til": ["til", "tomer", "ingliz tili", "turk tili", "hazirlik", "язык", "турецкий"]
+    }
+    
+    matched_category = "umumiy"
+    for cat, kws in keywords_map.items():
+        for kw in kws:
+            if kw in msg_lower:
+                matched_category = cat
+                break
+        if matched_category != "umumiy":
+            break
+            
+    # Search in FAQ list
+    for item in faqs:
+        q_lower = item.get("question", "").lower()
+        a_lower = item.get("answer", "").lower()
+        score = 0
+        words = msg_lower.split()
+        for w in words:
+            if len(w) > 2:
+                if w in q_lower:
+                    score += 3
+                if w in a_lower:
+                    score += 1
+        if score > max_score:
+            max_score = score
+            best_match = item
+            
+    if best_match and max_score >= 2:
+        answer_text = best_match.get("answer")
+        category_label = best_match.get("category", matched_category)
+    else:
+        answer_text = "Assalomu alaykum! 🇹🇷 Arkadaş Consulting rasmiy maslahat markaziga xush kelibsiz. " \
+                      "Turkiya davlat va xususiy universitetlariga hech qanday qiyin imtihonlarsiz, faqat maktab/kollej attestat baholaringiz bilan qabul qilishingiz mumkin. " \
+                      "Bizda 100% gacha grantlar, bepul yotoqxona va viza yordami mavjud. Oldindan to'lov yo'q — dastlab qabul xatingiz chiqadi, keyin to'lov qilasiz!"
+        category_label = matched_category
+        
+    full_response = f"🎓 <b>Arkadaş Danışmanı Javobi:</b>\n\n{answer_text}\n\n" \
+                    f"📌 <b>Rasmiy Kafolat:</b> 0$ oldindan to'lov, 99% qabul kafolati.\n" \
+                    f"📲 <i>Qabul arizangizni hoziroq yuboring:</i> 👉 @arkadasuzz"
+                    
+    lead_draft = {
+        "name": student_name,
+        "phone": student_phone,
+        "category": category_label,
+        "source": "AI Chatbot / Telegram Bot",
+        "inquiry": message,
+        "status": "Yangi Ariza",
+        "date": datetime.now().strftime("%Y-%m-%d %H:%M")
+    }
+    
+    return jsonify({
+        "success": True,
+        "matched_category": category_label,
+        "confidence": "Yuqori (95%)" if max_score >= 3 else "Standart (80%)",
+        "response_text": full_response,
+        "lead_draft": lead_draft,
+        "suggested_followups": [
+            "💰 Kontrakt narxlari va to'lovlar qancha?",
+            "🎓 Attestat bilan qaysi universitetlarga kirsa bo'ladi?",
+            "🏢 Yotoqxona va xavfsizlik sharoitlari qanday?",
+            "📑 Hujjat topshirish uchun nimalar kerak?"
+        ]
+    })
+
+@app.route("/api/chatbot/save_to_crm", methods=["POST"])
+def save_chatbot_lead_to_crm():
+    """Saves lead parsed from the inbound chatbot directly to CRM."""
+    payload = request.get_json() or {}
+    lead = {
+        "name": payload.get("name", "Talaba").strip(),
+        "phone": payload.get("phone", "+998 90 000 00 00").strip(),
+        "major": payload.get("category", "Umumiy Ta'lim").title(),
+        "university": payload.get("university", "Turkiya Davlat Universiteti"),
+        "status": "Yangi Ariza",
+        "notes": f"AI Chatbot Murojaati: {payload.get('inquiry', '')}",
+        "date": datetime.now().strftime("%Y-%m-%d")
+    }
+    saved = crm_manager.save_lead(lead)
+    return jsonify({"success": True, "lead": saved})
+
+# ==============================================================
+# WHATSAPP 1-CLICK INSTANT CHAT LINKER
+# ==============================================================
+
+@app.route("/api/whatsapp/generate_link", methods=["POST"])
+def generate_whatsapp_link():
+    """Generates direct 1-click wa.me URL with pre-crafted message."""
+    payload = request.get_json() or {}
+    phone = payload.get("phone", "").replace(" ", "").replace("-", "").replace("+", "").strip()
+    student_name = payload.get("student_name", "Talaba").strip()
+    package_type = payload.get("package_type", "asosiy")
+    
+    packages = {
+        "asosiy": ("Asosiy Paket ($500)", "Universitetga qabul, Elchixona denklik, Rasmiy tarjima va Acceptance Letter"),
+        "orta": ("O'rta Paket ($800)", "Asosiy paket + Aeroport kutib olish, 1 kunlik Istanbul safari, Sug'urta, İkamet va Bank hisobi"),
+        "katta": ("Katta Paket ($1100)", "O'rta paket + 1 yillik TÖMER turk tili va 4 yillik 75% gacha grant kelishuvi"),
+        "burs": ("Türkiye Bursları Davlat Granti", "To'liq bepul o'qish, bepul yotoqxona va oylik stipendiya yordami (Agar chiqmasa $500 bepul paket kafolati!)")
+    }
+    pkg_title, pkg_desc = packages.get(package_type, packages["asosiy"])
+    
+    text = f"Assalomu alaykum, hurmatli {student_name}! 🇹🇷🎓\n\n" \
+           f"Arkadaş Consulting ta'lim agentligidan siz tanlagan rasmiy ta'lim dasturi tafsilotlari:\n\n" \
+           f"📦 <b>Tanlangan Paket:</b> {pkg_title}\n" \
+           f"✅ <b>Xizmatlar:</b> {pkg_desc}\n\n" \
+           f"🛡️ <b>Bizning Kafolatimiz:</b> Oldindan hech qanday to'lov olinmaydi! Dastlab universitet qabul xatingiz qo'lingizga tegadi, keyin to'lov qilasiz.\n\n" \
+           f"Hujjat topshirishni boshlash uchun pasport nusxangizni yuborishingiz mumkin.\n" \
+           f"📲 Rasmiy kanalimiz: https://t.me/arkadasuz\n" \
+           f"Bog'lanish: @arkadasuzz"
+           
+    encoded_text = urllib.parse.quote(text)
+    url = f"https://wa.me/{phone}?text={encoded_text}" if phone else f"https://wa.me/?text={encoded_text}"
+    
+    return jsonify({
+        "success": True,
+        "phone": phone,
+        "whatsapp_url": url,
+        "message_text": text
+    })
+
+# ==============================================================
+# OFFICIAL STUDENT CONTRACT & PROPOSAL GENERATOR
+# ==============================================================
+
+@app.route("/api/contract/generate", methods=["POST"])
+def generate_official_contract():
+    """Generates official Arkadaş Consulting legal contract text & printable proposal."""
+    payload = request.get_json() or {}
+    student_name = payload.get("student_name", "Azizbek Rahimov").strip()
+    passport = payload.get("passport", "FA1234567").strip()
+    phone = payload.get("phone", "+998 90 123 45 67").strip()
+    university = payload.get("university", "İstanbul Davlat Universiteti").strip()
+    faculty = payload.get("faculty", "Xalqaro Iqtisodiyot").strip()
+    package_type = payload.get("package_type", "orta").strip()
+    
+    prices = {
+        "asosiy": ("$500", "Asosiy Xizmat Paketi", [
+            "O'zbekiston fuqarosining Turkiya universitetiga rasmiy qabul arizasini topshirish",
+            "Turkiya Elchixonasidan rasmiy diplom denklik ma'lumotnomasini olish",
+            "Barcha ta'lim hujjatlarining turk tiliga yeminli (notarial) tarjimasi",
+            "Universitet rektoratidan rasmiy qabul xatini (Acceptance Letter) taqdim etish"
+        ]),
+        "orta": ("$800", "O'rta VIP Xizmat Paketi", [
+            "Asosiy paketdagi barcha 4 ta xizmat to'liq hajmda",
+            "Istanbul xalqaro aeroportida (IST/SAW) VIP avtomobilda kutib olish",
+            "1 kunlik tarixiy Istanbul sayohati va yo'naltirish hamrohligi",
+            "1 yillik davlat talaba tibbiy sug'urtasi rasmiylashtirish",
+            "Yashash guvohnomasi (İkamet / Göç İdaresi) hujjatlarini to'liq topshirish",
+            "Turk mobil SIM-kartasi va Ziraat/VakıfBank talaba bank hisobini ochish"
+        ]),
+        "katta": ("$1100", "Katta Premium Grant Paketi", [
+            "O'rta paketdagi barcha 10 ta xizmat to'liq hajmda",
+            "1 yillik TÖMER (turk tili tayyorlov kursi) qabulini ta'minlash",
+            "4 yillik bakalavr davri uchun 75% gacha grant kelishuvi"
+        ]),
+        "burs": ("$300 (Depozit)", "Türkiye Bursları Davlat Granti Xizmati", [
+            "Türkiye Bursları davlat tizimida to'liq professional profil ochish",
+            "Xalqaro standartdagi akademik Motivatsion Xat (Statement of Purpose) yozib berish",
+            "Professor va universitetlardan rasmiy tavsiyanomalar olishda ko'mak",
+            "Grant chiqmagan taqdirda: to'lovning 50% qaytariladi YOKI $500 qiymatidagi Asosiy Paket BEPUL taqdim etiladi"
+        ])
+    }
+    
+    price, pkg_name, obligations = prices.get(package_type, prices["orta"])
+    date_now = datetime.now().strftime("%d.%m.%Y")
+    contract_no = f"ARK-{datetime.now().strftime('%y%m')}-{random.randint(100, 999)}"
+    
+    contract_html = f"""
+    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 800px; margin: 0 auto; padding: 40px; border: 2px solid #e2e8f0; background: #ffffff; color: #1e293b; line-height: 1.6;">
+        <div style="text-align: center; border-bottom: 2px solid #0284c7; padding-bottom: 20px; margin-bottom: 30px;">
+            <h1 style="margin: 0; color: #0f172a; font-size: 24px; text-transform: uppercase; letter-spacing: 1px;">ARKADAŞ CONSULTING MCHJ</h1>
+            <p style="margin: 5px 0 0 0; color: #0284c7; font-weight: 600; font-size: 14px;">Turkiya Oliy Ta'limi Bo'yicha Rasmiy Konsalting Agentligi</p>
+            <p style="margin: 2px 0 0 0; color: #64748b; font-size: 12px;">Toshkent sh., Chilonzor tumani | t.me/arkadasuz | @arkadasuzz</p>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; margin-bottom: 20px; font-size: 13px; font-weight: bold; background: #f8fafc; padding: 12px; border-radius: 8px;">
+            <div>SHARTNOMA RAQAMI: <span style="color: #0284c7;">{contract_no}</span></div>
+            <div>TUZILGAN SANA: <span>{date_now}</span></div>
+        </div>
+
+        <h3 style="text-align: center; margin: 20px 0; font-size: 16px; text-transform: uppercase;">TA'LIM XIZMATLARI KO'RSATISH VA VAKILLIK SHARTNOMASI</h3>
+
+        <p style="font-size: 13px; text-align: justify;">
+            Bir tomondan <b>"Arkadaş Consulting" MChJ</b> (keyingi o'rinlarda "Ijrochi"), ikkinchi tomondan fuqaro <b>{student_name}</b> (Pasport: <b>{passport}</b>, Tel: <b>{phone}</b>) (keyingi o'rinlarda "Buyurtmachi") ushbu shartnomani quyidagi shartlar asosida tuzdilar:
+        </p>
+
+        <h4 style="color: #0f172a; margin-top: 20px; font-size: 14px; border-bottom: 1px solid #cbd5e1; padding-bottom: 4px;">1. SHARTNOMA PREDMETI</h4>
+        <p style="font-size: 13px;">
+            Ijrochi Buyurtmachini <b>{university}</b> ning <b>{faculty}</b> yo'nalishiga qabul qildirish va <b>{pkg_name}</b> doirasida xizmatlar ko'rsatish majburiyatini oladi.
+        </p>
+
+        <h4 style="color: #0f172a; margin-top: 20px; font-size: 14px; border-bottom: 1px solid #cbd5e1; padding-bottom: 4px;">2. KO'RSATILADIGAN XIZMATLAR KO'LAMI ({pkg_name.upper()})</h4>
+        <ul style="font-size: 13px; padding-left: 20px;">
+            {''.join([f'<li style="margin-bottom: 6px;">{o}</li>' for o in obligations])}
+        </ul>
+
+        <h4 style="color: #0f172a; margin-top: 20px; font-size: 14px; border-bottom: 1px solid #cbd5e1; padding-bottom: 4px;">3. TO'LOV TARTIBI VA 0$ OLDINDAN TO'LOV KAFOLATI</h4>
+        <p style="font-size: 13px; background: #eff6ff; padding: 12px; border-left: 4px solid #0284c7; border-radius: 4px;">
+            Xizmatlarning umumiy qiymati <b>{price}</b> ni tashkil qiladi. Buyurtmachi <b>OLDINDAN HECH QANDAY TO'LOV QILMAYDI</b>. To'lov to'liq hajmda faqatgina universitetdan Buyurtmachi nomiga rasmiy qabul xati (Acceptance Letter) olingandan so'ng 3 ish kuni ichida amalga oshiriladi.
+        </p>
+
+        <h4 style="color: #0f172a; margin-top: 20px; font-size: 14px; border-bottom: 1px solid #cbd5e1; padding-bottom: 4px;">4. TOMONLARNING REKVIZITLARI VA IMZOLARI</h4>
+        <table style="width: 100%; font-size: 13px; margin-top: 30px;">
+            <tr>
+                <td style="width: 50%; vertical-align: top; padding-right: 20px;">
+                    <b>IJROCHI:</b><br>
+                    "Arkadaş Consulting" MChJ<br>
+                    Toshkent sh., O'zbekiston<br>
+                    Direktor: ____________________<br><br>
+                    <div style="border: 2px dashed #94a3b8; width: 110px; height: 110px; border-radius: 50%; text-align: center; line-height: 110px; color: #64748b; font-size: 11px; margin: 10px 0;">[M.O'. / MUHR]</div>
+                </td>
+                <td style="width: 50%; vertical-align: top; padding-left: 20px;">
+                    <b>BUYURTMACHI:</b><br>
+                    F.I.SH: <b>{student_name}</b><br>
+                    Pasport: <b>{passport}</b><br>
+                    Telefon: <b>{phone}</b><br><br>
+                    Imzo: ____________________<br><br>
+                    Sana: <b>{date_now}</b>
+                </td>
+            </tr>
+        </table>
+    </div>
+    """
+    
+    return jsonify({
+        "success": True,
+        "contract_no": contract_no,
+        "student_name": student_name,
+        "package": pkg_name,
+        "price": price,
+        "contract_html": contract_html
     })
 
 # ==============================================================

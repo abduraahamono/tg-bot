@@ -139,6 +139,7 @@ const EXECUTIVE_HUBS = {
     defaultSection: "contenthub",
     tabs: [
       { id: "contenthub", label: "📢 Telegram (@arkadasuz)", icon: "fa-brands fa-telegram" },
+      { id: "chatbotai", label: "🤖 AI Gelen Mesaj / Chatbot", icon: "fa-solid fa-robot" },
       { id: "tiktoklab", label: "📱 TikTok & Reels Lab", icon: "fa-brands fa-tiktok" },
       { id: "twitterhub", label: "🐦 Twitter / X Feed", icon: "fa-brands fa-x-twitter" },
       { id: "facebookhub", label: "📘 Facebook Ads Suite", icon: "fa-brands fa-facebook" },
@@ -163,6 +164,7 @@ const EXECUTIVE_HUBS = {
     defaultSection: "crm",
     tabs: [
       { id: "crm", label: "👥 Öğrenci CRM (Kanban & Tablo)", icon: "fa-solid fa-users" },
+      { id: "contractgen", label: "📜 Resmi Sözleşme Üretici", icon: "fa-solid fa-file-signature" },
       { id: "checklist", label: "📋 12 Adım Vize Takip", icon: "fa-solid fa-list-check" },
       { id: "documents", label: "📄 Resmi Evrak & Tercüme", icon: "fa-solid fa-file-contract" },
       { id: "airport", label: "✈️ VIP Karşılama", icon: "fa-solid fa-plane-arrival" },
@@ -174,6 +176,7 @@ const EXECUTIVE_HUBS = {
     defaultSection: "aicopilot",
     tabs: [
       { id: "aicopilot", label: "🤖 AI Metin Stüdyosu", icon: "fa-solid fa-wand-magic-sparkles" },
+      { id: "reelsstudio", label: "🎬 Reels Video Stüdyosu", icon: "fa-solid fa-film" },
       { id: "audiostudio", label: "🎙️ Seslendirme & Dublaj", icon: "fa-solid fa-microphone" },
       { id: "marketingstudio", label: "🎨 Banner & Afiş Stüdyosu", icon: "fa-solid fa-palette" },
       { id: "counselors", label: "👥 Danışman & Prim", icon: "fa-solid fa-user-tie" }
@@ -349,7 +352,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     loadWhatsAppSuite(),
     loadInstagramSuite(),
     loadYouTubePower(),
-    loadTelegramUltra()
+    loadTelegramUltra(),
+    loadReelsShowcase(),
+    generateContractPreview()
   ]);
 
   updateBudgetCalc();
@@ -1869,6 +1874,9 @@ window.selectAITopic = selectAITopic;
 
 async function triggerAIGeneration() {
   const keyword = document.getElementById('ai-custom-keyword')?.value || '';
+  const lang = document.getElementById('ai-lang-select')?.value || 'uz';
+  const persona = document.getElementById('ai-persona-select')?.value || 'corporate';
+
   showToast("Dinamik AI metni hazırlanıyor...", "info");
   const tag = document.getElementById('ai-status-tag');
   if (tag) tag.innerText = "AI Üretiyor...";
@@ -1879,7 +1887,9 @@ async function triggerAIGeneration() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ 
         topic: window.selectedAITopic || 'tibbiyot',
-        keyword: keyword
+        keyword: keyword,
+        lang: lang,
+        persona: persona
       })
     });
     const data = await res.json();
@@ -2345,3 +2355,319 @@ function copyTextDirect(txt, msg) {
   showToast(msg || "Panoya kopyalandı!", "success");
 }
 window.copyTextDirect = copyTextDirect;
+
+// ==============================================================
+// REELS & VIDEO SHOWCASE CONTROLLER
+// ==============================================================
+
+let cachedReels = [];
+
+async function loadReelsShowcase() {
+  try {
+    const res = await fetch('/api/reels_showcase');
+    const data = await res.json();
+    if (data.success && Array.isArray(data.videos)) {
+      cachedReels = data.videos;
+      const countBadge = document.getElementById('reels-count-badge');
+      if (countBadge) countBadge.innerText = data.videos.length;
+      renderReelsGallery(data.videos);
+    }
+  } catch (e) {
+    console.error("Reels yükleme hatası:", e);
+  }
+}
+window.loadReelsShowcase = loadReelsShowcase;
+
+function renderReelsGallery(videos) {
+  const container = document.getElementById('reels-gallery-list');
+  if (!container) return;
+
+  if (videos.length === 0) {
+    container.innerHTML = '<div class="text-dim text-center py-6">Henüz video bulunamadı.</div>';
+    return;
+  }
+
+  container.innerHTML = videos.map((v) => {
+    const safeTitle = v.title.replace(/'/g, "\\'");
+    const safePersona = v.persona.replace(/'/g, "\\'");
+    return `
+      <div class="p-3 bg-black/40 hover:bg-white/[0.04] border border-white/5 hover:border-cyan/30 rounded-xl transition cursor-pointer flex items-center justify-between gap-3"
+        onclick="playSelectedReel('${v.filename}', '${safeTitle}', '${safePersona}', '${v.language}', '${v.badge}')">
+        <div class="flex items-center gap-3 min-w-0">
+          <div class="w-10 h-10 rounded-xl bg-cyan/10 border border-cyan/20 flex items-center justify-center text-cyan flex-shrink-0">
+            <i class="fa-solid fa-play text-xs"></i>
+          </div>
+          <div class="min-w-0">
+            <div class="font-bold text-white text-xs truncate">${v.title}</div>
+            <div class="text-[11px] text-dim flex items-center gap-2">
+              <span>${v.persona}</span>
+              <span>•</span>
+              <span>${v.language}</span>
+              <span>•</span>
+              <span>${v.size_mb} MB</span>
+            </div>
+          </div>
+        </div>
+        <div class="flex items-center gap-1.5 flex-shrink-0">
+          <span class="px-2 py-0.5 rounded text-[10px] bg-white/10 text-slate-300 font-mono">${v.badge}</span>
+          <a href="${v.download_url}" download class="btn btn-outline btn-xs p-1.5 text-cyan hover:bg-cyan/20" onclick="event.stopPropagation()" title="İndir">
+            <i class="fa-solid fa-download"></i>
+          </a>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+window.renderReelsGallery = renderReelsGallery;
+
+function playSelectedReel(filename, title, persona, lang, badge) {
+  const player = document.getElementById('reels-studio-player');
+  const titleEl = document.getElementById('reels-player-title');
+  const badgeEl = document.getElementById('reels-player-badge');
+  const personaEl = document.getElementById('reels-player-persona');
+  const langEl = document.getElementById('reels-player-lang');
+  const downloadBtn = document.getElementById('reels-download-btn');
+
+  const streamUrl = `/output/${filename}`;
+  if (player) {
+    player.src = streamUrl;
+    player.play().catch(() => {});
+  }
+  if (titleEl) titleEl.innerText = title;
+  if (badgeEl) badgeEl.innerText = badge;
+  if (personaEl) personaEl.innerText = persona;
+  if (langEl) langEl.innerText = lang;
+  if (downloadBtn) downloadBtn.href = streamUrl;
+
+  showToast(`${title} oynatılıyor...`, "info");
+}
+window.playSelectedReel = playSelectedReel;
+
+function filterReelsGallery(type, btn) {
+  document.querySelectorAll('#section-reelsstudio .btn-xs').forEach(b => b.classList.remove('btn-primary'));
+  if (btn) btn.classList.add('btn-primary');
+
+  if (type === 'all') {
+    renderReelsGallery(cachedReels);
+  } else if (type === 'mila') {
+    renderReelsGallery(cachedReels.filter(v => v.filename.toLowerCase().includes('mila')));
+  } else if (type === 'madina') {
+    renderReelsGallery(cachedReels.filter(v => v.filename.toLowerCase().includes('madina')));
+  } else if (type === 'ru') {
+    renderReelsGallery(cachedReels.filter(v => v.filename.toLowerCase().includes('ru')));
+  }
+}
+window.filterReelsGallery = filterReelsGallery;
+
+function copyReelsShareLink() {
+  const player = document.getElementById('reels-studio-player');
+  if (player && player.src) {
+    navigator.clipboard.writeText(player.src);
+    showToast("Video bağlantısı kopyalandı!", "success");
+  }
+}
+window.copyReelsShareLink = copyReelsShareLink;
+
+// ==============================================================
+// INBOUND AI CHATBOT & FAQ MATCHER CONTROLLER
+// ==============================================================
+
+let activeChatbotLeadDraft = null;
+
+async function sendChatbotQuery() {
+  const msgInput = document.getElementById('bot-sim-message');
+  const nameInput = document.getElementById('bot-sim-name');
+  const phoneInput = document.getElementById('bot-sim-phone');
+
+  const message = msgInput?.value.trim() || '';
+  const name = nameInput?.value.trim() || 'Talaba';
+  const phone = phoneInput?.value.trim() || '+998 90 000 00 00';
+
+  if (!message) {
+    showToast("Lütfen bir soru veya mesaj yazın!", "error");
+    return;
+  }
+
+  const userBubble = document.getElementById('bot-user-bubble');
+  const agentBubble = document.getElementById('bot-agent-bubble');
+  const matchBadge = document.getElementById('bot-match-badge');
+
+  if (userBubble) userBubble.innerText = `💬 "${message}"`;
+  if (agentBubble) agentBubble.innerHTML = `<i>🤖 Bilgi tabanı taranıyor ve danışman yanıtı üretiliyor...</i>`;
+  if (matchBadge) matchBadge.innerText = "Eşleşme: Aranıyor...";
+
+  try {
+    const res = await fetch('/api/chatbot/query', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message, name, phone })
+    });
+    const data = await res.json();
+    if (data.success) {
+      activeChatbotLeadDraft = data.lead_draft;
+      if (agentBubble) agentBubble.innerHTML = data.response_text.replace(/\n/g, '<br>');
+      if (matchBadge) matchBadge.innerText = `Kategori: ${data.matched_category.toUpperCase()} (${data.confidence})`;
+
+      const followupsBox = document.getElementById('bot-followups-container');
+      const pillsBox = document.getElementById('bot-followups-pills');
+      if (followupsBox && pillsBox && Array.isArray(data.suggested_followups)) {
+        followupsBox.classList.remove('hidden');
+        pillsBox.innerHTML = data.suggested_followups.map(q => {
+          const safeQ = q.replace(/'/g, "\\'");
+          return `<button type="button" class="btn btn-outline btn-xs text-[10px]" onclick="setBotSimMsg('${safeQ}')">${q}</button>`;
+        }).join('');
+      }
+
+      showToast("Danışman yanıtı hazırlandı!", "success");
+    } else {
+      showToast(data.error || "Yanıt üretilemedi", "error");
+    }
+  } catch (e) {
+    showToast("Chatbot bağlantı hatası", "error");
+  }
+}
+window.sendChatbotQuery = sendChatbotQuery;
+
+function setBotSimMsg(msg) {
+  const input = document.getElementById('bot-sim-message');
+  if (input) input.value = msg;
+  sendChatbotQuery();
+}
+window.setBotSimMsg = setBotSimMsg;
+
+async function saveChatbotLeadToCRM() {
+  if (!activeChatbotLeadDraft) {
+    showToast("Önce bir öğrenci sorusu simüle edin!", "error");
+    return;
+  }
+
+  showToast("CRM'e aktarılıyor...", "info");
+  try {
+    const res = await fetch('/api/chatbot/save_to_crm', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(activeChatbotLeadDraft)
+    });
+    const data = await res.json();
+    if (data.success) {
+      showToast("Öğrenci CRM'e başarıyla eklendi!", "success");
+      loadLeads();
+    } else {
+      showToast("CRM'e eklenemedi", "error");
+    }
+  } catch (e) {
+    showToast("CRM kayıt hatası", "error");
+  }
+}
+window.saveChatbotLeadToCRM = saveChatbotLeadToCRM;
+
+function copyBotResponse() {
+  const agentBubble = document.getElementById('bot-agent-bubble');
+  if (agentBubble) {
+    navigator.clipboard.writeText(agentBubble.innerText);
+    showToast("Yanıt metni kopyalandı!", "success");
+  }
+}
+window.copyBotResponse = copyBotResponse;
+
+// ==============================================================
+// WHATSAPP 1-CLICK DIRECT DISPATCHER
+// ==============================================================
+
+async function sendDirectWhatsApp() {
+  const phone = document.getElementById('wa-direct-phone')?.value.trim() || '';
+  const name = document.getElementById('wa-direct-name')?.value.trim() || 'Talaba';
+  const pkg = document.getElementById('wa-direct-package')?.value || 'asosiy';
+
+  if (!phone) {
+    showToast("Lütfen öğrenci telefon numarasını girin!", "error");
+    return;
+  }
+
+  showToast("WhatsApp bağlantısı hazırlanıyor...", "info");
+  try {
+    const res = await fetch('/api/whatsapp/generate_link', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ phone, student_name: name, package_type: pkg })
+    });
+    const data = await res.json();
+    if (data.success && data.whatsapp_url) {
+      window.open(data.whatsapp_url, '_blank');
+      showToast("WhatsApp sohbeti açılıyor...", "success");
+    }
+  } catch (e) {
+    showToast("WhatsApp bağlantı hatası", "error");
+  }
+}
+window.sendDirectWhatsApp = sendDirectWhatsApp;
+
+// ==============================================================
+// OFFICIAL STUDENT CONTRACT GENERATOR
+// ==============================================================
+
+async function generateContractPreview() {
+  const name = document.getElementById('contract-name')?.value.trim() || 'Azizbek Rahimov';
+  const passport = document.getElementById('contract-passport')?.value.trim() || 'FA 3491827';
+  const phone = document.getElementById('contract-phone')?.value.trim() || '+998 90 123 45 67';
+  const uni = document.getElementById('contract-uni')?.value.trim() || 'İstanbul Davlat Universiteti';
+  const faculty = document.getElementById('contract-faculty')?.value.trim() || 'Xalqaro Iqtisodiyot';
+  const pkg = document.getElementById('contract-package')?.value || 'orta';
+
+  showToast("Resmi sözleşme hazırlanıyor...", "info");
+  try {
+    const res = await fetch('/api/contract/generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        student_name: name,
+        passport: passport,
+        phone: phone,
+        university: uni,
+        faculty: faculty,
+        package_type: pkg
+      })
+    });
+    const data = await res.json();
+    if (data.success && data.contract_html) {
+      const box = document.getElementById('contract-preview-box');
+      if (box) box.innerHTML = data.contract_html;
+      showToast("Resmi sözleşme başarıyla oluşturuldu!", "success");
+    }
+  } catch (e) {
+    showToast("Sözleşme oluşturma hatası", "error");
+  }
+}
+window.generateContractPreview = generateContractPreview;
+
+function printOfficialContract() {
+  const box = document.getElementById('contract-preview-box');
+  if (!box || !box.innerHTML.trim()) {
+    showToast("Önce bir sözleşme oluşturun!", "error");
+    return;
+  }
+  const printWindow = window.open('', '_blank');
+  printWindow.document.write(`
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <title>Arkadaş Consulting - Resmi Ta'lim Shartnomasi</title>
+        <style>
+          body { font-family: 'Segoe UI', Arial, sans-serif; margin: 20px; background: #fff; }
+          @media print {
+            body { margin: 0; }
+          }
+        </style>
+      </head>
+      <body>
+        ${box.innerHTML}
+        <script>
+          window.onload = function() { window.print(); }
+        </script>
+      </body>
+    </html>
+  `);
+  printWindow.document.close();
+}
+window.printOfficialContract = printOfficialContract;
+
