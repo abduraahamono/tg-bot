@@ -867,6 +867,146 @@ def get_marketing_studio():
         ]
     })
 
+
+# ==============================================================
+# OMNICHANNEL SOCIAL SUITE: TIKTOK, FACEBOOK, WHATSAPP, INSTAGRAM, YOUTUBE, TELEGRAM
+# ==============================================================
+
+@app.route("/api/social/facebook", methods=["GET"])
+def get_facebook_suite():
+    """Facebook & Meta Ads copies, audience targeting personas, and lead ad templates."""
+    return jsonify({
+        "success": True,
+        "campaigns": [
+            {
+                "id": "fb_med",
+                "title": "Tibbiyot va Stomatologiya Imtihonsiz Qabuli (Meta Ads)",
+                "objective": "Lead Generation (Abituriyentlar & Ota-onalar)",
+                "primary_text": "Farzandingiz DTM imtihonidan yetarli ball to'play olmadimi? Xavotirlanmang! 🇹🇷 Turkiyaning Yevropa akkreditatsiyasiga ega davlat universitetlarida tibbiyot va stomatologiya fakultetlariga attestat bahosi bilan 100% kafolatlangan qabul ochiq! Yillik kontrakt $600 dan boshlanadi.",
+                "headline": "Turkiyada Tibbiyot: Attestat Bilan Imtihonsiz Talaba Bo'ling!",
+                "description": "Arkadaş Consulting - 5 yillik tajriba va 100% viza kafolati.",
+                "cta": "Batafsil ma'lumot olish",
+                "audience": "Ota-onalar (38-55 yosh), Butun O'zbekiston, Qiziqishlar: Oliy ta'lim, Tibbiyot"
+            },
+            {
+                "id": "fb_it",
+                "title": "IT va Dasturlash Muhandisligi Grantlari (Meta Ads)",
+                "objective": "Traffic / Telegram Huni",
+                "primary_text": "Kelajak kasbini Turkiyada o'rganing! Kompyuter muhandisligi, Data Science va Kiberxavfsizlik yo'nalishlarida xalqaro diplom va Yevropa amaliyoti. Haftasiga 20 soat qonuniy ishlash imkoniyati!",
+                "headline": "Turkiyada IT Ta'lim: Yillik $450 dan boshlanuvchi kontraktlar",
+                "description": "Rasmiy vakil orqali hujjat topshiring.",
+                "cta": "Hoziroq ro'yxatdan o'ting",
+                "audience": "Abituriyentlar (17-24 yosh), Toshkent, Samarqand, Farg'ona, IT qiziquvchilari"
+            }
+        ],
+        "audiences": [
+            {"name": "Ota-onalar Segmenti", "age": "38 - 56", "geo": "O'zbekiston (Barcha viloyatlar)", "interests": "Higher Education, Study Abroad, Medicine, Parenting", "est_reach": "180,000 - 250,000 kishi"},
+            {"name": "Abituriyentlar & Yoshlar", "age": "17 - 23", "geo": "Toshkent, Samarqand, Farg'ona, Buxoro", "interests": "Universities, Computer Science, IELTS, Turkish Language", "est_reach": "320,000 - 450,000 kishi"}
+        ],
+        "community_posts": [
+            "📌 'O'zbekistonliklar Turkiyada' guruhiga post: 'Turkiyaga endi kelgan talabalar uchun bepul maslahat: İstanbulkartni birinchi haftada qanday qilib 50% arzon talaba tarifiga o'tkazish mumkin? Batafsil qo'llanma: @arkadasuz'",
+            "📌 'Turkiyada Ta'lim' forumiga post: 'TR-YÖS topshirmasdan faqat attestat bahosi bilan qabul qiluvchi 5 ta davlat universiteti ro'yxati chiqdi. O'qish to'lovi $300-$600/yil. Savollaringiz bo'lsa izohda yozing!'"
+        ]
+    })
+
+@app.route("/api/social/whatsapp", methods=["GET"])
+def get_whatsapp_suite():
+    """WhatsApp Business Catalog, Interactive Buttons, Auto-welcome and QR code data."""
+    return jsonify({
+        "success": True,
+        "catalog_items": [
+            {"id": "w1", "name": "Davlat Tibbiyot & Stomatologiya Paketi", "price": "$600 / yiliga", "desc": "Imtihonsiz attestat qabuli, elchixona vizasi, yotoqxona va 1 yillik tibbiy sug'urta to'liq ta'minlanadi."},
+            {"id": "w2", "name": "IT, Sun'iy Intellekt & Dasturlash Paketi", "price": "$450 / yiliga", "desc": "Ingliz va turk tillarida zamonaviy muhandislik laboratoriyalarida ta'lim va 20 soat qonuniy ish ruxsati."},
+            {"id": "w3", "name": "Biznes, Moliya & Xalqaro Iqtisodiyot", "price": "$400 / yiliga", "desc": "Yevropa darajasidagi biznes boshqaruvi diplomi va Erasmus+ almashinuv dasturlari."},
+            {"id": "w4", "name": "1 Yillik TÖMER Rasmiy Til Kursi", "price": "$800 / yiliga", "desc": "Turk tilini noldan C1 akademik darajagacha o'rganish va kafolatlangan til sertifikati."}
+        ],
+        "auto_greetings": {
+            "welcome": "Assalomu alaykum! 🇹🇷 Arkadaş Consulting rasmiy WhatsApp xizmatiga xush kelibsiz. Sizga Turkiyada ta'lim olish, imtihonsiz qabul va viza masalalarida qanday yordam bera olamiz?",
+            "away": "Xabaringiz uchun rahmat! Hozirda ish vaqti yakunlangan. Ertaga ertalab soat 09:00 da shaxsiy kuratorimiz siz bilan darhol bog'lanadi."
+        },
+        "interactive_buttons": [
+            {"id": "b_admission", "title": "📋 Qabul Shartlari"},
+            {"id": "b_fees", "title": "💰 Harç Narxlari"},
+            {"id": "b_curator", "title": "👨‍💼 Shaxsiy Kurator"}
+        ]
+    })
+
+@app.route("/api/social/instagram", methods=["GET"])
+def get_instagram_suite():
+    """Instagram Carousel 10-slide outline, bio link tree and grid planner."""
+    return jsonify({
+        "success": True,
+        "carousel_outline": [
+            {"slide": 1, "title": "Slide 1: Kanca (Hook)", "text": "DTM balingiz yetmadimi? Turkiyada 100% imtihonsiz talaba bo'lishingiz mumkin! (Slaydni suring ➡️)"},
+            {"slide": 2, "title": "Slide 2: Muammo", "text": "Har yili minglab abituriyentlar 1-2 ball yetmagani uchun orzuidagi yo'nalishga kirolmaydi va 1 yilini yo'qotadi."},
+            {"slide": 3, "title": "Slide 3: Yechim", "text": "Turkiya davlat universitetlari O'zbekiston maktab attestat baholari bilan imtihonsiz qabul qiladi!"},
+            {"slide": 4, "title": "Slide 4: Universitet #1", "text": "Sakarya Universiteti: Muhandislik va IT bo'yicha kuchli. Yillik harç: $450."},
+            {"slide": 5, "title": "Slide 5: Universitet #2", "text": "Marmara Universiteti: Istanbul markazida, tibbiyot va biznesda yetakchi. Yillik harç: $600."},
+            {"slide": 6, "title": "Slide 6: Diplom Qonuniyligi", "text": "Diplom butun Yevropada va O'zbekistonda 100% rasman tan olinadi."},
+            {"slide": 7, "title": "Slide 7: Ishlash Imkoniyati", "text": "Talabalik vizasi bilan haftasiga 20 soat rasmiy ishlash huquqi beriladi."},
+            {"slide": 8, "title": "Slide 8: Qulay Yotoqxona", "text": "Davlat KYK yotoqxonasida oyiga $48 evaziga kuniga 2 mahal bepul issiq ovqat."},
+            {"slide": 9, "title": "Slide 9: So'nggi Muddat", "text": "Kvotalar chegaralangan! Hujjat topshirish 25-sanagacha davom etadi."},
+            {"slide": 10, "title": "Slide 10: Call To Action", "text": "Profilimizdagi havola orqali o'ting yoki Direct'ga 'TURKIYA' deb yozing! 👉 @arkadasuz"}
+        ],
+        "bio_link_tree": [
+            {"title": "📢 Rasmiy Telegram Kanal (@arkadasuz)", "url": "https://t.me/arkadasuz"},
+            {"title": "💬 Bepul Konsultatsiya Olish (WhatsApp)", "url": "https://wa.me/905340000000"},
+            {"title": "🏛️ Universitetlar & Harç Narxlari Katalogi", "url": "http://localhost:3131"},
+            {"title": "🎬 YouTube Shorts Videolarimiz", "url": "https://youtube.com/@arkadas"}
+        ],
+        "stories_stickers": [
+            {"type": "Poll / So'rovnoma", "prompt": "Turkiyada qaysi shaharda o'qishni xohlaysiz?", "options": ["Istanbul 🌊", "Ankara 🏛️"]},
+            {"type": "Quiz / Viktorina", "prompt": "Turkiyada talabaga haftasiga necha soat ishlashga ruxsat bor?", "options": ["10 soat", "20 soat (To'g'ri!)", "Umuman mumkin emas"]},
+            {"type": "Savol-Javob (Q&A)", "prompt": "Turkiyada ta'lim bo'yicha sizni qiziqtirgan barcha savollarni yozing 👇"}
+        ]
+    })
+
+@app.route("/api/social/youtube_power", methods=["GET"])
+def get_youtube_power():
+    """YouTube SEO meter, chapter generator and thumbnail comparison data."""
+    return jsonify({
+        "success": True,
+        "seo_checklist": [
+            {"rule": "Sarlavhada asosiy kalit so'z (Attestat, Turkiyada Talim, Imtihonsiz)", "weight": 25, "passed": True},
+            {"rule": "Sarlavha uzunligi 50-70 belgi oralig'ida (Shorts uchun ideal)", "weight": 20, "passed": True},
+            {"rule": "Tavsifda kamida 3 ta #hashtag va kanal havolasi mavjud", "weight": 20, "passed": True},
+            {"rule": "Sabitlangan izohda Telegram huni linki (@arkadasuz) bor", "weight": 20, "passed": True},
+            {"rule": "Video tili va toifasi (Education / Ta'lim) belgilangan", "weight": 15, "passed": True}
+        ],
+        "sample_chapters": [
+            {"time": "00:00", "title": "Kirish: Turkiyada Imtihonsiz Qabul Sirlari"},
+            {"time": "00:45", "title": "Attestat Bahosi Yetarlimi? Rasmiy Shartlar"},
+            {"time": "01:30", "title": "Eng Yaxshi 5 Ta Davlat Universiteti"},
+            {"time": "02:40", "title": "Yillik Kontrakt Narxlari (2026)"},
+            {"time": "03:55", "title": "Yotoqxona va Yashash Xarajatlari"},
+            {"time": "05:10", "title": "Hujjat Topshirish va Viza Olish Bosqichlari"}
+        ]
+    })
+
+@app.route("/api/social/telegram_ultra", methods=["GET"])
+def get_telegram_ultra():
+    """Telegram Ultra Center: Inline keyboard generator, formatting converter and poll tool."""
+    return jsonify({
+        "success": True,
+        "sample_inline_markup": {
+            "inline_keyboard": [
+                [{"text": "🚀 Bepul Konsultatsiya Olish", "url": "https://t.me/ArkadasAdminBot?start=konsultatsiya"}],
+                [{"text": "🏛️ Universitetlar Ro'yxati", "callback_data": "show_unis"}, {"text": "💰 Harç Narxlari", "callback_data": "show_fees"}],
+                [{"text": "📞 Qo'ng'iroq Qilish", "url": "https://wa.me/905340000000"}]
+            ]
+        },
+        "sample_poll": {
+            "question": "🎓 Qaysi yo'nalishda Turkiyada talaba bo'lishni xohlaysiz?",
+            "options": [
+                "🩺 Tibbiyot va Stomatologiya",
+                "💻 Kompyuter va IT Muhandisligi",
+                "📊 Biznes va Iqtisodiyot",
+                "⚖️ Huquq va Xalqaro Munosabatlar"
+            ],
+            "is_anonymous": True
+        }
+    })
+
 if __name__ == "__main__":
     print("[Arkadaş Executive OS] Web Dashboard çalışıyor: http://127.0.0.1:3131", flush=True)
     app.run(host="0.0.0.0", port=3131, debug=False)
