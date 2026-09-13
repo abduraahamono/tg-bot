@@ -200,6 +200,10 @@
       </nav>
 
       <div class="nav-actions flex items-center gap-2">
+        <button type="button" id="nav-autopilot-btn" onclick="toggleAutopilotGlobal()" class="btn-clean-secondary px-2.5 py-1 text-xs flex items-center gap-1.5 cursor-pointer" title="Otopilotu Aç / Kapat">
+          <span id="nav-autopilot-dot" class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span id="nav-autopilot-label" class="text-emerald-300 font-medium">Otopilot: Açık</span>
+        </button>
         <button type="button" onclick="runHealthCheck()" class="btn-clean-secondary px-2.5 py-1 text-xs text-emerald-400 flex items-center gap-1.5 cursor-pointer" title="Sistem Teşhisi">
           <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
           <span>Test</span>
@@ -236,9 +240,14 @@
           <span class="text-xs text-slate-500 font-mono hidden sm:inline">• 13:00 & 19:30 Slotları</span>
         </div>
         <div class="flex items-center gap-2">
-          <span class="text-xs font-mono text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/20">
-            Aktif Yayın Hattı
-          </span>
+          <button type="button" onclick="triggerAutopilotNow()" class="btn-clean-secondary px-2.5 py-1 text-xs text-cyan-400 flex items-center gap-1.5 cursor-pointer hover:border-cyan/50" title="Sıradaki içeriği zamanı beklemeden hemen yayınlar">
+            <i class="fa-solid fa-bolt text-cyan-400"></i>
+            <span>Şimdi Paylaş</span>
+          </button>
+          <div id="spotlight-autopilot-badge" class="text-xs font-mono text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/20 flex items-center gap-1.5 cursor-pointer" onclick="toggleAutopilotGlobal()" title="Tıklayarak otopilotu açıp kapatabilirsiniz">
+            <span id="spotlight-autopilot-dot" class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+            <span id="spotlight-autopilot-text">Otopilot: Aktif (13:00 & 19:30)</span>
+          </div>
         </div>
       </div>
 
@@ -2008,11 +2017,23 @@
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
         <!-- Sol: Ayarlar Formu -->
         <div class="lg:col-span-6 gece-card p-6 space-y-4">
-          <h3 class="text-sm font-bold text-white font-mono border-b border-white/10 pb-2">
-            1. Yayın & Otopilot Parametreleri
+          <h3 class="text-sm font-bold text-white font-mono border-b border-white/10 pb-2 flex items-center justify-between">
+            <span>1. Yayın & Otopilot Parametreleri</span>
+            <span id="cfg-autopilot-status-badge" class="text-[11px] text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">AKTİF</span>
           </h3>
 
           <div class="space-y-3 font-mono text-xs">
+            <div class="flex items-center justify-between p-3 bg-white/5 rounded-xl border border-white/10">
+              <div>
+                <span class="text-white font-bold block">Otomatik Yayın (Otopilot)</span>
+                <span class="text-[11px] text-slate-400 font-sans">Belirlenen saatlerde içerikleri otomatik paylaşır</span>
+              </div>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" id="cfg-autopilot-toggle" checked onchange="toggleAutopilotFromSettings()" class="sr-only peer">
+                <div class="w-9 h-5 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-emerald-500"></div>
+              </label>
+            </div>
+
             <div>
               <label class="text-dim block mb-1">Öğle Yayın Saati:</label>
               <input type="text" id="cfg-lunch-time" value="13:00" class="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-2 text-white">

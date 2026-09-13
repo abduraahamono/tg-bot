@@ -662,12 +662,21 @@ def manage_autopilot():
     if request.method == "POST":
         payload = request.get_json() or {}
         cfg = load_json(CONFIG_FILE, {})
-        cfg["autopilot_enabled"] = payload.get("enabled", True)
-        cfg["lunch_time"] = payload.get("lunchTime", "13:00")
-        cfg["evening_time"] = payload.get("eveningTime", "19:30")
-        cfg["funnel_url"] = payload.get("funnelUrl", "https://t.me/arkadasuz")
+        if "enabled" in payload:
+            cfg["autopilot_enabled"] = bool(payload.get("enabled"))
+        if "lunchTime" in payload:
+            cfg["lunch_time"] = payload.get("lunchTime", "13:00")
+        if "eveningTime" in payload:
+            cfg["evening_time"] = payload.get("eveningTime", "19:30")
+        if "funnelUrl" in payload:
+            cfg["funnel_url"] = payload.get("funnelUrl", "https://t.me/arkadasuz")
         save_json(CONFIG_FILE, cfg)
-        return jsonify({"success": True})
+        return jsonify({
+            "success": True,
+            "enabled": cfg.get("autopilot_enabled", True),
+            "lunchTime": cfg.get("lunch_time", "13:00"),
+            "eveningTime": cfg.get("evening_time", "19:30")
+        })
     else:
         cfg = load_json(CONFIG_FILE, {})
         return jsonify({
@@ -676,6 +685,31 @@ def manage_autopilot():
             "eveningTime": cfg.get("evening_time", "19:30"),
             "funnelUrl": cfg.get("funnel_url", "https://t.me/arkadasuz")
         })
+
+@app.route("/api/autopilot/trigger_now", methods=["POST"])
+def trigger_autopilot_now():
+    """Immediately triggers dispatch of next queued Telegram post and YouTube shorts."""
+    results = {}
+    try:
+        import dispatch_due_post
+        dispatch_due_post.dispatch(dry_run=False, force_first_pending=True)
+        results["telegram"] = "Yayınlandı / Hazır"
+    except Exception as e:
+        results["telegram"] = f"Hata: {str(e)}"
+
+    try:
+        import dispatch_youtube_shorts
+        dispatch_youtube_shorts.dispatch(force=True, dry_run=False)
+        results["youtube"] = "Senkronize Edildi"
+    except Exception as e:
+        results["youtube"] = f"Hata: {str(e)}"
+
+    return jsonify({
+        "success": True,
+        "message": "Otopilot başarıyla tetiklendi! Sıradaki içerikler kanala ve servislere yönlendirildi.",
+        "results": results,
+        "timestamp": datetime.now().strftime("%H:%M:%S")
+    })
 
 @app.route("/api/tiktok_lab", methods=["GET"])
 def get_tiktok_lab():
@@ -1915,7 +1949,7 @@ def autopilot_background_worker():
     while True:
         try:
             cfg = load_json(CONFIG_FILE, {})
-            if cfg.get("autopilot_enabled", False):
+            if cfg.get("autopilot_enabled", True):
                 now_str = datetime.now().strftime("%H:%M")
                 lunch_time = cfg.get("lunch_time", "13:00")
                 evening_time = cfg.get("evening_time", "19:30")
@@ -1923,7 +1957,18 @@ def autopilot_background_worker():
                 today_slot = f"{datetime.now().strftime('%Y-%m-%d')}_{now_str}"
                 if (now_str == lunch_time or now_str == evening_time) and last_slot != today_slot:
                     print(f"[Autopilot Daemon] Yayın saati geldi: {now_str}. Otomatik dispatch tetikleniyor...", flush=True)
-                    dispatch_due_post.dispatch(dry_run=False, force_first_pending=True)
+                    # 1. Telegram Dispatch
+                    try:
+                        import dispatch_due_post
+                        dispatch_due_post.dispatch(dry_run=False, force_first_pending=True)
+                    except Exception as tge:
+                        print(f"[Autopilot Daemon Telegram Error]: {tge}", flush=True)
+                    # 2. YouTube Shorts Dispatch
+                    try:
+                        import dispatch_youtube_shorts
+                        dispatch_youtube_shorts.dispatch(force=True, dry_run=False)
+                    except Exception as yte:
+                        print(f"[Autopilot Daemon YouTube Error]: {yte}", flush=True)
                     last_slot = today_slot
         except Exception as e:
             print(f"[Autopilot Daemon Error]: {e}", flush=True)

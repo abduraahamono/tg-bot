@@ -332,6 +332,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // Load all backend APIs in parallel for speed
   await Promise.allSettled([
+    loadAutopilotSettings(),
     loadYouTubeStudio(),
     loadTelegramPosts(),
     loadTweets(),
@@ -2310,19 +2311,157 @@ async function runHealthCheck() {
 }
 window.runHealthCheck = runHealthCheck;
 
-async function saveAutopilotSettings() {
+// ==============================================================
+// AUTOPILOT ENGINE & CONTROLLER
+// ==============================================================
+window.autopilotEnabled = true;
+
+async function loadAutopilotSettings() {
+  try {
+    const res = await fetch('/api/settings/autopilot');
+    const data = await res.json();
+    window.autopilotEnabled = (data.enabled !== false);
+    
+    const lunchInput = document.getElementById('cfg-lunch-time');
+    const eveningInput = document.getElementById('cfg-evening-time');
+    const funnelInput = document.getElementById('cfg-funnel-url');
+    const toggleInput = document.getElementById('cfg-autopilot-toggle');
+    
+    if (lunchInput && data.lunchTime) lunchInput.value = data.lunchTime;
+    if (eveningInput && data.eveningTime) eveningInput.value = data.eveningTime;
+    if (funnelInput && data.funnelUrl) funnelInput.value = data.funnelUrl;
+    if (toggleInput) toggleInput.checked = window.autopilotEnabled;
+
+    updateAutopilotUI(window.autopilotEnabled, data.lunchTime || '13:00', data.eveningTime || '19:30');
+  } catch (err) {
+    console.error("loadAutopilotSettings error:", err);
+  }
+}
+window.loadAutopilotSettings = loadAutopilotSettings;
+
+function updateAutopilotUI(enabled, lunch = '13:00', evening = '19:30') {
+  window.autopilotEnabled = enabled;
+
+  // 1. Top Navbar Pill
+  const navDot = document.getElementById('nav-autopilot-dot');
+  const navLabel = document.getElementById('nav-autopilot-label');
+  if (navDot && navLabel) {
+    if (enabled) {
+      navDot.className = 'w-2 h-2 rounded-full bg-emerald-400 animate-pulse';
+      navLabel.className = 'text-emerald-300 font-medium';
+      navLabel.innerText = 'Otopilot: Açık';
+    } else {
+      navDot.className = 'w-2 h-2 rounded-full bg-slate-500';
+      navLabel.className = 'text-slate-400 font-medium';
+      navLabel.innerText = 'Otopilot: Kapalı';
+    }
+  }
+
+  // 2. Spotlight Badge
+  const spotDot = document.getElementById('spotlight-autopilot-dot');
+  const spotText = document.getElementById('spotlight-autopilot-text');
+  const spotBadge = document.getElementById('spotlight-autopilot-badge');
+  if (spotText && spotBadge) {
+    if (enabled) {
+      spotBadge.className = 'text-xs font-mono text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/20 flex items-center gap-1.5 cursor-pointer';
+      if (spotDot) spotDot.className = 'w-1.5 h-1.5 rounded-full bg-emerald-400';
+      spotText.innerText = `Otopilot: Aktif (${lunch} & ${evening})`;
+    } else {
+      spotBadge.className = 'text-xs font-mono text-slate-400 bg-slate-500/10 px-2.5 py-1 rounded-full border border-slate-500/20 flex items-center gap-1.5 cursor-pointer';
+      if (spotDot) spotDot.className = 'w-1.5 h-1.5 rounded-full bg-slate-500';
+      spotText.innerText = 'Otopilot: Pasif';
+    }
+  }
+
+  // 3. Settings Badge & Toggle
+  const cfgBadge = document.getElementById('cfg-autopilot-status-badge');
+  const cfgToggle = document.getElementById('cfg-autopilot-toggle');
+  if (cfgBadge) {
+    if (enabled) {
+      cfgBadge.className = 'text-[11px] text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20';
+      cfgBadge.innerText = 'AKTİF';
+    } else {
+      cfgBadge.className = 'text-[11px] text-slate-400 bg-slate-500/10 px-2 py-0.5 rounded border border-slate-500/20';
+      cfgBadge.innerText = 'PASİF';
+    }
+  }
+  if (cfgToggle) {
+    cfgToggle.checked = enabled;
+  }
+}
+
+async function toggleAutopilotGlobal() {
+  const newState = !window.autopilotEnabled;
   const lunch = document.getElementById('cfg-lunch-time')?.value || '13:00';
   const evening = document.getElementById('cfg-evening-time')?.value || '19:30';
   const funnel = document.getElementById('cfg-funnel-url')?.value || 'https://t.me/arkadasuz';
 
+  updateAutopilotUI(newState, lunch, evening);
+
+  try {
+    const res = await fetch('/api/settings/autopilot', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ enabled: newState, lunchTime: lunch, eveningTime: evening, funnelUrl: funnel })
+    });
+    const data = await res.json();
+    if (newState) {
+      showToast(`Otopilot Açıldı! (${lunch} ve ${evening} otomatik paylaşım)`, "success");
+    } else {
+      showToast("Otopilot kapatıldı (Manuel mod aktif)", "info");
+    }
+  } catch (err) {
+    showToast("Otopilot güncellenirken hata oluştu", "error");
+  }
+}
+window.toggleAutopilotGlobal = toggleAutopilotGlobal;
+
+function toggleAutopilotFromSettings() {
+  const toggle = document.getElementById('cfg-autopilot-toggle');
+  const isChecked = toggle ? toggle.checked : true;
+  if (isChecked !== window.autopilotEnabled) {
+    toggleAutopilotGlobal();
+  }
+}
+window.toggleAutopilotFromSettings = toggleAutopilotFromSettings;
+
+async function triggerAutopilotNow() {
+  showToast("Otopilot tetikleniyor...", "info");
+  try {
+    const res = await fetch('/api/autopilot/trigger_now', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' }
+    });
+    const data = await res.json();
+    if (data.success) {
+      showToast("İçerikler kanala ve servislere yönlendirildi!", "success");
+      if (typeof loadTelegramPosts === 'function') loadTelegramPosts();
+      if (typeof loadYouTubeStudio === 'function') loadYouTubeStudio();
+    } else {
+      showToast("Tetikleme başarısız", "error");
+    }
+  } catch (err) {
+    showToast("Bağlantı hatası", "error");
+  }
+}
+window.triggerAutopilotNow = triggerAutopilotNow;
+
+async function saveAutopilotSettings() {
+  const lunch = document.getElementById('cfg-lunch-time')?.value || '13:00';
+  const evening = document.getElementById('cfg-evening-time')?.value || '19:30';
+  const funnel = document.getElementById('cfg-funnel-url')?.value || 'https://t.me/arkadasuz';
+  const toggle = document.getElementById('cfg-autopilot-toggle');
+  const enabled = toggle ? toggle.checked : window.autopilotEnabled;
+
   const res = await fetch('/api/settings/autopilot', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ lunchTime: lunch, eveningTime: evening, funnelUrl: funnel })
+    body: JSON.stringify({ enabled: enabled, lunchTime: lunch, eveningTime: evening, funnelUrl: funnel })
   });
   const data = await res.json();
   if (data.success) {
-    showToast("Otopilot ve huni ayarları kaydedildi!", "success");
+    updateAutopilotUI(enabled, lunch, evening);
+    showToast("Otopilot ayarları kaydedildi!", "success");
   }
 }
 window.saveAutopilotSettings = saveAutopilotSettings;
