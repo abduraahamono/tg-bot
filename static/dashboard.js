@@ -219,13 +219,13 @@ function renderExecutiveSubNav(hubKey, activeSectionId) {
   pillsBox.innerHTML = hub.tabs.map(tab => {
     const isActive = tab.id === activeSectionId;
     const activeClasses = isActive 
-      ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/50 shadow-[0_0_15px_rgba(16,185,129,0.25)] font-bold' 
-      : 'bg-white/[0.03] text-slate-400 border-white/10 hover:text-white hover:bg-white/[0.08]';
+      ? 'bg-white/10 text-white border-white/20 font-semibold shadow-sm' 
+      : 'bg-transparent text-slate-400 border-transparent hover:text-white hover:bg-white/5';
     return `
       <button type="button" 
-        class="px-3.5 py-1.5 rounded-xl text-xs font-mono border transition-all duration-200 flex items-center gap-2 cursor-pointer ${activeClasses}"
+        class="px-3.5 py-1.5 rounded-full text-xs transition-all duration-150 flex items-center gap-2 cursor-pointer border ${activeClasses}"
         onclick="switchSection('${tab.id}')">
-        <i class="${tab.icon}"></i>
+        <i class="${tab.icon} text-[11px]"></i>
         <span>${tab.label}</span>
       </button>
     `;
@@ -2827,87 +2827,88 @@ function selectOmniPlatform(key) {
   consoleBox.innerHTML = `
     <div class="space-y-6">
       <!-- Başlık ve Durum -->
-      <div class="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-4">
+      <div class="flex flex-wrap items-center justify-between gap-3 border-b border-white/5 pb-4">
         <div class="flex items-center gap-3">
-          <div class="w-12 h-12 rounded-2xl bg-black/60 border border-white/10 flex items-center justify-center text-2xl">
+          <div class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-lg text-white">
             <i class="${cfg.icon}"></i>
           </div>
           <div>
             <div class="flex items-center gap-2">
-              <h3 class="text-base font-bold text-white font-mono">${cfg.name} Komuta Masası</h3>
-              <span class="text-xs px-2 py-0.5 rounded-full bg-white/10 text-cyan font-mono">${cfg.badge}</span>
+              <h3 class="text-base font-bold text-white tracking-tight">${cfg.name}</h3>
+              <span class="text-[11px] px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-400 font-medium">${cfg.badge}</span>
             </div>
-            <p class="text-xs text-dim font-mono">${cfg.handle} • ${cfg.desc}</p>
+            <p class="text-xs text-slate-400 mt-0.5">${cfg.handle} • ${cfg.desc}</p>
           </div>
         </div>
 
-        <div class="flex items-center gap-2 font-mono text-xs">
-          <button type="button" class="btn btn-outline btn-xs" onclick="populateOmniTextToScheduler('${cfg.sampleSnippet.replace(/'/g, "\\'").replace(/\n/g, "\\n")}')">
-            <i class="fa-solid fa-arrow-down mr-1"></i> Bu Metni Planlayıcıya Al
+        <div class="flex items-center gap-2 text-xs">
+          <button type="button" class="btn-clean-secondary px-3 py-1.5 text-xs flex items-center gap-1.5" onclick="populateOmniTextToScheduler('${cfg.sampleSnippet.replace(/'/g, "\\'").replace(/\n/g, "\\n")}')">
+            <i class="fa-solid fa-arrow-down text-slate-400"></i>
+            <span>Metni Planlayıcıya Al</span>
           </button>
-          <button type="button" class="btn btn-primary btn-xs" onclick="switchSection('${cfg.jumpTab}')">
-            <span>${cfg.name} Tam Sayfasını Aç</span>
-            <i class="fa-solid fa-arrow-right ml-1"></i>
+          <button type="button" class="btn-clean-primary px-3.5 py-1.5 text-xs flex items-center gap-1.5" onclick="switchSection('${cfg.jumpTab}')">
+            <span>Ayrıntılı Sayfaya Git</span>
+            <i class="fa-solid fa-arrow-right text-slate-900 text-[10px]"></i>
           </button>
         </div>
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
         <!-- Neler Yapabilirsiniz? (4 Kart) -->
-        <div class="lg:col-span-7 space-y-3 font-mono text-xs">
-          <h4 class="font-bold text-white text-xs flex items-center gap-1.5">
-            <i class="fa-solid fa-wand-magic-sparkles text-cyan"></i>
-            <span>Bu Platformda Neler Yapabilirsiniz?</span>
+        <div class="lg:col-span-7 space-y-3 text-xs">
+          <h4 class="font-semibold text-white text-xs flex items-center gap-2">
+            <i class="fa-solid fa-wand-magic-sparkles text-cyan-400"></i>
+            <span>Platform Yetenekleri ve Otomasyonlar</span>
           </h4>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
             ${cfg.capabilities.map(cap => `
-              <div class="p-3.5 rounded-xl bg-black/40 border border-white/5 space-y-1.5 hover:border-white/20 transition">
-                <div class="flex items-center gap-2 text-white font-bold">
-                  <i class="${cap.icon} text-cyan"></i>
+              <div class="p-3.5 rounded-xl bg-white/[0.02] border border-white/5 space-y-1.5 hover:border-white/15 transition">
+                <div class="flex items-center gap-2 text-slate-200 font-semibold text-xs">
+                  <i class="${cap.icon} text-cyan-400"></i>
                   <span>${cap.title}</span>
                 </div>
-                <p class="text-[11px] text-dim leading-relaxed">${cap.desc}</p>
+                <p class="text-[11px] text-slate-400 leading-relaxed">${cap.desc}</p>
               </div>
             `).join('')}
           </div>
         </div>
 
         <!-- Canlı Görsel Simülatör (Mockup) -->
-        <div class="lg:col-span-5 font-mono text-xs">
-          <h4 class="font-bold text-white text-xs mb-2 flex items-center gap-1.5">
-            <i class="fa-solid fa-eye text-emerald"></i>
-            <span>Canlı Gönderi Önizleme Simülatörü</span>
+        <div class="lg:col-span-5 text-xs">
+          <h4 class="font-semibold text-white text-xs mb-2 flex items-center gap-2">
+            <i class="fa-solid fa-eye text-emerald-400"></i>
+            <span>Canlı Gönderi Önizlemesi</span>
           </h4>
-          <div class="p-4 rounded-2xl bg-black/60 border border-white/10 space-y-3 shadow-xl">
+          <div class="p-4 rounded-2xl bg-black/50 border border-white/10 space-y-3 shadow-xl">
             <div class="flex items-center gap-2.5">
               <div class="w-8 h-8 rounded-full bg-slate-800 border border-white/20 flex items-center justify-center text-xs text-white font-bold">
                 A
               </div>
               <div class="min-w-0 flex-1">
-                <div class="text-white font-bold text-xs flex items-center gap-1">
+                <div class="text-white font-semibold text-xs flex items-center gap-1">
                   <span>Arkadaş Consulting</span>
                   <i class="fa-solid fa-circle-check text-cyan text-[10px]"></i>
                 </div>
-                <div class="text-[10px] text-dim">${cfg.handle}</div>
+                <div class="text-[11px] text-slate-400">${cfg.handle}</div>
               </div>
               <span class="text-[10px] text-slate-500">Az önce</span>
             </div>
 
-            <div class="text-[11px] text-slate-200 leading-relaxed whitespace-pre-line bg-black/40 p-3 rounded-xl border border-white/5">
+            <div class="text-[12px] text-slate-200 leading-relaxed whitespace-pre-line bg-black/30 p-3 rounded-xl border border-white/5">
               ${cfg.sampleSnippet}
             </div>
 
-            <div class="p-2.5 rounded-xl bg-cyan/10 border border-cyan/20 text-[10px] text-cyan leading-relaxed">
-              <span class="font-bold block mb-0.5">🔗 Otomatik Huni Yanıtı:</span>
+            <div class="p-2.5 rounded-xl bg-cyan-500/10 border border-cyan-500/20 text-[11px] text-cyan-300 leading-relaxed">
+              <span class="font-semibold block mb-0.5 text-xs">🔗 Otomatik Sabit Yanıt:</span>
               ${cfg.autoReplySample}
             </div>
 
-            <div class="flex justify-between items-center text-dim text-[11px] pt-1">
+            <div class="flex justify-between items-center text-slate-400 text-xs pt-1">
               <span class="flex items-center gap-1"><i class="fa-regular fa-comment"></i> 24</span>
               <span class="flex items-center gap-1"><i class="fa-solid fa-retweet"></i> 58</span>
               <span class="flex items-center gap-1"><i class="fa-regular fa-heart"></i> 142</span>
-              <button type="button" class="text-cyan hover:underline text-[10px]" onclick="copyCustomText('${cfg.sampleSnippet.replace(/'/g, "\\'").replace(/\n/g, "\\n")}')">
-                <i class="fa-solid fa-copy"></i> Kopyala
+              <button type="button" class="text-cyan-400 hover:text-cyan-300 text-xs font-medium cursor-pointer" onclick="copyCustomText('${cfg.sampleSnippet.replace(/'/g, "\\'").replace(/\n/g, "\\n")}')">
+                <i class="fa-solid fa-copy mr-0.5"></i> Kopyala
               </button>
             </div>
           </div>
