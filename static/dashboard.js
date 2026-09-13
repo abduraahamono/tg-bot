@@ -3506,26 +3506,30 @@ function renderGeneratedVideos(items) {
   const container = document.getElementById('prod-video-output-container');
   if (!container) return;
 
-  container.innerHTML = items.map((item, idx) => `
-    <div class="gece-card p-4 space-y-3 border border-purple/20 bg-purple/5">
+  container.innerHTML = items.map((item) => `
+    <div class="gallery-media-card p-4 space-y-3 border border-purple-500/20 bg-purple-950/10">
       <div class="flex items-center justify-between">
-        <span class="text-[10px] px-2 py-0.5 rounded bg-purple/20 text-purple font-mono font-bold">${item.video_type}</span>
-        <span class="text-[10px] text-emerald-400 font-mono">📦 Stokta</span>
+        <span class="text-[10px] px-2.5 py-1 rounded-full bg-purple-500/20 text-purple font-mono font-bold flex items-center gap-1">
+          <i class="fa-solid fa-play text-[8px]"></i>
+          <span>${item.video_type}</span>
+        </span>
+        <span class="text-[10px] text-emerald-400 font-mono bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">📦 Stokta Hazır</span>
       </div>
-      <div class="aspect-[9/16] bg-black/60 rounded-xl overflow-hidden relative border border-white/10 flex items-center justify-center">
-        <video src="/${item.file_path}" controls playsinline class="w-full h-full object-cover"></video>
+      <div class="aspect-[9/16] bg-black/90 rounded-2xl overflow-hidden relative border border-white/10 shadow-2xl flex items-center justify-center">
+        <video src="/${item.file_path}" controls playsinline preload="metadata" class="w-full h-full object-cover"></video>
       </div>
       <div>
         <h4 class="text-xs font-bold text-white truncate" title="${item.title}">${item.title}</h4>
-        <span class="text-[10px] text-slate-400 font-mono">${item.format}</span>
+        <span class="text-[10px] text-slate-400 font-mono">Dikey Video (9:16) • HD 1080p</span>
       </div>
-      <div class="flex items-center justify-between pt-1">
-        <a href="/${item.file_path}" download class="btn-clean-secondary px-2.5 py-1 text-xs flex items-center gap-1">
-          <i class="fa-solid fa-download text-[10px]"></i>
+      <div class="flex items-center justify-between pt-1 border-t border-white/5">
+        <a href="/${item.file_path}" download class="btn-clean-secondary px-3 py-1.5 text-xs flex items-center gap-1.5">
+          <i class="fa-solid fa-download text-[11px]"></i>
           <span>İndir</span>
         </a>
-        <button type="button" class="btn-clean-primary px-3 py-1 text-xs" onclick="switchMasterPillar('publishing')">
-          Planla
+        <button type="button" class="btn-clean-primary px-3.5 py-1.5 text-xs flex items-center gap-1" onclick="switchMasterPillar('publishing')">
+          <span>Planla</span>
+          <i class="fa-solid fa-arrow-right text-[10px]"></i>
         </button>
       </div>
     </div>
@@ -3561,24 +3565,29 @@ function renderGeneratedImages(items) {
   if (!container) return;
 
   container.innerHTML = items.map((item) => `
-    <div class="gece-card p-4 space-y-3 border border-emerald/20 bg-emerald/5">
+    <div class="gallery-media-card p-4 space-y-3 border border-emerald-500/20 bg-emerald-950/10">
       <div class="flex items-center justify-between">
-        <span class="text-[10px] px-2 py-0.5 rounded bg-emerald/20 text-emerald font-mono font-bold">${item.format}</span>
-        <span class="text-[10px] text-emerald-400 font-mono">📦 Stokta</span>
+        <span class="text-[10px] px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 font-mono font-bold flex items-center gap-1">
+          <i class="fa-solid fa-palette text-[8px]"></i>
+          <span>${item.format}</span>
+        </span>
+        <span class="text-[10px] text-emerald-400 font-mono bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">📦 Stokta Hazır</span>
       </div>
-      <div class="aspect-square bg-black/60 rounded-xl overflow-hidden relative border border-white/10 flex items-center justify-center p-2">
-        <img src="/${item.photo_path}" alt="Tasarım" class="w-full h-full object-cover rounded-lg">
+      <div class="aspect-square bg-black/80 rounded-2xl overflow-hidden relative border border-white/10 shadow-2xl flex items-center justify-center group">
+        <img src="/${item.photo_path}" alt="Tasarım Afişi" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105">
       </div>
       <div>
         <h4 class="text-xs font-bold text-white truncate" title="${item.title}">${item.title}</h4>
+        <span class="text-[10px] text-slate-400 font-mono">1080x1080 • Sosyal Medya Afişi</span>
       </div>
-      <div class="flex items-center justify-between pt-1">
-        <a href="/${item.photo_path}" download class="btn-clean-secondary px-2.5 py-1 text-xs flex items-center gap-1">
-          <i class="fa-solid fa-download text-[10px]"></i>
+      <div class="flex items-center justify-between pt-1 border-t border-white/5">
+        <a href="/${item.photo_path}" download class="btn-clean-secondary px-3 py-1.5 text-xs flex items-center gap-1.5">
+          <i class="fa-solid fa-download text-[11px]"></i>
           <span>PNG İndir</span>
         </a>
-        <button type="button" class="btn-clean-primary px-3 py-1 text-xs" onclick="switchMasterPillar('publishing')">
-          Planla
+        <button type="button" class="btn-clean-primary px-3.5 py-1.5 text-xs flex items-center gap-1" onclick="switchMasterPillar('publishing')">
+          <span>Planla</span>
+          <i class="fa-solid fa-arrow-right text-[10px]"></i>
         </button>
       </div>
     </div>
@@ -3629,37 +3638,149 @@ function renderStockGrid(cat) {
   const container = document.getElementById('stock-items-grid');
   if (!container) return;
 
-  let list = [];
-  if (cat === 'all' || cat === 'texts') list = list.concat(window.allStockData.texts || []);
-  if (cat === 'all' || cat === 'videos') list = list.concat(window.allStockData.videos || []);
-  if (cat === 'all' || cat === 'images') list = list.concat(window.allStockData.images || []);
-
-  if (list.length === 0) {
-    container.innerHTML = `<div class="col-span-3 text-center py-8 text-slate-500 font-mono text-xs">Bu kategoride henüz stok içeriği yok. Üretim sekmesinden hemen içerik üretebilirsiniz.</div>`;
+  // 1. VIDEOS GALLERY
+  if (cat === 'videos') {
+    const list = window.allStockData.videos || [];
+    container.className = "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4";
+    if (list.length === 0) {
+      container.innerHTML = `<div class="col-span-full text-center py-10 text-slate-500 font-mono text-xs">Stokta video bulunmuyor. Video sekmesinden hemen üretebilirsiniz.</div>`;
+      return;
+    }
+    container.innerHTML = list.map(item => `
+      <div class="gallery-media-card p-3 space-y-2.5 border border-purple-500/20 bg-purple-950/10">
+        <div class="flex items-center justify-between">
+          <span class="text-[10px] px-2 py-0.5 rounded-full bg-purple-500/20 text-purple font-mono font-bold">🎬 ${item.video_type || 'Shorts'}</span>
+          <span class="text-[10px] text-slate-400 font-mono">0:30 HD</span>
+        </div>
+        <div class="aspect-[9/16] bg-black/90 rounded-xl overflow-hidden relative border border-white/10 flex items-center justify-center">
+          <video src="/${item.file_path}" controls playsinline preload="metadata" class="w-full h-full object-cover"></video>
+        </div>
+        <h4 class="text-xs font-bold text-white truncate" title="${item.title}">${item.title}</h4>
+        <div class="flex items-center justify-between pt-1 border-t border-white/5">
+          <a href="/${item.file_path}" download class="btn-clean-secondary px-2.5 py-1 text-xs flex items-center gap-1">
+            <i class="fa-solid fa-download text-[10px]"></i>
+            <span>İndir</span>
+          </a>
+          <div class="flex items-center gap-1">
+            <button type="button" class="btn-clean-primary px-3 py-1 text-xs" onclick="switchMasterPillar('publishing')">
+              Planla
+            </button>
+            <button type="button" class="text-slate-500 hover:text-rose-400 p-1" onclick="deleteStockItem('${item.id}')" title="Sil">
+              <i class="fa-solid fa-trash-can text-[11px]"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    `).join('');
     return;
   }
 
-  container.innerHTML = list.slice(0, 30).map(item => {
+  // 2. IMAGES GALLERY
+  if (cat === 'images') {
+    const list = window.allStockData.images || [];
+    container.className = "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4";
+    if (list.length === 0) {
+      container.innerHTML = `<div class="col-span-full text-center py-10 text-slate-500 font-mono text-xs">Stokta görsel afiş bulunmuyor. Fotoğraf sekmesinden hemen üretebilirsiniz.</div>`;
+      return;
+    }
+    container.innerHTML = list.map(item => `
+      <div class="gallery-media-card p-3 space-y-2.5 border border-emerald-500/20 bg-emerald-950/10">
+        <div class="flex items-center justify-between">
+          <span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald font-mono font-bold">🎨 ${item.format || 'Afiş'}</span>
+          <span class="text-[10px] text-slate-400 font-mono">1080x1080</span>
+        </div>
+        <div class="aspect-square bg-black/90 rounded-xl overflow-hidden relative border border-white/10 flex items-center justify-center group">
+          <img src="/${item.photo_path}" alt="Afiş" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105">
+        </div>
+        <h4 class="text-xs font-bold text-white truncate" title="${item.title}">${item.title}</h4>
+        <div class="flex items-center justify-between pt-1 border-t border-white/5">
+          <a href="/${item.photo_path}" download class="btn-clean-secondary px-2.5 py-1 text-xs flex items-center gap-1">
+            <i class="fa-solid fa-download text-[10px]"></i>
+            <span>PNG İndir</span>
+          </a>
+          <div class="flex items-center gap-1">
+            <button type="button" class="btn-clean-primary px-3 py-1 text-xs" onclick="switchMasterPillar('publishing')">
+              Planla
+            </button>
+            <button type="button" class="text-slate-500 hover:text-rose-400 p-1" onclick="deleteStockItem('${item.id}')" title="Sil">
+              <i class="fa-solid fa-trash-can text-[11px]"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    `).join('');
+    return;
+  }
+
+  // 3. TEXTS OR ALL
+  let list = [];
+  if (cat === 'all' || cat === 'texts') list = list.concat(window.allStockData.texts || []);
+  if (cat === 'all') {
+    list = list.concat(window.allStockData.videos || []);
+    list = list.concat(window.allStockData.images || []);
+  }
+  container.className = "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3";
+
+  if (list.length === 0) {
+    container.innerHTML = `<div class="col-span-full text-center py-10 text-slate-500 font-mono text-xs">Bu kategoride henüz stok içeriği yok.</div>`;
+    return;
+  }
+
+  container.innerHTML = list.map(item => {
     const isVideo = item.file_path !== undefined;
     const isImage = item.photo_path !== undefined;
     const typeLabel = isVideo ? '🎬 Video' : (isImage ? '🎨 Görsel' : '✍️ Metin');
     const badgeColor = isVideo ? 'purple' : (isImage ? 'emerald' : 'cyan');
 
+    if (isVideo) {
+      return `
+        <div class="p-3 bg-black/40 rounded-xl border border-purple-500/20 space-y-2 font-mono text-xs">
+          <div class="flex items-center justify-between">
+            <span class="text-[10px] px-2 py-0.5 rounded bg-purple-500/20 text-purple font-bold">🎬 Video</span>
+            <span class="text-[10px] text-slate-500">0:30 HD</span>
+          </div>
+          <div class="h-32 bg-black/80 rounded-lg overflow-hidden border border-white/5 relative flex items-center justify-center">
+            <video src="/${item.file_path}" controls playsinline class="w-full h-full object-cover"></video>
+          </div>
+          <h4 class="text-xs font-bold text-white truncate" title="${item.title}">${item.title}</h4>
+          <div class="flex items-center justify-between pt-1 border-t border-white/5">
+            <button type="button" class="btn-clean-primary px-2.5 py-1 text-[11px]" onclick="switchMasterPillar('publishing')">Planla</button>
+            <button type="button" class="text-slate-500 hover:text-rose-400 p-1" onclick="deleteStockItem('${item.id}')"><i class="fa-solid fa-trash-can text-[11px]"></i></button>
+          </div>
+        </div>
+      `;
+    }
+
+    if (isImage) {
+      return `
+        <div class="p-3 bg-black/40 rounded-xl border border-emerald-500/20 space-y-2 font-mono text-xs">
+          <div class="flex items-center justify-between">
+            <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald font-bold">🎨 Görsel</span>
+            <span class="text-[10px] text-slate-500">1080x1080</span>
+          </div>
+          <div class="h-32 bg-black/80 rounded-lg overflow-hidden border border-white/5 relative flex items-center justify-center">
+            <img src="/${item.photo_path}" alt="Afiş" class="w-full h-full object-cover">
+          </div>
+          <h4 class="text-xs font-bold text-white truncate" title="${item.title}">${item.title}</h4>
+          <div class="flex items-center justify-between pt-1 border-t border-white/5">
+            <button type="button" class="btn-clean-primary px-2.5 py-1 text-[11px]" onclick="switchMasterPillar('publishing')">Planla</button>
+            <button type="button" class="text-slate-500 hover:text-rose-400 p-1" onclick="deleteStockItem('${item.id}')"><i class="fa-solid fa-trash-can text-[11px]"></i></button>
+          </div>
+        </div>
+      `;
+    }
+
     return `
       <div class="p-3.5 bg-black/40 rounded-xl border border-white/5 space-y-2.5 font-mono text-xs hover:border-white/15 transition">
         <div class="flex items-center justify-between">
-          <span class="text-[10px] px-2 py-0.5 rounded bg-${badgeColor}/20 text-${badgeColor} font-bold">${typeLabel}</span>
+          <span class="text-[10px] px-2 py-0.5 rounded bg-cyan/20 text-cyan font-bold">${typeLabel}</span>
           <span class="text-[10px] text-slate-500">${item.created_at || 'Bugün'}</span>
         </div>
         <h4 class="text-xs font-bold text-white truncate" title="${item.title}">${item.title}</h4>
-        <p class="text-[11px] text-slate-400 line-clamp-2">${item.content || item.format || 'Hazır Stok Varlığı'}</p>
+        <p class="text-[11px] text-slate-400 line-clamp-3">${item.content || item.format || 'Hazır Stok Varlığı'}</p>
         <div class="flex items-center justify-between pt-1 border-t border-white/5">
-          <button type="button" class="btn-clean-primary px-2.5 py-1 text-[11px]" onclick="switchMasterPillar('publishing')">
-            Planla
-          </button>
-          <button type="button" class="text-slate-500 hover:text-rose-400 p-1" onclick="deleteStockItem('${item.id}')" title="Stoktan Sil">
-            <i class="fa-solid fa-trash-can text-[11px]"></i>
-          </button>
+          <button type="button" class="btn-clean-primary px-2.5 py-1 text-[11px]" onclick="switchMasterPillar('publishing')">Planla</button>
+          <button type="button" class="text-slate-500 hover:text-rose-400 p-1" onclick="deleteStockItem('${item.id}')" title="Sil"><i class="fa-solid fa-trash-can text-[11px]"></i></button>
         </div>
       </div>
     `;

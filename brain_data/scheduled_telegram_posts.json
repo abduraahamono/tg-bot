@@ -2054,6 +2054,106 @@
       "photo_path": "output/templates_showcase/sablon_6_boarding_pass.jpg",
       "content": "🚢 <b>XALQARO BIZNES VA DENGIZ LOGISTIKASI:</b>\n\nTurkiya Sharq va G'arb o'rtasidagi asosiy savdo ko'prigi. Bu yerda biznes boshqaruvi va logistika sohasini bitirgan mutaxassislar xalqaro portlar va kompaniyalarda talabgir.\n\nRasmiy kvotalar bo'yicha ariza topshiring:\n👉 @arkadasuzz",
       "status": "pending"
+    },
+    {
+      "id": "cal_5f6d2232",
+      "date": "2026-09-14",
+      "time": "13:00",
+      "datetime": "2026-09-14 13:00:00",
+      "title": "Tıp ve Sağlık Kabul Şartları",
+      "caption": "Soru-Cevap / Quiz",
+      "card_image": "",
+      "status": "pending"
+    },
+    {
+      "id": "cal_a828282f",
+      "date": "2026-09-14",
+      "time": "19:30",
+      "datetime": "2026-09-14 19:30:00",
+      "title": "🔥 Xalqaro Biznes va Moliya: Turkiyada To'g'ridan-to'g'ri Qabul!",
+      "caption": "Turkiyaning eng nufuzli oliygohlaridan biri — Anqara Hacı Bayram Velida Xalqaro Biznes va Moliya fakultetiga 2026-o'quv ...",
+      "card_image": "",
+      "status": "pending"
+    },
+    {
+      "id": "cal_404a9878",
+      "date": "2026-09-15",
+      "time": "13:00",
+      "datetime": "2026-09-15 13:00:00",
+      "title": "Hangi Üniversite? Semerkant İpucu",
+      "caption": "Bilmece / İpuçlu",
+      "card_image": "",
+      "status": "pending"
+    },
+    {
+      "id": "cal_cae5c12d",
+      "date": "2026-09-15",
+      "time": "19:30",
+      "datetime": "2026-09-15 19:30:00",
+      "title": "🔥 Dasturlash va IT Muhandislik: Turkiyada TR-YÖS yoki Attestat!",
+      "caption": "Turkiyaning eng nufuzli oliygohlaridan biri — Yıldız Teknik & Marmarada Dasturlash va IT Muhandislik fakultetiga 2026-o'...",
+      "card_image": "",
+      "status": "pending"
+    },
+    {
+      "id": "cal_0c9b201e",
+      "date": "2026-09-16",
+      "time": "13:00",
+      "datetime": "2026-09-16 13:00:00",
+      "title": "2026 Vize İçin 5 Altın Evrak",
+      "caption": "Checklist / Liste",
+      "card_image": "",
+      "status": "pending"
+    },
+    {
+      "id": "cal_2fdcc65d",
+      "date": "2026-09-16",
+      "time": "19:30",
+      "datetime": "2026-09-16 19:30:00",
+      "title": "🔥 Tibbiyot va Stomatologiya: Turkiyada Imtihonsiz (Attestat bilan)!",
+      "caption": "Turkiyaning eng nufuzli oliygohlaridan biri — Istanbul Medipol & Bezmialemda Tibbiyot va Stomatologiya fakultetiga 2026-...",
+      "card_image": "",
+      "status": "pending"
+    },
+    {
+      "id": "cal_2cbafd9d",
+      "date": "2026-09-17",
+      "time": "13:00",
+      "datetime": "2026-09-17 13:00:00",
+      "title": "Sınavsız Üniversite Erken Kayıt",
+      "caption": "Modern Reklam",
+      "card_image": "",
+      "status": "pending"
+    },
+    {
+      "id": "cal_c2aea210",
+      "date": "2026-09-17",
+      "time": "19:30",
+      "datetime": "2026-09-17 19:30:00",
+      "title": "Planlangan Gönderi (☀️ Tushlik Posti (13:00))",
+      "caption": "...",
+      "card_image": "",
+      "status": "pending"
+    },
+    {
+      "id": "cal_c03acf31",
+      "date": "2026-09-18",
+      "time": "13:00",
+      "datetime": "2026-09-18 13:00:00",
+      "title": "Tıp ve Sağlık Kabul Şartları",
+      "caption": "Soru-Cevap / Quiz",
+      "card_image": "",
+      "status": "pending"
+    },
+    {
+      "id": "cal_4ece9235",
+      "date": "2026-09-18",
+      "time": "19:30",
+      "datetime": "2026-09-18 19:30:00",
+      "title": "TÖMER turk tili tayyorlov kursi: Qabul sirlari va kafolat",
+      "caption": "...",
+      "card_image": "",
+      "status": "pending"
     }
   ]
 }

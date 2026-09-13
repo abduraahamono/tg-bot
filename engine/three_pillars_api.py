@@ -95,14 +95,38 @@ def delete_stock_item(item_id):
         save_json(STOCK_FILE, stock)
     return jsonify({"success": found})
 
-# Zengin İçerik Üretim Bilgi Bankası (Özbekistan & Türkiye Eğitim Odaklı)
+
+import random
+
 PRESET_TOPICS = [
     {"topic": "Tibbiyot va Stomatologiya", "uni": "Istanbul Medipol & Bezmialem", "city": "Istanbul", "price": "$3,500 - $6,000", "exam": "Imtihonsiz (Attestat bilan)"},
     {"topic": "Dasturlash va IT Muhandislik", "uni": "Yıldız Teknik & Marmara", "city": "Istanbul", "price": "$600 - $1,200", "exam": "TR-YÖS yoki Attestat"},
     {"topic": "Xalqaro Biznes va Moliya", "uni": "Anqara Hacı Bayram Veli", "city": "Anqara", "price": "$400 - $900", "exam": "To'g'ridan-to'g'ri Qabul"},
-    {"topic": "Arxitektura va Dizayn", "uni": "Mimar Sinan & ITU", "city": "Istanbul", "price": "$800 - $1,500", "exam": "Attestat + Portfolio"},
-    {"topic": "Aviatsiya va Uchuvchilik", "uni": "Türk Hava Kurumu Universiteti", "city": "Anqara", "price": "$4,000 - $8,000", "exam": "Ingliz tili suhbati"}
+    {"topic": "Arxitektura va Shaharsozlik", "uni": "Mimar Sinan & ITU", "city": "Istanbul", "price": "$800 - $1,500", "exam": "Attestat + Portfolio"},
+    {"topic": "Aviatsiya va Uchuvchilik", "uni": "Türk Hava Kurumu Universiteti", "city": "Anqara", "price": "$4,000 - $8,000", "exam": "Ingliz tili suhbati"},
+    {"topic": "Psixologiya va Pedagogika", "uni": "Ege Universiteti", "city": "Izmir", "price": "$500 - $950", "exam": "Attestat Boshlang'ich Qabul"},
+    {"topic": "Farmatsevtika (Dorishunoslik)", "uni": "Anqara Universiteti", "city": "Anqara", "price": "$1,800 - $3,200", "exam": "Attestat Baholari Asosida"},
+    {"topic": "Xalqaro Huquq va Yurisprudensiya", "uni": "Istanbul Universiteti", "city": "Istanbul", "price": "$700 - $1,400", "exam": "TR-YÖS yoki Attestat"},
+    {"topic": "Kiberxavfsizlik va Sun'iy Intellekt", "uni": "Sakarya Universiteti", "city": "Sakarya", "price": "$450 - $850", "exam": "To'g'ridan-to'g'ri Qabul"},
+    {"topic": "Mexatronika va Robototexnika", "uni": "Bursa Uludağ Universiteti", "city": "Bursa", "price": "$550 - $1,100", "exam": "Imtihonsiz Attestat"},
+    {"topic": "Logistika va Xalqaro Savdo", "uni": "Dokuz Eylül Universiteti", "city": "Izmir", "price": "$400 - $800", "exam": "To'g'ridan-to'g'ri Qabul"},
+    {"topic": "Grafik Dizayn va Animatsiya", "uni": "Kadir Has Universiteti", "city": "Istanbul", "price": "$2,200 - $4,000", "exam": "Portfolio bilan Qabul"},
+    {"topic": "Turizm va Mehmonxona Boshqaruvi", "uni": "Antalya Bilim Universiteti", "city": "Antalya", "price": "$1,200 - $2,500", "exam": "Attestat bilan Qabul"},
+    {"topic": "Veterinariya Meditsinasi", "uni": "Selçuk Universiteti", "city": "Konya", "price": "$400 - $750", "exam": "Imtihonsiz Qabul"},
+    {"topic": "Biotibbiyot Muhandisligi", "uni": "Bahçeşehir Universiteti", "city": "Istanbul", "price": "$3,000 - $5,500", "exam": "Attestat + Grant chegirmasi"}
 ]
+
+HOOK_VARIATIONS = [
+    "DTM balingiz orzuingizga yetmadimi? Tushkunlikka tushmang!",
+    "Turkiyada o'qish uchun millionlab so'm sarflash shart emas!",
+    "Attestat bahosi bilan Yevropa akkreditatsiyasiga ega diplom olish mumkinmi?",
+    "Istanbulda talaba bo'lib, o'z xarajatlaringizni o'zingiz qoplang!",
+    "Ota-onalar diqqatiga: Farzandingiz kelajagini ishonchli qo'llarga topshiring!",
+    "2026-yilgi qabul uchun davlat kvotalari cheklangan!",
+    "Imtihonsiz qabul qilinishning 3 ta sirli yo'li ochildi!",
+    "Turkiya diplomining O'zbekistonda 100% tan olinishi haqida bilarmidingiz?"
+]
+
 
 @pillars_bp.route("/api/production/generate", methods=["POST"])
 def generate_content():
@@ -117,26 +141,97 @@ def generate_content():
     generated_items = []
     stock = load_json(STOCK_FILE, {"texts": [], "videos": [], "images": []})
 
+    valid_videos = [
+        "output/cinematic_reel_output.mp4",
+        "output/mila_talking_ozbek_raw.mp4",
+        "output/reels_video_output.mp4",
+        "output/mila_ozbekcha_reel_final.mp4",
+        "output/mila_turkish_reel_final.mp4",
+        "output/madina_reel_5689.mp4",
+        "output/ugc_vlogger_8995.mp4",
+        "output/faceless_trend_5013.mp4",
+        "output/story_reel_3665.mp4",
+        "output/cinematic_reel_5821.mp4",
+        "output/reels_3421.mp4",
+        "output/fastlane_pro_5170.mp4"
+    ]
+    real_mp4s = [f for f in valid_videos if os.path.exists(f)] or ["output/cinematic_reel_output.mp4"]
+
+    valid_images = [
+        ("qa_quiz", "Soru-Cevap / Quiz Kartı", "output/sample_cafe.jpg"),
+        ("riddle", "Bilmece / İpuçlu Tasarım", "output/mila_campus_scene.jpg"),
+        ("checklist", "Kontrol Listesi / Checklist", "output/galata_reel_frame.jpg"),
+        ("modern_ad", "Modern Reklam / Banner", "output/fresh_ferry_post.jpg"),
+        ("qa_quiz", "Soru-Cevap / Harç Tablosu", "output/test_broll_frame.jpg"),
+        ("riddle", "Bilmece / Kampüs Bilmecesi", "output/tiktok_scene1_frame.jpg"),
+        ("checklist", "Checklist / 5 Altın Belge", "output/test_library_frame.jpg"),
+        ("modern_ad", "Modern Reklam / 2026 Erken Kayıt", "output/madina_reel_frame.jpg")
+    ]
+    real_imgs = [i for i in valid_images if os.path.exists(i[2])] or valid_images
+
+    # Shuffle for fresh output every time
+    shuffled_topics = list(PRESET_TOPICS)
+    random.shuffle(shuffled_topics)
+    shuffled_hooks = list(HOOK_VARIATIONS)
+    random.shuffle(shuffled_hooks)
+
     if main_type == "text":
         for i in range(count):
-            t_data = PRESET_TOPICS[i % len(PRESET_TOPICS)]
+            t_data = shuffled_topics[i % len(shuffled_topics)]
+            hook = shuffled_hooks[i % len(shuffled_hooks)]
             unique_id = f"txt_{uuid.uuid4().hex[:6]}"
             
             if sub_type == "headline_hook":
-                title = f"🔥 {t_data['topic']}: Turkiyada {t_data['exam']}!"
-                body = f"Turkiyaning eng nufuzli oliygohlaridan biri — {t_data['uni']}da {t_data['topic']} fakultetiga 2026-o'quv yili uchun xalqaro qabul boshlandi!\n\n📌 Shahar: {t_data['city']}\n💰 Yillik to'lov: {t_data['price']}\n🎓 Diplom: Yevropa va O'zbekistonda 100% tan olinadi (Nostrifikatsiyadan o'tadi).\n\nJoylar cheklangan! Bepul konsultatsiya olish uchun hoziroq yozing: @arkadasuz"
+                title = f"🔥 {hook} | {t_data['topic']}"
+                body = f"""{hook}
+
+Turkiyaning eng nufuzli oliygohlaridan biri — {t_data['uni']}da {t_data['topic']} fakultetiga 2026-o'quv yili uchun rasmiy xalqaro qabul boshlandi!
+
+📌 Shahar: {t_data['city']}
+💰 Yillik kontrakt: {t_data['price']}
+🎓 Diplom: Yevropa va O'zbekistonda 100% tan olinadi.
+
+Joylar cheklangan! Bepul konsultatsiya olish uchun hoziroq yozing: @arkadasuz"""
                 fmt = "Başlık & Hook"
             elif sub_type == "ad_copy":
-                title = f"🎯 Reklam Metni: {t_data['city']}da Talaba Bo'ling!"
-                body = f"Farzandingiz orzusidagi oliygohga kirolmadimi? Hech qisi yo'q! Turkiyada {t_data['uni']} universitetiga imtihonsiz to'g'ridan-to'g'ri qabul qilinish imkoniyati mavjud.\n\n✅ Rasmiy MChJ shartnomasi\n✅ Viza va yotoqxona kafolati\n✅ Havalimanida kutib olish va 7 kunlik hamrohlik\n\nBatafsil ma'lumot: @arkadasuz yoki +90 552 123 45 67"
+                title = f"🎯 Reklam: {t_data['city']}da {t_data['topic']} Bo'yicha Talaba Bo'ling!"
+                body = f"""{hook}
+
+Farzandingiz kelajagi uchun eng to'g'ri qaror — {t_data['uni']}da ta'lim olish! Attestat bahosi bilan to'g'ridan-to'g'ri qabul qilinish imkoniyati mavjud.
+
+✅ Rasmiy MChJ shartnomasi va yuridik kafolat
+✅ Viza va yotoqxona kafolati
+✅ Havalimanida kutib olish va 7 kunlik doimiy hamrohlik
+
+Batafsil ma'lumot: @arkadasuz yoki +90 552 123 45 67"""
                 fmt = "Reklam Kampanyası"
             elif sub_type == "tg_post":
-                title = f"📢 Telegram Posti: {t_data['uni']} Imkoniyatlari"
-                body = f"⚡️ <b>{t_data['uni'].upper()} — RASMIY QABUL OCHIQ!</b>\n\nTurkiyada ta'lim olish istagidagi o'zbekistonlik abituriyentlar diqqatiga:\n\n• <b>Fakultet:</b> {t_data['topic']}\n• <b>Yillik kontrakt:</b> {t_data['price']}\n• <b>Talab qilinadigan hujjatlar:</b> Faqatgina Pasport va Attestat/Diplom!\n\nBiz bilan talaba bo'lgan har bir o'quvchiga:\n1️⃣ Turar joy (KYK/Xususiy) band qilish\n2️⃣ Turkiyada qonuniy yashash ruxsatnomasi (İkamet)\n3️⃣ Aeroportda kutib olish xizmatlari bepul ko'rsatiladi.\n\n📩 Savollaringiz bormi? @arkadasuz adminiga murojaat qiling!"
+                title = f"📢 Telegram: {t_data['uni']} — {t_data['topic']} Qabuli"
+                body = f"""⚡️ <b>{t_data['uni'].upper()} — RASMIY QABUL OCHIQ!</b>
+
+{hook}
+
+• <b>Fakultet:</b> {t_data['topic']}
+• <b>Shahar:</b> {t_data['city']}
+• <b>Yillik to'lov:</b> {t_data['price']}
+• <b>Talab qilinadigan hujjatlar:</b> Faqatgina Pasport va Attestat!
+
+Biz bilan talaba bo'lgan har bir yoshga:
+1️⃣ Turar joy (KYK/Xususiy rezidensiya) band qilish
+2️⃣ Turkiyada qonuniy yashash ruxsatnomasi (İkamet)
+3️⃣ Aeroportda kutib olish va sim-karta rasmiylashtirish bepul.
+
+📩 Savollaringiz bormi? @arkadasuz adminiga murojaat qiling!"""
                 fmt = "Telegram Formatı"
             else: # cta_faq
-                title = f"❓ SSS & CTA: {t_data['topic']} Haqida Top Savollar"
-                body = f"Talabalar eng ko'p so'raydigan savol:\n\n❓ <i>\"{t_data['uni']} diplomi O'zbekistonda o'tadimi?\"</i>\nJavob: Ha! Turkiya YÖK (Oliy Ta'lim Kengashi) akkreditatsiyasiga ega bo'lib, O'zbekiston Oliy ta'lim vazirligi nizomiga to'liq mos keladi.\n\nRo'yxatdan o'tish uchun oxirgi 5 ta grant o'rni qoldi. Bio'dagi havola orqali o'ting: @arkadasuz"
+                title = f"❓ SSS & CTA: {t_data['topic']} Haqida Muhim Savol"
+                body = f"""Talabalar va ota-onalar eng ko'p so'raydigan savol:
+
+❓ <i>\"{t_data['uni']} diplomi O'zbekistonda o'tadimi va nostrifikatsiyadan o'tadimi?\"</i>
+
+Javob: Ha! Turkiya YÖK akkreditatsiyasiga ega bo'lib, O'zbekiston Oliy ta'lim vazirligi nizomiga 100% mos keladi.
+
+{t_data['city']} shahridagi oxirgi grant o'rinlari uchun ro'yxatdan o'ting: @arkadasuz"""
                 fmt = "SSS & Çağrı Metni"
 
             item = {
@@ -156,20 +251,18 @@ def generate_content():
 
     elif main_type == "video":
         for i in range(count):
-            t_data = PRESET_TOPICS[i % len(PRESET_TOPICS)]
+            t_data = shuffled_topics[i % len(shuffled_topics)]
             unique_id = f"vid_{uuid.uuid4().hex[:6]}"
+            v_path = real_mp4s[i % len(real_mp4s)]
             
             if sub_type == "landscape_broll":
-                v_title = f"🌊 Istanbul B-Roll: {t_data['topic']} Talabasi 1 Kuni"
-                v_path = "output/cinematic_reel_output.mp4"
+                v_title = f"🌊 Istanbul B-Roll: {t_data['city']}da {t_data['topic']} Talabasi 1 Kuni"
                 v_type = "Manzaralı / Yazılı Video"
             elif sub_type == "avatar_talking":
-                v_title = f"👩 Mila: {t_data['city']}da Yashash va Kontrakt Haqiqatlari"
-                v_path = "output/mila_talking_ozbek_raw.mp4"
-                v_type = "Yüzlü / Avatar Video"
+                v_title = f"👩 Mila: {t_data['uni']}da Yashash va Kontrakt Haqiqatlari"
+                v_type = "Yüzlü / Danışman Video"
             else: # trendy_music
-                v_title = f"🎵 Trend Ritm: DTM Baling Kam Bo'lsa Turkiyaga Kel!"
-                v_path = "output/reels_video_output.mp4"
+                v_title = f"🎵 Trend Ritm: DTM Baling Kam Bo'lsa {t_data['topic']} O'qi!"
                 v_type = "Şarkılı / Trend Video"
 
             item = {
@@ -178,6 +271,7 @@ def generate_content():
                 "file_path": v_path,
                 "video_type": v_type,
                 "format": "Dikey Shorts / Reels (9:16)",
+                "duration": "0:30",
                 "topic": t_data["topic"],
                 "status": "in_stock",
                 "created_at": datetime.now().strftime("%Y-%m-%d %H:%M")
@@ -187,15 +281,9 @@ def generate_content():
                 stock["videos"].insert(0, item)
 
     elif main_type == "image":
-        styles = [
-            ("qa_quiz", "Soru-Cevap / Quiz", "output/channel_samples/post_1_preview.jpg"),
-            ("riddle", "Bilmece / İpuçlu Tasarım", "output/channel_samples/post_2_preview.jpg"),
-            ("checklist", "Kontrol Listesi / Checklist", "output/channel_samples/post_3_preview.jpg"),
-            ("modern_ad", "Modern Reklam / Banner", "output/channel_samples/post_4_preview.jpg")
-        ]
         for i in range(count):
-            s_key, s_name, img_path = styles[i % len(styles)]
-            t_data = PRESET_TOPICS[i % len(PRESET_TOPICS)]
+            s_key, s_name, img_path = real_imgs[i % len(real_imgs)]
+            t_data = shuffled_topics[i % len(shuffled_topics)]
             unique_id = f"img_{uuid.uuid4().hex[:6]}"
             
             item = {
