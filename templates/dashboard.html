@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Arkadaş Executive Studio — Yönetim & İçerik Merkezi</title>
+  <title>Arkadaş Executive OS & Content Hub</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/static/app.css?v=202609130415">
+  <link rel="stylesheet" href="/static/app.css?v=202609130425">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
@@ -22,8 +22,19 @@
     .text-amber { color: #f59e0b; }
     .text-purple { color: #c084fc; }
     .text-rose { color: #f43f5e; }
+
+    /* Override app.css section display to block so child grids behave perfectly */
+    .gece-section {
+      display: none !important;
+      width: 100% !important;
+    }
+    .gece-section.active-tab {
+      display: block !important;
+      animation: tabFadeIn 0.2s ease-out;
+      width: 100% !important;
+    }
     .gece-card {
-      background: rgba(18, 25, 38, 0.65);
+      background: rgba(18, 25, 38, 0.7);
       border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 16px;
       backdrop-filter: blur(12px);
@@ -31,12 +42,20 @@
     }
     .gece-card:hover {
       border-color: rgba(255, 255, 255, 0.16);
-      transform: translateY(-1px);
     }
     .spotlight-vinyl-box {
       position: relative;
       width: 220px;
       height: 220px;
+    }
+    .btn-action-primary {
+      background: #2563eb;
+      color: #fff;
+      font-weight: 600;
+      transition: background 0.2s ease;
+    }
+    .btn-action-primary:hover {
+      background: #1d4ed8;
     }
   </style>
 </head>
@@ -45,7 +64,7 @@
 
     <!-- 1. STICKY AMBIENT NAVBAR -->
     <header class="gece-navbar">
-      <div class="nav-brand" onclick="switchSection('spotlight')">
+      <div class="nav-brand cursor-pointer" onclick="switchSection('spotlight')">
         <div class="brand-vinyl-pulse">
           <span class="vinyl-core"></span>
           <span class="vinyl-ring"></span>
@@ -66,10 +85,10 @@
       </nav>
 
       <div class="nav-actions">
-        <div class="live-pulse-badge">
+        <button type="button" onclick="runHealthCheck()" class="btn btn-outline btn-xs font-mono text-emerald border-emerald flex items-center gap-1.5" title="Sistem Testi">
           <span class="pulse-dot"></span>
-          <span id="bot-status-text" class="font-mono text-xs text-emerald">Canlı Stüdyo</span>
-        </div>
+          <span>🩺 Test</span>
+        </button>
         <a href="https://t.me/ArkadasAdminBot" target="_blank" class="btn btn-outline text-cyan border-cyan btn-xs font-mono">
           <i class="fa-brands fa-telegram mr-1"></i> @ArkadasAdminBot
         </a>
@@ -77,7 +96,7 @@
     </header>
 
     <!-- ============================================================== -->
-    <!-- SECTION 1: 🌟 SPOTLIGHT HERO (Günün Öne Çıkan İçeriği) -->
+    <!-- SECTION 1: 🌟 SPOTLIGHT HERO (Günün İçeriği) -->
     <!-- ============================================================== -->
     <section class="gece-section active-tab" id="section-spotlight">
       <div class="spotlight-badge-row mb-3 flex items-center gap-2">
@@ -89,7 +108,6 @@
       <div class="gece-card p-6 md:p-8">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           
-          <!-- Sol Bilgiler -->
           <div class="lg:col-span-8 space-y-4">
             <span class="text-xs font-mono text-cyan tracking-wider uppercase font-bold">🎯 GÜNÜN REKLAM VE EĞİTİM KANCASI</span>
             <h1 class="text-2xl md:text-3xl font-extrabold text-white leading-tight" id="hero-title">
@@ -99,22 +117,22 @@
             <div class="p-4 rounded-xl bg-black/40 border border-white/10 font-mono text-xs text-slate-300 leading-relaxed">
               <span class="text-amber font-bold mr-1">“</span>
               <span id="hero-desc">
-                Türkiye devlet üniversitelerine sınavsız giriş hakkı ve 25% - 100% harç bursları hakkında detaylı video. Lise diploması notuyla doğrudan üniversite öğrencisi olun!
+                Türkiye devlet üniversitelerine sınavsız giriş hakkı ve %25 - %100 harç bursları hakkında detaylı video. Lise diploması notuyla doğrudan üniversite öğrencisi olun!
               </span>
               <span class="text-amber font-bold ml-1">”</span>
             </div>
 
             <!-- Aksiyon Butonları -->
-            <div class="flex flex-wrap gap-3 pt-2">
-              <button type="button" class="btn btn-primary btn-glow px-5 py-2.5 rounded-xl font-semibold text-xs flex items-center gap-2" onclick="openHeroVideoModal()">
+            <div class="flex flex-wrap gap-3 pt-2 font-mono text-xs">
+              <button type="button" class="btn btn-primary btn-glow px-5 py-2.5 rounded-xl font-semibold flex items-center gap-2" onclick="openHeroVideoModal()">
                 <i class="fa-solid fa-play"></i>
                 <span>Hemen Önizle</span>
               </button>
-              <button type="button" class="btn btn-outline text-rose border-rose px-5 py-2.5 rounded-xl font-semibold text-xs flex items-center gap-2" onclick="uploadHeroVideoNow()">
+              <button type="button" class="btn btn-outline text-rose border-rose px-5 py-2.5 rounded-xl font-semibold flex items-center gap-2" onclick="uploadHeroVideoNow()">
                 <i class="fa-brands fa-youtube"></i>
-                <span>YouTube'a Şimdi Yükle</span>
+                <span>YouTube'a Yükle</span>
               </button>
-              <button type="button" class="btn btn-outline text-cyan border-cyan px-4 py-2.5 rounded-xl font-semibold text-xs flex items-center gap-2" onclick="switchSection('contenthub')">
+              <button type="button" class="btn btn-outline text-cyan border-cyan px-4 py-2.5 rounded-xl font-semibold flex items-center gap-2" onclick="switchSection('contenthub')">
                 <i class="fa-solid fa-file-lines"></i>
                 <span>Metin Kütüphanesine Git</span>
               </button>
@@ -123,8 +141,8 @@
             <!-- Meta Çipleri -->
             <div class="flex flex-wrap gap-2 pt-2 font-mono text-[11px]">
               <span class="chip">📺 YouTube: arkadaş (45.4K İzlenme)</span>
-              <span class="chip">📱 Telegram: @arkadasuz (Resmi Kanal)</span>
-              <span class="chip">⚡ 9:16 Dikey Shorts</span>
+              <span class="chip">📱 Telegram: @arkadasuz</span>
+              <span class="chip">⚡ 9:16 Dikey Format</span>
               <span class="chip">📌 Sabit Yorum Kancası Aktif</span>
             </div>
           </div>
@@ -157,8 +175,8 @@
     <!-- ============================================================== -->
     <!-- SECTION 2: 🎬 YOUTUBE STUDIO (Canlı Analitik & Video Yöneticisi) -->
     <!-- ============================================================== -->
-    <section class="gece-section hidden" id="section-ytstudio">
-      <div class="section-title-wrap mb-6 flex items-center justify-between">
+    <section class="gece-section" id="section-ytstudio">
+      <div class="section-title-wrap mb-6 flex flex-wrap items-center justify-between gap-4">
         <div>
           <span class="section-eyebrow font-mono text-rose">OFFICIAL YOUTUBE DATA API V3</span>
           <h2 class="section-heading text-xl font-bold text-white flex items-center gap-2">
@@ -167,9 +185,11 @@
           </h2>
           <p class="text-xs text-dim mt-0.5">Resmi bağlı kanal: <strong class="text-white" id="yt-channel-title">arkadaş</strong> (ID: UCvXwAKfCvW7bx268_Tl7nbg)</p>
         </div>
-        <button type="button" class="btn btn-outline btn-xs font-mono text-cyan" onclick="loadYouTubeStudio()">
-          🔄 Canlı Eşitle
-        </button>
+        <div class="flex gap-2">
+          <button type="button" class="btn btn-outline btn-xs font-mono text-cyan" onclick="loadYouTubeStudio()">
+            🔄 Canlı Eşitle
+          </button>
+        </div>
       </div>
 
       <!-- 4 Temel Canlı YouTube Metriği -->
@@ -177,13 +197,13 @@
         <div class="gece-card p-5 text-center">
           <span class="text-xs text-dim font-bold font-mono block mb-1">📊 TOPLAM İZLENME</span>
           <div class="text-2xl font-black text-white font-mono" id="yt-stat-views">45,449</div>
-          <span class="text-xs text-emerald font-mono block mt-1">Canlı Kanal İstatistiği</span>
+          <span class="text-xs text-emerald font-mono block mt-1">Canlı YouTube Verisi</span>
         </div>
 
         <div class="gece-card p-5 text-center">
           <span class="text-xs text-dim font-bold font-mono block mb-1">👤 ABONE SAYISI</span>
           <div class="text-2xl font-black text-purple font-mono" id="yt-stat-subs">28 Abone</div>
-          <span class="text-xs text-purple font-mono block mt-1">Organik Büyüme</span>
+          <span class="text-xs text-purple font-mono block mt-1">Organik Takipçi</span>
         </div>
 
         <div class="gece-card p-5 text-center">
@@ -195,19 +215,19 @@
         <div class="gece-card p-5 text-center">
           <span class="text-xs text-dim font-bold font-mono block mb-1">🛡️ GÜNLÜK API KOTASI</span>
           <div class="text-2xl font-black text-emerald font-mono">10,000</div>
-          <span class="text-xs text-slate-400 font-mono block mt-1">Kota Koruma Aktif</span>
+          <span class="text-xs text-slate-400 font-mono block mt-1">Kota Koruma Devrede</span>
         </div>
       </div>
 
       <!-- Video Arama ve Filtre Araç Çubuğu -->
       <div class="gece-card p-4 mb-5 flex flex-wrap items-center justify-between gap-3">
         <div class="flex flex-wrap gap-2">
-          <button type="button" class="btn btn-xs btn-primary font-mono" onclick="filterShorts('all', this)">Tümü (50)</button>
-          <button type="button" class="btn btn-xs btn-outline font-mono text-amber" onclick="filterShorts('pending', this)">⏳ Sırada Bekleyenler (50)</button>
-          <button type="button" class="btn btn-xs btn-outline font-mono text-emerald" onclick="filterShorts('published', this)">✅ Yayındakiler (0)</button>
+          <button type="button" class="btn btn-xs btn-primary font-mono" id="yt-filter-all" onclick="filterShorts('all', this)">Tümü (50)</button>
+          <button type="button" class="btn btn-xs btn-outline font-mono text-amber" id="yt-filter-pending" onclick="filterShorts('pending', this)">⏳ Sırada Bekleyenler (50)</button>
+          <button type="button" class="btn btn-xs btn-outline font-mono text-emerald" id="yt-filter-published" onclick="filterShorts('published', this)">✅ Yayındakiler (0)</button>
         </div>
         <div class="w-full sm:w-72">
-          <input type="text" id="shorts-search-input" oninput="renderShortsTable()" placeholder="Video başlığında ara..." class="w-full bg-black/50 border border-white/10 rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan">
+          <input type="text" id="shorts-search-input" oninput="renderShortsTable()" placeholder="Video başlığında ara..." class="w-full bg-black/50 border border-white/10 rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan font-mono">
         </div>
       </div>
 
@@ -234,23 +254,25 @@
     </section>
 
     <!-- ============================================================== -->
-    <!-- SECTION 3: 📢 ÇOK KANALLI İÇERİK & METİNLER (Telegram, Twitter, Reels) -->
+    <!-- SECTION 3: 📢 ÇOK KANALLI İÇERİK & METİNLER (Telegram, Twitter, AI) -->
     <!-- ============================================================== -->
-    <section class="gece-section hidden" id="section-contenthub">
+    <section class="gece-section" id="section-contenthub">
       <div class="section-title-wrap mb-6 flex flex-wrap items-center justify-between gap-4">
         <div>
           <span class="section-eyebrow font-mono text-cyan">OMNICHANNEL CONTENT MATRIX</span>
-          <h2 class="section-heading text-xl font-bold text-white">📢 Hazır Metinler & Çok Kanallı Paylaşım Havuzu</h2>
-          <p class="text-xs text-dim mt-0.5">Telegram kanalı, Twitter/X ve Instagram için önceden hazırlanmış onaylı içerikler.</p>
+          <h2 class="section-heading text-xl font-bold text-white">📢 Hazır Metinler & İçerik Fabrikası</h2>
+          <p class="text-xs text-dim mt-0.5">Telegram kanalı (@arkadasuz), Twitter/X ve yapay zeka içerik üretim laboratuvarı.</p>
         </div>
         
-        <!-- Platform Sekmeleri -->
         <div class="flex gap-2">
           <button type="button" class="btn btn-xs btn-primary font-mono" id="btn-tab-tg" onclick="switchContentPlatform('telegram')">
             <i class="fa-brands fa-telegram mr-1"></i> Telegram (134 Post)
           </button>
           <button type="button" class="btn btn-xs btn-outline font-mono" id="btn-tab-tw" onclick="switchContentPlatform('twitter')">
             <i class="fa-brands fa-x-twitter mr-1"></i> Twitter / X (201 Tweet)
+          </button>
+          <button type="button" class="btn btn-xs btn-outline font-mono text-emerald border-emerald" onclick="openAIPostModal()">
+            <i class="fa-solid fa-wand-magic-sparkles mr-1"></i> AI Post Üret
           </button>
         </div>
       </div>
@@ -259,7 +281,7 @@
       <div class="gece-card p-4 mb-5 flex flex-wrap items-center justify-between gap-3">
         <span class="text-xs font-mono text-slate-300" id="content-pool-count">134 Hazır İçerik Listeleniyor</span>
         <div class="w-full sm:w-80">
-          <input type="text" id="content-search-input" oninput="renderContentCards()" placeholder="Metin veya konu içinde ara..." class="w-full bg-black/50 border border-white/10 rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan">
+          <input type="text" id="content-search-input" oninput="renderContentCards()" placeholder="Metin veya konu içinde ara..." class="w-full bg-black/50 border border-white/10 rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan font-mono">
         </div>
       </div>
 
@@ -272,7 +294,7 @@
     <!-- ============================================================== -->
     <!-- SECTION 4: 📈 HAFTALIK YÖNETİCİ RAPORU & ANALİTİK -->
     <!-- ============================================================== -->
-    <section class="gece-section hidden" id="section-analytics">
+    <section class="gece-section" id="section-analytics">
       <div class="section-title-wrap mb-6 flex items-center justify-between">
         <div>
           <span class="section-eyebrow font-mono text-emerald">EXECUTIVE GROWTH & INTELLIGENCE</span>
@@ -368,7 +390,7 @@
     <!-- ============================================================== -->
     <!-- SECTION 5: 👥 ÖĞRENCİ CRM & SATIŞ HUNİSİ -->
     <!-- ============================================================== -->
-    <section class="gece-section hidden" id="section-crm">
+    <section class="gece-section" id="section-crm">
       <div class="section-title-wrap mb-6 flex flex-wrap items-center justify-between gap-4">
         <div>
           <span class="section-eyebrow font-mono text-emerald">STUDENT PIPELINE & LEADS</span>
@@ -413,7 +435,7 @@
     <!-- ============================================================== -->
     <!-- SECTION 6: ⚙️ OTOPİLOT, SAATLER & SİSTEM SAĞLIĞI -->
     <!-- ============================================================== -->
-    <section class="gece-section hidden" id="section-settings">
+    <section class="gece-section" id="section-settings">
       <div class="section-title-wrap mb-6">
         <span class="section-eyebrow font-mono text-purple">SYSTEM AUTOMATION & CONTROLS</span>
         <h2 class="section-heading text-xl font-bold text-white">⚙️ Otopilot ve Sistem Ayarları</h2>
@@ -476,6 +498,94 @@
     </div>
   </div>
 
+  <!-- VIDEO BAŞLIK DÜZENLEME MODALI -->
+  <div id="video-edit-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="bg-slate-900 border border-white/10 rounded-2xl max-w-md w-full overflow-hidden shadow-2xl">
+      <div class="p-4 border-b border-white/10 flex items-center justify-between">
+        <h3 class="text-sm font-bold text-white font-mono">Video Başlığı & Açıklaması Düzenle</h3>
+        <button onclick="closeVideoEditModal()" class="text-slate-400 hover:text-white">✕</button>
+      </div>
+      <form onsubmit="submitVideoEdit(event)" class="p-4 space-y-3 text-xs font-mono">
+        <input type="hidden" id="edit-video-id">
+        <div>
+          <label class="block text-slate-400 mb-1">Video Başlığı *</label>
+          <input type="text" id="edit-video-title" required class="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-cyan">
+        </div>
+        <div>
+          <label class="block text-slate-400 mb-1">Açıklama</label>
+          <textarea id="edit-video-desc" rows="3" class="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-cyan"></textarea>
+        </div>
+        <div class="pt-2 flex justify-end space-x-2">
+          <button type="button" onclick="closeVideoEditModal()" class="btn btn-outline btn-xs">İptal</button>
+          <button type="submit" class="btn btn-primary btn-xs">Kaydet</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- AI POST GENERATOR MODALI -->
+  <div id="ai-post-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="bg-slate-900 border border-white/10 rounded-2xl max-w-lg w-full overflow-hidden shadow-2xl">
+      <div class="p-4 border-b border-white/10 flex items-center justify-between">
+        <h3 class="text-sm font-bold text-white font-mono">⚡ AI İçerik Üretici</h3>
+        <button onclick="closeAIPostModal()" class="text-slate-400 hover:text-white">✕</button>
+      </div>
+      <div class="p-4 space-y-3 font-mono text-xs">
+        <div>
+          <label class="block text-slate-400 mb-1">Konu Seçin</label>
+          <select id="ai-topic-select" class="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-2 text-white focus:outline-none">
+            <option value="tibbiyot">Tıp ve Diş Hekimliği Sınavsız Kabul</option>
+            <option value="narxlar">Türkiye Devlet Üniversitesi Yıllık Harçları</option>
+            <option value="ish">Öğrenciler İçin Haftalık 20 Saat Yasal Çalışma</option>
+          </select>
+        </div>
+        <button onclick="generateAIPostNow()" class="btn btn-emerald btn-glow w-full py-2 font-mono text-xs">
+          🚀 Anında Üret
+        </button>
+
+        <div id="ai-result-box" class="hidden mt-3 p-3 rounded-xl bg-black/50 border border-white/10 text-slate-200 font-sans whitespace-pre-line text-xs max-h-60 overflow-y-auto"></div>
+        <div id="ai-actions-row" class="hidden flex justify-end gap-2 pt-2">
+          <button onclick="copyGeneratedPost()" class="btn btn-outline btn-xs font-mono">📋 Kopyala</button>
+          <button onclick="sendGeneratedToTelegram()" class="btn btn-primary btn-xs font-mono">📢 Kanala Gönder (@arkadasuz)</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SİSTEM SAĞLIK TESTİ MODALI -->
+  <div id="health-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="bg-slate-900 border border-white/10 rounded-2xl max-w-md w-full overflow-hidden shadow-2xl p-6">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="font-bold text-white text-sm font-mono flex items-center gap-2">
+          <span>🩺 Sistem Sağlık Teşhisi</span>
+          <span class="tag tag-emerald text-[10px]" id="health-overall-badge">SAĞLIKLI</span>
+        </h3>
+        <button onclick="closeHealthModal()" class="text-slate-400 hover:text-white">✕</button>
+      </div>
+      <div id="health-details" class="space-y-2.5 font-mono text-xs">
+        <div class="flex justify-between p-2 rounded bg-black/40 border border-white/5">
+          <span class="text-dim">YouTube Data API:</span>
+          <span class="text-emerald" id="health-yt-stat">Kontrol ediliyor...</span>
+        </div>
+        <div class="flex justify-between p-2 rounded bg-black/40 border border-white/5">
+          <span class="text-dim">Telegram Admin Bot:</span>
+          <span class="text-emerald" id="health-tg-stat">Kontrol ediliyor...</span>
+        </div>
+        <div class="flex justify-between p-2 rounded bg-black/40 border border-white/5">
+          <span class="text-dim">Öğrenci CRM Veritabanı:</span>
+          <span class="text-emerald" id="health-crm-stat">Kontrol ediliyor...</span>
+        </div>
+        <div class="flex justify-between p-2 rounded bg-black/40 border border-white/5">
+          <span class="text-dim">Shorts Video Havuzu:</span>
+          <span class="text-emerald" id="health-inv-stat">Kontrol ediliyor...</span>
+        </div>
+      </div>
+      <div class="mt-4 pt-3 border-t border-white/10 flex justify-end font-mono">
+        <button onclick="closeHealthModal()" class="btn btn-outline btn-xs">Kapat</button>
+      </div>
+    </div>
+  </div>
+
   <!-- ÖĞRENCİ EKLEME MODALI -->
   <div id="add-lead-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-center justify-center p-4">
     <div class="bg-slate-900 border border-white/10 rounded-2xl max-w-md w-full overflow-hidden shadow-2xl">
@@ -521,6 +631,7 @@
     let allTelegramPosts = [];
     let allTweets = [];
     let currentContentPlatform = 'telegram';
+    let lastGeneratedPostText = '';
 
     function showToast(msg, type = 'success') {
       const t = document.getElementById('toast');
@@ -531,11 +642,17 @@
     }
 
     function switchSection(targetId) {
-      document.querySelectorAll('.gece-section').forEach(s => s.classList.add('hidden'));
-      document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+      document.querySelectorAll('.gece-section').forEach(s => {
+        s.classList.remove('active-tab');
+      });
+      document.querySelectorAll('.nav-link').forEach(l => {
+        l.classList.remove('active');
+      });
 
       const sec = document.getElementById(`section-${targetId}`);
-      if (sec) sec.classList.remove('hidden');
+      if (sec) {
+        sec.classList.add('active-tab');
+      }
 
       const btn = document.querySelector(`.nav-link[data-target="${targetId}"]`);
       if (btn) btn.classList.add('active');
@@ -550,12 +667,19 @@
     function openHeroVideoModal() {
       if (allShorts.length > 0) {
         openVideoModal(encodeURIComponent(JSON.stringify(allShorts[0])));
+      } else {
+        fetch('/api/videos').then(r => r.json()).then(d => {
+          allShorts = d.shorts || [];
+          if (allShorts.length > 0) openVideoModal(encodeURIComponent(JSON.stringify(allShorts[0])));
+        });
       }
     }
 
     function uploadHeroVideoNow() {
       if (allShorts.length > 0) {
         uploadVideoNow(allShorts[0].id);
+      } else {
+        uploadVideoNow('yt_short_2026-09-13_lun');
       }
     }
 
@@ -571,6 +695,12 @@
         document.getElementById('yt-stat-views').innerText = Number(ch.views || 45449).toLocaleString();
         document.getElementById('yt-stat-subs').innerText = `${ch.subscribers || 28} Abone`;
         document.getElementById('yt-stat-videos').innerText = `${ch.video_count || 106} Video`;
+
+        const pubCount = allShorts.filter(v => v.status === 'published').length;
+        const penCount = allShorts.length - pubCount;
+        document.getElementById('yt-filter-all').innerText = `Tümü (${allShorts.length})`;
+        document.getElementById('yt-filter-pending').innerText = `⏳ Sırada Bekleyenler (${penCount})`;
+        document.getElementById('yt-filter-published').innerText = `✅ Yayındakiler (${pubCount})`;
 
         renderShortsTable();
       } catch (err) {
@@ -593,7 +723,7 @@
       }
 
       if (list.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="6" class="text-center py-8 text-dim">Video bulunamadı.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="6" class="text-center py-8 text-dim font-mono">Video bulunamadı.</td></tr>`;
         return;
       }
 
@@ -602,7 +732,9 @@
         return `
           <tr class="hover:bg-white/[0.02] transition">
             <td class="py-3 px-4 text-dim">#${i + 1}</td>
-            <td class="py-3 px-4 text-white font-semibold">${v.title}</td>
+            <td class="py-3 px-4 text-white font-semibold">
+              <div class="line-clamp-2">${v.title}</div>
+            </td>
             <td class="py-3 px-4 text-cyan">${v.slot_label || 'Öğle (13:00)'}</td>
             <td class="py-3 px-4 text-slate-400">${v.date}</td>
             <td class="py-3 px-4">
@@ -610,13 +742,16 @@
                 ${isPub ? '● Yayında' : '○ Sırada'}
               </span>
             </td>
-            <td class="py-3 px-4 text-right space-x-1.5">
-              <button onclick="openVideoModal('${encodeURIComponent(JSON.stringify(v))}')" class="btn btn-outline btn-xs">
-                ▶ Önizle
+            <td class="py-3 px-4 text-right space-x-1.5 whitespace-nowrap">
+              <button onclick="openVideoModal('${encodeURIComponent(JSON.stringify(v))}')" class="btn btn-outline btn-xs" title="İzle">
+                ▶ İzle
+              </button>
+              <button onclick="openVideoEditModal('${v.id}', '${encodeURIComponent(v.title)}', '${encodeURIComponent(v.description || '')}')" class="btn btn-outline btn-xs" title="Düzenle">
+                ✏️
               </button>
               ${isPub ? `
                 <a href="${v.youtube_url || '#'}" target="_blank" class="btn btn-xs btn-outline text-emerald border-emerald">
-                  ↗ İzle
+                  ↗ Aç
                 </a>
               ` : `
                 <button onclick="uploadVideoNow('${v.id}')" class="btn btn-xs btn-rose-glow">
@@ -631,11 +766,50 @@
 
     function filterShorts(type, btn) {
       currentShortsFilter = type;
-      document.querySelectorAll('.btn-xs').forEach(b => {
-        if (b.classList.contains('btn-primary')) b.className = 'btn btn-xs btn-outline font-mono';
+      document.querySelectorAll('#section-ytstudio .btn-xs').forEach(b => {
+        if (b.id && b.id.startsWith('yt-filter-')) {
+          b.className = 'btn btn-xs btn-outline font-mono';
+        }
       });
       if (btn) btn.className = 'btn btn-xs btn-primary font-mono';
       renderShortsTable();
+    }
+
+    // VIDEO EDIT MODAL
+    function openVideoEditModal(id, encTitle, encDesc) {
+      document.getElementById('edit-video-id').value = id;
+      document.getElementById('edit-video-title').value = decodeURIComponent(encTitle);
+      document.getElementById('edit-video-desc').value = decodeURIComponent(encDesc);
+      document.getElementById('video-edit-modal').classList.remove('hidden');
+      document.getElementById('video-edit-modal').classList.add('flex');
+    }
+
+    function closeVideoEditModal() {
+      document.getElementById('video-edit-modal').classList.add('hidden');
+      document.getElementById('video-edit-modal').classList.remove('flex');
+    }
+
+    async function submitVideoEdit(e) {
+      e.preventDefault();
+      const id = document.getElementById('edit-video-id').value;
+      const title = document.getElementById('edit-video-title').value;
+      const desc = document.getElementById('edit-video-desc').value;
+
+      try {
+        const res = await fetch('/api/videos/update_meta', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id, title, description: desc })
+        });
+        const data = await res.json();
+        if (data.success) {
+          showToast("Video başlığı güncellendi!", "success");
+          closeVideoEditModal();
+          loadYouTubeStudio();
+        }
+      } catch (err) {
+        showToast("Güncelleme hatası", "error");
+      }
     }
 
     // 3. CONTENT HUB (TELEGRAM & TWITTER)
@@ -695,6 +869,7 @@
         const textContent = it.content || '';
         const replyFunnel = it.auto_reply || '';
         const tag = it.cat_tag || (isTg ? '📢 Telegram' : '🐦 Twitter');
+        const photoPath = it.photo_path || '';
 
         return `
           <div class="gece-card p-5 flex flex-col justify-between">
@@ -714,11 +889,15 @@
               ` : ''}
             </div>
 
-            <div class="mt-4 pt-3 border-t border-white/5 flex items-center justify-between font-mono text-xs">
-              <span class="text-dim text-[11px]">${isTg ? '@arkadasuz' : '@arkadasuz'}</span>
+            <div class="mt-4 pt-3 border-t border-white/5 flex items-center justify-between font-mono text-xs gap-2">
               <button onclick="copyContentText('${encodeURIComponent(textContent)}')" class="btn btn-outline btn-xs">
-                📋 Metni Kopyala
+                📋 Kopyala
               </button>
+              ${isTg ? `
+                <button onclick="sendDirectToTelegram('${encodeURIComponent(textContent)}', '${encodeURIComponent(photoPath)}')" class="btn btn-primary btn-xs font-mono">
+                  📢 Kanala Gönder
+                </button>
+              ` : ''}
             </div>
           </div>
         `;
@@ -730,6 +909,78 @@
       navigator.clipboard.writeText(text).then(() => {
         showToast("Metin panoya kopyalandı!", "success");
       });
+    }
+
+    async function sendDirectToTelegram(encText, encPhoto) {
+      const content = decodeURIComponent(encText);
+      const photoPath = decodeURIComponent(encPhoto);
+      if (!confirm("Bu gönderiyi hemen resmi Telegram kanalına (@arkadasuz) yayınlamak istiyor musunuz?")) return;
+      showToast("Telegram kanalına gönderiliyor...", "success");
+
+      try {
+        const res = await fetch('/api/send_telegram_post', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ content, photo_path: photoPath })
+        });
+        const data = await res.json();
+        if (data.success) {
+          showToast("Post Telegram kanalına başarıyla gönderildi!", "success");
+        } else {
+          showToast("Gönderim başarısız", "error");
+        }
+      } catch (err) {
+        showToast("Bağlantı hatası", "error");
+      }
+    }
+
+    // AI POST GENERATOR MODAL
+    function openAIPostModal() {
+      document.getElementById('ai-post-modal').classList.remove('hidden');
+      document.getElementById('ai-post-modal').classList.add('flex');
+    }
+
+    function closeAIPostModal() {
+      document.getElementById('ai-post-modal').classList.add('hidden');
+      document.getElementById('ai-post-modal').classList.remove('flex');
+    }
+
+    async function generateAIPostNow() {
+      const topic = document.getElementById('ai-topic-select').value;
+      showToast("Yapay zeka post üretiyor...", "success");
+
+      try {
+        const res = await fetch('/api/generate_ai_post', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ topic })
+        });
+        const data = await res.json();
+        if (data.success && data.post) {
+          lastGeneratedPostText = data.post.content;
+          const box = document.getElementById('ai-result-box');
+          box.innerText = data.post.content;
+          box.classList.remove('hidden');
+          document.getElementById('ai-actions-row').classList.remove('hidden');
+          showToast("Post üretildi!", "success");
+        }
+      } catch (err) {
+        showToast("Üretim hatası", "error");
+      }
+    }
+
+    function copyGeneratedPost() {
+      if (lastGeneratedPostText) {
+        navigator.clipboard.writeText(lastGeneratedPostText).then(() => {
+          showToast("Üretilen post kopyalandı!", "success");
+        });
+      }
+    }
+
+    function sendGeneratedToTelegram() {
+      if (lastGeneratedPostText) {
+        sendDirectToTelegram(encodeURIComponent(lastGeneratedPostText), '');
+      }
     }
 
     // 4. PREVIEW MODAL
@@ -815,7 +1066,7 @@
                 </select>
               </td>
               <td class="py-3 px-4 text-right">
-                <button onclick="deleteLead(${l.id})" class="text-dim hover:text-rose transition p-1">
+                <button onclick="deleteLead(${l.id})" class="text-dim hover:text-rose transition p-1 font-mono">
                   ✕ Sil
                 </button>
               </td>
@@ -894,6 +1145,27 @@
       }
     }
 
+    // 6. HEALTH CHECK
+    async function runHealthCheck() {
+      document.getElementById('health-modal').classList.remove('hidden');
+      document.getElementById('health-modal').classList.add('flex');
+      try {
+        const res = await fetch('/api/health_check');
+        const data = await res.json();
+        document.getElementById('health-yt-stat').innerText = `${data.youtube.status} (${data.youtube.channel})`;
+        document.getElementById('health-tg-stat').innerText = `${data.telegram.status} (${data.telegram.bot})`;
+        document.getElementById('health-crm-stat').innerText = `${data.crm.status} (${data.crm.total_leads} Başvuru)`;
+        document.getElementById('health-inv-stat').innerText = `OK (${data.inventory.total_shorts} Shorts)`;
+      } catch (err) {
+        document.getElementById('health-yt-stat').innerText = "HATA";
+      }
+    }
+
+    function closeHealthModal() {
+      document.getElementById('health-modal').classList.add('hidden');
+      document.getElementById('health-modal').classList.remove('flex');
+    }
+
     async function saveAutopilotSettings() {
       const enabled = document.getElementById('autopilot-toggle').checked;
       const lunchTime = document.getElementById('slot-lunch-time').value;
@@ -915,7 +1187,6 @@
       }
     }
 
-    // INIT
     window.onload = () => {
       loadYouTubeStudio();
     };

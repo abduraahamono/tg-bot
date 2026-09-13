@@ -158,6 +158,9 @@ class YouTubePublisher:
             print(f"[YouTube Comment Warning]: {e}", flush=True)
             return False
 
+    # Alias for method compatibility
+    upload_video = upload_short
+
 if __name__ == "__main__":
     pub = YouTubePublisher()
     print("YouTube Publisher Configured:", pub.is_configured())
