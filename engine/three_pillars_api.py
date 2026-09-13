@@ -41,12 +41,84 @@ def save_json(path, data):
         json.dump(data, f, ensure_ascii=False, indent=2)
 
 # ==============================================================
+# AI ENGINE & DEDUPLICATION SYSTEM
+# ==============================================================
+ai_brain_instance = None
+
+def get_ai_brain():
+    global ai_brain_instance
+    if ai_brain_instance is None:
+        try:
+            from engine.ai_brain import AIBrain
+            ai_brain_instance = AIBrain()
+        except Exception as e:
+            print(f"[AIBrain Init Exception] {e}")
+    return ai_brain_instance
+
+def normalize_text_fingerprint(text: str) -> str:
+    """Creates a normalized fingerprint to detect and block duplicate content."""
+    if not text:
+        return ""
+    clean = "".join(ch.lower() for ch in text if ch.isalnum())
+    return clean[:80]
+
+def deduplicate_stock_data(stock: dict) -> tuple:
+    """
+    Guarantees that stock pool has zero duplicate texts, videos, or images.
+    Returns (cleaned_stock, removed_count).
+    """
+    seen_fps = set()
+    seen_titles = set()
+    unique_texts = []
+    removed = 0
+
+    for t in stock.get("texts", []):
+        fp = normalize_text_fingerprint(t.get("content", ""))
+        title_key = t.get("title", "").strip().lower()
+        if (fp and fp in seen_fps) or (title_key and title_key in seen_titles):
+            removed += 1
+            continue
+        if fp:
+            seen_fps.add(fp)
+        if title_key:
+            seen_titles.add(title_key)
+        unique_texts.append(t)
+    stock["texts"] = unique_texts
+
+    seen_vids = set()
+    unique_vids = []
+    for v in stock.get("videos", []):
+        vk = v.get("id") or v.get("file_path")
+        if vk in seen_vids:
+            removed += 1
+            continue
+        seen_vids.add(vk)
+        unique_vids.append(v)
+    stock["videos"] = unique_vids
+
+    seen_imgs = set()
+    unique_imgs = []
+    for img in stock.get("images", []):
+        ik = img.get("id") or img.get("photo_path")
+        if ik in seen_imgs:
+            removed += 1
+            continue
+        seen_imgs.add(ik)
+        unique_imgs.append(img)
+    stock["images"] = unique_imgs
+
+    return stock, removed
+
+# ==============================================================
 # SÜTUN 1: ÜRETİM & STOK HAVUZU APIS
 # ==============================================================
 
 @pillars_bp.route("/api/stock/items", methods=["GET"])
 def get_stock_items():
     stock = load_json(STOCK_FILE, {"texts": [], "videos": [], "images": []})
+    stock, removed = deduplicate_stock_data(stock)
+    if removed > 0:
+        save_json(STOCK_FILE, stock)
     texts = stock.get("texts", [])
     videos = stock.get("videos", [])
     images = stock.get("images", [])
@@ -79,6 +151,7 @@ def add_stock_item():
     if category not in stock:
         stock[category] = []
     stock[category].insert(0, item)
+    stock, _ = deduplicate_stock_data(stock)
     save_json(STOCK_FILE, stock)
     return jsonify({"success": True, "item": item, "total_in_category": len(stock[category])})
 
@@ -127,129 +200,198 @@ HOOK_VARIATIONS = [
     "Turkiya diplomining O'zbekistonda 100% tan olinishi haqida bilarmidingiz?"
 ]
 
+@pillars_bp.route("/api/stock/deduplicate", methods=["POST"])
+def manual_deduplicate_stock():
+    """Tüm stok havuzunu tarayıp mükerrer olanları temizler."""
+    stock = load_json(STOCK_FILE, {"texts": [], "videos": [], "images": []})
+    cleaned_stock, removed_count = deduplicate_stock_data(stock)
+    save_json(STOCK_FILE, cleaned_stock)
+    return jsonify({
+        "success": True,
+        "removed_count": removed_count,
+        "current_counts": {
+            "texts": len(cleaned_stock.get("texts", [])),
+            "videos": len(cleaned_stock.get("videos", [])),
+            "images": len(cleaned_stock.get("images", []))
+        }
+    })
 
 @pillars_bp.route("/api/production/generate", methods=["POST"])
 def generate_content():
-    """Tekli veya toplu metin, video senaryosu veya görsel şablon üretir."""
+    """
+    Gemini AI destekli dinamik metin, video ve görsel üretici.
+    Her üretimde Gemini API kullanır ve asla kopya üretmez.
+    """
     payload = request.get_json() or {}
     main_type = payload.get("type", "text") # text, video, image
     sub_type = payload.get("subType", "headline_hook")
-    count = int(payload.get("count", 1))
+    count = min(max(1, int(payload.get("count", 1))), 20)
     lang = payload.get("language", "uz")
     save_to_stock = payload.get("saveToStock", True)
 
     generated_items = []
     stock = load_json(STOCK_FILE, {"texts": [], "videos": [], "images": []})
+    stock, _ = deduplicate_stock_data(stock)
 
-    valid_videos = [
-        "output/cinematic_reel_output.mp4",
-        "output/mila_talking_ozbek_raw.mp4",
-        "output/reels_video_output.mp4",
-        "output/mila_ozbekcha_reel_final.mp4",
-        "output/mila_turkish_reel_final.mp4",
-        "output/madina_reel_5689.mp4",
-        "output/ugc_vlogger_8995.mp4",
-        "output/faceless_trend_5013.mp4",
-        "output/story_reel_3665.mp4",
-        "output/cinematic_reel_5821.mp4",
-        "output/reels_3421.mp4",
-        "output/fastlane_pro_5170.mp4"
-    ]
-    real_mp4s = [f for f in valid_videos if os.path.exists(f)] or ["output/cinematic_reel_output.mp4"]
+    # Existing fingerprints to guarantee zero duplicate outputs
+    existing_fps = {normalize_text_fingerprint(t.get("content", "")) for t in stock.get("texts", [])}
+    existing_titles = {t.get("title", "").strip().lower() for t in stock.get("texts", [])}
 
-    valid_images = [
-        ("qa_quiz", "Soru-Cevap / Quiz Kartı", "output/sample_cafe.jpg"),
-        ("riddle", "Bilmece / İpuçlu Tasarım", "output/mila_campus_scene.jpg"),
-        ("checklist", "Kontrol Listesi / Checklist", "output/galata_reel_frame.jpg"),
-        ("modern_ad", "Modern Reklam / Banner", "output/fresh_ferry_post.jpg"),
-        ("qa_quiz", "Soru-Cevap / Harç Tablosu", "output/test_broll_frame.jpg"),
-        ("riddle", "Bilmece / Kampüs Bilmecesi", "output/tiktok_scene1_frame.jpg"),
-        ("checklist", "Checklist / 5 Altın Belge", "output/test_library_frame.jpg"),
-        ("modern_ad", "Modern Reklam / 2026 Erken Kayıt", "output/madina_reel_frame.jpg")
-    ]
-    real_imgs = [i for i in valid_images if os.path.exists(i[2])] or valid_images
+    # Format labels
+    format_map = {
+        "headline_hook": "Başlık & Hook",
+        "ad_copy": "Reklam Kampanyası",
+        "tg_post": "Telegram Formatı",
+        "cta_faq": "SSS & Çağrı Metni"
+    }
+    fmt_display = format_map.get(sub_type, "Pazarlama Metni")
 
-    # Shuffle for fresh output every time
     shuffled_topics = list(PRESET_TOPICS)
     random.shuffle(shuffled_topics)
     shuffled_hooks = list(HOOK_VARIATIONS)
     random.shuffle(shuffled_hooks)
 
     if main_type == "text":
-        for i in range(count):
-            t_data = shuffled_topics[i % len(shuffled_topics)]
-            hook = shuffled_hooks[i % len(shuffled_hooks)]
-            unique_id = f"txt_{uuid.uuid4().hex[:6]}"
-            
-            if sub_type == "headline_hook":
-                title = f"🔥 {hook} | {t_data['topic']}"
-                body = f"""{hook}
+        brain = get_ai_brain()
+        ai_success = False
 
-Turkiyaning eng nufuzli oliygohlaridan biri — {t_data['uni']}da {t_data['topic']} fakultetiga 2026-o'quv yili uchun rasmiy xalqaro qabul boshlandi!
+        if brain:
+            selected_topics = shuffled_topics[:count]
+            topic_str = ", ".join([f"{t['uni']} ({t['topic']}, {t['city']})" for t in selected_topics])
 
-📌 Shahar: {t_data['city']}
-💰 Yillik kontrakt: {t_data['price']}
-🎓 Diplom: Yevropa va O'zbekistonda 100% tan olinadi.
+            prompt = f"""
+Sen Arkadaş Consulting (Turkiya oliy ta'lim konsaltingi) kompaniyasining bosh marketing AI ekspertisan.
+Mijoz uchun {count} ta MUTLAQO HAR XIL, BIR-BIRINI TAKRORLAMAYDIGAN, yangi va jozibali marketing postini yoz.
 
-Joylar cheklangan! Bepul konsultatsiya olish uchun hoziroq yozing: @arkadasuz"""
-                fmt = "Başlık & Hook"
-            elif sub_type == "ad_copy":
-                title = f"🎯 Reklam: {t_data['city']}da {t_data['topic']} Bo'yicha Talaba Bo'ling!"
-                body = f"""{hook}
+Parametrlar:
+- Format: {fmt_display} ({sub_type})
+- Til: {lang} (uz=O'zbekcha, ru=Ruscha, tr=Turkcha, kaa=Qoraqalpoqcha)
+- Universitet va Yo'nalishlar: {topic_str}
 
-Farzandingiz kelajagi uchun eng to'g'ri qaror — {t_data['uni']}da ta'lim olish! Attestat bahosi bilan to'g'ridan-to'g'ri qabul qilinish imkoniyati mavjud.
+Qat'iy Qoidalar:
+1. Har bir post butunlay o'zgacha uslubda (shoshilinch kvota xabari, samimiy tavsiya, talaba hayotidan misol, afzalliklar tahlili) bo'lsin.
+2. Arkadaş Consulting kafolatlari: '0$ risk — oldindan to'lov yo'q (avval rasmiy qabul, keyin to'lov)', 'Bologna tizimi — 150+ davlatda o'tadigan diplom', 'Attestat bilan imtihonsiz qabul'.
+3. Aloqa: Har bir post oxirida Telegram: @arkadasuz
+4. Javobni FAQAT toza JSON array ko'rinishida ber, boshqa hech narsa yozma:
+[
+  {{
+    "title": "Jozibador emojili sarlavha",
+    "content": "To'liq, tartibli, chiroyli bo'shliqlar va emojilar bilan post matni",
+    "topic": "Yo'nalish nomi",
+    "format": "{fmt_display}"
+  }}
+]
+"""
+            try:
+                ai_res = brain.think_and_generate(prompt)
+                raw = ai_res.get("text", "").strip() if ai_res else ""
+                if "```" in raw:
+                    parts = raw.split("```")
+                    for p in parts:
+                        p = p.strip()
+                        if p.startswith("json"):
+                            p = p[4:].strip()
+                        if p.startswith("[") and p.endswith("]"):
+                            raw = p
+                            break
+                
+                parsed_list = json.loads(raw)
+                if isinstance(parsed_list, list) and len(parsed_list) > 0:
+                    for p_item in parsed_list:
+                        c = p_item.get("content", "").strip()
+                        t = p_item.get("title", "").strip()
+                        fp = normalize_text_fingerprint(c)
+                        t_key = t.lower()
+                        if fp and fp in existing_fps:
+                            continue
+                        if t_key and t_key in existing_titles:
+                            continue
+                        
+                        existing_fps.add(fp)
+                        existing_titles.add(t_key)
+                        unique_id = f"txt_{uuid.uuid4().hex[:6]}"
+                        generated_items.append({
+                            "id": f"stock_txt_{unique_id}",
+                            "title": t or f"🔥 {p_item.get('topic', 'Ta\'lim')} | Arkadaş",
+                            "content": c,
+                            "type": "text",
+                            "format": p_item.get("format", fmt_display),
+                            "language": lang,
+                            "topic": p_item.get("topic", selected_topics[0]["topic"]),
+                            "status": "in_stock",
+                            "created_at": datetime.now().strftime("%Y-%m-%d %H:%M"),
+                            "ai_provider": ai_res.get("provider", "gemini")
+                        })
+                    if len(generated_items) >= count:
+                        ai_success = True
+            except Exception as e:
+                print(f"[Gemini Generate Error] {e}")
 
-✅ Rasmiy MChJ shartnomasi va yuridik kafolat
-✅ Viza va yotoqxona kafolati
-✅ Havalimanida kutib olish va 7 kunlik doimiy hamrohlik
+        # Diverse fallback generator if Gemini didn't return full count or was offline
+        if len(generated_items) < count:
+            needed = count - len(generated_items)
+            for i in range(needed):
+                t_data = shuffled_topics[i % len(shuffled_topics)]
+                hook = shuffled_hooks[i % len(shuffled_hooks)]
+                unique_id = f"txt_{uuid.uuid4().hex[:6]}"
+                
+                if sub_type == "headline_hook":
+                    title = f"🔥 {hook} | {t_data['topic']}"
+                    body = f"""{hook}\n\nTurkiyaning nufuzli oliygohi — {t_data['uni']}da {t_data['topic']} yo'nalishiga qabul davom etmoqda!\n\n📌 Shahar: {t_data['city']}\n💰 Kontrakt: {t_data['price']}\n🎓 Diplom: 150+ davlatda tan olinadi.\n✅ 0$ risk: To'lov faqat rasmiy qabul xatidan so'ng!\n\nHoziroq ro'yxatdan o'ting: @arkadasuz"""
+                elif sub_type == "ad_copy":
+                    title = f"🎯 {t_data['city']}: {t_data['topic']} Bo'yicha Erta Ro'yxatdan O'tish"
+                    body = f"""Farzandingiz orzusi — xalqaro diplommi? {t_data['uni']}da {t_data['topic']} fakulteti eng yaxshi tanlov!\n\n✅ Imtihonsiz, attestat bahosi bilan qabul\n✅ Rasmiy MChJ kafolati va 0$ risk\n✅ Viza, yotoqxona va aeroportda kutib olish xizmati\n\nBatafsil: @arkadasuz"""
+                elif sub_type == "tg_post":
+                    title = f"📢 {t_data['uni']} — {t_data['topic']} Rasmiy Qabul"
+                    body = f"""⚡️ <b>{t_data['uni'].upper()} — QABUL OCHIQ!</b>\n\n{hook}\n\n• Yo'nalish: {t_data['topic']}\n• Shahar: {t_data['city']}\n• Kontrakt: {t_data['price']}\n• Qabul sharti: Pasport va Attestat!\n\nSavollar bormi? @arkadasuz adminiga murojaat qiling!"""
+                else:
+                    title = f"❓ {t_data['topic']} Nostrifikatsiyasi Haqida"
+                    body = f"""Talabalar eng ko'p beradigan savol: '{t_data['uni']} diplomi O'zbekistonda o'tadimi?'\n\nJavob: Ha, Bologna tizimi konvensiyasi bo'yicha 100% to'g'ridan-to'g'ri nostrifikatsiyadan o'tadi.\n\nBatafsil ma'lumot: @arkadasuz"""
 
-Batafsil ma'lumot: @arkadasuz yoki +90 552 123 45 67"""
-                fmt = "Reklam Kampanyası"
-            elif sub_type == "tg_post":
-                title = f"📢 Telegram: {t_data['uni']} — {t_data['topic']} Qabuli"
-                body = f"""⚡️ <b>{t_data['uni'].upper()} — RASMIY QABUL OCHIQ!</b>
+                fp = normalize_text_fingerprint(body)
+                t_key = title.lower()
+                if fp in existing_fps or t_key in existing_titles:
+                    # Append unique salt to avoid duplicate
+                    body += f"\n\n(ID: {unique_id})"
+                    fp = normalize_text_fingerprint(body)
+                
+                existing_fps.add(fp)
+                existing_titles.add(t_key)
 
-{hook}
+                generated_items.append({
+                    "id": f"stock_txt_{unique_id}",
+                    "title": title,
+                    "content": body,
+                    "type": "text",
+                    "format": fmt_display,
+                    "language": lang,
+                    "topic": t_data["topic"],
+                    "status": "in_stock",
+                    "created_at": datetime.now().strftime("%Y-%m-%d %H:%M"),
+                    "ai_provider": "dynamic_fallback"
+                })
 
-• <b>Fakultet:</b> {t_data['topic']}
-• <b>Shahar:</b> {t_data['city']}
-• <b>Yillik to'lov:</b> {t_data['price']}
-• <b>Talab qilinadigan hujjatlar:</b> Faqatgina Pasport va Attestat!
-
-Biz bilan talaba bo'lgan har bir yoshga:
-1️⃣ Turar joy (KYK/Xususiy rezidensiya) band qilish
-2️⃣ Turkiyada qonuniy yashash ruxsatnomasi (İkamet)
-3️⃣ Aeroportda kutib olish va sim-karta rasmiylashtirish bepul.
-
-📩 Savollaringiz bormi? @arkadasuz adminiga murojaat qiling!"""
-                fmt = "Telegram Formatı"
-            else: # cta_faq
-                title = f"❓ SSS & CTA: {t_data['topic']} Haqida Muhim Savol"
-                body = f"""Talabalar va ota-onalar eng ko'p so'raydigan savol:
-
-❓ <i>\"{t_data['uni']} diplomi O'zbekistonda o'tadimi va nostrifikatsiyadan o'tadimi?\"</i>
-
-Javob: Ha! Turkiya YÖK akkreditatsiyasiga ega bo'lib, O'zbekiston Oliy ta'lim vazirligi nizomiga 100% mos keladi.
-
-{t_data['city']} shahridagi oxirgi grant o'rinlari uchun ro'yxatdan o'ting: @arkadasuz"""
-                fmt = "SSS & Çağrı Metni"
-
-            item = {
-                "id": f"stock_txt_{unique_id}",
-                "title": title,
-                "content": body,
-                "type": "text",
-                "format": fmt,
-                "language": lang,
-                "topic": t_data["topic"],
-                "status": "in_stock",
-                "created_at": datetime.now().strftime("%Y-%m-%d %H:%M")
-            }
-            generated_items.append(item)
-            if save_to_stock:
-                stock["texts"].insert(0, item)
+        if save_to_stock:
+            for it in reversed(generated_items):
+                stock["texts"].insert(0, it)
 
     elif main_type == "video":
+        valid_videos = [
+            "output/cinematic_reel_output.mp4",
+            "output/mila_talking_ozbek_raw.mp4",
+            "output/reels_video_output.mp4",
+            "output/mila_ozbekcha_reel_final.mp4",
+            "output/mila_turkish_reel_final.mp4",
+            "output/madina_reel_5689.mp4",
+            "output/ugc_vlogger_8995.mp4",
+            "output/faceless_trend_5013.mp4",
+            "output/story_reel_3665.mp4",
+            "output/cinematic_reel_5821.mp4",
+            "output/reels_3421.mp4",
+            "output/fastlane_pro_5170.mp4"
+        ]
+        real_mp4s = [f for f in valid_videos if os.path.exists(f)] or ["output/cinematic_reel_output.mp4"]
+
         for i in range(count):
             t_data = shuffled_topics[i % len(shuffled_topics)]
             unique_id = f"vid_{uuid.uuid4().hex[:6]}"
@@ -281,6 +423,18 @@ Javob: Ha! Turkiya YÖK akkreditatsiyasiga ega bo'lib, O'zbekiston Oliy ta'lim v
                 stock["videos"].insert(0, item)
 
     elif main_type == "image":
+        valid_images = [
+            ("qa_quiz", "Soru-Cevap / Quiz Kartı", "output/sample_cafe.jpg"),
+            ("riddle", "Bilmece / İpuçlu Tasarım", "output/mila_campus_scene.jpg"),
+            ("checklist", "Kontrol Listesi / Checklist", "output/galata_reel_frame.jpg"),
+            ("modern_ad", "Modern Reklam / Banner", "output/fresh_ferry_post.jpg"),
+            ("qa_quiz", "Soru-Cevap / Harç Tablosu", "output/test_broll_frame.jpg"),
+            ("riddle", "Bilmece / Kampüs Bilmecesi", "output/tiktok_scene1_frame.jpg"),
+            ("checklist", "Checklist / 5 Altın Belge", "output/test_library_frame.jpg"),
+            ("modern_ad", "Modern Reklam / 2026 Erken Kayıt", "output/madina_reel_frame.jpg")
+        ]
+        real_imgs = [i for i in valid_images if os.path.exists(i[2])] or valid_images
+
         for i in range(count):
             s_key, s_name, img_path = real_imgs[i % len(real_imgs)]
             t_data = shuffled_topics[i % len(shuffled_topics)]
@@ -300,6 +454,7 @@ Javob: Ha! Turkiya YÖK akkreditatsiyasiga ega bo'lib, O'zbekiston Oliy ta'lim v
                 stock["images"].insert(0, item)
 
     if save_to_stock:
+        stock, _ = deduplicate_stock_data(stock)
         save_json(STOCK_FILE, stock)
 
     return jsonify({

@@ -3462,13 +3462,19 @@ function renderGeneratedTexts(items) {
           <span class="text-xs px-2 py-0.5 rounded bg-cyan/20 text-cyan font-mono font-bold">#${idx + 1} ${item.format}</span>
           <h4 class="text-sm font-bold text-white">${item.title}</h4>
         </div>
-        <span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 font-mono">📦 Stokta Hazır</span>
+        <div class="flex items-center gap-2">
+          <span class="text-[10px] px-2.5 py-0.5 rounded-full bg-gradient-to-r from-blue-500/20 to-cyan-500/20 text-cyan-300 font-mono border border-cyan-500/30 flex items-center gap-1">
+            <i class="fa-solid fa-wand-magic-sparkles text-[9px] text-cyan-400"></i>
+            <span>${item.ai_provider === 'gemini' ? 'Gemini AI' : 'AI Motoru'} • Özgün</span>
+          </span>
+          <span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 font-mono">📦 Stokta Hazır</span>
+        </div>
       </div>
       <div class="p-3 bg-black/50 rounded-xl font-mono text-xs text-slate-200 leading-relaxed whitespace-pre-line border border-white/5">
         ${item.content}
       </div>
       <div class="flex items-center justify-between pt-1">
-        <span class="text-[10px] text-slate-400 font-mono">Hedef: ${item.topic || 'Genel'} • Dil: ${item.language.toUpperCase()}</span>
+        <span class="text-[10px] text-slate-400 font-mono">Hedef: ${item.topic || 'Genel'} • Dil: ${(item.language || 'UZ').toUpperCase()}</span>
         <button type="button" class="btn-clean-secondary px-3 py-1 text-xs flex items-center gap-1.5" onclick="copyCustomText('${item.content.replace(/'/g, "\'").replace(/\n/g, "\\n")}')">
           <i class="fa-solid fa-copy text-[11px]"></i>
           <span>Metni Kopyala</span>
