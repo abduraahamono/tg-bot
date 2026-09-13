@@ -47,7 +47,7 @@ def load_config():
 MAIN_KEYBOARD = {
     "keyboard": [
         [{"text": "🗓️ 1 Haftalik Reja & Takvim"}],
-        [{"text": "🌐 Ilovalar Hubi (5 Ta Tarmoq)"}],
+        [{"text": "🎬 25 Kunlik YouTube Shorts"}, {"text": "🌐 Ilovalar Hubi (5 Ta Tarmoq)"}],
         [{"text": "📱 Telegram Posti"}, {"text": "🖼️ Görsel Post Kartı"}],
         [{"text": "💡 Maxsus Post Yozish"}, {"text": "🎓 Talabalar Yordamchisi"}],
         [{"text": "📊 Leadlar & CRM"}, {"text": "📋 Matnlarni Olish"}]
@@ -356,19 +356,55 @@ class AdminApprovalBot:
         )
 
     def prompt_youtube_menu(self, chat_id: str):
+        self.show_youtube_shorts_hub(chat_id)
+
+    def show_youtube_shorts_hub(self, chat_id: str):
+        yt_file = BASE_DIR / "brain_data" / "scheduled_youtube_shorts.json"
+        yt_data = {}
+        if yt_file.exists():
+            try:
+                with open(yt_file, "r", encoding="utf-8") as f:
+                    yt_data = json.load(f)
+            except Exception:
+                pass
+
+        shorts = yt_data.get("shorts", [])
+        total = len(shorts)
+        posted = len([s for s in shorts if s.get("status") == "posted"])
+        pending = len([s for s in shorts if s.get("status") == "pending"])
+        start_d = yt_data.get("start_date", "2026-09-13")
+        end_d = yt_data.get("end_date", "2026-10-07")
+
+        msg = (
+            "🎬 <b>ARKADAŞ YOUTUBE SHORTS BOSHQARUV MARKAZI</b>\n"
+            "━━━━━━━━━━━━━━━━━━━━━━\n"
+            f"• <b>Kanal:</b> arkadaş (@arkadaşuz)\n"
+            f"• <b>Reja holati:</b> 🟢 FAOL (25 Kunlik Avtomatika)\n"
+            f"• <b>Davomiylik:</b> {start_d} — {end_d} (Bugundan boshlab)\n"
+            f"• <b>Jami tayyor Shorts:</b> <b>{total} ta video</b>\n"
+            f"• <b>Chiqarilgan:</b> {posted} ta ✅\n"
+            f"• <b>Navbatda kutilayotgan:</b> {pending} ta ⏳\n"
+            f"• <b>Kunlik ritm:</b> 2 ta Shorts (13:00 va 19:30)\n"
+            f"• <b>📌 Avtomatik Sharh:</b> Har bir videoning ostiga Telegram linkimiz sabitlanyapti!\n\n"
+        )
+
+        if pending > 0:
+            next_shorts = [s for s in shorts if s.get("status") == "pending"][:3]
+            msg += "<b>NAVOBATDAGI SHORTS VIDEOLAR:</b>\n"
+            for ns in next_shorts:
+                msg += f"• 🕒 <b>{ns.get('scheduled_time')}:</b>\n  <i>{ns.get('title')}</i>\n"
+        else:
+            msg += "<i>Barcha 50 ta video YouTube'ga muvaffaqiyatli chiqarildi!</i>"
+
         kb = {
             "inline_keyboard": [
-                [{"text": "🎬 YouTube Shorts (Video + Sarlavha/Teglar)", "callback_data": "app_yt_shorts"}],
-                [{"text": "📝 Hamjamiyat (Community) Posti", "callback_data": "app_yt_community"}],
-                [{"text": "⬅️ Orqaga", "callback_data": "app_menu_main"}]
+                [{"text": "🚀 Navbatdagi Shorts'ni Hozir Chiqarish", "callback_data": "yt_post_now"}],
+                [{"text": "📋 25 Kunlik Reja Ro'yxati", "callback_data": "yt_view_list"}],
+                [{"text": "🔄 Yangi Reja Tuzish (50 Video)", "callback_data": "yt_rebuild_plan"}],
+                [{"text": "⬅️ Bosh Menyu", "callback_data": "app_menu_main"}]
             ]
         }
-        self.client.send_message(
-            chat_id,
-            "🎥 <b>YouTube uchun formatni tanlang:</b>\n"
-            "<i>(YouTube algoritmi va SEO uchun optimallashtirilgan sarlavha va teglar bilan tayyorlanadi)</i>",
-            reply_markup=kb
-        )
+        self.client.send_message(chat_id, msg, reply_markup=kb)
 
     def prompt_text_templates(self, chat_id: str):
         kb = {
@@ -1418,6 +1454,92 @@ class AdminApprovalBot:
                             self.client.answer_callback_query(cb_id, "📊 CRM Menyu")
                             self.show_crm_hub(from_user)
 
+                        # --- YouTube Shorts Callbacks ---
+                        elif data == "yt_post_now":
+                            self.client.answer_callback_query(cb_id, "⏳ Navbatdagi Shorts yuklanmoqda...")
+                            from engine.youtube_publisher import YouTubePublisher
+                            yt_pub = YouTubePublisher()
+                            if not yt_pub.is_configured():
+                                self.client.send_message(from_user, "⚠️ YouTube API ruxsati topilmadi.")
+                                continue
+
+                            yt_file = BASE_DIR / "brain_data" / "scheduled_youtube_shorts.json"
+                            if yt_file.exists():
+                                with open(yt_file, "r", encoding="utf-8") as f:
+                                    yt_data = json.load(f)
+                                
+                                next_short = None
+                                for s in yt_data.get("shorts", []):
+                                    if s.get("status") == "pending":
+                                        next_short = s
+                                        break
+                                
+                                if next_short:
+                                    self.client.send_message(
+                                        from_user,
+                                        f"⏳ <b>YouTube Shorts yuklanmoqda:</b>\n"
+                                        f"🎬 <b>Sarlavha:</b> {next_short['title']}\n"
+                                        f"📁 <b>Fayl:</b> {next_short['video_path']}\n\n"
+                                        f"<i>(Iltimos 10-15 soniya kuting...)</i>"
+                                    )
+                                    res_yt = yt_pub.upload_short(
+                                        video_path=str(BASE_DIR / next_short["video_path"]),
+                                        title=next_short["title"],
+                                        description=next_short["description"],
+                                        pin_telegram_comment=True
+                                    )
+                                    if res_yt.get("success"):
+                                        next_short["status"] = "posted"
+                                        next_short["posted_at"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                                        next_short["video_url"] = res_yt.get("video_url")
+                                        with open(yt_file, "w", encoding="utf-8") as f:
+                                            json.dump(yt_data, f, ensure_ascii=False, indent=2)
+
+                                        self.client.send_message(
+                                            from_user,
+                                            f"🎉 <b>YOUTUBE SHORTS MUVAFFAQIYATLI CHIQARILDI!</b>\n\n"
+                                            f"📺 <b>Tomosha qiling:</b> {res_yt.get('video_url')}\n"
+                                            f"📌 <b>Avtomatik Telegram sharhi qo'shildi va sabitiandi!</b>\n\n"
+                                            f"👉 <i>Har kuni 13:00 va 19:30 da avtomatik chiqarish davom etadi.</i>"
+                                        )
+                                    else:
+                                        self.client.send_message(from_user, f"❌ Yuklashda xatolik: {res_yt.get('error')}")
+                                else:
+                                    self.client.send_message(from_user, "ℹ️ Rejadagi barcha videolar allaqachon chiqarilgan!")
+
+                        elif data == "yt_view_list":
+                            self.client.answer_callback_query(cb_id, "📋 Rejadagi videolar ro'yxati...")
+                            yt_file = BASE_DIR / "brain_data" / "scheduled_youtube_shorts.json"
+                            if yt_file.exists():
+                                with open(yt_file, "r", encoding="utf-8") as f:
+                                    yt_data = json.load(f)
+                                shorts = yt_data.get("shorts", [])
+                                list_msg = (
+                                    f"📋 <b>25 KUNLIK YOUTUBE SHORTS REJASI (50 TA VIDEO):</b>\n"
+                                    f"━━━━━━━━━━━━━━━━━━━━━━\n"
+                                    f"• <b>Davr:</b> {yt_data.get('start_date')} — {yt_data.get('end_date')}\n"
+                                    f"• <b>Ritm:</b> Kuniga 2 ta (13:00 va 19:30)\n\n"
+                                    f"<b>YAQIN KUNLARDAGI REJA:</b>\n"
+                                )
+                                pending = [s for s in shorts if s.get("status") == "pending"]
+                                for idx, p in enumerate(pending[:6], 1):
+                                    list_msg += f"{idx}. 🕒 <b>{p.get('scheduled_time')}:</b>\n   🎬 <i>{p.get('title')}</i>\n"
+                                
+                                kb_yt = {
+                                    "inline_keyboard": [
+                                        [{"text": "🚀 Navbatdagisini Hozir Chiqarish", "callback_data": "yt_post_now"}],
+                                        [{"text": "⬅️ Shorts Menyusi", "callback_data": "app_menu_yt"}]
+                                    ]
+                                }
+                                self.client.send_message(from_user, list_msg, reply_markup=kb_yt)
+
+                        elif data == "yt_rebuild_plan":
+                            self.client.answer_callback_query(cb_id, "🔄 Reja yangilanmoqda...")
+                            import subprocess
+                            subprocess.run(["python3", "build_youtube_shorts_schedule.py"], cwd=str(BASE_DIR))
+                            self.client.send_message(from_user, "✅ <b>25 kunlik 50 ta YouTube Shorts rejasi bugundan boshlab qayta tuzildi va saqlandi!</b>")
+                            self.show_youtube_shorts_hub(from_user)
+
                     # 2. Text Messages, Photos & Menu Buttons
                     elif "message" in u:
                         msg = u["message"]
@@ -1449,6 +1571,7 @@ class AdminApprovalBot:
                         # If user is Admin:
                         if chat_id == self.config.get("admin_chat_id"):
                             menu_buttons = [
+                                "🎬 25 Kunlik YouTube Shorts",
                                 "🌐 Ilovalar Hubi (5 Ta Tarmoq)",
                                 "🌐 Ilovalar Hubi (Twitter / Insta / TG)",
                                 "📱 Telegram Posti",
@@ -1625,6 +1748,8 @@ class AdminApprovalBot:
                                 )
                                 self.client.send_message(chat_id, cal_text)
 
+                            elif text in ["🎬 25 Kunlik YouTube Shorts", "youtube", "shorts", "/youtube"]:
+                                self.show_youtube_shorts_hub(chat_id)
                             elif text in ["📊 Leadlar & CRM", "📊 Lead CRM Ro'yxati", "/leads", "crm"]:
                                 self.show_crm_hub(chat_id)
                             elif text == "🌐 6 Ta Tarmoq Holati":
