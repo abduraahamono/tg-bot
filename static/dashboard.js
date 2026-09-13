@@ -136,16 +136,17 @@ const EXECUTIVE_HUBS = {
   },
   socialhub: {
     label: "🌐 Sosyal Medya",
-    defaultSection: "contenthub",
+    defaultSection: "socialmatrix",
     tabs: [
-      { id: "contenthub", label: "📢 Telegram (@arkadasuz)", icon: "fa-brands fa-telegram" },
-      { id: "chatbotai", label: "🤖 AI Gelen Mesaj / Chatbot", icon: "fa-solid fa-robot" },
-      { id: "tiktoklab", label: "📱 TikTok & Reels Lab", icon: "fa-brands fa-tiktok" },
+      { id: "socialmatrix", label: "🌐 7-in-1 Sosyal Medya Matrisi", icon: "fa-solid fa-layer-group" },
       { id: "twitterhub", label: "🐦 Twitter / X Feed", icon: "fa-brands fa-x-twitter" },
+      { id: "ytstudio", label: "🎬 YouTube Studio & Dağıtım", icon: "fa-brands fa-youtube" },
+      { id: "contenthub", label: "📢 Telegram (@arkadasuz)", icon: "fa-brands fa-telegram" },
+      { id: "tiktoklab", label: "📱 TikTok & Reels Lab", icon: "fa-brands fa-tiktok" },
+      { id: "instagramhub", label: "📸 Instagram Studio", icon: "fa-brands fa-instagram" },
       { id: "facebookhub", label: "📘 Facebook Ads Suite", icon: "fa-brands fa-facebook" },
       { id: "whatsapphub", label: "💬 WhatsApp Pro Hub", icon: "fa-brands fa-whatsapp" },
-      { id: "instagramhub", label: "📸 Instagram Studio", icon: "fa-brands fa-instagram" },
-      { id: "telegramultra", label: "⚡ Telegram Ultra Bot", icon: "fa-solid fa-paper-plane" }
+      { id: "chatbotai", label: "🤖 AI Gelen Mesaj / Chatbot", icon: "fa-solid fa-robot" }
     ]
   },
   academics: {
@@ -354,12 +355,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     loadYouTubePower(),
     loadTelegramUltra(),
     loadReelsShowcase(),
-    generateContractPreview()
+    generateContractPreview(),
+    loadOmniSchedulerAssets()
   ]);
 
   updateBudgetCalc();
   drawLiveBanner();
-  console.log("[Arkadaş Executive OS] Tüm 28 modül başarıyla yüklendi!");
+  selectOmniPlatform('twitter');
+  console.log("[Arkadaş Executive OS] Tüm modüller başarıyla yüklendi!");
 });
 
 // ==============================================================
@@ -2670,4 +2673,554 @@ function printOfficialContract() {
   printWindow.document.close();
 }
 window.printOfficialContract = printOfficialContract;
+
+// ==============================================================
+// 7-IN-1 OMNICHANNEL SOCIAL COMMAND & SCHEDULER CONTROLLER
+// ==============================================================
+
+let cachedOmniAssets = { texts: [], photos: [], videos: [] };
+let cachedOmniScheduled = [];
+let activeOmniPlatform = 'twitter';
+
+const OMNI_PLATFORM_CONFIG = {
+  twitter: {
+    name: "Twitter / X",
+    handle: "@arkadasuz",
+    badge: "201 Tweet Planlı • 100% Otomatik Huni",
+    icon: "fa-brands fa-x-twitter text-white",
+    accentColor: "cyan",
+    desc: "Öğrenci ve velileri 280 karakterlik vurucu tweetler ve zincirleme flood'larla bilgilendirin. Her tweetin altına eklenen otomatik huni yanıtı doğrudan Telegram kanalına abone ve WhatsApp'a müşteri çeker.",
+    capabilities: [
+      { title: "201 Tweetlik Viral Kütüphane", desc: "TÖMER, harçlar, vize, denklik ve tıp alanlarında 201 hazır mikro-içerik.", icon: "fa-solid fa-list-ol" },
+      { title: "Otomatik Huni Yanıtı (Auto-Reply)", desc: "Her tweet altına anında sabit @arkadasuz yönlendirmesi eklenir.", icon: "fa-solid fa-reply-all" },
+      { title: "Zincirleme Flood (Thread) Mimarisi", desc: "3-5 tweetlik derinlemesine rehber zincirleri ile etkileşim patlaması.", icon: "fa-solid fa-link" },
+      { title: "Zamanlayıcı & Takvim Kuyruğu", desc: "Günde 3 slot (Sabah, Öğle, Akşam) otopilot ile tam zamanında yayın.", icon: "fa-solid fa-clock" }
+    ],
+    sampleSnippet: "Turkiya davlat OTMlarida yillik kontrakt narxlari:\n💰 Davlat universitetlari: $300 - $800 / yiliga.\nO'zbekistondagi to'lovlardan ancha arzon, ammo diplomi Yevropada 100% tan olinadi.\n\nBatafsil ma'lumot: @arkadasuzz 🇹🇷",
+    autoReplySample: "📌 Turkiyada o'qish, kontrakt narxlari va grant kvotalari haqidagi barcha rasmiy ma'lumotlar bosh kanalda e'lon qilinadi:\n👉 https://t.me/arkadasuz",
+    jumpTab: "twitterhub"
+  },
+  youtube: {
+    name: "YouTube Studio & Shorts",
+    handle: "@arkadaşuz",
+    badge: "50 Shorts Videosu • Data API v3 Aktif",
+    icon: "fa-brands fa-youtube text-red-500",
+    accentColor: "red-500",
+    desc: "4K kalitesinde dikey Shorts videoları ve yatay stüdyo yayınları. Google Data API v3 üzerinden tek tıkla doğrudan YouTube kanalına yükleme, otomatik etiket ve sabitlenen huni yorumu.",
+    capabilities: [
+      { title: "50 Dikey Shorts Videosu", desc: "Müzikli, altyazılı ve kapak resimli 50 adet hazır dikey video havuzu.", icon: "fa-solid fa-mobile-screen" },
+      { title: "Doğrudan API ile Video Yükleme", desc: "Tarayıcıdan çıkmadan Google OAuth 2.0 ile anında resmi kanala aktarım.", icon: "fa-solid fa-cloud-arrow-up" },
+      { title: "Power SEO & Video Chapters", desc: "Zaman damgalı bölümler (00:00, 01:30) ve viral etiket mimarisi.", icon: "fa-solid fa-bolt" },
+      { title: "Sabit Yorum Hunisi", desc: "Her Shorts altına @arkadasuz Telegram linkiyle otomatik yorum sabitlenir.", icon: "fa-solid fa-thumbtack" }
+    ],
+    sampleSnippet: "Turkiyada imtihonsiz qabul: Attestat bahosi yetarli! 🇹🇷\nDavlat universitetlariga imtihonsiz kirish tartibi, yotoqxona va stipendiyalar.",
+    autoReplySample: "📌 Barcha rasmiy qabul xatlari va bepul konsultatsiya: https://t.me/arkadasuz",
+    jumpTab: "ytstudio"
+  },
+  telegram: {
+    name: "Telegram Ultra",
+    handle: "@arkadasuz & @ArkadasAdminBot",
+    badge: "134 Formatlı Post • Bot Bağlı",
+    icon: "fa-brands fa-telegram text-sky-400",
+    accentColor: "sky-400",
+    desc: "Ajansın ana dönüşüm omurgası. 134 zengin metinli, emojili eğitim postu, interaktif anketler, inline butonlar ve anında tek tıkla resmi kanala yayınlama.",
+    capabilities: [
+      { title: "134 Tam Formatlı Post", desc: "Özbekçe, emojili, fiyat ve üniversite detaylı zengin içerikler.", icon: "fa-solid fa-file-lines" },
+      { title: "1-Tık Resmi Kanala Yayın", desc: "Post metnini veya görseli anında @arkadasuz kanalına fırlatın.", icon: "fa-solid fa-paper-plane" },
+      { title: "İnteraktif Butonlar & Anket", desc: "Inline butonlarla öğrencileri doğrudan bota veya web sitesine çekin.", icon: "fa-solid fa-square-poll-vertical" },
+      { title: "Otopilot Arka Plan Daemon", desc: "Günde 2 kez belirlenen saatlerde el değmeden otopilot gönderimi.", icon: "fa-solid fa-robot" }
+    ],
+    sampleSnippet: "🇹🇷 TURKIYADA TIBBIYOT VA STOMATOLOGIYA: 2026 QABUL MAVSUMI 🎓\n✅ Imtihonsiz grant va stipendiyalar\n✅ O'zbekistonda 100% tan olinadigan diplom\n👉 @arkadasuz",
+    autoReplySample: "📲 Murojaat uchun: @arkadasuzz",
+    jumpTab: "contenthub"
+  },
+  tiktok: {
+    name: "TikTok Studio",
+    handle: "@mila.travels & @madina_in_istanbul",
+    badge: "Viral Kanca Lab • 2 Persona",
+    icon: "fa-brands fa-tiktok text-rose-400",
+    accentColor: "rose-400",
+    desc: "Genç kitleyi ilk 3 saniyede yakalayan güçlü kancalar ve Mila/Madina karakterlerinin hikaye anlatımı. Dikey 9:16 trend kurguları ve viral ses entegrasyonu.",
+    capabilities: [
+      { title: "Viral Kanca (Hook) Kütüphanesi", desc: "İzlenme oranını %400 artıran 15+ psikolojik kanca cümlesi.", icon: "fa-solid fa-magnet" },
+      { title: "Mila & Madina Karakterleri", desc: "Biri enerjik ve modern, diğeri samimi ve güven veren 2 dijital elçi.", icon: "fa-solid fa-user-group" },
+      { title: "B-Roll & Kampüs Sahneleri", desc: "İstanbul Boğazı, Galata ve modern kampüs sahnelerinden dikey video montajı.", icon: "fa-solid fa-clapperboard" },
+      { title: "Trend Müzik & Sesler", desc: "TikTok algoritmasında öne çıkan fon müzikleriyle senkronizasyon.", icon: "fa-solid fa-music" }
+    ],
+    sampleSnippet: "Hey do'stlar! Mila bilan Istanbul sayohatiga tayyormisiz? Turkiyada o'qish uchun yillab repetitorga qatnash shart emas! ✨🇹🇷",
+    autoReplySample: "👉 Profil linkidan Telegram'ga o'ting: @arkadasuz",
+    jumpTab: "tiktoklab"
+  },
+  instagram: {
+    name: "Instagram Studio",
+    handle: "@arkadas.uz",
+    badge: "10-Slayt Carousel • Reels",
+    icon: "fa-brands fa-instagram text-pink-500",
+    accentColor: "pink-500",
+    desc: "Estetik 10 slaytlık kaydırmalı (carousel) eğitim rehberleri, günlük hikaye anketleri ve profil bio link optimizasyonu.",
+    capabilities: [
+      { title: "10 Slaytlık Kaydırmalı Carousel", desc: "Adım adım üniversiteye başvuru, harçlar ve vizeyi anlatan infografikler.", icon: "fa-solid fa-images" },
+      { title: "Günlük Hikaye & Çıkartmalar", desc: "Soru-cevap kutusu, geri sayım ve öğrencileri DM'e çeken etiketler.", icon: "fa-solid fa-circle-notch" },
+      { title: "Reels Önizleme & Paylaşım", desc: "9:16 dikey formatlı Reels videolarının Instagram algoritmasına uyarlanması.", icon: "fa-solid fa-video" },
+      { title: "Bio Link & Dönüşüm Hunisi", desc: "Biyografi linkinden WhatsApp ve Telegram'a doğrudan yönlendirme.", icon: "fa-solid fa-arrow-up-right-from-square" }
+    ],
+    sampleSnippet: "1️⃣ Turkiyada imtihonsiz qabul bormi?\n2️⃣ Attestat baholari yetarlimi?\n3️⃣ Qancha kontrakt to'lanadi?\nBarcha javoblar slaydda! 👉 Kaydırın!",
+    autoReplySample: "📲 Bepul konsultatsiya: Link bioda!",
+    jumpTab: "instagramhub"
+  },
+  facebook: {
+    name: "Facebook Ads Suite",
+    handle: "Arkadaş Consulting MChJ",
+    badge: "Meta Ads Kurguları • Veli Odağı",
+    icon: "fa-brands fa-facebook text-blue-500",
+    accentColor: "blue-500",
+    desc: "Özbekistan'daki 40-55 yaş velilere yönelik güven odaklı Meta reklam kampanyaları ve eğitim grupları için topluluk paylaşımları.",
+    capabilities: [
+      { title: "Veli Odaklı Güven Kampanyaları", desc: "'0$ Risk, Masrafsız ve 99% Kabul' garantili ikna metinleri.", icon: "fa-solid fa-shield-heart" },
+      { title: "Meta Ads Hedef Kitle (Audience)", desc: "Taşkent, Semerkant, Fergana 17-25 yaş gençler ve 40-55 yaş veliler.", icon: "fa-solid fa-crosshairs" },
+      { title: "Topluluk & Grup Gönderileri", desc: "Özbekistan eğitim ve veli gruplarında organik etkileşim içerikleri.", icon: "fa-solid fa-users-rectangle" },
+      { title: "Lead Form Entegrasyonu", desc: "Form dolduran veli adaylarının anında CRM sistemine aktarılması.", icon: "fa-solid fa-address-card" }
+    ],
+    sampleSnippet: "Hurmatli ota-onalar! Farzandingiz xalqaro diplomga ega bo'lishini xohlaysizmi? Turkiya davlat OTMlariga oldindan to'lovsiz, 100% kafolatli qabul boshlandi! 🇹🇷",
+    autoReplySample: "📞 Batafsil: +998 90 000 00 00",
+    jumpTab: "facebookhub"
+  },
+  whatsapp: {
+    name: "WhatsApp Pro Hub",
+    handle: "+90 534... (Resmi Hat)",
+    badge: "1-Tık Doğrudan Sohbet • Katalog",
+    icon: "fa-brands fa-whatsapp text-emerald",
+    accentColor: "emerald",
+    desc: "Öğrenci veya veliye tek tıkla hazır teklifli wa.me bağlantısı gönderme, paket kataloğu ve hızlı yanıt kütüphanesi.",
+    capabilities: [
+      { title: "1-Tık Doğrudan Mesaj Gönderici", desc: "Numara girildiğinde hazır kişiselleştirilmiş resmi teklif linki üretir.", icon: "fa-solid fa-comment-sms" },
+      { title: "Paket & Fiyat Kataloğu", desc: "Asosiy ($500), O'rta ($800), Katta ($1100) ve Burs paket kartları.", icon: "fa-solid fa-box-open" },
+      { title: "Otomatik Karşılama Yanıtı", desc: "Gelen adayı sıcak karşılayıp hedef üniversite ve bölümünü soran bot mesajı.", icon: "fa-solid fa-hand-wave" },
+      { title: "Hızlı Yanıt Kütüphanesi", desc: "Sıkça sorulan sorulara tek tıkla kopyalanıp yapıştırılabilen şablonlar.", icon: "fa-solid fa-bolt-lightning" }
+    ],
+    sampleSnippet: "Assalomu alaykum! Arkadaş Consulting ta'lim agentligidan siz tanlagan O'rta VIP Paket ($800) tafsilotlari: Universitetga qabul, aeroport kutib olish, sug'urta va ikamet...",
+    autoReplySample: "📲 Bog'lanish: @arkadasuzz",
+    jumpTab: "whatsapphub"
+  }
+};
+
+function selectOmniPlatform(key) {
+  activeOmniPlatform = key;
+  const cfg = OMNI_PLATFORM_CONFIG[key] || OMNI_PLATFORM_CONFIG.twitter;
+
+  // Update card active classes
+  document.querySelectorAll('.omni-platform-card').forEach(c => {
+    c.classList.remove('border-cyan/60', 'bg-cyan/10', 'border-red-500/80', 'bg-red-500/10', 'border-sky-400/80', 'bg-sky-400/10', 'border-rose-400/80', 'bg-rose-400/10', 'border-pink-500/80', 'bg-pink-500/10', 'border-blue-500/80', 'bg-blue-500/10', 'border-emerald-500/80', 'bg-emerald-500/10');
+    c.classList.add('border-white/5');
+  });
+
+  const activeCard = document.getElementById(`omni-card-${key}`);
+  if (activeCard) {
+    activeCard.classList.remove('border-white/5');
+    activeCard.classList.add(`border-${cfg.accentColor}`, `bg-${cfg.accentColor}/10`);
+  }
+
+  // Render Console details
+  const consoleBox = document.getElementById('omni-platform-console');
+  if (!consoleBox) return;
+
+  consoleBox.innerHTML = `
+    <div class="space-y-6">
+      <!-- Başlık ve Durum -->
+      <div class="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-4">
+        <div class="flex items-center gap-3">
+          <div class="w-12 h-12 rounded-2xl bg-black/60 border border-white/10 flex items-center justify-center text-2xl">
+            <i class="${cfg.icon}"></i>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h3 class="text-base font-bold text-white font-mono">${cfg.name} Komuta Masası</h3>
+              <span class="text-xs px-2 py-0.5 rounded-full bg-white/10 text-cyan font-mono">${cfg.badge}</span>
+            </div>
+            <p class="text-xs text-dim font-mono">${cfg.handle} • ${cfg.desc}</p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2 font-mono text-xs">
+          <button type="button" class="btn btn-outline btn-xs" onclick="populateOmniTextToScheduler('${cfg.sampleSnippet.replace(/'/g, "\\'").replace(/\n/g, "\\n")}')">
+            <i class="fa-solid fa-arrow-down mr-1"></i> Bu Metni Planlayıcıya Al
+          </button>
+          <button type="button" class="btn btn-primary btn-xs" onclick="switchSection('${cfg.jumpTab}')">
+            <span>${cfg.name} Tam Sayfasını Aç</span>
+            <i class="fa-solid fa-arrow-right ml-1"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- Neler Yapabilirsiniz? (4 Kart) -->
+        <div class="lg:col-span-7 space-y-3 font-mono text-xs">
+          <h4 class="font-bold text-white text-xs flex items-center gap-1.5">
+            <i class="fa-solid fa-wand-magic-sparkles text-cyan"></i>
+            <span>Bu Platformda Neler Yapabilirsiniz?</span>
+          </h4>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            ${cfg.capabilities.map(cap => `
+              <div class="p-3.5 rounded-xl bg-black/40 border border-white/5 space-y-1.5 hover:border-white/20 transition">
+                <div class="flex items-center gap-2 text-white font-bold">
+                  <i class="${cap.icon} text-cyan"></i>
+                  <span>${cap.title}</span>
+                </div>
+                <p class="text-[11px] text-dim leading-relaxed">${cap.desc}</p>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+
+        <!-- Canlı Görsel Simülatör (Mockup) -->
+        <div class="lg:col-span-5 font-mono text-xs">
+          <h4 class="font-bold text-white text-xs mb-2 flex items-center gap-1.5">
+            <i class="fa-solid fa-eye text-emerald"></i>
+            <span>Canlı Gönderi Önizleme Simülatörü</span>
+          </h4>
+          <div class="p-4 rounded-2xl bg-black/60 border border-white/10 space-y-3 shadow-xl">
+            <div class="flex items-center gap-2.5">
+              <div class="w-8 h-8 rounded-full bg-slate-800 border border-white/20 flex items-center justify-center text-xs text-white font-bold">
+                A
+              </div>
+              <div class="min-w-0 flex-1">
+                <div class="text-white font-bold text-xs flex items-center gap-1">
+                  <span>Arkadaş Consulting</span>
+                  <i class="fa-solid fa-circle-check text-cyan text-[10px]"></i>
+                </div>
+                <div class="text-[10px] text-dim">${cfg.handle}</div>
+              </div>
+              <span class="text-[10px] text-slate-500">Az önce</span>
+            </div>
+
+            <div class="text-[11px] text-slate-200 leading-relaxed whitespace-pre-line bg-black/40 p-3 rounded-xl border border-white/5">
+              ${cfg.sampleSnippet}
+            </div>
+
+            <div class="p-2.5 rounded-xl bg-cyan/10 border border-cyan/20 text-[10px] text-cyan leading-relaxed">
+              <span class="font-bold block mb-0.5">🔗 Otomatik Huni Yanıtı:</span>
+              ${cfg.autoReplySample}
+            </div>
+
+            <div class="flex justify-between items-center text-dim text-[11px] pt-1">
+              <span class="flex items-center gap-1"><i class="fa-regular fa-comment"></i> 24</span>
+              <span class="flex items-center gap-1"><i class="fa-solid fa-retweet"></i> 58</span>
+              <span class="flex items-center gap-1"><i class="fa-regular fa-heart"></i> 142</span>
+              <button type="button" class="text-cyan hover:underline text-[10px]" onclick="copyCustomText('${cfg.sampleSnippet.replace(/'/g, "\\'").replace(/\n/g, "\\n")}')">
+                <i class="fa-solid fa-copy"></i> Kopyala
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+window.selectOmniPlatform = selectOmniPlatform;
+
+function populateOmniTextToScheduler(text) {
+  const area = document.getElementById('omni-schedule-text');
+  if (area) {
+    area.value = text;
+    updateOmniCharCount();
+    area.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    showToast("Metin planlayıcı formuna aktarıldı!", "info");
+  }
+}
+window.populateOmniTextToScheduler = populateOmniTextToScheduler;
+
+function updateOmniCharCount() {
+  const area = document.getElementById('omni-schedule-text');
+  const counter = document.getElementById('omni-text-char-count');
+  if (area && counter) {
+    counter.innerText = `${area.value.length} karakter`;
+  }
+}
+
+// Load Ready Assets for Scheduler Dropdowns
+async function loadOmniSchedulerAssets() {
+  try {
+    const res = await fetch('/api/social/ready_assets');
+    const data = await res.json();
+    if (data.success) {
+      cachedOmniAssets = data;
+
+      // 1. Texts Dropdown
+      const textSelect = document.getElementById('omni-asset-text-select');
+      if (textSelect && Array.isArray(data.texts)) {
+        textSelect.innerHTML = '<option value="">-- Hazır 134 Telegram & 201 Twitter Gönderisinden Seçin --</option>' +
+          data.texts.map((t, idx) => `
+            <option value="${idx}">[${t.source}] ${t.title} (${t.snippet.substring(0, 45)}...)</option>
+          `).join('');
+      }
+
+      // 2. Photos Dropdown
+      const photoSelect = document.getElementById('omni-asset-photo-select');
+      if (photoSelect && Array.isArray(data.photos)) {
+        photoSelect.innerHTML = '<option value="">-- Afiş Seçilmedi (Fotoğrafsız) --</option>' +
+          data.photos.map((p, idx) => `
+            <option value="${p.path}">🖼️ ${p.title}</option>
+          `).join('');
+      }
+
+      // 3. Videos Dropdown
+      const videoSelect = document.getElementById('omni-asset-video-select');
+      if (videoSelect && Array.isArray(data.videos)) {
+        videoSelect.innerHTML = '<option value="">-- Video Seçilmedi (Videosuz) --</option>' +
+          data.videos.map((v, idx) => `
+            <option value="${v.path}">🎬 [${v.persona}] ${v.title} (${v.size_mb} MB)</option>
+          `).join('');
+      }
+
+      // Default date to today
+      const dateInput = document.getElementById('omni-schedule-date');
+      if (dateInput && !dateInput.value) {
+        const today = new Date().toISOString().split('T')[0];
+        dateInput.value = today;
+      }
+
+      const textArea = document.getElementById('omni-schedule-text');
+      if (textArea) {
+        textArea.addEventListener('input', updateOmniCharCount);
+      }
+    }
+  } catch (e) {
+    console.error("Varlıklar yüklenirken hata:", e);
+  }
+
+  loadOmniScheduledTable();
+}
+window.loadOmniSchedulerAssets = loadOmniSchedulerAssets;
+
+function onOmniTextSelect(idxStr) {
+  if (idxStr === '') return;
+  const idx = parseInt(idxStr, 10);
+  const item = cachedOmniAssets.texts[idx];
+  if (item) {
+    const area = document.getElementById('omni-schedule-text');
+    if (area) {
+      area.value = item.full_text;
+      updateOmniCharCount();
+    }
+    const autoReplyInput = document.getElementById('omni-auto-reply');
+    if (autoReplyInput && item.auto_reply) {
+      autoReplyInput.value = item.auto_reply;
+    }
+    showToast(`"${item.title}" metni seçildi!`, "info");
+  }
+}
+window.onOmniTextSelect = onOmniTextSelect;
+
+function onOmniPhotoSelect(path) {
+  const previewBox = document.getElementById('omni-media-preview-box');
+  const imgEl = document.getElementById('omni-preview-img');
+  const vidEl = document.getElementById('omni-preview-video-tag');
+  const nameEl = document.getElementById('omni-preview-filename');
+  const typeEl = document.getElementById('omni-preview-type');
+
+  if (!path) {
+    clearOmniSelectedMedia();
+    return;
+  }
+
+  // Clear video dropdown
+  const vidSelect = document.getElementById('omni-asset-video-select');
+  if (vidSelect) vidSelect.value = '';
+
+  if (previewBox && imgEl && vidEl && nameEl && typeEl) {
+    previewBox.classList.remove('hidden');
+    vidEl.classList.add('hidden');
+    imgEl.classList.remove('hidden');
+    imgEl.src = path.startsWith('output/') ? `/${path}` : `/static/${path.split('/').pop()}`;
+    nameEl.innerText = path.split('/').pop();
+    typeEl.innerText = "Fotoğraf / Banner Afişi";
+  }
+}
+window.onOmniPhotoSelect = onOmniPhotoSelect;
+
+function onOmniVideoSelect(path) {
+  const previewBox = document.getElementById('omni-media-preview-box');
+  const imgEl = document.getElementById('omni-preview-img');
+  const vidEl = document.getElementById('omni-preview-video-tag');
+  const nameEl = document.getElementById('omni-preview-filename');
+  const typeEl = document.getElementById('omni-preview-type');
+
+  if (!path) {
+    clearOmniSelectedMedia();
+    return;
+  }
+
+  // Clear photo dropdown
+  const photoSelect = document.getElementById('omni-asset-photo-select');
+  if (photoSelect) photoSelect.value = '';
+
+  if (previewBox && imgEl && vidEl && nameEl && typeEl) {
+    previewBox.classList.remove('hidden');
+    imgEl.classList.add('hidden');
+    vidEl.classList.remove('hidden');
+    nameEl.innerText = path.split('/').pop();
+    typeEl.innerText = "Dikey MP4 Video (Reels / Shorts)";
+  }
+}
+window.onOmniVideoSelect = onOmniVideoSelect;
+
+function clearOmniSelectedMedia() {
+  const previewBox = document.getElementById('omni-media-preview-box');
+  if (previewBox) previewBox.classList.add('hidden');
+
+  const photoSelect = document.getElementById('omni-asset-photo-select');
+  const videoSelect = document.getElementById('omni-asset-video-select');
+  if (photoSelect) photoSelect.value = '';
+  if (videoSelect) videoSelect.value = '';
+}
+window.clearOmniSelectedMedia = clearOmniSelectedMedia;
+
+async function submitOmniCrossPostSchedule() {
+  const content = document.getElementById('omni-schedule-text')?.value.trim() || '';
+  const photoPath = document.getElementById('omni-asset-photo-select')?.value || null;
+  const videoPath = document.getElementById('omni-asset-video-select')?.value || null;
+  const dateStr = document.getElementById('omni-schedule-date')?.value || new Date().toISOString().split('T')[0];
+  const slotVal = document.getElementById('omni-schedule-slot')?.value || '13:00|☀️ Tushlik Posti (13:00)';
+  const [timeStr, slotLabel] = slotVal.split('|');
+  const autoReply = document.getElementById('omni-auto-reply')?.value || '';
+
+  // Gather platforms
+  const platforms = [];
+  if (document.getElementById('omni-target-twitter')?.checked) platforms.push('twitter');
+  if (document.getElementById('omni-target-youtube')?.checked) platforms.push('youtube');
+  if (document.getElementById('omni-target-telegram')?.checked) platforms.push('telegram');
+  if (document.getElementById('omni-target-instagram')?.checked) platforms.push('instagram');
+  if (document.getElementById('omni-target-tiktok')?.checked) platforms.push('tiktok');
+  if (document.getElementById('omni-target-facebook')?.checked) platforms.push('facebook');
+
+  if (platforms.length === 0) {
+    showToast("En az bir hedef platform seçmelisiniz!", "error");
+    return;
+  }
+
+  if (!content && !videoPath) {
+    showToast("Lütfen bir metin yazın veya video seçin!", "error");
+    return;
+  }
+
+  showToast("Gönderi çok kanallı olarak planlanıyor...", "info");
+
+  try {
+    const res = await fetch('/api/social/schedule_cross_post', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        platforms: platforms,
+        content: content,
+        photo_path: photoPath,
+        video_path: videoPath,
+        scheduled_date: dateStr,
+        scheduled_time: timeStr,
+        slot_label: slotLabel,
+        auto_reply: autoReply
+      })
+    });
+    const data = await res.json();
+    if (data.success) {
+      showToast(data.message || "Gönderi başarıyla planlandı!", "success");
+      loadOmniScheduledTable();
+    } else {
+      showToast(data.error || "Planlama başarısız oldu", "error");
+    }
+  } catch (e) {
+    showToast("Planlama API hatası", "error");
+  }
+}
+window.submitOmniCrossPostSchedule = submitOmniCrossPostSchedule;
+
+async function loadOmniScheduledTable() {
+  const tbody = document.getElementById('omni-scheduled-tbody');
+  const countBadge = document.getElementById('omni-scheduled-count-badge');
+  if (!tbody) return;
+
+  try {
+    const res = await fetch('/api/social/all_scheduled');
+    const data = await res.json();
+    if (data.success && Array.isArray(data.items)) {
+      cachedOmniScheduled = data.items;
+      if (countBadge) countBadge.innerText = `(${data.total_count} Gönderi Aktif)`;
+      renderOmniScheduledRows(data.items);
+    }
+  } catch (e) {
+    console.error("Planlanmış gönderiler yüklenemedi:", e);
+  }
+}
+window.loadOmniScheduledTable = loadOmniScheduledTable;
+
+function renderOmniScheduledRows(items) {
+  const tbody = document.getElementById('omni-scheduled-tbody');
+  if (!tbody) return;
+
+  if (items.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="7" class="py-6 text-center text-dim">Henüz planlanmış gönderi bulunmuyor.</td></tr>';
+    return;
+  }
+
+  const platformIcons = {
+    twitter: '<i class="fa-brands fa-x-twitter text-white" title="Twitter/X"></i>',
+    youtube: '<i class="fa-brands fa-youtube text-red-500" title="YouTube"></i>',
+    telegram: '<i class="fa-brands fa-telegram text-sky-400" title="Telegram"></i>',
+    instagram: '<i class="fa-brands fa-instagram text-pink-500" title="Instagram"></i>',
+    tiktok: '<i class="fa-brands fa-tiktok text-rose-400" title="TikTok"></i>',
+    facebook: '<i class="fa-brands fa-facebook text-blue-500" title="Facebook"></i>'
+  };
+
+  tbody.innerHTML = items.map(item => {
+    const icons = item.platforms.map(p => platformIcons[p] || p).join(' ');
+    const statusBadge = item.status === 'scheduled' || item.status === 'pending'
+      ? '<span class="px-2 py-0.5 rounded text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">Zamanlandı</span>'
+      : (item.status === 'posted' ? '<span class="px-2 py-0.5 rounded text-[10px] bg-cyan/10 text-cyan border border-cyan/30">Yayınlandı</span>' : '<span class="px-2 py-0.5 rounded text-[10px] bg-white/10 text-slate-400">Beklemede</span>');
+
+    const cleanSnippet = item.content.replace(/<[^>]*>?/gm, '').substring(0, 65);
+
+    return `
+      <tr class="hover:bg-white/[0.02] transition font-mono text-xs">
+        <td class="py-2.5 px-3 whitespace-nowrap">
+          <span class="text-white font-bold">${item.date}</span>
+          <span class="text-dim block text-[11px]">${item.time}</span>
+        </td>
+        <td class="py-2.5 px-3 whitespace-nowrap text-dim text-[11px]">
+          ${item.slot}
+        </td>
+        <td class="py-2.5 px-3 whitespace-nowrap text-sm flex items-center gap-2 mt-1">
+          ${icons}
+        </td>
+        <td class="py-2.5 px-3 max-w-xs">
+          <span class="text-slate-300 truncate block text-[11px]" title="${cleanSnippet}">${cleanSnippet}...</span>
+        </td>
+        <td class="py-2.5 px-3 whitespace-nowrap text-[11px]">
+          <span class="text-cyan font-bold">${item.media_type || 'Metin'}</span>
+        </td>
+        <td class="py-2.5 px-3 whitespace-nowrap">
+          ${statusBadge}
+        </td>
+        <td class="py-2.5 px-3 whitespace-nowrap text-right">
+          <button type="button" class="btn btn-outline btn-xs p-1 text-slate-400 hover:text-white" onclick="copyCustomText('${item.content.replace(/'/g, "\\'").replace(/\n/g, "\\n")}')" title="Metni Kopyala">
+            <i class="fa-solid fa-copy"></i>
+          </button>
+        </td>
+      </tr>
+    `;
+  }).join('');
+}
+window.renderOmniScheduledRows = renderOmniScheduledRows;
+
+function filterOmniScheduledTable(platform, btn) {
+  document.querySelectorAll('#section-socialmatrix .btn-xs').forEach(b => b.classList.remove('btn-primary'));
+  if (btn) btn.classList.add('btn-primary');
+
+  if (platform === 'all') {
+    renderOmniScheduledRows(cachedOmniScheduled);
+  } else {
+    const filtered = cachedOmniScheduled.filter(i => i.platforms.includes(platform));
+    renderOmniScheduledRows(filtered);
+  }
+}
+window.filterOmniScheduledTable = filterOmniScheduledTable;
+
 

@@ -399,6 +399,300 @@
     </section>
 
     <!-- ============================================================== -->
+    <!-- SECTION 3.5: 🌐 7-IN-1 OMNICHANNEL SOSYAL MEDYA KOMUTA MERKEZİ -->
+    <!-- ============================================================== -->
+    <section class="gece-section" id="section-socialmatrix">
+      <div class="section-title-wrap mb-6 flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <span class="section-eyebrow font-mono text-cyan">OMNICHANNEL SOCIAL COMMAND & SCHEDULER</span>
+          <h2 class="section-heading text-xl font-bold text-white flex items-center gap-2">
+            <i class="fa-solid fa-layer-group text-cyan"></i>
+            <span>7-in-1 Sosyal Medya Komuta Merkezi & Çok Kanallı Planlayıcı</span>
+          </h2>
+          <p class="text-xs text-dim mt-0.5">Twitter/X, YouTube, Telegram, TikTok, Instagram, Facebook ve WhatsApp tek ekranda. Bir platform seçin, neler yapabileceğinizi görün, hazır varlıkları (metin, afiş, video) anında planlayın.</p>
+        </div>
+        <div class="flex gap-2 font-mono text-xs">
+          <button type="button" class="btn btn-outline btn-xs text-cyan border-cyan/40" onclick="loadOmniSchedulerAssets()">
+            <i class="fa-solid fa-rotate mr-1"></i> Varlıkları Yenile
+          </button>
+        </div>
+      </div>
+
+      <!-- 1. 7 PLATFORM SEÇİCİ MATRİSİ (INTERACTIVE PLATFORM SELECTOR) -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3 mb-6 font-mono">
+        <!-- Twitter / X -->
+        <div class="gece-card p-3.5 cursor-pointer transition-all duration-200 hover:border-slate-300 border-cyan/60 bg-cyan/10 omni-platform-card" id="omni-card-twitter" onclick="selectOmniPlatform('twitter')">
+          <div class="flex items-center justify-between mb-2">
+            <i class="fa-brands fa-x-twitter text-white text-lg"></i>
+            <span class="text-[10px] px-1.5 py-0.5 rounded bg-white/10 text-white">201 Tweet</span>
+          </div>
+          <div class="font-bold text-white text-xs">Twitter / X</div>
+          <div class="text-[11px] text-dim truncate">@arkadasuz</div>
+          <div class="mt-2 text-[10px] text-cyan flex items-center gap-1">
+            <span class="pulse-dot scale-75"></span>
+            <span>Aktif & Hazır</span>
+          </div>
+        </div>
+
+        <!-- YouTube Studio -->
+        <div class="gece-card p-3.5 cursor-pointer transition-all duration-200 hover:border-red-500/80 border-white/5 omni-platform-card" id="omni-card-youtube" onclick="selectOmniPlatform('youtube')">
+          <div class="flex items-center justify-between mb-2">
+            <i class="fa-brands fa-youtube text-red-500 text-lg"></i>
+            <span class="text-[10px] px-1.5 py-0.5 rounded bg-red-500/20 text-red-300">50 Shorts</span>
+          </div>
+          <div class="font-bold text-white text-xs">YouTube</div>
+          <div class="text-[11px] text-dim truncate">@arkadaşuz</div>
+          <div class="mt-2 text-[10px] text-emerald flex items-center gap-1">
+            <span class="pulse-dot scale-75"></span>
+            <span>Data API v3</span>
+          </div>
+        </div>
+
+        <!-- Telegram Ultra -->
+        <div class="gece-card p-3.5 cursor-pointer transition-all duration-200 hover:border-sky-400/80 border-white/5 omni-platform-card" id="omni-card-telegram" onclick="selectOmniPlatform('telegram')">
+          <div class="flex items-center justify-between mb-2">
+            <i class="fa-brands fa-telegram text-sky-400 text-lg"></i>
+            <span class="text-[10px] px-1.5 py-0.5 rounded bg-sky-500/20 text-sky-300">134 Post</span>
+          </div>
+          <div class="font-bold text-white text-xs">Telegram</div>
+          <div class="text-[11px] text-dim truncate">@arkadasuz</div>
+          <div class="mt-2 text-[10px] text-sky-400 flex items-center gap-1">
+            <span class="pulse-dot scale-75"></span>
+            <span>Bot Bağlı</span>
+          </div>
+        </div>
+
+        <!-- TikTok Studio -->
+        <div class="gece-card p-3.5 cursor-pointer transition-all duration-200 hover:border-rose-400/80 border-white/5 omni-platform-card" id="omni-card-tiktok" onclick="selectOmniPlatform('tiktok')">
+          <div class="flex items-center justify-between mb-2">
+            <i class="fa-brands fa-tiktok text-rose-400 text-lg"></i>
+            <span class="text-[10px] px-1.5 py-0.5 rounded bg-rose-500/20 text-rose-300">Viral Lab</span>
+          </div>
+          <div class="font-bold text-white text-xs">TikTok</div>
+          <div class="text-[11px] text-dim truncate">@mila.travels</div>
+          <div class="mt-2 text-[10px] text-rose-400 flex items-center gap-1">
+            <span class="pulse-dot scale-75"></span>
+            <span>Kancalar Hazır</span>
+          </div>
+        </div>
+
+        <!-- Instagram Studio -->
+        <div class="gece-card p-3.5 cursor-pointer transition-all duration-200 hover:border-pink-500/80 border-white/5 omni-platform-card" id="omni-card-instagram" onclick="selectOmniPlatform('instagram')">
+          <div class="flex items-center justify-between mb-2">
+            <i class="fa-brands fa-instagram text-pink-500 text-lg"></i>
+            <span class="text-[10px] px-1.5 py-0.5 rounded bg-pink-500/20 text-pink-300">Carousel</span>
+          </div>
+          <div class="font-bold text-white text-xs">Instagram</div>
+          <div class="text-[11px] text-dim truncate">@arkadas.uz</div>
+          <div class="mt-2 text-[10px] text-pink-400 flex items-center gap-1">
+            <span class="pulse-dot scale-75"></span>
+            <span>10 Slayt Hazır</span>
+          </div>
+        </div>
+
+        <!-- Facebook Ads -->
+        <div class="gece-card p-3.5 cursor-pointer transition-all duration-200 hover:border-blue-500/80 border-white/5 omni-platform-card" id="omni-card-facebook" onclick="selectOmniPlatform('facebook')">
+          <div class="flex items-center justify-between mb-2">
+            <i class="fa-brands fa-facebook text-blue-500 text-lg"></i>
+            <span class="text-[10px] px-1.5 py-0.5 rounded bg-blue-500/20 text-blue-300">Meta Ads</span>
+          </div>
+          <div class="font-bold text-white text-xs">Facebook</div>
+          <div class="text-[11px] text-dim truncate">Arkadaş MChJ</div>
+          <div class="mt-2 text-[10px] text-blue-400 flex items-center gap-1">
+            <span class="pulse-dot scale-75"></span>
+            <span>Veli Kurguları</span>
+          </div>
+        </div>
+
+        <!-- WhatsApp Pro -->
+        <div class="gece-card p-3.5 cursor-pointer transition-all duration-200 hover:border-emerald-500/80 border-white/5 omni-platform-card" id="omni-card-whatsapp" onclick="selectOmniPlatform('whatsapp')">
+          <div class="flex items-center justify-between mb-2">
+            <i class="fa-brands fa-whatsapp text-emerald text-lg"></i>
+            <span class="text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300">1-Tık Chat</span>
+          </div>
+          <div class="font-bold text-white text-xs">WhatsApp</div>
+          <div class="text-[11px] text-dim truncate">+90 534...</div>
+          <div class="mt-2 text-[10px] text-emerald flex items-center gap-1">
+            <span class="pulse-dot scale-75"></span>
+            <span>Katalog Aktif</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. SEÇİLİ PLATFORMA ÖZEL GÜÇ KONSOLU (NELER YAPABİLİRSİNİZ?) -->
+      <div class="gece-card p-6 mb-6 border border-white/10" id="omni-platform-console">
+        <!-- JS ile seçili platforma göre doldurulacak -->
+      </div>
+
+      <!-- 3. ÇOK KANALLI İÇERİK PLANLAMA MASASI & VARLIK MİKSERİ (UNIVERSAL SCHEDULER) -->
+      <div class="gece-card p-6 mb-6 border border-cyan/20 space-y-5">
+        <div class="flex flex-wrap justify-between items-center border-b border-white/10 pb-3 gap-2">
+          <div>
+            <span class="text-xs font-mono text-cyan font-bold block">CROSS-PLATFORM CONTENT DISPATCHER</span>
+            <h3 class="text-base font-bold text-white font-mono flex items-center gap-2">
+              <i class="fa-solid fa-calendar-plus text-cyan"></i>
+              <span>Çok Kanallı İçerik Planlama Masası (Metin, Afiş & Video)</span>
+            </h3>
+          </div>
+          <span class="text-[11px] font-mono text-slate-400">Tek tıkla tüm kanallara aynı anda zamanlayın</span>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <!-- Sol: Varlık Seçimi & Düzenleme -->
+          <div class="lg:col-span-7 space-y-4 font-mono text-xs">
+            <!-- Hazır Metin Seçici -->
+            <div>
+              <label class="text-dim text-[11px] block mb-1">📝 1. Hazır Metin Havuzundan Seç (Veya Kendin Yaz):</label>
+              <select id="omni-asset-text-select" class="w-full bg-black/60 border border-white/10 rounded-xl px-3 py-2 text-white text-xs" onchange="onOmniTextSelect(this.value)">
+                <option value="">-- Hazır 134 Telegram & 201 Twitter Gönderisinden Seçin --</option>
+              </select>
+            </div>
+
+            <!-- Metin Alanı -->
+            <div>
+              <div class="flex justify-between items-center mb-1">
+                <span class="text-dim text-[11px]">Yayın Metni & Başlık:</span>
+                <span class="text-[10px] text-slate-500" id="omni-text-char-count">0 karakter</span>
+              </div>
+              <textarea id="omni-schedule-text" rows="5" placeholder="Paylaşılacak metni buraya yazın veya yukarıdaki hazır havuzdan seçin..." class="w-full bg-black/70 border border-white/10 rounded-xl p-3 text-white text-xs leading-relaxed focus:outline-none focus:border-cyan resize-none"></textarea>
+            </div>
+
+            <!-- Görsel ve Video Seçiciler -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label class="text-dim text-[11px] block mb-1">🖼️ 2. Hazır Afiş / Fotoğraf Seç:</label>
+                <select id="omni-asset-photo-select" class="w-full bg-black/60 border border-white/10 rounded-xl px-2.5 py-2 text-white text-xs" onchange="onOmniPhotoSelect(this.value)">
+                  <option value="">-- Afiş Seçilmedi (Fotoğrafsız) --</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="text-dim text-[11px] block mb-1">🎬 3. Hazır Dikey Video (Reels/Shorts):</label>
+                <select id="omni-asset-video-select" class="w-full bg-black/60 border border-white/10 rounded-xl px-2.5 py-2 text-white text-xs" onchange="onOmniVideoSelect(this.value)">
+                  <option value="">-- Video Seçilmedi (Videosuz) --</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Canlı Medya Önizleme Bandı -->
+            <div id="omni-media-preview-box" class="p-3 bg-black/40 rounded-xl border border-white/5 flex items-center gap-3 hidden">
+              <img id="omni-preview-img" class="w-14 h-14 object-cover rounded-lg border border-white/10 hidden" alt="Seçili Görsel">
+              <div id="omni-preview-video-tag" class="w-14 h-14 bg-black rounded-lg border border-white/10 flex items-center justify-center text-cyan hidden">
+                <i class="fa-solid fa-film"></i>
+              </div>
+              <div class="min-w-0 flex-1">
+                <span class="text-white text-xs font-bold block truncate" id="omni-preview-filename">-</span>
+                <span class="text-dim text-[10px]" id="omni-preview-type">Medya Dosyası</span>
+              </div>
+              <button type="button" class="btn btn-outline btn-xs text-rose" onclick="clearOmniSelectedMedia()">✕ Kaldır</button>
+            </div>
+          </div>
+
+          <!-- Sağ: Hedef Platformlar & Zamanlama -->
+          <div class="lg:col-span-5 space-y-4 font-mono text-xs">
+            <div class="p-4 bg-black/40 rounded-2xl border border-white/10 space-y-3">
+              <label class="text-white font-bold block border-b border-white/10 pb-2">🎯 Hedef Platformları Seçin:</label>
+              <div class="grid grid-cols-2 gap-2">
+                <label class="flex items-center gap-2 p-2 rounded-lg bg-black/60 border border-white/5 cursor-pointer hover:border-cyan/40">
+                  <input type="checkbox" id="omni-target-twitter" checked class="rounded accent-cyan">
+                  <span class="text-white flex items-center gap-1.5"><i class="fa-brands fa-x-twitter"></i> Twitter/X</span>
+                </label>
+                <label class="flex items-center gap-2 p-2 rounded-lg bg-black/60 border border-white/5 cursor-pointer hover:border-red-500/40">
+                  <input type="checkbox" id="omni-target-youtube" checked class="rounded accent-red-500">
+                  <span class="text-white flex items-center gap-1.5"><i class="fa-brands fa-youtube text-red-500"></i> YouTube</span>
+                </label>
+                <label class="flex items-center gap-2 p-2 rounded-lg bg-black/60 border border-white/5 cursor-pointer hover:border-sky-400/40">
+                  <input type="checkbox" id="omni-target-telegram" checked class="rounded accent-sky-400">
+                  <span class="text-white flex items-center gap-1.5"><i class="fa-brands fa-telegram text-sky-400"></i> Telegram</span>
+                </label>
+                <label class="flex items-center gap-2 p-2 rounded-lg bg-black/60 border border-white/5 cursor-pointer hover:border-pink-500/40">
+                  <input type="checkbox" id="omni-target-instagram" class="rounded accent-pink-500">
+                  <span class="text-white flex items-center gap-1.5"><i class="fa-brands fa-instagram text-pink-500"></i> Instagram</span>
+                </label>
+                <label class="flex items-center gap-2 p-2 rounded-lg bg-black/60 border border-white/5 cursor-pointer hover:border-rose-400/40">
+                  <input type="checkbox" id="omni-target-tiktok" class="rounded accent-rose-400">
+                  <span class="text-white flex items-center gap-1.5"><i class="fa-brands fa-tiktok text-rose-400"></i> TikTok</span>
+                </label>
+                <label class="flex items-center gap-2 p-2 rounded-lg bg-black/60 border border-white/5 cursor-pointer hover:border-blue-500/40">
+                  <input type="checkbox" id="omni-target-facebook" class="rounded accent-blue-500">
+                  <span class="text-white flex items-center gap-1.5"><i class="fa-brands fa-facebook text-blue-500"></i> Facebook</span>
+                </label>
+              </div>
+
+              <!-- Zamanlama Slotları -->
+              <div class="space-y-2 pt-2 border-t border-white/10">
+                <div class="grid grid-cols-2 gap-2">
+                  <div>
+                    <label class="text-dim text-[11px] block mb-1">Yayın Tarihi:</label>
+                    <input type="date" id="omni-schedule-date" class="w-full bg-black/70 border border-white/10 rounded-lg px-2.5 py-1.5 text-white text-xs">
+                  </div>
+                  <div>
+                    <label class="text-dim text-[11px] block mb-1">Yayın Saati / Slot:</label>
+                    <select id="omni-schedule-slot" class="w-full bg-black/70 border border-white/10 rounded-lg px-2 py-1.5 text-white text-xs">
+                      <option value="10:00|🌅 Sabah Posti (10:00)">🌅 Sabah (10:00)</option>
+                      <option value="13:00|☀️ Tushlik Posti (13:00)" selected>☀️ Öğle (13:00)</option>
+                      <option value="19:30|🌆 Kechki Prime (19:30)">🌆 Akşam Prime (19:30)</option>
+                      <option value="22:00|🌙 Tungi Post (22:00)">🌙 Gece (22:00)</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <label class="text-dim text-[11px] block mb-1">Otomatik Huni Sabit Yanıtı:</label>
+                  <input type="text" id="omni-auto-reply" value="📌 Rasmiy kanalimiz: https://t.me/arkadasuz | Aloqa: @arkadasuzz" class="w-full bg-black/70 border border-white/10 rounded-lg px-2.5 py-1.5 text-white text-xs text-slate-300">
+                </div>
+              </div>
+
+              <!-- Planla Butonu -->
+              <button type="button" class="btn btn-primary w-full py-3 rounded-xl font-bold text-xs flex items-center justify-center gap-2 mt-3 shadow-[0_0_20px_rgba(6,182,212,0.3)]" onclick="submitOmniCrossPostSchedule()">
+                <i class="fa-solid fa-paper-plane"></i>
+                <span>🚀 Çok Kanallı Gönderiyi Planla & Takvime Ekle</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. CANLI ÇOK KANALLI PLANLANMIŞ İÇERİK TAKVİMİ & KUYRUĞU -->
+      <div class="gece-card p-5 border border-white/10 space-y-4">
+        <div class="flex flex-wrap justify-between items-center border-b border-white/10 pb-2 gap-2">
+          <div class="flex items-center gap-2 font-mono text-xs">
+            <span class="pulse-dot"></span>
+            <span class="font-bold text-white text-sm">📅 Canlı Çok Kanallı Planlama Takvimi</span>
+            <span class="text-cyan text-[11px]" id="omni-scheduled-count-badge">(Yükleniyor...)</span>
+          </div>
+          <div class="flex gap-1.5 font-mono text-xs">
+            <button type="button" class="btn btn-xs btn-outline" onclick="filterOmniScheduledTable('all', this)">Tümü</button>
+            <button type="button" class="btn btn-xs btn-outline" onclick="filterOmniScheduledTable('twitter', this)">Twitter</button>
+            <button type="button" class="btn btn-xs btn-outline" onclick="filterOmniScheduledTable('youtube', this)">YouTube</button>
+            <button type="button" class="btn btn-xs btn-outline" onclick="filterOmniScheduledTable('telegram', this)">Telegram</button>
+          </div>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left font-mono text-xs">
+            <thead class="text-dim border-b border-white/10 text-[11px] bg-black/30">
+              <tr>
+                <th class="py-2.5 px-3">Tarih & Saat</th>
+                <th class="py-2.5 px-3">Slot / Tür</th>
+                <th class="py-2.5 px-3">Hedef Kanallar</th>
+                <th class="py-2.5 px-3">İçerik Özeti</th>
+                <th class="py-2.5 px-3">Medya</th>
+                <th class="py-2.5 px-3">Durum</th>
+                <th class="py-2.5 px-3 text-right">Eylem</th>
+              </tr>
+            </thead>
+            <tbody id="omni-scheduled-tbody" class="divide-y divide-white/5">
+              <tr>
+                <td colspan="7" class="py-6 text-center text-dim">Planlanmış gönderiler yükleniyor...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================== -->
     <!-- SECTION 4: 📢 TELEGRAM KANALI SUPER-MERKEZİ (@arkadasuz) -->
     <!-- ============================================================== -->
     <section class="gece-section" id="section-contenthub">

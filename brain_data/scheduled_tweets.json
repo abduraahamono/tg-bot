@@ -6,6 +6,16 @@
   "end_date": "2026-11-10",
   "tweets": [
     {
+      "id": "tw_cross_1789329561_718",
+      "date_str": "2026-09-15",
+      "slot_label": "☀️ Tushlik Posti (13:00)",
+      "scheduled_time": "2026-09-15T13:00:00",
+      "content": "Turkiyada tibbiyotga imtihonsiz qabul: 100% grant kvotalari ochildi! 🇹🇷",
+      "photo_path": null,
+      "status": "scheduled",
+      "auto_reply": "📌 Rasmiy kanalimiz: https://t.me/arkadasuz | Aloqa: @arkadasuzz"
+    },
+    {
       "id": "tw_20260905_mor",
       "day_index": 1,
       "day_name": "Shanba",

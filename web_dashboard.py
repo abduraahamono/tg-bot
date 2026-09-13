@@ -41,6 +41,7 @@ SHORTS_PLAN_FILE = BASE_DIR / "brain_data" / "scheduled_youtube_shorts.json"
 TELEGRAM_PLAN_FILE = BASE_DIR / "brain_data" / "scheduled_telegram_posts.json"
 TWEETS_PLAN_FILE = BASE_DIR / "brain_data" / "scheduled_tweets.json"
 CONFIG_FILE = BASE_DIR / "bot_config.json"
+CROSS_POSTS_FILE = BASE_DIR / "brain_data" / "scheduled_cross_posts.json"
 SOCIAL_FILE = BASE_DIR / "social_credentials.json"
 UNIVERSITIES_FILE = BASE_DIR / "brain_data" / "universities.json"
 FAQ_FILE = BASE_DIR / "brain_data" / "faq_knowledge.json"
@@ -1678,6 +1679,230 @@ def generate_official_contract():
         "package": pkg_name,
         "price": price,
         "contract_html": contract_html
+    })
+
+# ==============================================================
+# OMNICHANNEL SOCIAL MEDIA SCHEDULER & ASSET MIXER
+# ==============================================================
+
+@app.route("/api/social/ready_assets", methods=["GET"])
+def get_ready_assets():
+    """Returns curated library of ready texts, photos, and videos for the universal scheduler."""
+    tg_data = load_json(TELEGRAM_PLAN_FILE, {"posts": []})
+    tw_data = load_json(TWEETS_PLAN_FILE, {"tweets": []})
+    
+    texts = []
+    # From Telegram
+    for p in tg_data.get("posts", [])[:50]:
+        title = p.get("title", p.get("slot_label", "Telegram Post"))
+        content = p.get("content", "")
+        if content:
+            texts.append({
+                "id": p.get("id"),
+                "source": "Telegram 📢",
+                "title": f"[TG] {title}",
+                "snippet": content[:90] + ("..." if len(content) > 90 else ""),
+                "full_text": content
+            })
+            
+    # From Twitter
+    for t in tw_data.get("tweets", [])[:50]:
+        content = t.get("content", "")
+        if content:
+            texts.append({
+                "id": t.get("id"),
+                "source": "Twitter 🐦",
+                "title": f"[X] {t.get('slot_label', 'Tweet')} - {content[:35]}...",
+                "snippet": content[:90] + ("..." if len(content) > 90 else ""),
+                "full_text": content,
+                "auto_reply": t.get("auto_reply", "")
+            })
+
+    # Ready Photos
+    output_dir = BASE_DIR / "output"
+    photos = []
+    search_dirs = [output_dir, BASE_DIR / "assets", output_dir / "archetypes_factory", output_dir / "posts"]
+    for s_dir in search_dirs:
+        if s_dir.exists():
+            for img in sorted(s_dir.glob("*.jpg")) + sorted(s_dir.glob("*.png")):
+                if img.stat().st_size > 5000:
+                    rel_path = str(img.relative_to(BASE_DIR))
+                    photos.append({
+                        "path": rel_path,
+                        "title": img.name.replace(".jpg", "").replace(".png", "").replace("_", " ").title(),
+                        "url": f"/{rel_path}" if rel_path.startswith("output/") else f"/static/{img.name}"
+                    })
+    photos = photos[:40]
+
+    # Ready Videos
+    videos = []
+    if output_dir.exists():
+        for vid in sorted(output_dir.glob("*.mp4"), key=lambda x: x.stat().st_mtime, reverse=True):
+            if vid.stat().st_size > 10000:
+                name = vid.name
+                persona = "Mila" if "mila" in name else ("Madina" if "madina" in name else "Arkadaş")
+                videos.append({
+                    "filename": name,
+                    "path": f"output/{name}",
+                    "title": name.replace(".mp4", "").replace("_", " ").title(),
+                    "persona": persona,
+                    "size_mb": round(vid.stat().st_size / (1024 * 1024), 2),
+                    "stream_url": f"/output/{name}"
+                })
+
+    return jsonify({
+        "success": True,
+        "texts": texts,
+        "photos": photos,
+        "videos": videos
+    })
+
+@app.route("/api/social/schedule_cross_post", methods=["POST"])
+def schedule_cross_post():
+    """Universal scheduler: schedules a post across selected platforms (Twitter, YouTube, Telegram, etc.)."""
+    payload = request.get_json() or {}
+    platforms = payload.get("platforms", ["telegram"])
+    content = payload.get("content", "").strip()
+    photo_path = payload.get("photo_path")
+    video_path = payload.get("video_path")
+    scheduled_date = payload.get("scheduled_date", datetime.now().strftime("%Y-%m-%d"))
+    scheduled_time = payload.get("scheduled_time", "13:00")
+    slot_label = payload.get("slot_label", "☀️ Tushlik Posti (13:00)")
+    auto_reply = payload.get("auto_reply", "📌 Rasmiy kanalimiz: https://t.me/arkadasuz | Aloqa: @arkadasuzz")
+
+    if not content and not video_path:
+        return jsonify({"success": False, "error": "Lütfen bir metin veya video seçin!"}), 400
+
+    cross_id = f"cross_{int(time.time())}_{random.randint(100, 999)}"
+    timestamp_str = f"{scheduled_date}T{scheduled_time}:00"
+
+    cross_item = {
+        "id": cross_id,
+        "created_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        "scheduled_date": scheduled_date,
+        "scheduled_time": scheduled_time,
+        "slot_label": slot_label,
+        "platforms": platforms,
+        "content": content,
+        "photo_path": photo_path,
+        "video_path": video_path,
+        "auto_reply": auto_reply,
+        "status": "scheduled"
+    }
+
+    # Save to cross posts file
+    cross_data = load_json(CROSS_POSTS_FILE, {"cross_posts": []})
+    cross_data.setdefault("cross_posts", []).insert(0, cross_item)
+    save_json(CROSS_POSTS_FILE, cross_data)
+
+    # 1. Sync to Twitter if selected
+    if "twitter" in platforms:
+        tw_data = load_json(TWEETS_PLAN_FILE, {"tweets": []})
+        tw_item = {
+            "id": f"tw_{cross_id}",
+            "date_str": scheduled_date,
+            "slot_label": slot_label,
+            "scheduled_time": timestamp_str,
+            "content": content,
+            "photo_path": photo_path,
+            "status": "scheduled",
+            "auto_reply": auto_reply
+        }
+        tw_data.setdefault("tweets", []).insert(0, tw_item)
+        save_json(TWEETS_PLAN_FILE, tw_data)
+
+    # 2. Sync to Telegram if selected
+    if "telegram" in platforms:
+        tg_data = load_json(TELEGRAM_PLAN_FILE, {"posts": []})
+        tg_item = {
+            "id": f"tg_{cross_id}",
+            "date": scheduled_date,
+            "slot_label": slot_label,
+            "title": f"Planlangan Gönderi ({slot_label})",
+            "content": content,
+            "photo_path": photo_path,
+            "status": "scheduled",
+            "scheduled_time": timestamp_str
+        }
+        tg_data.setdefault("posts", []).insert(0, tg_item)
+        save_json(TELEGRAM_PLAN_FILE, tg_data)
+
+    # 3. Sync to YouTube if selected
+    if "youtube" in platforms and video_path:
+        yt_data = load_json(SHORTS_PLAN_FILE, {"shorts": []})
+        yt_item = {
+            "id": f"yt_{cross_id}",
+            "date": scheduled_date,
+            "slot_label": slot_label,
+            "scheduled_time": f"{scheduled_date} {scheduled_time}:00",
+            "video_path": video_path,
+            "title": content[:70] if content else "Turkiyada Talabalik - Arkadaş Consulting 🇹🇷",
+            "description": content,
+            "status": "pending"
+        }
+        yt_data.setdefault("shorts", []).insert(0, yt_item)
+        save_json(SHORTS_PLAN_FILE, yt_data)
+
+    return jsonify({
+        "success": True,
+        "message": f"Gönderi {len(platforms)} platform için başarıyla takvime planlandı!",
+        "cross_id": cross_id,
+        "item": cross_item
+    })
+
+@app.route("/api/social/all_scheduled", methods=["GET"])
+def get_all_scheduled_posts():
+    """Returns combined scheduled posts across all platforms."""
+    cross_data = load_json(CROSS_POSTS_FILE, {"cross_posts": []}).get("cross_posts", [])
+    tw_data = load_json(TWEETS_PLAN_FILE, {"tweets": []}).get("tweets", [])
+    tg_data = load_json(TELEGRAM_PLAN_FILE, {"posts": []}).get("posts", [])
+    yt_data = load_json(SHORTS_PLAN_FILE, {"shorts": []}).get("shorts", [])
+
+    all_items = []
+    for c in cross_data:
+        all_items.append({
+            "id": c["id"],
+            "date": c["scheduled_date"],
+            "time": c["scheduled_time"],
+            "slot": c.get("slot_label", "Genel Slot"),
+            "platforms": c.get("platforms", []),
+            "content": c.get("content", ""),
+            "has_media": bool(c.get("photo_path") or c.get("video_path")),
+            "media_type": "Video" if c.get("video_path") else ("Fotoğraf" if c.get("photo_path") else "Metin"),
+            "status": c.get("status", "scheduled")
+        })
+
+    # Add next upcoming from Twitter, TG, YT
+    for t in tw_data[:12]:
+        all_items.append({
+            "id": t.get("id"),
+            "date": t.get("date_str", "2026-09-14"),
+            "time": t.get("scheduled_time", "13:00").split("T")[-1][:5] if "T" in t.get("scheduled_time", "") else "13:00",
+            "slot": t.get("slot_label", "Twitter Post"),
+            "platforms": ["twitter"],
+            "content": t.get("content", ""),
+            "has_media": bool(t.get("photo_path")),
+            "media_type": "Fotoğraf" if t.get("photo_path") else "Tweet",
+            "status": t.get("status", "pending")
+        })
+
+    for y in yt_data[:12]:
+        all_items.append({
+            "id": y.get("id"),
+            "date": y.get("date", "2026-09-14"),
+            "time": y.get("scheduled_time", "13:00").split(" ")[-1][:5] if " " in y.get("scheduled_time", "") else "13:00",
+            "slot": y.get("slot_label", "YouTube Shorts"),
+            "platforms": ["youtube"],
+            "content": y.get("title", ""),
+            "has_media": True,
+            "media_type": "Shorts Video",
+            "status": y.get("status", "pending")
+        })
+
+    return jsonify({
+        "success": True,
+        "total_count": len(all_items),
+        "items": all_items
     })
 
 # ==============================================================

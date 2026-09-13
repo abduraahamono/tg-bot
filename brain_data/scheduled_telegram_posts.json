@@ -6,6 +6,16 @@
   "end_date": "2026-11-10",
   "posts": [
     {
+      "id": "tg_cross_1789329561_718",
+      "date": "2026-09-15",
+      "slot_label": "☀️ Tushlik Posti (13:00)",
+      "title": "Planlangan Gönderi (☀️ Tushlik Posti (13:00))",
+      "content": "Turkiyada tibbiyotga imtihonsiz qabul: 100% grant kvotalari ochildi! 🇹🇷",
+      "photo_path": null,
+      "status": "scheduled",
+      "scheduled_time": "2026-09-15T13:00:00"
+    },
+    {
       "id": "tg_20260905_lun",
       "day_index": 1,
       "day_name": "Shanba",
