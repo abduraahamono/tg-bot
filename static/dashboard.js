@@ -46,6 +46,77 @@ function showToast(msg, type = "info") {
 }
 window.showToast = showToast;
 
+// 1.5. Admin Gatekeeper & Authentication
+async function checkAdminAuth() {
+  try {
+    const res = await fetch('/api/auth/status');
+    const data = await res.json();
+    const overlay = document.getElementById('admin-gatekeeper-overlay');
+    if (overlay) {
+      if (data.authenticated) {
+        overlay.classList.add('hidden');
+      } else {
+        overlay.classList.remove('hidden');
+      }
+    }
+  } catch (e) {
+    console.error("Auth status hatası:", e);
+  }
+}
+window.checkAdminAuth = checkAdminAuth;
+
+async function handleAdminLogin(e) {
+  if (e && e.preventDefault) e.preventDefault();
+  const pinInput = document.getElementById('admin-pin-input');
+  const pin = (pinInput?.value || '').trim();
+  if (!pin) {
+    showToast("Lütfen Yönetici PIN kodunu girin!", "error");
+    return;
+  }
+
+  showToast("Oturum doğrulanıyor...", "info");
+  try {
+    const res = await fetch('/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ pin })
+    });
+    const data = await res.json();
+    if (data.success) {
+      const overlay = document.getElementById('admin-gatekeeper-overlay');
+      if (overlay) overlay.classList.add('hidden');
+      showToast("Yönetici Komuta Merkezi Açıldı!", "success");
+      loadLeads();
+    } else {
+      showToast(data.error || "Hatalı Yönetici PIN Kodu!", "error");
+      if (pinInput) {
+        pinInput.value = '';
+        if (typeof pinInput.focus === 'function') pinInput.focus();
+      }
+    }
+  } catch (err) {
+    showToast("Giriş bağlantı hatası", "error");
+  }
+}
+window.handleAdminLogin = handleAdminLogin;
+
+async function lockAdminSession() {
+  try {
+    await fetch('/api/auth/logout', { method: 'POST' });
+    const overlay = document.getElementById('admin-gatekeeper-overlay');
+    if (overlay) overlay.classList.remove('hidden');
+    const pinInput = document.getElementById('admin-pin-input');
+    if (pinInput) {
+      pinInput.value = '';
+      if (typeof pinInput.focus === 'function') pinInput.focus();
+    }
+    showToast("Yönetici oturumu kilitlendi.", "info");
+  } catch (e) {
+    console.error("Lock error:", e);
+  }
+}
+window.lockAdminSession = lockAdminSession;
+
 // 2. Executive Navigation Architecture (7 Command Centers & Segmented Sub-Navs)
 const EXECUTIVE_HUBS = {
   spotlight: {
@@ -251,6 +322,7 @@ window.sendPostToOfficialTelegram = sendPostToOfficialTelegram;
 // 4. Initialization on DOMContentLoaded
 document.addEventListener("DOMContentLoaded", async () => {
   console.log("[Arkadaş Executive OS] v4.0 Başlatılıyor...");
+  await checkAdminAuth();
   switchSection('spotlight');
   initChecklist();
 
@@ -1324,6 +1396,9 @@ function renderCrmTable() {
           </select>
         </td>
         <td class="py-3 px-4 text-right space-x-1">
+          <button type="button" class="btn btn-outline btn-xs text-amber border-amber/40" onclick="openLeadDocsModal(${l.id})" title="Öğrenci Evrakları">
+            <i class="fa-solid fa-folder-open mr-1"></i>${(l.documents||[]).length}
+          </button>
           <a href="https://wa.me/${(l.phone||'').replace(/[^0-9]/g, '')}" target="_blank" class="btn btn-outline btn-xs text-emerald"><i class="fa-brands fa-whatsapp"></i></a>
           <button type="button" class="btn btn-outline btn-xs text-rose" onclick="deleteLead(${l.id})"><i class="fa-solid fa-trash"></i></button>
         </td>
@@ -1365,7 +1440,10 @@ function renderCrmKanban() {
               <div class="text-[11px] text-slate-300 truncate">${l.interest || "Ta'lim"}</div>
               <div class="pt-2 border-t border-white/5 flex justify-between items-center text-[10px] font-mono">
                 <span class="text-dim">${l.timestamp ? l.timestamp.substring(0, 10) : ''}</span>
-                <a href="https://wa.me/${(l.phone||'').replace(/[^0-9]/g, '')}" target="_blank" class="text-emerald hover:underline"><i class="fa-brands fa-whatsapp"></i> Chat</a>
+                <div class="space-x-1.5">
+                  <button type="button" onclick="openLeadDocsModal(${l.id})" class="text-amber hover:underline"><i class="fa-solid fa-folder-open"></i> ${(l.documents||[]).length}</button>
+                  <a href="https://wa.me/${(l.phone||'').replace(/[^0-9]/g, '')}" target="_blank" class="text-emerald hover:underline"><i class="fa-brands fa-whatsapp"></i> Chat</a>
+                </div>
               </div>
             </div>
           `).join('')}
@@ -1404,6 +1482,103 @@ async function deleteLead(id) {
   }
 }
 window.deleteLead = deleteLead;
+
+// Student Document Management (Modal & Upload)
+function openLeadDocsModal(leadId) {
+  const lead = (window.allLeads || []).find(l => String(l.id) === String(leadId));
+  if (!lead) return;
+
+  const modal = document.getElementById('lead-docs-modal');
+  const targetId = document.getElementById('lead-doc-target-id');
+  const title = document.getElementById('lead-docs-modal-title');
+  const subtitle = document.getElementById('lead-docs-modal-subtitle');
+
+  if (targetId) targetId.value = lead.id;
+  if (title) title.innerText = `${lead.name} — Evrak Havuzu`;
+  if (subtitle) subtitle.innerText = `Tel: ${lead.phone || '-'} | ID: #${lead.id}`;
+
+  renderLeadDocsList(lead.documents || []);
+  if (modal) {
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+  }
+}
+window.openLeadDocsModal = openLeadDocsModal;
+
+function closeLeadDocsModal() {
+  const modal = document.getElementById('lead-docs-modal');
+  if (modal) {
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+  }
+}
+window.closeLeadDocsModal = closeLeadDocsModal;
+
+function renderLeadDocsList(docs) {
+  const container = document.getElementById('lead-docs-list-container');
+  if (!container) return;
+
+  if (!docs || docs.length === 0) {
+    container.innerHTML = '<div class="p-3 text-center text-dim bg-black/30 rounded-xl">Bu öğrenciye ait yüklenmiş evrak bulunmuyor.</div>';
+    return;
+  }
+
+  container.innerHTML = docs.map(d => `
+    <div class="flex items-center justify-between p-2.5 rounded-xl bg-black/60 border border-white/10 hover:border-amber/50 transition">
+      <div class="flex items-center gap-2 overflow-hidden">
+        <span class="tag tag-amber text-[10px] shrink-0">${d.type}</span>
+        <span class="text-white font-sans text-xs truncate max-w-[200px]">${d.filename}</span>
+      </div>
+      <div class="flex items-center gap-2 shrink-0">
+        <span class="text-[10px] text-dim">${d.uploaded_at || ''}</span>
+        <a href="${d.url}" target="_blank" download class="btn btn-outline btn-xs text-cyan border-cyan/40">
+          <i class="fa-solid fa-download"></i> İndir
+        </a>
+      </div>
+    </div>
+  `).join('');
+}
+
+async function handleLeadDocUpload(e) {
+  if (e && e.preventDefault) e.preventDefault();
+  const leadId = document.getElementById('lead-doc-target-id')?.value;
+  const docType = document.getElementById('lead-doc-type')?.value;
+  const fileInput = document.getElementById('lead-doc-file');
+  const file = fileInput?.files?.[0];
+
+  if (!leadId || !file) {
+    showToast("Lütfen yüklenecek dosyayı seçin!", "error");
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append('lead_id', leadId);
+  formData.append('doc_type', docType);
+  formData.append('file', file);
+
+  showToast("Evrak yükleniyor...", "info");
+  try {
+    const res = await fetch('/api/leads/upload_doc', {
+      method: 'POST',
+      body: formData
+    });
+    const data = await res.json();
+    if (data.success) {
+      showToast("Evrak başarıyla yüklendi!", "success");
+      if (fileInput) fileInput.value = '';
+      await loadLeads();
+      const updatedLead = (window.allLeads || []).find(l => String(l.id) === String(leadId));
+      if (updatedLead) {
+        renderLeadDocsList(updatedLead.documents || []);
+      }
+    } else {
+      showToast(data.error || "Yükleme başarısız", "error");
+    }
+  } catch (err) {
+    showToast("Evrak yükleme hatası", "error");
+  }
+}
+window.handleLeadDocUpload = handleLeadDocUpload;
 
 function openAddLeadModal() {
   const modal = document.getElementById('add-lead-modal');
@@ -1693,7 +1868,8 @@ function selectAITopic(topic, btn) {
 window.selectAITopic = selectAITopic;
 
 async function triggerAIGeneration() {
-  showToast("Yapay zeka metni yazıyor...", "info");
+  const keyword = document.getElementById('ai-custom-keyword')?.value || '';
+  showToast("Dinamik AI metni hazırlanıyor...", "info");
   const tag = document.getElementById('ai-status-tag');
   if (tag) tag.innerText = "AI Üretiyor...";
 
@@ -1701,14 +1877,19 @@ async function triggerAIGeneration() {
     const res = await fetch('/api/generate_ai_post', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ topic: window.selectedAITopic })
+      body: JSON.stringify({ 
+        topic: window.selectedAITopic || 'tibbiyot',
+        keyword: keyword
+      })
     });
     const data = await res.json();
     if (data.success && data.post) {
       const out = document.getElementById('ai-generated-output');
       if (out) out.value = data.post.content;
-      if (tag) tag.innerText = "✅ Metin Hazır!";
+      if (tag) tag.innerText = "✅ " + (data.post.title || "Metin Hazır!");
       showToast("AI metni başarıyla üretildi!", "success");
+    } else {
+      showToast(data.error || "AI metin üretilemedi", "error");
     }
   } catch (e) {
     showToast("AI üretim hatası", "error");
@@ -1776,6 +1957,7 @@ async function loadAudioStudio() {
 window.loadAudioStudio = loadAudioStudio;
 
 function selectVoice(id, el) {
+  window.selectedVoiceId = id;
   document.querySelectorAll('#audio-voices-container > div').forEach(d => {
     d.className = 'p-2.5 rounded-xl border border-white/10 bg-black/40 hover:border-purple cursor-pointer transition';
   });
@@ -1797,21 +1979,45 @@ function updateAudioStats() {
 }
 window.updateAudioStats = updateAudioStats;
 
-function generateSpeechAudio() {
+async function generateSpeechAudio() {
   const text = document.getElementById('audio-script-input')?.value || '';
-  if (!text) return;
-  showToast("Ses sentezleniyor...", "info");
+  if (!text) {
+    showToast("Seslendirilecek metin girilmedi!", "error");
+    return;
+  }
+  const speed = parseFloat(document.getElementById('audio-speed-select')?.value) || 1.0;
+  const voiceId = window.selectedVoiceId || 'v_kamola';
 
-  if ('speechSynthesis' in window) {
-    window.speechSynthesis.cancel();
-    const utter = new SpeechSynthesisUtterance(text);
-    const speed = parseFloat(document.getElementById('audio-speed-select')?.value) || 1.0;
-    utter.rate = speed;
-    utter.lang = 'tr-TR';
-    window.speechSynthesis.speak(utter);
-    showToast("Seslendirme oynatılıyor!", "success");
-  } else {
-    showToast("Tarayıcınız ses sentezini destekliyor", "success");
+  showToast("Neural ses sentezleniyor (Edge-TTS)...", "info");
+
+  try {
+    const res = await fetch('/api/synthesize_audio', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text, voice_id: voiceId, speed })
+    });
+    const data = await res.json();
+    if (data.success && data.audio_url) {
+      const box = document.getElementById('audio-result-box');
+      const player = document.getElementById('neural-audio-player');
+      const badge = document.getElementById('neural-voice-badge');
+      const dlBtn = document.getElementById('btn-download-mp3');
+
+      if (box) box.classList.remove('hidden');
+      if (player) {
+        player.src = data.audio_url;
+        player.play().catch(() => {});
+      }
+      if (badge) badge.innerText = "Neural MP3: " + (data.voice_name || 'Hazır');
+      if (dlBtn) dlBtn.href = data.audio_url;
+
+      showToast("Neural ses başarıyla oluşturuldu ve oynatılıyor!", "success");
+    } else {
+      showToast(data.error || "Ses sentezi başarısız", "error");
+    }
+  } catch (e) {
+    console.error("Audio synth error:", e);
+    showToast("Ses motoru bağlantı hatası", "error");
   }
 }
 window.generateSpeechAudio = generateSpeechAudio;

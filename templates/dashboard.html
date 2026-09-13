@@ -61,6 +61,47 @@
   </style>
 </head>
 <body class="min-h-screen flex flex-col">
+  <!-- ============================================================== -->
+  <!-- 0. ADMIN GATEKEEPER (SECURITY LOCK OVERLAY) -->
+  <!-- ============================================================== -->
+  <div id="admin-gatekeeper-overlay" class="fixed inset-0 z-50 flex items-center justify-center bg-[#04060a]/95 backdrop-blur-2xl transition-all duration-500">
+    <div class="max-w-md w-full mx-4 p-8 rounded-3xl bg-[#0c121e]/90 border border-white/10 shadow-[0_0_80px_rgba(16,185,129,0.15)] flex flex-col items-center text-center space-y-6">
+      
+      <div class="brand-vinyl-pulse scale-125 my-2">
+        <span class="vinyl-core"></span>
+        <span class="vinyl-ring"></span>
+      </div>
+
+      <div class="space-y-1.5">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-mono">
+          <span class="pulse-dot"></span>
+          <span>ARKADAŞ EXECUTIVE OS</span>
+        </div>
+        <h2 class="text-2xl font-black tracking-tight text-white font-sans mt-2">Yönetici Komuta Girişi</h2>
+        <p class="text-xs text-slate-400 font-sans leading-relaxed">
+          Bu komuta merkezi yalnızca kurum yöneticileri ve kuratörler içindir. Öğrenci ve yabancı erişimlere kapalıdır.
+        </p>
+      </div>
+
+      <form onsubmit="handleAdminLogin(event)" class="w-full space-y-4">
+        <div class="relative w-full">
+          <input type="password" id="admin-pin-input" placeholder="Yönetici PIN / Şifre" autocomplete="current-password" autofocus
+            class="w-full px-4 py-3.5 rounded-2xl bg-black/60 border border-white/15 text-center text-lg font-mono text-emerald-400 tracking-widest placeholder:text-slate-600 placeholder:tracking-normal focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition">
+        </div>
+        
+        <button type="submit" id="btn-admin-login" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-950 font-bold text-sm font-mono hover:opacity-90 transition shadow-[0_0_25px_rgba(16,185,129,0.4)] flex items-center justify-center gap-2">
+          <i class="fa-solid fa-shield-halved"></i>
+          <span>Güvenli Oturumu Aç</span>
+        </button>
+      </form>
+
+      <div class="flex items-center gap-1.5 text-[11px] font-mono text-dim">
+        <i class="fa-solid fa-lock text-slate-500"></i>
+        <span>256-bit Uçtan Uca Şifreli Oturum</span>
+      </div>
+    </div>
+  </div>
+
   <div class="gece-site-container max-w-[1520px] mx-auto px-4 w-full">
 
     <!-- ============================================================== -->
@@ -96,6 +137,10 @@
         <a href="https://t.me/ArkadasAdminBot" target="_blank" class="btn btn-outline text-cyan border-cyan btn-xs font-mono">
           <i class="fa-brands fa-telegram mr-1"></i> Bot
         </a>
+        <button type="button" onclick="lockAdminSession()" class="btn btn-outline btn-xs font-mono text-rose border-rose/50 flex items-center gap-1.5" title="Oturumu Kilitle">
+          <i class="fa-solid fa-lock text-rose"></i>
+          <span>Kilitle</span>
+        </button>
       </div>
     </header>
 
@@ -770,19 +815,27 @@
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
         <div class="lg:col-span-5 space-y-4">
           <div class="gece-card p-5 space-y-3">
-            <label class="block text-xs font-mono text-dim">Konu Seçimi:</label>
-            <div class="grid grid-cols-2 gap-2 font-mono text-xs">
-              <button type="button" class="btn btn-xs btn-outline text-left" onclick="selectAITopic('tibbiyot', this)">🩺 Tıp & Diş Hekimliği</button>
-              <button type="button" class="btn btn-xs btn-outline text-left" onclick="selectAITopic('narxlar', this)">💰 Harç & Yaşam Gideri</button>
-              <button type="button" class="btn btn-xs btn-outline text-left" onclick="selectAITopic('ish', this)">💼 20 Saat Yasal Çalışma</button>
-              <button type="button" class="btn btn-xs btn-outline text-left" onclick="selectAITopic('viza', this)">📑 100% Vize & İkamet</button>
-              <button type="button" class="btn btn-xs btn-outline text-left" onclick="selectAITopic('tomer', this)">🇹🇷 TÖMER Dil Hazırlık</button>
+            <label class="block text-xs font-mono text-dim">1. Şablon & Kategori Seçimi:</label>
+            <div class="grid grid-cols-2 gap-1.5 font-mono text-xs">
+              <button type="button" class="btn btn-xs btn-primary text-left" onclick="selectAITopic('tibbiyot', this)">🩺 Tıp & Diş</button>
+              <button type="button" class="btn btn-xs btn-outline text-left" onclick="selectAITopic('narxlar', this)">💰 Harç & Bütçe</button>
+              <button type="button" class="btn btn-xs btn-outline text-left" onclick="selectAITopic('ish', this)">💼 20 Saat İş</button>
+              <button type="button" class="btn btn-xs btn-outline text-left" onclick="selectAITopic('viza', this)">📑 100% Vize</button>
+              <button type="button" class="btn btn-xs btn-outline text-left" onclick="selectAITopic('tomer', this)">🇹🇷 TÖMER Hazırlık</button>
+              <button type="button" class="btn btn-xs btn-outline text-left" onclick="selectAITopic('qa', this)">❓ Soru & Cevap</button>
+              <button type="button" class="btn btn-xs btn-outline text-left" onclick="selectAITopic('riddle', this)">💡 Topishmoq (Etkileşim)</button>
+              <button type="button" class="btn btn-xs btn-outline text-left" onclick="selectAITopic('custom', this)">✨ Özel Konu</button>
+            </div>
+
+            <div class="pt-2 space-y-1">
+              <label class="block text-[11px] font-mono text-dim">2. Özel Konu / Anahtar Kelime (Opsiyonel):</label>
+              <input type="text" id="ai-custom-keyword" placeholder="Örn: Sakarya IT, Hacettepe Tıp, Burslar..." class="w-full bg-black/60 border border-white/10 rounded-xl px-3 py-2 text-xs text-white font-mono placeholder:text-slate-600 focus:outline-none focus:border-emerald-500">
             </div>
 
             <div class="pt-2">
               <button type="button" class="btn btn-primary w-full py-2.5 rounded-xl font-mono text-xs flex items-center justify-center gap-2" onclick="triggerAIGeneration()">
-                <i class="fa-solid fa-sparkles"></i>
-                <span>Yapay Zeka ile Metni Üret</span>
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                <span>Dinamik AI ile Metni Üret</span>
               </button>
             </div>
           </div>
@@ -950,8 +1003,23 @@
 
             <button type="button" class="btn btn-primary w-full py-2.5 rounded-xl flex items-center justify-center gap-2 mt-3" onclick="generateSpeechAudio()">
               <i class="fa-solid fa-wand-magic-sparkles"></i>
-              <span>Seslendirmeyi Sentezle & Oynat</span>
+              <span>Neural AI ile Seslendir (Edge-TTS)</span>
             </button>
+
+            <!-- Canlı Neural MP3 Oynatıcı & İndirme Kartı -->
+            <div id="audio-result-box" class="hidden p-3.5 rounded-xl bg-black/80 border border-purple-500/30 space-y-2 mt-3">
+              <div class="flex items-center justify-between">
+                <span class="text-xs text-purple-300 font-mono font-bold flex items-center gap-1.5">
+                  <span class="pulse-dot"></span>
+                  <span id="neural-voice-badge">Neural MP3 Hazır</span>
+                </span>
+                <a id="btn-download-mp3" href="#" download="seslendirme.mp3" class="btn btn-xs btn-outline font-mono text-emerald border-emerald flex items-center gap-1">
+                  <i class="fa-solid fa-download"></i>
+                  <span>MP3 İndir</span>
+                </a>
+              </div>
+              <audio id="neural-audio-player" controls class="w-full h-8 rounded-lg outline-none"></audio>
+            </div>
           </div>
         </div>
 
@@ -1829,6 +1897,55 @@
       </div>
     </div>
 
+    <!-- 5.5. Student Documents Modal (Passport, Diploma, Transcript) -->
+    <div id="lead-docs-modal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 hidden items-center justify-center p-4">
+      <div class="gece-card max-w-lg w-full p-6 space-y-4">
+        <div class="flex justify-between items-center border-b border-white/10 pb-2">
+          <div>
+            <h3 class="text-sm font-bold text-white font-mono flex items-center gap-2">
+              <i class="fa-solid fa-folder-open text-amber"></i>
+              <span id="lead-docs-modal-title">Öğrenci Evrak & Dosya Havuzu</span>
+            </h3>
+            <span class="text-[11px] text-dim font-mono" id="lead-docs-modal-subtitle">Resmi belgeleri yükle ve arşivle</span>
+          </div>
+          <button type="button" class="text-slate-400 hover:text-white" onclick="closeLeadDocsModal()">✕</button>
+        </div>
+
+        <!-- Evrak Yükleme Alanı -->
+        <form onsubmit="handleLeadDocUpload(event)" class="p-4 bg-black/50 rounded-2xl border border-white/10 space-y-3 font-mono text-xs">
+          <input type="hidden" id="lead-doc-target-id">
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="text-dim block mb-1 text-[11px]">Evrak Türü:</label>
+              <select id="lead-doc-type" class="w-full bg-black/60 border border-white/10 rounded-lg px-2 py-1.5 text-xs text-white">
+                <option value="Pasport">🛂 Pasport Nusxasi</option>
+                <option value="Diplom">📜 Diplom / Attestat</option>
+                <option value="Transkript">📑 Transkript Baholar</option>
+                <option value="Viza">✈️ Viza / Kabul Mektubu</option>
+                <option value="Boshqa">📎 Boshqa Hujjat</option>
+              </select>
+            </div>
+            <div>
+              <label class="text-dim block mb-1 text-[11px]">Dosya Seç (PDF / Resim):</label>
+              <input type="file" id="lead-doc-file" required class="w-full text-xs text-slate-300 file:mr-2 file:py-1 file:px-2 file:rounded-md file:border-0 file:text-xs file:bg-white/10 file:text-white hover:file:bg-white/20">
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary btn-xs w-full py-2 flex items-center justify-center gap-1.5">
+            <i class="fa-solid fa-cloud-arrow-up"></i>
+            <span>Evrakı Öğrenci Dosyasına Ekle</span>
+          </button>
+        </form>
+
+        <!-- Yüklü Belgeler Listesi -->
+        <div class="space-y-2">
+          <label class="text-dim text-xs font-mono block">Arşivdeki Belgeler:</label>
+          <div id="lead-docs-list-container" class="space-y-1.5 font-mono text-xs max-h-48 overflow-y-auto pr-1">
+            <!-- JS ile doldurulacak -->
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- 6. Toast Notification -->
     <div id="toast-notify" class="fixed bottom-6 right-6 px-4 py-2.5 rounded-xl text-xs font-mono border backdrop-blur-lg shadow-2xl z-50 hidden transition-all duration-300">
       <span id="toast-message">Bildirim</span>
@@ -1839,6 +1956,6 @@
   <!-- ============================================================== -->
   <!-- JAVASCRIPT MASTER CONTROLLER (EXTERNAL VALIDATED MODULE) -->
   <!-- ============================================================== -->
-  <script src="/static/dashboard.js?v=202609130700"></script>
+  <script src="/static/dashboard.js?v=202609130900"></script>
 </body>
 </html>

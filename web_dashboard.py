@@ -9,18 +9,33 @@ import sys
 import json
 import urllib.request
 import urllib.parse
+import asyncio
+import hashlib
+import threading
+import time
+import random
 from pathlib import Path
 from datetime import datetime
-from flask import Flask, render_template, request, jsonify, send_file, Response
+from functools import wraps
+from flask import Flask, render_template, request, jsonify, send_file, Response, session, redirect, url_for, send_from_directory
+import edge_tts
 
 BASE_DIR = Path(__file__).parent
 sys.path.insert(0, str(BASE_DIR))
 
 from crm.lead_manager import CRMLeadManager
 from engine.youtube_publisher import YouTubePublisher
+from engine.content_generator import ContentGenerator
 import dispatch_due_post
 
 app = Flask(__name__, template_folder="templates", static_folder="static")
+app.secret_key = os.getenv("FLASK_SECRET_KEY", "arkadas_executive_os_master_secret_2026")
+ADMIN_PIN = os.getenv("ADMIN_DASHBOARD_PIN", "arkadas2026")
+
+AUDIO_DIR = BASE_DIR / "output" / "audio"
+AUDIO_DIR.mkdir(parents=True, exist_ok=True)
+DOCS_DIR = BASE_DIR / "crm" / "documents"
+DOCS_DIR.mkdir(parents=True, exist_ok=True)
 
 SHORTS_PLAN_FILE = BASE_DIR / "brain_data" / "scheduled_youtube_shorts.json"
 TELEGRAM_PLAN_FILE = BASE_DIR / "brain_data" / "scheduled_telegram_posts.json"
@@ -31,6 +46,7 @@ UNIVERSITIES_FILE = BASE_DIR / "brain_data" / "universities.json"
 FAQ_FILE = BASE_DIR / "brain_data" / "faq_knowledge.json"
 
 crm_manager = CRMLeadManager()
+content_gen = ContentGenerator()
 
 def load_json(filepath: Path, default=None):
     if default is None:
@@ -47,6 +63,147 @@ def save_json(filepath: Path, data):
     filepath.parent.mkdir(parents=True, exist_ok=True)
     with open(filepath, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
+
+def admin_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not session.get("is_admin", False):
+            auth_header = request.headers.get("X-Admin-Pin")
+            if auth_header and auth_header == ADMIN_PIN:
+                session["is_admin"] = True
+            else:
+                return jsonify({"error": "Yetkisiz erişim. Lütfen Yönetici PIN kodu ile giriş yapın.", "authenticated": False}), 401
+        return f(*args, **kwargs)
+    return decorated_function
+
+# ==============================================================
+# 0. ADMIN GATEKEEPER & AUTHENTICATION ENDPOINTS
+# ==============================================================
+
+@app.route("/api/auth/status", methods=["GET"])
+def auth_status():
+    return jsonify({"authenticated": session.get("is_admin", False)})
+
+@app.route("/api/auth/login", methods=["POST"])
+def auth_login():
+    payload = request.get_json() or {}
+    pin = str(payload.get("pin", "")).strip()
+    if pin == ADMIN_PIN:
+        session["is_admin"] = True
+        return jsonify({"success": True, "message": "Yönetici oturumu doğrulandı"})
+    return jsonify({"success": False, "error": "Geçersiz Yönetici PIN Kodu"}), 401
+
+@app.route("/api/auth/logout", methods=["POST"])
+def auth_logout():
+    session.pop("is_admin", None)
+    return jsonify({"success": True, "message": "Oturum kilitlendi"})
+
+# ==============================================================
+# AUDIO SYNTHESIS ENGINE (EDGE-TTS NEURAL VOICES)
+# ==============================================================
+
+VOICE_MAPPING = {
+    "v_kamola": "uz-UZ-MadinaNeural",
+    "v_sardor": "uz-UZ-SardorNeural",
+    "v_elif": "tr-TR-EmelNeural",
+    "v_kerem": "tr-TR-AhmetNeural",
+    "v_anastasia": "ru-RU-SvetlanaNeural",
+    "v_dmitriy": "ru-RU-DmitryNeural"
+}
+
+async def generate_neural_tts(text: str, voice_id: str, rate: str = "+0%"):
+    voice_name = VOICE_MAPPING.get(voice_id, "uz-UZ-MadinaNeural")
+    text_hash = hashlib.md5(f"{text}_{voice_name}_{rate}".encode("utf-8")).hexdigest()[:10]
+    filename = f"speech_{text_hash}.mp3"
+    filepath = AUDIO_DIR / filename
+    
+    if not filepath.exists():
+        communicate = edge_tts.Communicate(text, voice_name, rate=rate)
+        await communicate.save(str(filepath))
+        
+    return filename, f"/audio/{filename}"
+
+@app.route("/api/synthesize_audio", methods=["POST"])
+def synthesize_audio():
+    payload = request.get_json() or {}
+    text = payload.get("text", "").strip()
+    voice_id = payload.get("voice_id", "v_kamola")
+    speed = float(payload.get("speed", 1.0))
+    
+    if not text:
+        return jsonify({"success": False, "error": "Seslendirilecek metin boş olamaz"}), 400
+        
+    rate_str = "+0%"
+    if speed > 1.0:
+        rate_str = f"+{int(round((speed - 1.0) * 100))}%"
+    elif speed < 1.0:
+        rate_str = f"-{int(round((1.0 - speed) * 100))}%"
+        
+    try:
+        filename, audio_url = asyncio.run(generate_neural_tts(text, voice_id, rate_str))
+        return jsonify({
+            "success": True,
+            "filename": filename,
+            "audio_url": audio_url,
+            "voice_id": voice_id,
+            "voice_name": VOICE_MAPPING.get(voice_id, "uz-UZ-MadinaNeural")
+        })
+    except Exception as e:
+        print(f"[Edge-TTS Error]: {e}", flush=True)
+        return jsonify({"success": False, "error": str(e)}), 500
+
+@app.route("/audio/<path:filename>")
+def serve_audio_file(filename):
+    return send_from_directory(str(AUDIO_DIR), filename)
+
+# ==============================================================
+# CRM DOCUMENT STORAGE ENDPOINTS
+# ==============================================================
+
+@app.route("/api/leads/upload_doc", methods=["POST"])
+def upload_lead_document():
+    lead_id = request.form.get("lead_id")
+    doc_type = request.form.get("doc_type", "Pasport")
+    file = request.files.get("file")
+    
+    if not lead_id or not file or file.filename == "":
+        return jsonify({"success": False, "error": "Geçersiz dosya veya öğrenci ID"}), 400
+        
+    lead_folder = DOCS_DIR / str(lead_id)
+    lead_folder.mkdir(parents=True, exist_ok=True)
+    
+    clean_filename = f"{doc_type}_{file.filename.replace(' ', '_')}"
+    save_path = lead_folder / clean_filename
+    file.save(str(save_path))
+    
+    leads = crm_manager.load_leads()
+    updated = False
+    for l in leads:
+        if str(l.get("id")) == str(lead_id):
+            if "documents" not in l:
+                l["documents"] = []
+            l["documents"].append({
+                "type": doc_type,
+                "filename": clean_filename,
+                "url": f"/api/leads/docs/{lead_id}/{clean_filename}",
+                "uploaded_at": datetime.now().strftime("%Y-%m-%d %H:%M")
+            })
+            updated = True
+            break
+            
+    if updated:
+        crm_manager.save_leads(leads)
+        
+    return jsonify({
+        "success": True,
+        "filename": clean_filename,
+        "url": f"/api/leads/docs/{lead_id}/{clean_filename}"
+    })
+
+@app.route("/api/leads/docs/<lead_id>/<path:filename>")
+def serve_lead_document(lead_id, filename):
+    folder = DOCS_DIR / str(lead_id)
+    return send_from_directory(str(folder), filename)
 
 @app.route("/")
 def index():
@@ -259,35 +416,67 @@ def send_telegram_post():
 
 @app.route("/api/generate_ai_post", methods=["POST"])
 def generate_ai_post():
-    """Generates an instant high-converting educational post based on topic."""
+    """Generates dynamic high-converting educational content using ContentGenerator and dynamic engines."""
     payload = request.get_json() or {}
     topic = payload.get("topic", "tibbiyot")
+    custom_keyword = payload.get("keyword", "").strip()
     
-    samples = {
-        "tibbiyot": {
-            "title": "🩺 Turkiyada Tibbiyot va Stomatologiya: Imtihonsiz Grant Qabuli",
-            "content": "🩺 <b>TURKIYADA TIBBIYOT VA STOMATOLOGIYA: KAFOLATLANGAN QABUL</b> 🇹🇷\n\nKo'plab abituriyentlar: <i>\"Turkiyada tibbiyot fakultetiga kirish juda qiyinmi?\"</i> deb so'rashadi.\n\n📌 <b>Arkadaş Consulting bilan imkoniyatlar:</b>\n✅ Lise attestat bahosi bilan imtihonsiz qabul imkoniyati\n✅ Xalqaro darajadagi zamonaviy klinikalarda amaliyot\n✅ Yevropa standartidagi diplom (Butun dunyoda tan olinadi)\n✅ 25% dan 100% gacha harajat chegirmalari va grantlar\n\n⚡️ <i>Kvotalar soni chegaralangan! Hozirdan o'z o'rningizni band qiling:</i>\n👉 @arkadasuz\n\n#Tibbiyot #TurkiyadaTalim #ArkadasConsulting"
-        },
-        "narxlar": {
-            "title": "💰 Turkiya Davlat Universitetlarida Kontrakt Narxlari (2026)",
-            "content": "💰 <b>TURKIYA DAVLAT UNIVERSITETLARIDA KONTRAKT NARXLARI</b> 🇹🇷\n\nO'zbekistondagi to'lov-shartnomalarga qaraganda ancha arzon va qulay:\n\n📌 <b>Yillik o'rtacha kontraktlar:</b>\n• Davlat universitetlari: $300 - $800 / yiliga\n• IT va Muhandislik: $400 - $900 / yiliga\n• Iqtisod va Biznes: $350 - $750 / yiliga\n\n🏛️ Rasmiy talaba maqomi, arzon yotoqxona va 50% chegirmali transport kartasi taqdim etiladi.\n\n📲 <b>Bepul konsultatsiya olish uchun:</b>\n👉 @arkadasuz\n\n#Kontrakt #Talabalik #TurkiyadaUkish"
-        },
-        "ish": {
-            "title": "💼 Talabalar uchun Haftasiga 20 Soat Qonuniy Ish Imkoniyati",
-            "content": "💼 <b>TALABALAR UCHUN HAFTASIGA 20 SOAT QONUNIY ISH</b> 🇹🇷\n\nTurkiyada o'qiyotgan xorijiy talabalar uchun qonuniy ishlash tartibi:\n\n✅ Magistratura va bakalavr bosqichida haftasiga 20 soat qonuniy ishlash ruxsati\n✅ Kafedralarda, kutubxonalarda va IT loyihalarda faoliyat yuritish\n✅ Shahar markazlarida soatbay daromad topish imkoniyati\n\n🎯 Diplom bilan birga real xalqaro ish tajribasiga ega bo'lasiz!\n\n📲 <b>Batafsil ma'lumot kanalimizda:</b>\n👉 @arkadasuz\n\n#TalabaHaqi #ArkadasUz #Turkiya"
-        },
-        "viza": {
-            "title": "📑 Talabalik Vizasi va İkamet Olish: 100% Kafolat",
-            "content": "📑 <b>TALABALIK VIZASI VA İKAMET (YASHASH RUXSATI)</b> 🇹🇷\n\nKo'pchilik hujjatlar rad etilishidan xavotirlanadi. Arkadaş Consulting sizga to'liq yuridik ko'mak beradi:\n\n✅ Universitet qabul hujjati (Kabul Mektubu) asosida elchixonadan 100% viza\n✅ Turkiyaga borgach aeroportda kutib olish va Göç İdaresidan İkamet ID olish\n✅ Davlat tibbiy sug'urtasi (SGK) va bank hisobi ochish\n\n📲 <b>Barcha bosqichlar kuratorimiz nazoratida:</b>\n👉 @arkadasuz"
-        },
-        "tomer": {
-            "title": "🇹🇷 Turk Tilini Bilmasdan Universitetga Kirish: TÖMER Sirlari",
-            "content": "🇹🇷 <b>TURK TILINI BILMASDAN TALABA BO'LISH MUMKINMI?</b>\n\nHa, albatta! Turkiya qonunchiligiga ko'ra:\n\n📌 Siz attestat bahongiz bilan shartli qabul (şartlı kabul) asosida o'qishga kirasiz.\n📌 1-yil universitet huzuridagi rasmiy TÖMER markazida turk tilini C1 darajagacha o'rganasiz.\n📌 Tilni tugatgach to'g'ridan-to'g'ri fakultetingizda o'qishni davom ettirasiz.\n\n📲 <b>Batafsil ma'lumot uchun rasmiy kanal:</b>\n👉 @arkadasuz"
-        }
-    }
-    
-    key = topic if topic in samples else "tibbiyot"
-    return jsonify({"success": True, "post": samples[key]})
+    try:
+        if topic == "qa":
+            result = content_gen.generate_qa_post(question=custom_keyword if custom_keyword else None)
+            content = result.get("caption") if isinstance(result, dict) else str(result)
+            title = f"❓ Savol-Javob: {custom_keyword or 'Turkiyada Talabalik Sirlari'}"
+        elif topic == "riddle":
+            result = content_gen.generate_riddle_post()
+            content = result.get("caption") if isinstance(result, dict) else str(result)
+            title = "💡 Qiziqarli Topishmoq & Savol"
+        elif topic in ["narxlar", "bütçe"]:
+            result = content_gen.generate_service_checklist_post()
+            content = result.get("caption") if isinstance(result, dict) else str(result)
+            title = "💰 Kontrakt Narxlari va 10 Oylik Xarajatlar Smetasi"
+        else:
+            topic_names = {
+                "tibbiyot": ("Tibbiyot va Stomatologiya", "🩺", "Imtihonsiz grant va stipendiyalar", "Meditsina fakultetlarida xalqaro klinikalarda amaliyot"),
+                "ish": ("Talabalar uchun Rasmiy Ish", "💼", "Haftasiga 20 soat qonuniy ishlash", "O'qishdan bo'sh vaqtda soatbay daromad topish imkoniyati"),
+                "viza": ("Talabalik Vizasi & İkamet", "📑", "100% kafolatlangan qabul va viza", "Elchixona va Göç İdaresida to'liq yuridik hamrohlik"),
+                "tomer": ("TÖMER Turk Tili Kurslari", "🇹🇷", "Til bilmasdan turib universitetga kirish", "1 yil til o'rganib to'g'ridan-to'g'ri fakultetga o'tish")
+            }
+            name, emoji, highlight, subtext = topic_names.get(topic, (custom_keyword or topic.capitalize(), "🎓", "Kafolatlangan o'qish", "O'zbekistonda 100% tan olinadigan Yevropa diplomi"))
+            
+            if isinstance(content_gen.universities, list):
+                all_state = content_gen.universities
+            elif isinstance(content_gen.universities, dict):
+                all_state = content_gen.universities.get("state_universities", [])
+            else:
+                all_state = []
+            sample_count = min(3, len(all_state))
+            random_unis = random.sample(all_state, sample_count) if sample_count > 0 else []
+            uni_lines = "\n".join([f"• 🏛️ {u.get('name', '')} ({u.get('location', u.get('city', 'Turkiya'))})" for u in random_unis])
+            
+            content = f"{emoji} <b>TURKIYADA {name.upper()}: 2026-2027 QABUL MAVSUMI</b> 🇹🇷\n\n" \
+                      f"📌 <b>Asosiy Imkoniyatlar:</b>\n" \
+                      f"✅ {highlight}\n" \
+                      f"✅ {subtext}\n" \
+                      f"✅ Qulay davlat yotoqxonasi va 50% arzon talaba transport kartasi\n\n"
+            
+            if uni_lines:
+                content += f"🏛️ <b>Ushbu yo'nalish bo'yicha eng yaxshi universitetlar:</b>\n{uni_lines}\n\n"
+                
+            content += f"⚡️ <i>Kvotalar soni chegaralangan! Qabul arizangizni hozirdan yuboring:</i>\n" \
+                       f"👉 @arkadasuz | Bepul konsultatsiya\n\n" \
+                       f"#TurkiyadaTalim #{name.replace(' ', '')} #ArkadasConsulting #Talaba2026"
+            title = f"{emoji} {name} Bo'yicha Qabul E'loni"
+            
+        return jsonify({"success": True, "post": {"title": title, "content": content}})
+    except Exception as e:
+        print(f"[AI Generator Error]: {e}", flush=True)
+        return jsonify({
+            "success": True,
+            "post": {
+                "title": "🎓 Turkiyada O'qish Imkoniyatlari",
+                "content": f"🎓 Turkiyada oliy ta'lim olish bo'yicha eng so'nggi yangiliklar va grantlar!\n\n👉 Batafsil: @arkadasuz"
+            }
+        })
 
 @app.route("/api/leads", methods=["GET"])
 def get_leads():
@@ -584,6 +773,46 @@ def get_exam_prep():
                 "options": ["A) 5", "B) 6", "C) 7", "D) 8"],
                 "answer": "B) 6",
                 "explanation": "Shaklning geometrik burchaklari soni to'g'ridan-to'g'ri uning nomi bilan belgilanadi: 6 ta."
+            },
+            {
+                "id": "q6",
+                "topic": "Matematika: Modulyar Arifmetika",
+                "question": "3¹⁰⁰ mod 7 qiymatini toping.",
+                "options": ["A) 1", "B) 2", "C) 4", "D) 6"],
+                "answer": "C) 4",
+                "explanation": "3¹=3, 3²=2, 3³=6, 3⁴=4, 3⁵=5, 3⁶=1 (mod 7). Davr=6. 100 = 6*16 + 4. 3⁴ mod 7 = 4."
+            },
+            {
+                "id": "q7",
+                "topic": "Geometriya: Doiralar",
+                "question": "Radiusi 6 sm bo'lgan doiraning yuzi qanchaga teng? (π deb oling)",
+                "options": ["A) 12π", "B) 24π", "C) 36π", "D) 48π"],
+                "answer": "C) 36π",
+                "explanation": "Doira yuzi S = π*r² formulasi bo'yicha: π * 6² = 36π sm²."
+            },
+            {
+                "id": "q8",
+                "topic": "IQ: Shifrlar va Kodlar",
+                "question": "Agar 'ANKARA' so'zi '123141' deb kodlansa, 'KARA' qanday kodlanadi?",
+                "options": ["A) 3141", "B) 2314", "C) 1413", "D) 4123"],
+                "answer": "A) 3141",
+                "explanation": "A=1, N=2, K=3, R=4. Demak: K(3) A(1) R(4) A(1) = 3141."
+            },
+            {
+                "id": "q9",
+                "topic": "Matematika: Trigonometriya",
+                "question": "sin²(45°) + cos²(45°) qiymati nechaga teng?",
+                "options": ["A) 0", "B) 1/2", "C) 1", "D) 2"],
+                "answer": "C) 1",
+                "explanation": "Asosiy trigonometrik ayniyat bo'yicha har qanday burchak uchun sin²α + cos²α = 1."
+            },
+            {
+                "id": "q10",
+                "topic": "IQ: Qator Matritsasi",
+                "question": "2, 4, 8, 16, 32, ? ketma-ketlikdagi keyingi sonni toping.",
+                "options": ["A) 48", "B) 54", "C) 64", "D) 72"],
+                "answer": "C) 64",
+                "explanation": "Har bir son 2 ga ko'payib bormoqda: 32 * 2 = 64."
             }
         ],
         "tomer_quiz": [
@@ -1015,6 +1244,32 @@ def get_telegram_ultra():
             "is_anonymous": True
         }
     })
+
+# ==============================================================
+# AUTOPILOT REAL-TIME SCHEDULER DAEMON THREAD
+# ==============================================================
+
+def autopilot_background_worker():
+    print("[Autopilot Daemon] Arka plan zamanlayıcı başlatıldı...", flush=True)
+    last_slot = None
+    while True:
+        try:
+            cfg = load_json(CONFIG_FILE, {})
+            if cfg.get("autopilot_enabled", False):
+                now_str = datetime.now().strftime("%H:%M")
+                lunch_time = cfg.get("lunch_time", "13:00")
+                evening_time = cfg.get("evening_time", "19:30")
+                
+                today_slot = f"{datetime.now().strftime('%Y-%m-%d')}_{now_str}"
+                if (now_str == lunch_time or now_str == evening_time) and last_slot != today_slot:
+                    print(f"[Autopilot Daemon] Yayın saati geldi: {now_str}. Otomatik dispatch tetikleniyor...", flush=True)
+                    dispatch_due_post.dispatch(dry_run=False, force_first_pending=True)
+                    last_slot = today_slot
+        except Exception as e:
+            print(f"[Autopilot Daemon Error]: {e}", flush=True)
+        time.sleep(30)
+
+threading.Thread(target=autopilot_background_worker, daemon=True).start()
 
 if __name__ == "__main__":
     print("[Arkadaş Executive OS] Web Dashboard çalışıyor: http://127.0.0.1:3131", flush=True)

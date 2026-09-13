@@ -17,6 +17,7 @@ from pathlib import Path
 from typing import Dict, Any, Optional, List
 
 from google.oauth2.credentials import Credentials
+from google.auth.transport.requests import Request
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaFileUpload
 
@@ -38,6 +39,17 @@ class YouTubePublisher:
             with open(TOKEN_FILE, "r", encoding="utf-8") as f:
                 tdata = json.load(f)
             creds = Credentials.from_authorized_user_info(tdata)
+            
+            # Auto-refresh token if expired
+            if (creds.expired or not creds.valid) and creds.refresh_token:
+                try:
+                    creds.refresh(Request())
+                    with open(TOKEN_FILE, "w", encoding="utf-8") as f:
+                        json.dump(json.loads(creds.to_json()), f, indent=2)
+                    print("[YouTube Auth] Token successfully auto-refreshed and saved.", flush=True)
+                except Exception as ref_err:
+                    print(f"[YouTube Auth Refresh Error]: {ref_err}", flush=True)
+
             return build("youtube", "v3", credentials=creds)
         except Exception as e:
             print(f"[YouTube Auth Error]: {e}", flush=True)
