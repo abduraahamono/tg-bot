@@ -354,16 +354,25 @@ def health_check():
         "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     })
 
-@app.route("/api/settings/autopilot", methods=["POST"])
-def save_autopilot():
-    payload = request.get_json() or {}
-    cfg = load_json(CONFIG_FILE, {})
-    cfg["autopilot_enabled"] = payload.get("enabled", True)
-    cfg["lunch_time"] = payload.get("lunchTime", "13:00")
-    cfg["evening_time"] = payload.get("eveningTime", "19:30")
-    cfg["funnel_url"] = payload.get("funnelUrl", "https://t.me/arkadasuz")
-    save_json(CONFIG_FILE, cfg)
-    return jsonify({"success": True})
+@app.route("/api/settings/autopilot", methods=["GET", "POST"])
+def manage_autopilot():
+    if request.method == "POST":
+        payload = request.get_json() or {}
+        cfg = load_json(CONFIG_FILE, {})
+        cfg["autopilot_enabled"] = payload.get("enabled", True)
+        cfg["lunch_time"] = payload.get("lunchTime", "13:00")
+        cfg["evening_time"] = payload.get("eveningTime", "19:30")
+        cfg["funnel_url"] = payload.get("funnelUrl", "https://t.me/arkadasuz")
+        save_json(CONFIG_FILE, cfg)
+        return jsonify({"success": True})
+    else:
+        cfg = load_json(CONFIG_FILE, {})
+        return jsonify({
+            "enabled": cfg.get("autopilot_enabled", True),
+            "lunchTime": cfg.get("lunch_time", "13:00"),
+            "eveningTime": cfg.get("evening_time", "19:30"),
+            "funnelUrl": cfg.get("funnel_url", "https://t.me/arkadasuz")
+        })
 
 @app.route("/api/tiktok_lab", methods=["GET"])
 def get_tiktok_lab():
