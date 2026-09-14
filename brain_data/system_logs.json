@@ -61,5 +61,33 @@
     "category": "STOK",
     "level": "warning",
     "message": "Öğe stoktan manuel silindi: '📢 Reklam: Istanbulda Tibbiyot va St'"
+  },
+  {
+    "id": "log_1789428945300",
+    "time": "02:35:45",
+    "category": "GEMINI_AI",
+    "level": "info",
+    "message": "20 adet özgün pazarlama metni üretildi ve stoka eklendi."
+  },
+  {
+    "id": "log_1789428954114",
+    "time": "02:35:54",
+    "category": "GÖRSEL",
+    "level": "success",
+    "message": "4 adet 1080x1080 özgün grafik afiş PIL ile çizildi ve stoka eklendi."
+  },
+  {
+    "id": "log_1789428965394",
+    "time": "02:36:05",
+    "category": "GÖRSEL",
+    "level": "success",
+    "message": "8 adet 1080x1080 özgün grafik afiş PIL ile çizildi ve stoka eklendi."
+  },
+  {
+    "id": "log_1789429515423",
+    "time": "02:45:15",
+    "category": "GÖRSEL",
+    "level": "success",
+    "message": "4 adet Gemini AI destekli 1080x1080 özgün grafik afiş çizildi ve stoka eklendi."
   }
 ]

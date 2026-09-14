@@ -4244,6 +4244,9 @@ async function loadAnalyticsMetrics() {
               <span class="font-bold text-${p.color}">${p.name}</span>
               <span class="text-[10px] text-slate-500">${p.handle}</span>
             </div>
+            <div class="pb-1">
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-white/5 border border-white/10 font-mono text-slate-300">${p.status_badge || 'Hazır'}</span>
+            </div>
             <div class="grid grid-cols-2 gap-2 text-[11px]">
               <div>
                 <span class="text-slate-500 block">İzlenme:</span>

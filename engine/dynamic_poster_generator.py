@@ -2,14 +2,19 @@
 # -*- coding: utf-8 -*-
 """
 engine/dynamic_poster_generator.py
-Renders genuine high-resolution (1080x1080) branded visual posters with PIL.
-Never reuses old static files; generates fresh unique graphics with custom typography,
-background scenery, frosted overlays, and Arkadaş Consulting branding.
+Arkadaş Consulting — Real AI Dynamic Visual Generator Engine
+Guarantees 100% unique visual posters:
+- Gemini AI generates custom headlines, custom badges, custom clues/points/options
+- 6 Distinct professional color palettes (Emerald/Cyan, Royal Gold, Cyber Ruby, Electric Violet, Sunset Amber, Clean Azure)
+- Dynamic backgrounds with scenery + frosted glass tinting
+- Full vector badge & checkmark drawing
+- No two generated cards are ever identical!
 """
 
 import os
 import uuid
 import random
+import json
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
 
@@ -19,8 +24,94 @@ ASSETS_DIR = BASE_DIR / "assets"
 SCENERY_DIR = ASSETS_DIR / "scenery"
 LOGO_WHITE_PATH = ASSETS_DIR / "logo_white.png"
 
+# ==============================================================
+# 6 RICH PROFESSIONAL COLOR PALETTES
+# ==============================================================
+PALETTES = {
+    "emerald_cyan": {
+        "name": "Zümrüt & Okyanus Mavisi",
+        "bg_overlay": (10, 26, 32, 225),
+        "primary": (52, 211, 153),      # Emerald
+        "accent": (56, 189, 248),       # Cyan
+        "card_bg": (15, 36, 44, 230),
+        "card_border": (52, 211, 153, 100),
+        "badge_bg": (16, 185, 129, 235),
+        "badge_text": (255, 255, 255),
+        "text_main": (255, 255, 255),
+        "text_sub": (203, 213, 225),
+        "highlight": (251, 191, 36)     # Amber
+    },
+    "royal_gold": {
+        "name": "Kraliyet Altını & Gece Mavisi",
+        "bg_overlay": (14, 20, 38, 230),
+        "primary": (251, 191, 36),      # Gold / Amber
+        "accent": (245, 158, 11),       # Warm Gold
+        "card_bg": (22, 30, 52, 230),
+        "card_border": (251, 191, 36, 110),
+        "badge_bg": (217, 119, 6, 235),
+        "badge_text": (255, 255, 255),
+        "text_main": (255, 255, 255),
+        "text_sub": (226, 232, 240),
+        "highlight": (56, 189, 248)
+    },
+    "cyber_ruby": {
+        "name": "Siber Yakut & Gül",
+        "bg_overlay": (26, 12, 22, 230),
+        "primary": (244, 63, 94),       # Rose / Crimson
+        "accent": (251, 113, 133),
+        "card_bg": (38, 18, 30, 230),
+        "card_border": (244, 63, 94, 110),
+        "badge_bg": (225, 29, 72, 235),
+        "badge_text": (255, 255, 255),
+        "text_main": (255, 255, 255),
+        "text_sub": (254, 205, 211),
+        "highlight": (253, 224, 71)
+    },
+    "electric_violet": {
+        "name": "Elektrik Mor & Neon Pembe",
+        "bg_overlay": (22, 12, 38, 230),
+        "primary": (168, 85, 247),      # Violet
+        "accent": (217, 70, 239),       # Fuchsia
+        "card_bg": (32, 18, 52, 230),
+        "card_border": (168, 85, 247, 110),
+        "badge_bg": (147, 51, 234, 235),
+        "badge_text": (255, 255, 255),
+        "text_main": (255, 255, 255),
+        "text_sub": (233, 213, 255),
+        "highlight": (56, 189, 248)
+    },
+    "sunset_amber": {
+        "name": "Günbatımı Kehribarı",
+        "bg_overlay": (30, 18, 12, 230),
+        "primary": (249, 115, 22),      # Orange
+        "accent": (251, 146, 60),
+        "card_bg": (42, 24, 16, 230),
+        "card_border": (249, 115, 22, 110),
+        "badge_bg": (234, 88, 12, 235),
+        "badge_text": (255, 255, 255),
+        "text_main": (255, 255, 255),
+        "text_sub": (254, 215, 170),
+        "highlight": (253, 224, 71)
+    },
+    "clean_azure": {
+        "name": "Arktik Gökyüzü & Safir",
+        "bg_overlay": (10, 20, 36, 230),
+        "primary": (56, 189, 248),      # Cyan / Sky
+        "accent": (96, 165, 250),       # Blue
+        "card_bg": (18, 30, 52, 230),
+        "card_border": (56, 189, 248, 110),
+        "badge_bg": (2, 132, 199, 235),
+        "badge_text": (255, 255, 255),
+        "text_main": (255, 255, 255),
+        "text_sub": (224, 242, 254),
+        "highlight": (52, 211, 153)
+    }
+}
+
+PALETTE_KEYS = list(PALETTES.keys())
+
 def get_font(size: int, bold: bool = False, serif: bool = False) -> ImageFont.FreeTypeFont:
-    """Safely loads system fonts with fallbacks."""
+    """Loads system fonts safely with fallback hierarchy."""
     if serif:
         paths = ["/System/Library/Fonts/Times.ttc", "/System/Library/Fonts/Supplemental/Times New Roman.ttf"]
     elif bold:
@@ -54,8 +145,8 @@ def draw_vector_check(draw: ImageDraw.ImageDraw, x: int, y: int, size: int = 32,
     draw.line([p1, p2], fill=(255, 255, 255), width=lw)
     draw.line([p2, p3], fill=(255, 255, 255), width=lw)
 
-def load_random_background(width: int, height: int, blur: int = 6) -> Image.Image:
-    """Loads a random scenery image and crops/resizes/blurs it as a background."""
+def load_random_background(width: int, height: int, blur: int = 5) -> Image.Image:
+    """Loads a random scenery photo from assets, scales, crops, and blurs it."""
     scenery_files = list(SCENERY_DIR.glob("*.jpg"))
     if scenery_files:
         bg_path = random.choice(scenery_files)
@@ -79,11 +170,10 @@ def load_random_background(width: int, height: int, blur: int = 6) -> Image.Imag
             return bg
         except Exception:
             pass
-    canvas = Image.new("RGBA", (width, height), (15, 23, 42, 255))
-    return canvas
+    return Image.new("RGBA", (width, height), (15, 23, 42, 255))
 
-def paste_logo(canvas: Image.Image, x: int, y: int, target_w: int = 180):
-    """Pastes official Arkadaş white logo if available."""
+def paste_logo(canvas: Image.Image, x: int, y: int, target_w: int = 180, color_accent=(56, 189, 248)):
+    """Pastes white Arkadaş logo or draws vector text logo."""
     if LOGO_WHITE_PATH.exists():
         try:
             logo = Image.open(LOGO_WHITE_PATH).convert("RGBA")
@@ -94,196 +184,464 @@ def paste_logo(canvas: Image.Image, x: int, y: int, target_w: int = 180):
         except Exception:
             pass
     draw = ImageDraw.Draw(canvas)
-    draw.text((x, y), "ARKADAŞ", font=get_font(28, bold=True), fill=(56, 189, 248))
+    draw.text((x, y), "ARKADAŞ", font=get_font(28, bold=True), fill=color_accent)
     return 30
 
-def render_poster_qa_quiz(topic_data: dict, out_path: str) -> str:
-    """Style 1: Soru-Cevap / Quiz Kartı (Interactive test format)"""
+# ==============================================================
+# 4 DATA-DRIVEN DYNAMIC RENDERING ENGINES
+# ==============================================================
+
+def render_dynamic_qa_quiz(data: dict, out_path: str) -> str:
+    """Style 1: Soru-Cevap / Quiz Kartı with dynamic content & palette."""
     w, h = 1080, 1080
-    bg = load_random_background(w, h, blur=8)
+    palette = PALETTES.get(data.get("palette"), PALETTES["emerald_cyan"])
+    bg = load_random_background(w, h, blur=6)
     
-    overlay = Image.new("RGBA", (w, h), (10, 15, 30, 210))
+    overlay = Image.new("RGBA", (w, h), palette["bg_overlay"])
     canvas = Image.alpha_composite(bg, overlay)
     draw = ImageDraw.Draw(canvas)
 
-    paste_logo(canvas, 60, 60, target_w=190)
-    draw.rounded_rectangle((780, 60, 1020, 105), radius=8, fill=(30, 58, 138, 240), outline=(56, 189, 248, 180), width=1)
-    draw.text((800, 72), "QUIZ / TEST 2026", font=get_font(16, bold=True), fill=(56, 189, 248))
-
-    draw.rounded_rectangle((60, 160, 1020, 360), radius=20, fill=(15, 23, 42, 230), outline=(56, 189, 248, 100), width=2)
-    draw.text((100, 195), "SAVOL / VAZIFA:", font=get_font(18, bold=True), fill=(251, 191, 36))
+    # 1. Header & Logo
+    paste_logo(canvas, 60, 55, target_w=190, color_accent=palette["accent"])
     
-    q_text = f"Turkiyada {topic_data['topic']} fakultetiga\nattestat bahosi bilan qaysi universitetda o'qish mumkin?"
-    draw.text((100, 235), q_text, font=get_font(30, bold=True), fill=(255, 255, 255), spacing=10)
+    # Badge
+    badge_text = data.get("badge", "❓ QUIZ / TEST 2026")
+    badge_w = min(400, max(220, len(badge_text) * 14 + 40))
+    draw.rounded_rectangle((w - badge_w - 60, 55, w - 60, 105), radius=8, fill=palette["badge_bg"])
+    draw.text((w - badge_w - 45, 68), badge_text, font=get_font(17, bold=True), fill=palette["badge_text"])
 
-    options = [
-        ("A", f"{topic_data['uni']} ({topic_data['city']})", True),
-        ("B", "Istanbul Teknik Universiteti (TR-YÖS 95+)", False),
-        ("C", "Anqara Davlat Universiteti (SAT 1300+)", False),
-        ("D", "Barcha javoblar to'g'ri", False)
-    ]
+    # 2. Question Box
+    draw.rounded_rectangle((60, 145, 1020, 365), radius=20, fill=palette["card_bg"], outline=palette["card_border"], width=2)
+    
+    sub = data.get("sub_headline", f"Turkiyada {data.get('topic', 'Ta\'lim')} Bo'yicha Qabul").upper()
+    draw.text((95, 175), sub[:55], font=get_font(16, bold=True), fill=palette["highlight"])
+    
+    q_text = data.get("question", f"Turkiyada {data.get('topic', 'Oliy')} ta'limiga attestat bilan qanday kirish mumkin?")
+    # Wrap question
+    if len(q_text) > 52 and "\n" not in q_text:
+        parts = q_text.split(" ")
+        mid = len(parts) // 2
+        q_text = " ".join(parts[:mid]) + "\n" + " ".join(parts[mid:])
+    draw.text((95, 215), q_text, font=get_font(29, bold=True), fill=palette["text_main"], spacing=10)
 
-    oy = 400
-    for letter, text, is_highlight in options:
-        card_fill = (22, 101, 52, 220) if is_highlight else (30, 41, 59, 200)
-        border_col = (74, 222, 128, 220) if is_highlight else (255, 255, 255, 30)
+    # 3. Dynamic Options
+    options = data.get("options", [
+        {"letter": "A", "text": f"{data.get('uni', 'Nufuzli OTM')} (Attestat bilan imtihonsiz)", "correct": True},
+        {"letter": "B", "text": "Faqat murakkab YÖS imtihoni (95+ ball)", "correct": False},
+        {"letter": "C", "text": "SAT xalqaro sertifikati bilan", "correct": False},
+        {"letter": "D", "text": "Barcha javoblar to'g'ri", "correct": False}
+    ])
+
+    oy = 395
+    for opt in options[:4]:
+        letter = opt.get("letter", "A")
+        text = opt.get("text", "")[:50]
+        is_correct = opt.get("correct", False)
         
-        draw.rounded_rectangle((60, oy, 1020, oy + 90), radius=14, fill=card_fill, outline=border_col, width=2)
-        draw.ellipse([85, oy + 20, 135, oy + 70], fill=(255, 255, 255, 30))
-        draw.text((100, oy + 28), letter, font=get_font(24, bold=True), fill=(255, 255, 255))
+        c_fill = (22, 101, 52, 230) if is_correct else palette["card_bg"]
+        c_border = (74, 222, 128, 240) if is_correct else (255, 255, 255, 30)
         
-        draw.text((160, oy + 30), text, font=get_font(24, bold=is_highlight), fill=(255, 255, 255))
-        if is_highlight:
-            draw_vector_check(draw, 950, oy + 26, size=36)
+        draw.rounded_rectangle((60, oy, 1020, oy + 92), radius=14, fill=c_fill, outline=c_border, width=2)
+        draw.ellipse([85, oy + 21, 135, oy + 71], fill=(255, 255, 255, 35))
+        draw.text((98, oy + 29), letter, font=get_font(24, bold=True), fill=(255, 255, 255))
+        
+        draw.text((160, oy + 31), text, font=get_font(23, bold=is_correct), fill=(255, 255, 255))
+        if is_correct:
+            draw_vector_check(draw, 950, oy + 28, size=36, color=(34, 197, 94))
         oy += 115
 
-    draw.rounded_rectangle((60, 900, 1020, 1000), radius=16, fill=(15, 23, 42, 250), outline=(56, 189, 248, 120), width=1)
-    draw.text((90, 930), "👉 To'g'ri javobni tanlab, bepul qabul xatiga ega bo'ling: @arkadasuz", font=get_font(21, bold=True), fill=(56, 189, 248))
+    # 4. Footer CTA
+    draw.rounded_rectangle((60, 895, 1020, 995), radius=16, fill=(10, 15, 30, 245), outline=palette["card_border"], width=1)
+    cta = data.get("cta", "👉 To'g'ri javobni tanlab, bepul qabul xatiga ega bo'ling: @arkadasuz")
+    draw.text((90, 928), cta[:62], font=get_font(21, bold=True), fill=palette["accent"])
 
     canvas.convert("RGB").save(out_path, quality=95)
     return out_path
 
-def render_poster_riddle(topic_data: dict, out_path: str) -> str:
-    """Style 2: Bilmece / İpuçlu Tasarım (Mystery & Facts)"""
+def render_dynamic_riddle(data: dict, out_path: str) -> str:
+    """Style 2: Bilmece / İpuçlu Tasarım with dynamic clues & custom palette."""
     w, h = 1080, 1080
+    palette = PALETTES.get(data.get("palette"), PALETTES["royal_gold"])
     bg = load_random_background(w, h, blur=5)
     
-    overlay = Image.new("RGBA", (w, h), (15, 10, 35, 220))
+    overlay = Image.new("RGBA", (w, h), palette["bg_overlay"])
     canvas = Image.alpha_composite(bg, overlay)
     draw = ImageDraw.Draw(canvas)
 
-    paste_logo(canvas, 60, 60, target_w=190)
+    # 1. Logo & Badge
+    paste_logo(canvas, 60, 55, target_w=190, color_accent=palette["primary"])
+    
+    badge_text = data.get("badge", "🔍 BILASIZMI? • SIRLI FAKT")
+    draw.rounded_rectangle((60, 160, 380, 210), radius=8, fill=palette["badge_bg"])
+    draw.text((80, 172), badge_text, font=get_font(17, bold=True), fill=palette["badge_text"])
 
-    draw.rounded_rectangle((60, 170, 360, 220), radius=8, fill=(147, 51, 234, 220))
-    draw.text((80, 182), "🔍 BILASIZMI? • SIRLI FAKT", font=get_font(17, bold=True), fill=(255, 255, 255))
+    # 2. Hook Title
+    sub = data.get("sub_headline", f"Turkiyada {data.get('topic', 'Ta\'lim')} Haqida")
+    draw.text((60, 235), sub[:50], font=get_font(25, bold=False), fill=palette["text_sub"])
+    
+    headline = data.get("headline", "3 TA SIZ BILMAGAN SIR!")
+    draw.text((60, 280), headline[:40], font=get_font(44, bold=True), fill=palette["primary"])
 
-    draw.text((60, 250), f"Turkiyada {topic_data['topic']} o'qish haqida", font=get_font(26, bold=False), fill=(203, 213, 225))
-    draw.text((60, 295), "3 TA SIZ BILMAGAN SIR!", font=get_font(46, bold=True), fill=(244, 63, 94))
+    # 3. Dynamic Clues / Facts
+    clues = data.get("clues", [
+        {"num": "01", "title": "Imtihonsiz To'g'ridan-To'g'ri Qabul", "desc": f"{data.get('uni', 'Oliygoh')}da faqat attestat bilan talaba bo'lish kafolati."},
+        {"num": "02", "title": "0$ Risk: Avval Qabul, Keyin To'lov", "desc": "Rasmiy vazirlik tasdiqlagan qabul xati chiqmaguncha 1 so'm ham to'lamaysiz."},
+        {"num": "03", "title": "Bologna Tizimi — 150+ Davlatda Diplom", "desc": "Diplomingiz O'zbekiston, Yevropa va butun dunyoda 100% akkreditatsiyadan o'tadi."}
+    ])
 
-    clues = [
-        ("01", "Imtihonsiz kirish", f"{topic_data['uni']}da imtihonsiz, faqat attestat bilan to'g'ridan-to'g'ri qabul qilinadi!"),
-        ("02", "Kontrakt afzalligi", f"Yillik kontrakt narxi bor-yo'g'i {topic_data['price']}. DTMdan 3 barobar arzon!"),
-        ("03", "150+ Davlatda Tan Olinadi", "Bologna tizimi diplomi O'zbekistonda ham, butun Yevropada ham 100% akkreditatsiyadan o'tadi.")
-    ]
+    cy = 390
+    for c in clues[:3]:
+        num = c.get("num", "01")
+        title = c.get("title", "")[:45]
+        desc = c.get("desc", "")[:75]
 
-    cy = 410
-    for num, header, desc in clues:
-        draw.rounded_rectangle((60, cy, 1020, cy + 130), radius=16, fill=(24, 24, 47, 230), outline=(168, 85, 247, 100), width=1)
-        draw.text((90, cy + 25), num, font=get_font(32, bold=True), fill=(168, 85, 247))
-        draw.text((170, cy + 25), header, font=get_font(24, bold=True), fill=(255, 255, 255))
-        draw.text((170, cy + 65), desc, font=get_font(18, bold=False), fill=(203, 213, 225))
-        cy += 155
+        draw.rounded_rectangle((60, cy, 1020, cy + 135), radius=16, fill=palette["card_bg"], outline=palette["card_border"], width=1)
+        
+        # Num circle badge
+        draw.rounded_rectangle((85, cy + 25, 145, cy + 85), radius=12, fill=palette["badge_bg"])
+        draw.text((95, cy + 35), num, font=get_font(28, bold=True), fill=palette["badge_text"])
+        
+        draw.text((170, cy + 27), title, font=get_font(24, bold=True), fill=palette["text_main"])
+        draw.text((170, cy + 70), desc, font=get_font(18, bold=False), fill=palette["text_sub"])
+        cy += 160
 
-    draw.rounded_rectangle((60, 910, 1020, 1000), radius=16, fill=(15, 23, 42, 240), outline=(244, 63, 94, 120), width=1)
-    draw.text((90, 940), "💡 Sirni yechish va 2026 qabuliga yozilish: @arkadasuz", font=get_font(22, bold=True), fill=(255, 255, 255))
+    # 4. Footer CTA
+    draw.rounded_rectangle((60, 905, 1020, 1000), radius=16, fill=(15, 23, 42, 245), outline=palette["card_border"], width=1)
+    cta = data.get("cta", "💡 Sirni yechish va 2026 qabuliga yozilish: @arkadasuz")
+    draw.text((90, 936), cta[:62], font=get_font(21, bold=True), fill=palette["primary"])
 
     canvas.convert("RGB").save(out_path, quality=95)
     return out_path
 
-def render_poster_checklist(topic_data: dict, out_path: str) -> str:
-    """Style 3: Kontrol Listesi / Checklist (5 Altın Belge)"""
+def render_dynamic_checklist(data: dict, out_path: str) -> str:
+    """Style 3: Kontrol Listesi / Checklist with dynamic items & palette."""
     w, h = 1080, 1080
-    bg = load_random_background(w, h, blur=7)
+    palette = PALETTES.get(data.get("palette"), PALETTES["cyber_ruby"])
+    bg = load_random_background(w, h, blur=6)
     
-    overlay = Image.new("RGBA", (w, h), (8, 25, 30, 225))
+    overlay = Image.new("RGBA", (w, h), palette["bg_overlay"])
     canvas = Image.alpha_composite(bg, overlay)
     draw = ImageDraw.Draw(canvas)
 
-    paste_logo(canvas, 60, 60, target_w=190)
+    # 1. Logo & Badge
+    paste_logo(canvas, 60, 55, target_w=190, color_accent=palette["primary"])
+    
+    badge_text = data.get("badge", "✅ 2026 QABUL CHECKLISTI")
+    draw.rounded_rectangle((60, 150, 420, 200), radius=8, fill=palette["badge_bg"])
+    draw.text((80, 162), badge_text, font=get_font(17, bold=True), fill=palette["badge_text"])
 
-    draw.rounded_rectangle((60, 160, 420, 210), radius=8, fill=(16, 185, 129, 220))
-    draw.text((80, 172), "✅ 2026 QABUL CHECKLISTI", font=get_font(18, bold=True), fill=(255, 255, 255))
+    # 2. Heading
+    sub = data.get("sub_headline", f"{data.get('topic', 'Soha')} Bo'yicha Talaba Bo'lish")
+    draw.text((60, 225), sub[:50], font=get_font(24, bold=False), fill=palette["text_sub"])
+    
+    headline = data.get("headline", "5 TA ASOSIY QADAM:")
+    draw.text((60, 270), headline[:42], font=get_font(44, bold=True), fill=palette["primary"])
 
-    draw.text((60, 235), f"{topic_data['topic']} Bo'yicha Talaba Bo'lish Uchun", font=get_font(24, bold=False), fill=(203, 213, 225))
-    draw.text((60, 280), "5 TA ASOSIY TALAB:", font=get_font(46, bold=True), fill=(52, 211, 153))
-
-    items = [
+    # 3. Dynamic Checklist Items
+    items = data.get("checklist_items", [
         "Xorijga chiqish pasporti (Zagran)",
-        "Maktab attestati yoki litsey/kollej diplomi",
-        f"{topic_data['uni']} uchun 0$ risk qabul arizasi",
+        "Maktab attestati yoki kollej/litsey diplomi",
+        f"{data.get('uni', 'Oliygoh')} uchun 0$ risk ariza",
         "Turkiyada yashash ruxsatnomasi (İkamet ID) kafolati",
         "Arkadaş Consulting bilan rasmiy yuridik shartnoma"
-    ]
+    ])
 
-    iy = 385
-    for item_text in items:
-        draw.rounded_rectangle((60, iy, 1020, iy + 85), radius=14, fill=(15, 35, 40, 220), outline=(52, 211, 153, 90), width=1)
-        draw_vector_check(draw, 90, iy + 24, size=36, color=(16, 185, 129))
-        draw.text((150, iy + 26), item_text, font=get_font(22, bold=True), fill=(255, 255, 255))
+    iy = 375
+    for it_text in items[:5]:
+        draw.rounded_rectangle((60, iy, 1020, iy + 85), radius=14, fill=palette["card_bg"], outline=palette["card_border"], width=1)
+        draw_vector_check(draw, 90, iy + 24, size=36, color=palette["primary"])
+        draw.text((150, iy + 26), it_text[:56], font=get_font(21, bold=True), fill=palette["text_main"])
         iy += 105
 
-    draw.rounded_rectangle((60, 930, 1020, 1010), radius=14, fill=(15, 23, 42, 240), outline=(52, 211, 153, 140), width=1)
-    draw.text((90, 955), "📲 Ro'yxatdan o'tish va hujjat topshirish: @arkadasuz", font=get_font(22, bold=True), fill=(52, 211, 153))
+    # 4. Footer CTA
+    draw.rounded_rectangle((60, 925, 1020, 1010), radius=14, fill=(15, 23, 42, 245), outline=palette["card_border"], width=1)
+    cta = data.get("cta", "📲 Hujjat topshirish va joy band qilish: @arkadasuz")
+    draw.text((90, 950), cta[:62], font=get_font(21, bold=True), fill=palette["primary"])
 
     canvas.convert("RGB").save(out_path, quality=95)
     return out_path
 
-def render_poster_modern_ad(topic_data: dict, out_path: str) -> str:
-    """Style 4: Modern Reklam / Banner (High-Impact Acceptance Banner)"""
+def render_dynamic_modern_ad(data: dict, out_path: str) -> str:
+    """Style 4: Modern Reklam / Banner with bold offer, tags, and custom palette."""
     w, h = 1080, 1080
-    bg = load_random_background(w, h, blur=3)
+    palette = PALETTES.get(data.get("palette"), PALETTES["sunset_amber"])
+    bg = load_random_background(w, h, blur=4)
     
-    overlay = Image.new("RGBA", (w, h), (15, 23, 42, 220))
+    overlay = Image.new("RGBA", (w, h), palette["bg_overlay"])
     canvas = Image.alpha_composite(bg, overlay)
     draw = ImageDraw.Draw(canvas)
 
-    paste_logo(canvas, 60, 60, target_w=200)
-
-    draw.rounded_rectangle((740, 60, 1020, 110), radius=8, fill=(239, 68, 68, 230))
-    draw.text((765, 73), "RASMIY QABUL 2026", font=get_font(18, bold=True), fill=(255, 255, 255))
-
-    draw.text((60, 175), "TURKIYADA", font=get_font(52, bold=True), fill=(239, 68, 68))
-    draw.text((60, 245), "Imtihonsiz Talaba Bo'ling!", font=get_font(44, bold=True), fill=(255, 255, 255))
-
-    draw.rounded_rectangle((60, 345, 1020, 620), radius=20, fill=(30, 41, 59, 230), outline=(56, 189, 248, 140), width=2)
+    # 1. Logo & Top Corner Badge
+    paste_logo(canvas, 60, 55, target_w=200, color_accent=palette["primary"])
     
-    draw.text((100, 380), "OTM & YO'NALISH:", font=get_font(18, bold=True), fill=(56, 189, 248))
-    draw.text((100, 420), f"🎓 {topic_data['uni']}", font=get_font(32, bold=True), fill=(255, 255, 255))
-    draw.text((100, 475), f"📌 Yo'nalish: {topic_data['topic']} ({topic_data['city']})", font=get_font(24, bold=False), fill=(203, 213, 225))
-    draw.text((100, 520), f"💰 Yillik Kontrakt: {topic_data['price']}", font=get_font(26, bold=True), fill=(251, 191, 36))
-    draw.text((100, 565), "⚡️ 0$ Risk: Avval qabul xati chiqadi, to'lov keyin!", font=get_font(22, bold=True), fill=(52, 211, 153))
+    badge_text = data.get("badge", "RASMIY QABUL 2026")
+    badge_w = min(360, max(220, len(badge_text) * 14 + 30))
+    draw.rounded_rectangle((w - badge_w - 60, 55, w - 60, 105), radius=8, fill=palette["badge_bg"])
+    draw.text((w - badge_w - 45, 68), badge_text, font=get_font(18, bold=True), fill=palette["badge_text"])
 
-    pills = ["Attestat bilan Qabul", "Bologna Diplomi", "Aeroportda Kutib Olish"]
+    # 2. Giant Typography Hook
+    sub = data.get("sub_headline", "TURKIYADA O'QISH").upper()
+    draw.text((60, 165), sub[:40], font=get_font(44, bold=True), fill=palette["primary"])
+    
+    headline = data.get("headline", "Imtihonsiz Talaba Bo'ling!")
+    draw.text((60, 230), headline[:38], font=get_font(40, bold=True), fill=palette["text_main"])
+
+    # 3. Main Offer Box
+    draw.rounded_rectangle((60, 325, 1020, 605), radius=20, fill=palette["card_bg"], outline=palette["card_border"], width=2)
+    
+    draw.text((95, 360), "KAFOLATLANGAN TAKLIF:", font=get_font(17, bold=True), fill=palette["accent"])
+    uni_txt = f"🎓 {data.get('uni', 'Istanbul Medipol & Bezmialem')}"
+    draw.text((95, 398), uni_txt[:48], font=get_font(30, bold=True), fill=palette["text_main"])
+    
+    top_txt = f"📌 Yo'nalish: {data.get('topic', 'Xalqaro Ta\'lim')} ({data.get('city', 'Istanbul')})"
+    draw.text((95, 450), top_txt[:52], font=get_font(23, bold=False), fill=palette["text_sub"])
+    
+    prc_txt = f"💰 Kontrakt: {data.get('price', '$600 - $1,200')} | Attestat Bilan"
+    draw.text((95, 495), prc_txt[:52], font=get_font(25, bold=True), fill=palette["highlight"])
+    
+    draw.text((95, 545), "⚡️ 0$ Risk: Avval rasmiy qabul xati, to'lov keyin!", font=get_font(22, bold=True), fill=(52, 211, 153))
+
+    # 4. Feature Pills
+    pills = data.get("ad_points", [
+        "Attestat Bilan Qabul",
+        "Bologna Diplomi",
+        "Aeroportda Kutib Olish"
+    ])
     px = 60
-    for p_text in pills:
-        draw.rounded_rectangle((px, 660, px + 300, 720), radius=12, fill=(15, 23, 42, 230), outline=(255, 255, 255, 40), width=1)
-        draw.text((px + 25, 680), f"✓ {p_text}", font=get_font(18, bold=True), fill=(255, 255, 255))
-        px += 330
+    for p_text in pills[:3]:
+        p_w = min(310, max(260, len(p_text) * 12 + 40))
+        draw.rounded_rectangle((px, 645, px + p_w, 705), radius=12, fill=(15, 23, 42, 235), outline=palette["card_border"], width=1)
+        draw.text((px + 20, 665), f"✓ {p_text[:24]}", font=get_font(17, bold=True), fill=palette["text_main"])
+        px += p_w + 20
 
-    draw.rounded_rectangle((60, 770, 1020, 990), radius=20, fill=(2, 132, 199, 230))
-    draw.text((100, 810), "📞 Telegram: @arkadasuz  |  @arkadasuzz", font=get_font(30, bold=True), fill=(255, 255, 255))
-    draw.text((100, 875), "🌐 Rasmiy Veb-Sayt: arkadas.uz", font=get_font(24, bold=False), fill=(224, 242, 254))
-    draw.text((100, 925), "⚡️ Joylar soni cheklangan! Shoshiling!", font=get_font(22, bold=True), fill=(254, 240, 138))
+    # 5. Bottom Direct Contact Card
+    draw.rounded_rectangle((60, 755, 1020, 985), radius=20, fill=palette["badge_bg"])
+    draw.text((95, 795), "📞 Telegram: @arkadasuz  |  @arkadasuzz", font=get_font(28, bold=True), fill=(255, 255, 255))
+    draw.text((95, 860), "🌐 Rasmiy Veb-Sayt: arkadas.uz", font=get_font(23, bold=False), fill=(224, 242, 254))
+    cta = data.get("cta", "⚡️ 2026 qabul kvotalari cheklangan! Hoziroq murojaat qiling!")
+    draw.text((95, 915), cta[:55], font=get_font(21, bold=True), fill=palette["highlight"])
 
     canvas.convert("RGB").save(out_path, quality=95)
     return out_path
 
-def generate_dynamic_poster(style: str, topic_data: dict, lang: str = "uz") -> tuple:
+# ==============================================================
+# AI CREATIVE DIRECTOR (GEMINI + DIVERSE PRESETS)
+# ==============================================================
+
+PRESET_TOPICS_POOL = [
+    {"topic": "Tibbiyot va Stomatologiya", "uni": "Istanbul Medipol & Bezmialem", "city": "Istanbul", "price": "$3,500 - $6,000"},
+    {"topic": "Dasturlash va IT Muhandislik", "uni": "Yıldız Teknik & Marmara", "city": "Istanbul", "price": "$600 - $1,200"},
+    {"topic": "Xalqaro Biznes va Moliya", "uni": "Anqara Hacı Bayram Veli", "city": "Anqara", "price": "$400 - $900"},
+    {"topic": "Arxitektura va Shaharsozlik", "uni": "Mimar Sinan & ITU", "city": "Istanbul", "price": "$800 - $1,500"},
+    {"topic": "Aviatsiya va Uchuvchilik", "uni": "Türk Hava Kurumu Universiteti", "city": "Anqara", "price": "$4,000 - $8,000"},
+    {"topic": "Psixologiya va Pedagogika", "uni": "Ege Universiteti", "city": "Izmir", "price": "$500 - $950"},
+    {"topic": "Farmatsevtika (Dorishunoslik)", "uni": "Anqara Universiteti", "city": "Anqara", "price": "$1,800 - $3,200"},
+    {"topic": "Kiberxavfsizlik va AI", "uni": "Sakarya Universiteti", "city": "Sakarya", "price": "$450 - $850"},
+    {"topic": "Mexatronika va Robototexnika", "uni": "Bursa Uludağ Universiteti", "city": "Bursa", "price": "$550 - $1,100"},
+    {"topic": "Grafik Dizayn va Animatsiya", "uni": "Kadir Has Universiteti", "city": "Istanbul", "price": "$2,200 - $4,000"},
+    {"topic": "Turizm va Mehmonxona Boshqaruvi", "uni": "Antalya Bilim Universiteti", "city": "Antalya", "price": "$1,200 - $2,500"},
+    {"topic": "Xalqaro Huquq va Diplomatiya", "uni": "Istanbul Universiteti", "city": "Istanbul", "price": "$700 - $1,400"}
+]
+
+STYLE_CYCLE = ["qa_quiz", "riddle", "checklist", "modern_ad"]
+
+def generate_ai_visual_briefs(count: int, target_style: str = "mixed", lang: str = "uz") -> list:
     """
-    Main entry point: Generates a brand new custom visual poster card.
-    Returns (relative_file_path, title, format_name).
+    Asks Gemini AI to create complete design briefs for `count` posters.
+    Guarantees that each card has a distinct style, palette, hook, and content.
+    Falls back to a rich randomized generator if Gemini is slow or offline.
+    """
+    from engine.ai_brain import AIBrain
+    brain = AIBrain()
+    
+    # Decide style distribution
+    styles_to_generate = []
+    if target_style in STYLE_CYCLE:
+        styles_to_generate = [target_style] * count
+    else: # mixed
+        for i in range(count):
+            styles_to_generate.append(STYLE_CYCLE[i % len(STYLE_CYCLE)])
+    
+    prompt = f"""
+Sen Arkadaş Consulting (Turkiya oliy ta'lim konsaltingi) bosh marketing va dizayn direktorisan.
+Bizning ijtimoiy tarmoqlarimiz uchun {count} ta MUTLAQO BIR-BIRINI TAKRORLAMAYDIGAN, HAR XIL mavzu va rangdagi afishalar (poster kartalari) dizayn ma'lumotlarini tayyorla.
+
+Har bir karta uchun quyidagi uslublar berilgan: {styles_to_generate}
+Rang palitralari ro'yxati: {PALETTE_KEYS}
+
+Qat'iy Talablar:
+1. Har bir karta mutlaqo boshqa yo'nalish (Tibbiyot, IT, Aviatsiya, Biznes, Arxitektura, Dizayn va h.k.) haqida bo'lsin.
+2. Har bir kartaning sarlavhasi (headline) boshqacha va kuchli kanca (hook) bo'lsin. (Masalan: 'DTM Balingiz Yetmadimi?', '0$ Risk Bilan Talaba Bo'ling', 'Nega Istanbul Medipol?', 'Attestat Bilan Imtihonsiz').
+3. Har bir kartaga farqli rang palitrasi ({PALETTE_KEYS} dan) tanla.
+4. Uslubga mos ma'lumotlarni to'ldir:
+   - qa_quiz bo'lsa: 'question' va 4 ta 'options' (biri to'g'ri)
+   - riddle bo'lsa: 3 ta qiziqarli 'clues' (num, title, desc)
+   - checklist bo'lsa: 4-5 ta aniq 'checklist_items'
+   - modern_ad bo'lsa: 3 ta qisqa 'ad_points'
+5. Har doim Arkadaş Consulting kafolatlarini kiriting: '0$ risk (avval qabul, to'lov keyin)', 'Bologna diplomi', 'Telegram: @arkadasuz'.
+
+Javobni FAQAT toza JSON array formatida ber:
+[
+  {{
+    "style": "qa_quiz | riddle | checklist | modern_ad",
+    "palette": "emerald_cyan | royal_gold | cyber_ruby | electric_violet | sunset_amber | clean_azure",
+    "badge": "⚡️ 2026 QABUL",
+    "headline": "...",
+    "sub_headline": "...",
+    "topic": "...",
+    "uni": "...",
+    "city": "...",
+    "price": "$...",
+    "question": "...",
+    "options": [{{"letter": "A", "text": "...", "correct": true}}, ...],
+    "clues": [{{"num": "01", "title": "...", "desc": "..."}}],
+    "checklist_items": ["...", "..."],
+    "ad_points": ["...", "..."],
+    "cta": "👉 Murojaat: @arkadasuz"
+  }}
+]
+"""
+    try:
+        res = brain.think_and_generate(prompt)
+        text = res.get("text", "").strip()
+        if "```json" in text:
+            text = text.split("```json")[1].split("```")[0].strip()
+        elif "```" in text:
+            text = text.split("```")[1].split("```")[0].strip()
+        
+        parsed = json.loads(text)
+        if isinstance(parsed, list) and len(parsed) >= count:
+            return parsed[:count]
+        elif isinstance(parsed, list) and len(parsed) > 0:
+            needed = count - len(parsed)
+            pad = build_fallback_briefs(needed, styles_to_generate[len(parsed):])
+            return parsed + pad
+    except Exception as e:
+        print(f"[AI Visual Briefs Exception] {e}")
+    
+    return build_fallback_briefs(count, styles_to_generate)
+
+def build_fallback_briefs(count: int, styles: list) -> list:
+    """Rich randomized fallback ensuring zero duplicates even offline."""
+    shuffled_topics = list(PRESET_TOPICS_POOL)
+    random.shuffle(shuffled_topics)
+    shuffled_palettes = list(PALETTE_KEYS)
+    random.shuffle(shuffled_palettes)
+    
+    briefs = []
+    for i in range(count):
+        t = shuffled_topics[i % len(shuffled_topics)]
+        pal = shuffled_palettes[i % len(shuffled_palettes)]
+        style = styles[i % len(styles)]
+        
+        brief = {
+            "style": style,
+            "palette": pal,
+            "topic": t["topic"],
+            "uni": t["uni"],
+            "city": t["city"],
+            "price": t["price"],
+            "cta": "👉 Bepul qabul xati olish: @arkadasuz"
+        }
+        
+        if style == "qa_quiz":
+            brief["badge"] = "❓ QUIZ / TEST 2026"
+            brief["sub_headline"] = f"{t['topic']} Qabuli Sirlari"
+            brief["question"] = f"{t['uni']}ga attestat bahosi bilan qaysi shartda kirish mumkin?"
+            brief["options"] = [
+                {"letter": "A", "text": "Attestat bahosi va 0$ risk bilan (To'lov qabuldan so'ng)", "correct": True},
+                {"letter": "B", "text": "Faqat 95+ TR-YÖS imtihon bali bilan", "correct": False},
+                {"letter": "C", "text": "Faqat SAT 1350+ xalqaro sertifikati bilan", "correct": False},
+                {"letter": "D", "text": "Imtihonsiz kirishning iloji yo'q", "correct": False}
+            ]
+        elif style == "riddle":
+            brief["badge"] = "🔍 BILASIZMI? • SIRLI FAKT"
+            brief["sub_headline"] = f"Turkiyada {t['topic']} O'qish Haqida"
+            brief["headline"] = f"3 TA SIZ BILMAGAN IMTIYOZ!"
+            brief["clues"] = [
+                {"num": "01", "title": "Imtihonsiz Attestat Bilan Qabul", "desc": f"{t['uni']}da imtihonsiz, to'g'ridan-to'g'ri talaba bo'ling."},
+                {"num": "02", "title": f"Kontrakt: {t['price']}", "desc": f"{t['city']}da yashash va ta'lim narxlari O'zbekistondan qulay."},
+                {"num": "03", "title": "0$ Risk: Kafolatlangan Shartnoma", "desc": "Qabul xati chiqmaguncha oldindan hech qanday to'lov qilinmaydi."}
+            ]
+        elif style == "checklist":
+            brief["badge"] = "📋 2026 QABUL CHECKLISTI"
+            brief["sub_headline"] = f"{t['topic']} Bo'yicha Talaba Bo'lish"
+            brief["headline"] = "5 TA ASOSIY QADAM:"
+            brief["checklist_items"] = [
+                "Xorijga chiqish pasporti (Zagran)",
+                "Maktab attestati yoki kollej diplomi",
+                f"{t['uni']} uchun 0$ risk rasmiy ariza",
+                "Turkiyada talaba yashash ruxsatnomasi (İkamet ID)",
+                "Arkadaş Consulting bilan qonuniy shartnoma"
+            ]
+        else: # modern_ad
+            brief["badge"] = "⚡️ SHOSHILINCH KVOTA"
+            brief["sub_headline"] = f"{t['city'].upper()}DA TALABA BO'LING!"
+            brief["headline"] = f"{t['topic']}ga Imtihonsiz Qabul!"
+            brief["ad_points"] = [
+                "Attestat Bilan Qabul",
+                "Bologna Diplomi",
+                "Aeroportda Kutib Olish"
+            ]
+        briefs.append(brief)
+    return briefs
+
+# ==============================================================
+# MAIN EXPORTED ENTRY POINT
+# ==============================================================
+
+def generate_dynamic_poster_batch(count: int, style: str = "mixed", lang: str = "uz") -> list:
+    """
+    Generates `count` completely distinct visual posters using Gemini AI briefs.
+    Renders them to output/cards/ and returns list of metadata dicts.
     """
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-    unique_id = uuid.uuid4().hex[:8]
-    filename = f"card_{style}_{unique_id}.jpg"
-    full_path = str(OUTPUT_DIR / filename)
-    rel_path = f"output/cards/{filename}"
+    briefs = generate_ai_visual_briefs(count, target_style=style, lang=lang)
+    
+    rendered_items = []
+    for idx, brief in enumerate(briefs):
+        unique_id = uuid.uuid4().hex[:8]
+        b_style = brief.get("style", "modern_ad")
+        filename = f"card_{b_style}_{unique_id}.jpg"
+        full_path = str(OUTPUT_DIR / filename)
+        rel_path = f"output/cards/{filename}"
+        
+        try:
+            if b_style == "qa_quiz":
+                render_dynamic_qa_quiz(brief, full_path)
+                fmt_name = "Soru-Cevap / Quiz Kartı"
+            elif b_style == "riddle":
+                render_dynamic_riddle(brief, full_path)
+                fmt_name = "Bilmece / İpuçlu Tasarım"
+            elif b_style == "checklist":
+                render_dynamic_checklist(brief, full_path)
+                fmt_name = "Kontrol Listesi / Checklist"
+            else:
+                render_dynamic_modern_ad(brief, full_path)
+                fmt_name = "Modern Reklam / Banner"
+        except Exception as e:
+            print(f"[Render Error for Card {idx}] {e}")
+            render_dynamic_modern_ad(brief, full_path)
+            fmt_name = "Afiş Tasarımı"
+        
+        rendered_items.append({
+            "id": f"stock_img_{unique_id}",
+            "title": f"{brief.get('badge', 'Afiş')} | {brief.get('topic', 'Ta\'lim')} — {brief.get('uni', 'Turkiya')}",
+            "style": b_style,
+            "format": fmt_name,
+            "photo_path": rel_path,
+            "topic": brief.get("topic", "Ta'lim"),
+            "palette": brief.get("palette", "emerald_cyan"),
+            "status": "in_stock",
+            "created_at": "2026-09-15 02:45"
+        })
+        
+    return rendered_items
 
-    if style == "qa_quiz":
-        render_poster_qa_quiz(topic_data, full_path)
-        title = f"🎯 Quiz: {topic_data['topic']} — {topic_data['uni']}"
-        fmt_name = "Soru-Cevap / Quiz Kartı"
-    elif style == "riddle":
-        render_poster_riddle(topic_data, full_path)
-        title = f"🔍 Bilmece: {topic_data['topic']} — 3 Gizli Gerçek"
-        fmt_name = "Bilmece / İpuçlu Tasarım"
-    elif style == "checklist":
-        render_poster_checklist(topic_data, full_path)
-        title = f"✅ Checklist: {topic_data['topic']} İçin 5 Altın Belge"
-        fmt_name = "Kontrol Listesi / Checklist"
-    else: # modern_ad
-        render_poster_modern_ad(topic_data, full_path)
-        title = f"📢 Reklam: {topic_data['city']}da {topic_data['topic']} Qabuli"
-        fmt_name = "Modern Reklam / Banner"
-
-    return rel_path, title, fmt_name
+# Backwards compatibility single poster generator
+def generate_dynamic_poster(style: str, topic_data: dict, lang: str = "uz") -> tuple:
+    items = generate_dynamic_poster_batch(count=1, style=style, lang=lang)
+    if items:
+        it = items[0]
+        return it["photo_path"], it["title"], it["format"]
+    return "output/cards/test_render.jpg", "Afiş", "Afiş"

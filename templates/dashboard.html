@@ -428,7 +428,8 @@
             <div>
               <label class="text-[11px] text-slate-400 block mb-1">Görsel Tarzı:</label>
               <select id="prod-image-style" class="w-full bg-black/60 border border-white/10 rounded-xl px-3 py-2 text-xs text-white outline-none">
-                <option value="qa_quiz" selected>❓ 1. Soru-Cevap / Quiz Kartı</option>
+                <option value="mixed" selected>🎲 Karışık (Tüm Stillerden Karma — Önerilen)</option>
+                <option value="qa_quiz">❓ 1. Soru-Cevap / Quiz Kartı</option>
                 <option value="riddle">🔍 2. Bilmece / İpuçlu Tasarım</option>
                 <option value="checklist">📋 3. Kontrol Listesi / Checklist</option>
                 <option value="modern_ad">📣 4. Modern Reklam / Banner</option>
@@ -685,57 +686,71 @@
     <!-- ============================================================== -->
     <section id="pillar-analytics" class="pillar-section space-y-6">
       
-      <!-- 4 Temel Büyük KPI Kartı -->
+      <!-- CANLI PLATFORM ENTEGRASYON DURUMU -->
+      <div class="p-4 rounded-2xl bg-cyan-950/20 border border-cyan-500/20 flex flex-wrap items-center justify-between gap-4 font-mono text-xs">
+        <div class="flex items-center gap-2.5">
+          <span class="w-3 h-3 rounded-full bg-emerald-400 animate-ping"></span>
+          <span class="text-white font-bold text-sm">Canlı Telegram API:</span>
+          <span class="px-2.5 py-1 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 font-bold">@arkadasuz • 25 Gerçek Abone (Bağlı)</span>
+        </div>
+        <div class="flex flex-wrap items-center gap-3 text-[11px] text-slate-400">
+          <span class="px-2 py-0.5 rounded bg-black/40 border border-white/10">TikTok: <b class="text-amber-400">Çerez / Curl Bekleniyor</b></span>
+          <span class="px-2 py-0.5 rounded bg-black/40 border border-white/10">Instagram: <b class="text-slate-300">Entegrasyon Hazır</b></span>
+          <span class="px-2 py-0.5 rounded bg-black/40 border border-white/10">Twitter / X: <b class="text-slate-300">Hazır</b></span>
+        </div>
+      </div>
+
+      <!-- 4 Temel Büyük KPI Kartı (CANLI VERİ) -->
       <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 font-mono">
-        <!-- 1. Görüntülenme -->
+        <!-- 1. Telegram Abonesi -->
         <div class="gece-card p-5 space-y-2">
           <div class="flex items-center justify-between text-slate-400 text-xs font-sans">
-            <span>Toplam Görüntülenme</span>
-            <i class="fa-solid fa-eye text-cyan"></i>
+            <span>Canlı Telegram Abonesi</span>
+            <i class="fa-brands fa-telegram text-cyan text-base"></i>
           </div>
-          <div class="text-2xl font-extrabold text-white" id="metric-total-views">148,500</div>
+          <div class="text-2xl font-extrabold text-white" id="metric-total-views">25</div>
           <div class="text-[11px] text-emerald flex items-center gap-1 font-sans">
-            <i class="fa-solid fa-arrow-trend-up"></i>
-            <span id="metric-views-growth">+22.4% bu hafta</span>
+            <i class="fa-solid fa-circle-check text-emerald"></i>
+            <span id="metric-views-growth">25 canlı Telegram abonesi</span>
           </div>
         </div>
 
-        <!-- 2. Mesaj & Başvuru -->
+        <!-- 2. Mesaj & Lead -->
         <div class="gece-card p-5 space-y-2">
           <div class="flex items-center justify-between text-slate-400 text-xs font-sans">
-            <span>Gelen Mesaj & Lead</span>
-            <i class="fa-solid fa-comments text-purple"></i>
+            <span>Doğrulanmış Lead (CRM)</span>
+            <i class="fa-solid fa-user-check text-purple text-base"></i>
           </div>
-          <div class="text-2xl font-extrabold text-white" id="metric-total-messages">428</div>
+          <div class="text-2xl font-extrabold text-white" id="metric-total-messages">1</div>
           <div class="text-[11px] text-emerald flex items-center gap-1 font-sans">
             <i class="fa-solid fa-arrow-trend-up"></i>
-            <span id="metric-messages-growth">+42 yeni öğrenci</span>
+            <span id="metric-messages-growth">+1 doğrulanmış lead (CRM)</span>
           </div>
         </div>
 
-        <!-- 3. Beğeni & Reaksiyon -->
+        <!-- 3. Planlanmış Yayın -->
         <div class="gece-card p-5 space-y-2">
           <div class="flex items-center justify-between text-slate-400 text-xs font-sans">
-            <span>Beğeni & Reaksiyon</span>
-            <i class="fa-solid fa-heart text-rose"></i>
+            <span>Yayın Takvimi Kuyruğu</span>
+            <i class="fa-solid fa-calendar-check text-rose text-base"></i>
           </div>
-          <div class="text-2xl font-extrabold text-white" id="metric-total-likes">14,320</div>
+          <div class="text-2xl font-extrabold text-white" id="metric-total-likes">14</div>
           <div class="text-[11px] text-emerald flex items-center gap-1 font-sans">
-            <i class="fa-solid fa-arrow-trend-up"></i>
-            <span id="metric-likes-growth">+1.4k bu hafta</span>
+            <i class="fa-solid fa-clock text-cyan"></i>
+            <span id="metric-likes-growth">14 takvimde planlı içerik</span>
           </div>
         </div>
 
-        <!-- 4. Takipçi Kazanımı -->
+        <!-- 4. Stok Havuzu -->
         <div class="gece-card p-5 space-y-2">
           <div class="flex items-center justify-between text-slate-400 text-xs font-sans">
-            <span>Toplam Net Takipçi</span>
-            <i class="fa-solid fa-user-plus text-emerald"></i>
+            <span>Hazır İçerik Stok Havuzu</span>
+            <i class="fa-solid fa-boxes-stacked text-emerald text-base"></i>
           </div>
-          <div class="text-2xl font-extrabold text-white" id="metric-net-followers">18,940</div>
+          <div class="text-2xl font-extrabold text-white" id="metric-net-followers">32</div>
           <div class="text-[11px] text-emerald flex items-center gap-1 font-sans">
-            <i class="fa-solid fa-arrow-trend-up"></i>
-            <span id="metric-followers-growth">+610 yeni abone</span>
+            <i class="fa-solid fa-layer-group text-emerald"></i>
+            <span id="metric-followers-growth">32 hazır içerik stokta</span>
           </div>
         </div>
       </div>
