@@ -1,0 +1,65 @@
+[
+  {
+    "id": "log_init_1",
+    "time": "21:50:47",
+    "category": "SİSTEM",
+    "level": "info",
+    "message": "Arkadaş Executive OS 3.0 çekirdeği başlatıldı (HTTP 200)."
+  },
+  {
+    "id": "log_init_2",
+    "time": "21:50:47",
+    "category": "GEMINI_AI",
+    "level": "success",
+    "message": "Google Gemini 2.5 Flash motoru hazır ve kopya koruması aktif."
+  },
+  {
+    "id": "log_init_3",
+    "time": "21:50:47",
+    "category": "GÖRSEL",
+    "level": "info",
+    "message": "Dinamik PIL grafik render stüdyosu (1080x1080) devrede."
+  },
+  {
+    "id": "log_init_4",
+    "time": "21:50:47",
+    "category": "PLANLAMA",
+    "level": "info",
+    "message": "7 Kanallı Omnichannel zamanlayıcı ve otopilot nöbette."
+  },
+  {
+    "id": "log_1789411847518",
+    "time": "21:50:47",
+    "category": "TEST",
+    "level": "info",
+    "message": "Test log kaydi"
+  },
+  {
+    "id": "log_1789428599561",
+    "time": "02:29:59",
+    "category": "GÖRSEL",
+    "level": "success",
+    "message": "1 adet 1080x1080 özgün grafik afiş PIL ile çizildi ve stoka eklendi."
+  },
+  {
+    "id": "log_1789428606806",
+    "time": "02:30:06",
+    "category": "GEMINI_AI",
+    "level": "success",
+    "message": "TELEGRAM için özel AI gönderisi üretildi: 'Turkiyada Tibbiyot O'qish Imkoniyati'"
+  },
+  {
+    "id": "log_1789428610581",
+    "time": "02:30:10",
+    "category": "GEMINI_AI",
+    "level": "success",
+    "message": "Kanal performans denetimi ve AI büyüme analizi tamamlandı."
+  },
+  {
+    "id": "log_1789428612911",
+    "time": "02:30:12",
+    "category": "STOK",
+    "level": "warning",
+    "message": "Öğe stoktan manuel silindi: '📢 Reklam: Istanbulda Tibbiyot va St'"
+  }
+]
