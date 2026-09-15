@@ -35,6 +35,13 @@ ADMIN_PIN = os.getenv("ADMIN_DASHBOARD_PIN", "arkadas2026")
 from engine.three_pillars_api import pillars_bp
 app.register_blueprint(pillars_bp)
 
+@app.after_request
+def add_header(response):
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate, max-age=0"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "0"
+    return response
+
 AUDIO_DIR = BASE_DIR / "output" / "audio"
 AUDIO_DIR.mkdir(parents=True, exist_ok=True)
 DOCS_DIR = BASE_DIR / "crm" / "documents"

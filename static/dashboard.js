@@ -3423,9 +3423,9 @@ function switchProductionSubTab(sub) {
   if (sub === 'stock') {
     loadStockItemsUI();
   } else if (window.allStockData) {
-    if (sub === 'image' && window.allStockData.images) renderGeneratedImages(window.allStockData.images.slice(0, 20));
-    if (sub === 'video' && window.allStockData.videos) renderGeneratedVideos(window.allStockData.videos.slice(0, 12));
-    if (sub === 'text' && window.allStockData.texts) renderGeneratedTexts(window.allStockData.texts.slice(0, 12));
+    if (sub === 'image' && window.allStockData.images) renderGeneratedImages(window.allStockData.images);
+    if (sub === 'video' && window.allStockData.videos) renderGeneratedVideos(window.allStockData.videos);
+    if (sub === 'text' && window.allStockData.texts) renderGeneratedTexts(window.allStockData.texts);
   }
 }
 window.switchProductionSubTab = switchProductionSubTab;
@@ -3455,21 +3455,49 @@ async function runTextGeneration() {
 }
 window.runTextGeneration = runTextGeneration;
 
+function copyStockText(idx) {
+  const list = window.allStockData?.texts || window.currentRenderedTexts || [];
+  const item = list[idx];
+  if (item && item.content) {
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(item.content).then(() => {
+        showToast("Metin panoya kopyalandı!", "success");
+      }).catch(() => {
+        fallbackCopyText(item.content);
+      });
+    } else {
+      fallbackCopyText(item.content);
+    }
+  }
+}
+window.copyStockText = copyStockText;
+
+function fallbackCopyText(text) {
+  const ta = document.createElement("textarea");
+  ta.value = text;
+  document.body.appendChild(ta);
+  ta.select();
+  document.execCommand("copy");
+  document.body.removeChild(ta);
+  showToast("Metin panoya kopyalandı!", "success");
+}
+
 function renderGeneratedTexts(items) {
   const container = document.getElementById('prod-text-output-container');
   if (!container) return;
+  window.currentRenderedTexts = items;
 
   container.innerHTML = items.map((item, idx) => `
     <div class="gece-card p-5 space-y-3 border border-cyan/20 bg-cyan/5">
       <div class="flex items-center justify-between border-b border-white/5 pb-2">
         <div class="flex items-center gap-2">
-          <span class="text-xs px-2 py-0.5 rounded bg-cyan/20 text-cyan font-mono font-bold">#${idx + 1} ${item.format}</span>
+          <span class="text-xs px-2 py-0.5 rounded bg-cyan/20 text-cyan font-mono font-bold">#${idx + 1} ${item.format || 'Kanal Postu'}</span>
           <h4 class="text-sm font-bold text-white">${item.title}</h4>
         </div>
         <div class="flex items-center gap-2">
           <span class="text-[10px] px-2.5 py-0.5 rounded-full bg-gradient-to-r from-blue-500/20 to-cyan-500/20 text-cyan-300 font-mono border border-cyan-500/30 flex items-center gap-1">
             <i class="fa-solid fa-wand-magic-sparkles text-[9px] text-cyan-400"></i>
-            <span>${item.ai_provider === 'gemini' ? 'Gemini AI' : 'AI Motoru'} • Özgün</span>
+            <span>${item.ai_provider === 'gemini' ? 'Gemini AI' : 'Kanal / AI'} • Özgün</span>
           </span>
           <span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 font-mono">📦 Stokta Hazır</span>
         </div>
@@ -3479,7 +3507,7 @@ function renderGeneratedTexts(items) {
       </div>
       <div class="flex items-center justify-between pt-1">
         <span class="text-[10px] text-slate-400 font-mono">Hedef: ${item.topic || 'Genel'} • Dil: ${(item.language || 'UZ').toUpperCase()}</span>
-        <button type="button" class="btn-clean-secondary px-3 py-1 text-xs flex items-center gap-1.5" onclick="copyCustomText('${item.content.replace(/'/g, "\'").replace(/\n/g, "\\n")}')">
+        <button type="button" class="btn-clean-secondary px-3 py-1 text-xs flex items-center gap-1.5" onclick="copyStockText(${idx})">
           <i class="fa-solid fa-copy text-[11px]"></i>
           <span>Metni Kopyala</span>
         </button>
@@ -3624,18 +3652,18 @@ async function loadStockItemsUI() {
       if (totalEl) totalEl.innerText = data.counts.total;
       if (hdrTexts) hdrTexts.innerText = data.counts.texts;
       if (hdrVideos) hdrVideos.innerText = data.counts.videos;
-      if (hdrImages) hdrImages.innerText = data.counts.images;
       if (cntTexts) cntTexts.innerText = data.counts.texts;
       if (cntVideos) cntVideos.innerText = data.counts.videos;
+      if (cntImages) cntImages.innerText = data.counts.images;
       // Populate subtab output previews with existing stock
       if (data.stock.images && data.stock.images.length > 0) {
-        renderGeneratedImages(data.stock.images.slice(0, 20));
+        renderGeneratedImages(data.stock.images);
       }
       if (data.stock.videos && data.stock.videos.length > 0) {
-        renderGeneratedVideos(data.stock.videos.slice(0, 12));
+        renderGeneratedVideos(data.stock.videos);
       }
       if (data.stock.texts && data.stock.texts.length > 0) {
-        renderGeneratedTexts(data.stock.texts.slice(0, 12));
+        renderGeneratedTexts(data.stock.texts);
       }
 
       renderStockGrid('all');
