@@ -216,6 +216,104 @@ HOOK_VARIATIONS = [
     "Turkiya diplomining O'zbekistonda 100% tan olinishi haqida bilarmidingiz?"
 ]
 
+@pillars_bp.route("/api/stock/sync-telegram-channel", methods=["POST"])
+def sync_telegram_channel_stock():
+    """Canlı Telegram kanalındaki (@arkadasuz) gerçek metin ve fotoğrafları stok havuzuna çeker."""
+    import re
+    import html as html_lib
+    import urllib.request
+
+    channel_url = "https://t.me/s/arkadasuz"
+    out_dir = BASE_DIR / "output" / "cards"
+    out_dir.mkdir(parents=True, exist_ok=True)
+
+    imported_texts = 0
+    imported_imgs = 0
+
+    try:
+        req = urllib.request.Request(channel_url, headers={"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)"})
+        with urllib.request.urlopen(req, timeout=12) as res:
+            content = res.read().decode("utf-8")
+
+        blocks = content.split('class="tgme_widget_message_wrap js-widget_message_wrap"')
+        stock = load_json(STOCK_FILE, {"texts": [], "videos": [], "images": []})
+        existing_fps = {normalize_text_fingerprint(t.get("content", "")) for t in stock.get("texts", [])}
+
+        for idx, b in enumerate(blocks[1:]):
+            # Text
+            m_text = re.search(r'class="tgme_widget_message_text js-message_text[^"]*"[^>]*>(.*?)</div>', b, re.DOTALL)
+            text = ""
+            if m_text:
+                text = html_lib.unescape(re.sub(r'<[^>]+>', '', m_text.group(1))).strip()
+
+            # Photo URL
+            m_photo = re.search(r'tgme_widget_message_photo_wrap[^"]*"[^>]+style="[^"]*url\(\'([^\']+)\'\)', b)
+            photo_url = m_photo.group(1) if m_photo else ""
+
+            # Date
+            m_date = re.search(r'<time datetime="([^"]+)"', b)
+            date_str = m_date.group(1)[:16].replace("T", " ") if m_date else datetime.now().strftime("%Y-%m-%d %H:%M")
+
+            first_line = text.split("\n")[0][:45] if text else f"Telegram Gönderisi #{idx+1}"
+
+            if text:
+                fp = normalize_text_fingerprint(text)
+                if fp not in existing_fps:
+                    existing_fps.add(fp)
+                    stock["texts"].insert(0, {
+                        "id": f"stock_txt_tg_{uuid.uuid4().hex[:6]}",
+                        "title": f"📢 {first_line}",
+                        "content": text,
+                        "type": "text",
+                        "format": "Telegram Canlı Gönderisi",
+                        "language": "uz",
+                        "topic": "Turkiyada Ta'lim",
+                        "status": "in_stock",
+                        "created_at": date_str,
+                        "source": "telegram_channel"
+                    })
+                    imported_texts += 1
+
+            if photo_url:
+                img_hash = uuid.uuid4().hex[:6]
+                local_fname = f"tg_card_{img_hash}.jpg"
+                local_path = out_dir / local_fname
+                try:
+                    img_req = urllib.request.Request(photo_url, headers={"User-Agent": "Mozilla/5.0"})
+                    with urllib.request.urlopen(img_req, timeout=8) as img_res:
+                        with open(local_path, "wb") as f:
+                            f.write(img_res.read())
+                    
+                    stock["images"].insert(0, {
+                        "id": f"stock_img_tg_{img_hash}",
+                        "title": f"📸 {first_line}",
+                        "style": "telegram_live",
+                        "format": "Telegram Canlı Fotoğrafı",
+                        "photo_path": f"output/cards/{local_fname}",
+                        "topic": "Turkiyada Ta'lim",
+                        "status": "in_stock",
+                        "created_at": date_str,
+                        "source": "telegram_channel"
+                    })
+                    imported_imgs += 1
+                except Exception as img_err:
+                    print(f"[Photo Download Error] {img_err}")
+
+        stock, _ = deduplicate_stock_data(stock)
+        save_json(STOCK_FILE, stock)
+        add_system_log("STOK", f"Telegram kanalından (@arkadasuz) {imported_texts} metin ve {imported_imgs} görsel stoka aktarıldı.", "success")
+
+        return jsonify({
+            "success": True,
+            "imported_texts": imported_texts,
+            "imported_images": imported_imgs,
+            "total_texts": len(stock["texts"]),
+            "total_images": len(stock["images"])
+        })
+    except Exception as e:
+        print(f"[Telegram Channel Sync Error] {e}")
+        return jsonify({"success": False, "error": str(e)}), 500
+
 @pillars_bp.route("/api/stock/deduplicate", methods=["POST"])
 def manual_deduplicate_stock():
     """Tüm stok havuzunu tarayıp mükerrer olanları temizler."""

@@ -89,5 +89,47 @@
     "category": "GÖRSEL",
     "level": "success",
     "message": "4 adet Gemini AI destekli 1080x1080 özgün grafik afiş çizildi ve stoka eklendi."
+  },
+  {
+    "id": "log_1789430221048",
+    "time": "02:57:01",
+    "category": "GÖRSEL",
+    "level": "success",
+    "message": "4 adet Gemini AI destekli 1080x1080 özgün grafik afiş çizildi ve stoka eklendi."
+  },
+  {
+    "id": "log_1789430256637",
+    "time": "02:57:36",
+    "category": "STOK",
+    "level": "warning",
+    "message": "Öğe stoktan manuel silindi: '👩 Mila: Turkiyada O'qish Uchun Atte'"
+  },
+  {
+    "id": "log_1789430260718",
+    "time": "02:57:40",
+    "category": "STOK",
+    "level": "warning",
+    "message": "Öğe stoktan manuel silindi: '🏙️ Talabalik Hayoti: Istanbulda 1 O'"
+  },
+  {
+    "id": "log_1789430264935",
+    "time": "02:57:44",
+    "category": "STOK",
+    "level": "warning",
+    "message": "Öğe stoktan manuel silindi: '👩 Madina: Tibbiyot va Stomatologiya'"
+  },
+  {
+    "id": "log_1789430433495",
+    "time": "03:00:33",
+    "category": "STOK",
+    "level": "success",
+    "message": "Telegram kanalından (@arkadasuz) 15 metin ve 0 görsel stoka aktarıldı."
+  },
+  {
+    "id": "log_1789430490901",
+    "time": "03:01:30",
+    "category": "STOK",
+    "level": "success",
+    "message": "Telegram kanalından (@arkadasuz) 0 metin ve 20 görsel stoka aktarıldı."
   }
 ]

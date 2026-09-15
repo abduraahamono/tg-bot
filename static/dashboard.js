@@ -3633,6 +3633,25 @@ async function loadStockItemsUI() {
 }
 window.loadStockItemsUI = loadStockItemsUI;
 
+async function syncTelegramChannelStock() {
+  showToast("Telegram kanalındaki gerçek gönderiler ve fotoğraflar taranıyor...", "info");
+  try {
+    const res = await fetch('/api/stock/sync-telegram-channel', { method: 'POST' });
+    const data = await res.json();
+    if (data.success) {
+      showToast(`${data.imported_texts} metin ve ${data.imported_images} görsel Telegram kanalından stoka aktarıldı!`, "success");
+      loadStockItemsUI();
+    } else {
+      showToast("İçe aktarma sırasında bir hata oluştu: " + (data.error || ""), "error");
+    }
+  } catch (err) {
+    showToast("Bağlantı hatası oluştu", "error");
+  }
+}
+window.syncTelegramChannelStock = syncTelegramChannelStock;
+
+window.loadStockItemsUI = loadStockItemsUI;
+
 function filterStockView(cat) {
   document.querySelectorAll('.stock-filter-btn').forEach(b => b.classList.remove('active'));
   event?.target?.classList.add('active');
