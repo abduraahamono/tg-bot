@@ -3422,6 +3422,10 @@ function switchProductionSubTab(sub) {
 
   if (sub === 'stock') {
     loadStockItemsUI();
+  } else if (window.allStockData) {
+    if (sub === 'image' && window.allStockData.images) renderGeneratedImages(window.allStockData.images.slice(0, 20));
+    if (sub === 'video' && window.allStockData.videos) renderGeneratedVideos(window.allStockData.videos.slice(0, 12));
+    if (sub === 'text' && window.allStockData.texts) renderGeneratedTexts(window.allStockData.texts.slice(0, 12));
   }
 }
 window.switchProductionSubTab = switchProductionSubTab;
@@ -3623,7 +3627,16 @@ async function loadStockItemsUI() {
       if (hdrImages) hdrImages.innerText = data.counts.images;
       if (cntTexts) cntTexts.innerText = data.counts.texts;
       if (cntVideos) cntVideos.innerText = data.counts.videos;
-      if (cntImages) cntImages.innerText = data.counts.images;
+      // Populate subtab output previews with existing stock
+      if (data.stock.images && data.stock.images.length > 0) {
+        renderGeneratedImages(data.stock.images.slice(0, 20));
+      }
+      if (data.stock.videos && data.stock.videos.length > 0) {
+        renderGeneratedVideos(data.stock.videos.slice(0, 12));
+      }
+      if (data.stock.texts && data.stock.texts.length > 0) {
+        renderGeneratedTexts(data.stock.texts.slice(0, 12));
+      }
 
       renderStockGrid('all');
     }
@@ -3741,10 +3754,12 @@ function renderStockGrid(cat) {
 
   // 3. TEXTS OR ALL
   let list = [];
-  if (cat === 'all' || cat === 'texts') list = list.concat(window.allStockData.texts || []);
   if (cat === 'all') {
-    list = list.concat(window.allStockData.videos || []);
     list = list.concat(window.allStockData.images || []);
+    list = list.concat(window.allStockData.videos || []);
+    list = list.concat(window.allStockData.texts || []);
+  } else if (cat === 'texts') {
+    list = window.allStockData.texts || [];
   }
   container.className = "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3";
 
