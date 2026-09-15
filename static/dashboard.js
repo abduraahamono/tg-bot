@@ -3549,16 +3549,16 @@ function renderGeneratedVideos(items) {
       <div class="flex items-center justify-between">
         <span class="text-[10px] px-2.5 py-1 rounded-full bg-purple-500/20 text-purple font-mono font-bold flex items-center gap-1">
           <i class="fa-solid fa-play text-[8px]"></i>
-          <span>${item.video_type}</span>
+          <span>${item.video_type || 'Kanal Videosu'}</span>
         </span>
         <span class="text-[10px] text-emerald-400 font-mono bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">📦 Stokta Hazır</span>
       </div>
       <div class="aspect-[9/16] bg-black/90 rounded-2xl overflow-hidden relative border border-white/10 shadow-2xl flex items-center justify-center">
-        <video src="/${item.file_path}" controls playsinline preload="metadata" class="w-full h-full object-cover"></video>
+        <video src="/${item.file_path}" ${item.thumbnail_path ? `poster="/${item.thumbnail_path}"` : ''} controls playsinline preload="metadata" class="w-full h-full object-cover"></video>
       </div>
       <div>
         <h4 class="text-xs font-bold text-white truncate" title="${item.title}">${item.title}</h4>
-        <span class="text-[10px] text-slate-400 font-mono">Dikey Video (9:16) • HD 1080p</span>
+        <span class="text-[10px] text-slate-400 font-mono">Dikey Video • ${item.size_mb ? item.size_mb + ' MB' : 'Kanal HD'}</span>
       </div>
       <div class="flex items-center justify-between pt-1 border-t border-white/5">
         <a href="/${item.file_path}" download class="btn-clean-secondary px-3 py-1.5 text-xs flex items-center gap-1.5">
@@ -3655,6 +3655,13 @@ async function loadStockItemsUI() {
       if (cntTexts) cntTexts.innerText = data.counts.texts;
       if (cntVideos) cntVideos.innerText = data.counts.videos;
       if (cntImages) cntImages.innerText = data.counts.images;
+
+      const vidPoolHdr = document.getElementById('prod-video-pool-header-title');
+      if (vidPoolHdr) vidPoolHdr.innerText = `Dikey Video Havuzu (${data.counts.videos} Adet Telegram Kanal Videosu)`;
+      const imgPoolHdr = document.getElementById('prod-image-pool-header-title');
+      if (imgPoolHdr) imgPoolHdr.innerText = `Fotoğraf & Afiş Havuzu (${data.counts.images} Adet Özgün Afiş & Kanal Fotoğrafı)`;
+      const txtPoolHdr = document.getElementById('prod-text-pool-header-title');
+      if (txtPoolHdr) txtPoolHdr.innerText = `Pazarlama & Kanal Metinleri (${data.counts.texts} Adet Özgün Metin)`;
       // Populate subtab output previews with existing stock
       if (data.stock.images && data.stock.images.length > 0) {
         renderGeneratedImages(data.stock.images);
@@ -3715,11 +3722,11 @@ function renderStockGrid(cat) {
     container.innerHTML = list.map(item => `
       <div class="gallery-media-card p-3 space-y-2.5 border border-purple-500/20 bg-purple-950/10">
         <div class="flex items-center justify-between">
-          <span class="text-[10px] px-2 py-0.5 rounded-full bg-purple-500/20 text-purple font-mono font-bold">🎬 ${item.video_type || 'Shorts'}</span>
-          <span class="text-[10px] text-slate-400 font-mono">0:30 HD</span>
+          <span class="text-[10px] px-2 py-0.5 rounded-full bg-purple-500/20 text-purple font-mono font-bold">🎬 ${item.video_type || 'Kanal Videosu'}</span>
+          <span class="text-[10px] text-slate-400 font-mono">${item.size_mb ? item.size_mb + ' MB' : 'Dikey Video'}</span>
         </div>
         <div class="aspect-[9/16] bg-black/90 rounded-xl overflow-hidden relative border border-white/10 flex items-center justify-center">
-          <video src="/${item.file_path}" controls playsinline preload="metadata" class="w-full h-full object-cover"></video>
+          <video src="/${item.file_path}" ${item.thumbnail_path ? `poster="/${item.thumbnail_path}"` : ''} controls playsinline preload="metadata" class="w-full h-full object-cover"></video>
         </div>
         <h4 class="text-xs font-bold text-white truncate" title="${item.title}">${item.title}</h4>
         <div class="flex items-center justify-between pt-1 border-t border-white/5">
@@ -3807,10 +3814,10 @@ function renderStockGrid(cat) {
         <div class="p-3 bg-black/40 rounded-xl border border-purple-500/20 space-y-2 font-mono text-xs">
           <div class="flex items-center justify-between">
             <span class="text-[10px] px-2 py-0.5 rounded bg-purple-500/20 text-purple font-bold">🎬 Video</span>
-            <span class="text-[10px] text-slate-500">0:30 HD</span>
+            <span class="text-[10px] text-slate-500">${item.size_mb ? item.size_mb + ' MB' : 'Kanal HD'}</span>
           </div>
           <div class="h-32 bg-black/80 rounded-lg overflow-hidden border border-white/5 relative flex items-center justify-center">
-            <video src="/${item.file_path}" controls playsinline class="w-full h-full object-cover"></video>
+            <video src="/${item.file_path}" ${item.thumbnail_path ? `poster="/${item.thumbnail_path}"` : ''} controls playsinline preload="metadata" class="w-full h-full object-cover"></video>
           </div>
           <h4 class="text-xs font-bold text-white truncate" title="${item.title}">${item.title}</h4>
           <div class="flex items-center justify-between pt-1 border-t border-white/5">
