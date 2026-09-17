@@ -4124,6 +4124,9 @@ async function publishActivePostNow() {
       loadUpcomingQueueUI();
       loadEditorialCalendar();
       fetchSystemLogs();
+    } else {
+      showToast(`❌ Yayınlanamadı: ${data.error || 'Bilinmeyen hata'}`, "error");
+      fetchSystemLogs();
     }
   } catch (err) {
     showToast("Yayınlama sırasında hata oluştu", "error");

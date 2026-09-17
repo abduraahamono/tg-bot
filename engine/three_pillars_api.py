@@ -1067,10 +1067,34 @@ def publish_post_now():
     """Gönderiyi anında seçilen platforma yönlendirir ve takvime 'yayınlandı' olarak kaydeder."""
     payload = request.get_json() or {}
     platform = payload.get("platform", "telegram").lower()
-    content = payload.get("content", "")
+    content = payload.get("content", "").strip()
     title = payload.get("title", f"{platform.title()} Gönderisi")
+    photo_path = payload.get("photo_path") or ""
+    video_path = payload.get("video_path") or ""
 
-    add_system_log("PAYLAŞIM", f"⚡ {platform.upper()} üzerinde anında paylaşıldı: '{title[:30]}...'", "success")
+    if not content:
+        return jsonify({"success": False, "error": "Gönderi metni boş olamaz!"}), 400
+
+    if platform == "telegram":
+        import dispatch_due_post
+        resolved_photo = str((BASE_DIR / photo_path).resolve()) if photo_path else ""
+        resolved_video = str((BASE_DIR / video_path).resolve()) if video_path else ""
+        
+        ok, err_desc = dispatch_due_post.send_telegram_media_or_text(
+            content,
+            photo_path=resolved_photo,
+            video_path=resolved_video
+        )
+        if not ok:
+            add_system_log("PAYLAŞIM", f"❌ Telegram gönderilemedi: {err_desc}", "error")
+            return jsonify({
+                "success": False,
+                "error": err_desc
+            }), 400
+
+        add_system_log("PAYLAŞIM", f"⚡ TELEGRAM kanalında anında paylaşıldı: '{title[:30]}...'", "success")
+    else:
+        add_system_log("PAYLAŞIM", f"⚡ {platform.upper()} üzerinde anında paylaşıldı: '{title[:30]}...'", "success")
     
     calendar_db = load_json(CALENDAR_FILE, {"events": []})
     event = {
@@ -1079,7 +1103,7 @@ def publish_post_now():
         "date": datetime.now().strftime("%Y-%m-%d"),
         "time": datetime.now().strftime("%H:%M"),
         "datetime": datetime.now().strftime("%Y-%m-%d %H:%M:00"),
-        "type": "text",
+        "type": "video" if video_path else ("image" if photo_path else "text"),
         "title": title,
         "preview": content[:120] + "..." if content else "Anlık paylaşım",
         "content": content,

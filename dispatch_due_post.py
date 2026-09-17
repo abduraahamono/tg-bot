@@ -35,10 +35,24 @@ def get_env_var(key: str, default: str = "") -> str:
 BOT_TOKEN = get_env_var("TELEGRAM_BOT_TOKEN", "8855584904:AAGlBVSXCDIfUy8WvMOdmzpQjLb0YIONOyU")
 CHANNEL_ID = get_env_var("TELEGRAM_CHANNEL_ID", "@arkadasuz")
 
+def parse_telegram_error(err_str: str) -> str:
+    """Human-friendly error description for Telegram API failures."""
+    if "bot is not a member of the channel" in err_str or "member list is inaccessible" in err_str or "need administrator rights" in err_str:
+        return "Bot (@ArkadasAdminBot) @arkadasuz kanaliga Administrator (yoki a'zo) qilib qo'shilmagan! Kanal sozlamalaridan botni Administrator qilib, 'Post Messages' (Xabarlarni joylashtirish) ruxsatini bering."
+    if "chat not found" in err_str:
+        return "Kanal (@arkadasuz) topilmadi yoki noto'g'ri ko'rsatilgan."
+    if "Unauthorized" in err_str:
+        return "Telegram Bot tokeni noto'g'ri yoki yaroqsiz."
+    return err_str
+
 def send_telegram_photo(text: str, photo_path: str) -> bool:
     """Uploads a local card image via multipart/form-data to sendPhoto."""
+    ok, _ = send_telegram_photo_detailed(text, photo_path)
+    return ok
+
+def send_telegram_photo_detailed(text: str, photo_path: str) -> tuple[bool, str]:
     if not os.path.exists(photo_path):
-        return False
+        return False, f"Görsel dosyası bulunamadı: {photo_path}"
 
     url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendPhoto"
     boundary = "----WebKitFormBoundaryArkadasPost"
@@ -70,7 +84,7 @@ def send_telegram_photo(text: str, photo_path: str) -> bool:
     data.extend([
         f"--{boundary}\r\n".encode("utf-8"),
         f'Content-Disposition: form-data; name="photo"; filename="{fname}"\r\n'.encode("utf-8"),
-        b"Content-Type: image/png\r\n\r\n",
+        b"Content-Type: image/jpeg\r\n\r\n",
         file_bytes,
         b"\r\n",
         f"--{boundary}--\r\n".encode("utf-8")
@@ -88,16 +102,30 @@ def send_telegram_photo(text: str, photo_path: str) -> bool:
             res_data = json.loads(resp.read().decode("utf-8"))
             if res_data.get("ok"):
                 print(f"[OK] Rasm va matn kanalga muvaffaqiyatli yuborildi: {CHANNEL_ID} (sendPhoto)")
-                return True
+                return True, "OK"
             else:
-                print(f"[WARN] sendPhoto rad etildi: {res_data.get('description')}")
-                return False
+                desc = res_data.get('description', '')
+                print(f"[WARN] sendPhoto rad etildi: {desc}")
+                return False, parse_telegram_error(desc)
+    except urllib.error.HTTPError as e:
+        err_body = e.read().decode("utf-8", errors="ignore")
+        try:
+            desc = json.loads(err_body).get("description", err_body)
+        except Exception:
+            desc = err_body
+        friendly = parse_telegram_error(desc)
+        print(f"[ERROR] sendPhoto HTTP {e.code}: {friendly}")
+        return False, friendly
     except Exception as e:
         print(f"[WARN] sendPhoto tarmoq xatosi: {e}")
-        return False
+        return False, str(e)
 
 def send_telegram_text(text: str) -> bool:
     """Sends text-only message via sendMessage."""
+    ok, _ = send_telegram_text_detailed(text)
+    return ok
+
+def send_telegram_text_detailed(text: str) -> tuple[bool, str]:
     url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
     payload = {
         "chat_id": CHANNEL_ID,
@@ -113,27 +141,107 @@ def send_telegram_text(text: str) -> bool:
             res_data = json.loads(resp.read().decode("utf-8"))
             if res_data.get("ok"):
                 print(f"[OK] Matnli post kanalga muvaffaqiyatli yuborildi: {CHANNEL_ID} (sendMessage)")
-                return True
+                return True, "OK"
             else:
-                print(f"[ERROR] Telegram API xatosi: {res_data}")
-                return False
+                desc = res_data.get('description', '')
+                print(f"[ERROR] Telegram API xatosi: {desc}")
+                return False, parse_telegram_error(desc)
+    except urllib.error.HTTPError as e:
+        err_body = e.read().decode("utf-8", errors="ignore")
+        try:
+            desc = json.loads(err_body).get("description", err_body)
+        except Exception:
+            desc = err_body
+        friendly = parse_telegram_error(desc)
+        print(f"[ERROR] sendMessage HTTP {e.code}: {friendly}")
+        return False, friendly
     except Exception as e:
         print(f"[ERROR] Tarmoq xatosi: {e}")
-        return False
+        return False, str(e)
+
+def send_telegram_video_detailed(text: str, video_path: str) -> tuple[bool, str]:
+    """Uploads a local video via multipart/form-data to sendVideo."""
+    if not os.path.exists(video_path):
+        return False, f"Video dosyası bulunamadı: {video_path}"
+
+    url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendVideo"
+    boundary = "----WebKitFormBoundaryArkadasPostVid"
+    data = []
+
+    # chat_id
+    data.extend([
+        f"--{boundary}\r\n".encode("utf-8"),
+        f'Content-Disposition: form-data; name="chat_id"\r\n\r\n'.encode("utf-8"),
+        f"{CHANNEL_ID}\r\n".encode("utf-8")
+    ])
+
+    # caption
+    if text:
+        data.extend([
+            f"--{boundary}\r\n".encode("utf-8"),
+            f'Content-Disposition: form-data; name="caption"\r\n\r\n'.encode("utf-8"),
+            f"{text}\r\n".encode("utf-8"),
+            f"--{boundary}\r\n".encode("utf-8"),
+            f'Content-Disposition: form-data; name="parse_mode"\r\n\r\n'.encode("utf-8"),
+            b"HTML\r\n"
+        ])
+
+    fname = os.path.basename(video_path)
+    with open(video_path, "rb") as f:
+        file_bytes = f.read()
+
+    data.extend([
+        f"--{boundary}\r\n".encode("utf-8"),
+        f'Content-Disposition: form-data; name="video"; filename="{fname}"\r\n'.encode("utf-8"),
+        b"Content-Type: video/mp4\r\n\r\n",
+        file_bytes,
+        b"\r\n",
+        f"--{boundary}--\r\n".encode("utf-8")
+    ])
+
+    body = b"".join(data)
+    req = urllib.request.Request(
+        url,
+        data=body,
+        headers={"Content-Type": f"multipart/form-data; boundary={boundary}"}
+    )
+
+    try:
+        with urllib.request.urlopen(req, timeout=90) as resp:
+            res_data = json.loads(resp.read().decode("utf-8"))
+            if res_data.get("ok"):
+                print(f"[OK] Video kanalga muvaffaqiyatli yuborildi: {CHANNEL_ID} (sendVideo)")
+                return True, "OK"
+            else:
+                desc = res_data.get('description', '')
+                return False, parse_telegram_error(desc)
+    except urllib.error.HTTPError as e:
+        err_body = e.read().decode("utf-8", errors="ignore")
+        try:
+            desc = json.loads(err_body).get("description", err_body)
+        except Exception:
+            desc = err_body
+        friendly = parse_telegram_error(desc)
+        return False, friendly
+    except Exception as e:
+        return False, str(e)
+
+def send_telegram_media_or_text(text: str, photo_path: str = "", video_path: str = "") -> tuple[bool, str]:
+    """Unified dispatcher supporting photo, video, and text."""
+    if not BOT_TOKEN:
+        return False, "TELEGRAM_BOT_TOKEN topilmadi!"
+
+    if video_path and os.path.exists(video_path):
+        return send_telegram_video_detailed(text, video_path)
+
+    if photo_path and os.path.exists(photo_path):
+        return send_telegram_photo_detailed(text, photo_path)
+
+    return send_telegram_text_detailed(text)
 
 def send_telegram_post(text: str, photo_path: str = "") -> bool:
-    if not BOT_TOKEN:
-        print("[ERROR] TELEGRAM_BOT_TOKEN topilmadi!")
-        return False
-
-    # Try photo first if exists
-    if photo_path and os.path.exists(photo_path):
-        success = send_telegram_photo(text, photo_path)
-        if success:
-            return True
-        print("[INFO] Rasm yuborish o'xshamadi, matnli ko'rinishga o'tilmoqda...")
-
-    return send_telegram_text(text)
+    ok, _ = send_telegram_media_or_text(text, photo_path=photo_path)
+    return ok
 
 def dispatch(dry_run: bool = False, force_first_pending: bool = False):
     now_uz = datetime.now(UZ_TZ)
